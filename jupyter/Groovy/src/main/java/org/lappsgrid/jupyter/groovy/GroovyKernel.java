@@ -72,7 +72,7 @@ public class GroovyKernel {
   private Map<String, AbstractMessageReaderThread> threads = new HashMap<>();
   private Map<String, Comm> comm;
   private ExecutionResultSender executionResultSender;
-  
+
   private ZMQ.Socket hearbeatSocket;
   private ZMQ.Socket controlSocket;
   private ZMQ.Socket shellSocket;
@@ -86,7 +86,7 @@ public class GroovyKernel {
     executionResultSender = new ExecutionResultSender(this);
   }
 
-  //TODO close kernel comms 
+  //TODO close kernel comms
   public void shutdown() {
     running = false;
   }
@@ -282,11 +282,11 @@ public class GroovyKernel {
       // running == false
       Thread.sleep(1000);
     }
-    
+
     for (AbstractHandler<Message> handler : handlers.values()) {
       handler.exit();
     }
-    
+
     if(executionResultSender != null){
       executionResultSender.exit();
     }
@@ -320,6 +320,7 @@ public class GroovyKernel {
     }
 
     GroovyKernel kernel = new GroovyKernel();
+    GroovyKernelManager.register(kernel);
     kernel.connectionFile = config;
     kernel.run();
   }
