@@ -16,8 +16,8 @@
 
 package com.twosigma.beaker.jupyter.handler;
 
-import static com.twosigma.beaker.jupyter.msg.Type.COMM_CLOSE;
-import static com.twosigma.beaker.jupyter.msg.Type.COMM_OPEN;
+import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_CLOSE;
+import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -37,7 +37,7 @@ import com.twosigma.beaker.jupyter.Comm;
  * @author konst
  *
  */
-public class CommOpenHandler extends AbstractHandler {
+public class CommOpenHandler extends AbstractHandler<Message> {
 
   public static final String COMM_ID = "comm_id";
   public static final String TARGET_NAME = "target_name";
@@ -49,8 +49,8 @@ public class CommOpenHandler extends AbstractHandler {
     logger = LoggerFactory.getLogger(CommOpenHandler.class);
   }
 
+  @Override
   public void handle(Message message) throws NoSuchAlgorithmException {
-    
     logger.info("Processing CommOpenHandler");
     Message reply = new Message();
     HashMap<String, Serializable> map = new HashMap<>(6);
@@ -70,7 +70,7 @@ public class CommOpenHandler extends AbstractHandler {
     }
 
     if(newComm != null){
-      kernel.addComm(newComm.getCommHash(), newComm);
+      kernel.addComm(newComm.getCommId(), newComm);
     }
 
     reply.setContent(map);
@@ -85,7 +85,7 @@ public class CommOpenHandler extends AbstractHandler {
 
   protected Comm readComm(Map<String, Serializable> map) {
     Comm ret = new Comm(getString(map, COMM_ID), getString(map, TARGET_NAME));
-    //ret.setData(getString(map, DATA)); //TODO
+    ret.setData(map.get(DATA));
     ret.setTargetModule(getString(map, TARGET_MODULE));
     return ret;
   }
@@ -94,7 +94,7 @@ public class CommOpenHandler extends AbstractHandler {
     boolean ret = true;
     ret = ret && map.get(COMM_ID) != null && map.get(COMM_ID) instanceof String;
     ret = ret && map.get(TARGET_NAME) != null && map.get(TARGET_NAME) instanceof String;
-    ret = ret && !kernel.isCommPresent(Comm.getCommHash(getString(map, COMM_ID), getString(map, TARGET_NAME)));
+    ret = ret && !kernel.isCommPresent(getString(map, COMM_ID));
     return ret;
   }
 

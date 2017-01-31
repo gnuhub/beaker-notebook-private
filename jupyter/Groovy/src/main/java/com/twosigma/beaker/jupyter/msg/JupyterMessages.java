@@ -22,7 +22,7 @@ package com.twosigma.beaker.jupyter.msg;
  * @author konst
  *
  */
-public enum Type {
+public enum JupyterMessages {
   
   KERNEL_INFO_REQUEST,
   KERNEL_INFO_REPLY,
@@ -42,16 +42,17 @@ public enum Type {
   COMM_CLOSE,
   COMM_INFO_REQUEST,
   COMM_INFO_REPLY,
+  COMM_MSG,
   UNDEFINED;
   
   public String getName() {
     return this.name().toLowerCase();
   }
   
-  public static synchronized Type getType(final String input){
-    Type ret = null;
+  public static synchronized JupyterMessages getType(final String input){
+    JupyterMessages ret = null;
     if(input != null){
-      for (Type item : Type.values()) {
+      for (JupyterMessages item : JupyterMessages.values()) {
         if(item.getName().equalsIgnoreCase(input.trim().toLowerCase())){
           ret = item;
           break;

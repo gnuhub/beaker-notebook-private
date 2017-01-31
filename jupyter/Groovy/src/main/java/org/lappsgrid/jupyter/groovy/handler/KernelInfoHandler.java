@@ -1,6 +1,6 @@
 package org.lappsgrid.jupyter.groovy.handler;
 
-import static com.twosigma.beaker.jupyter.msg.Type.KERNEL_INFO_REPLY;
+import static com.twosigma.beaker.jupyter.msg.JupyterMessages.KERNEL_INFO_REPLY;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -20,13 +20,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author Keith Suderman
  */
-public class KernelInfoHandler extends AbstractHandler {
+public class KernelInfoHandler extends AbstractHandler<Message> {
 
   public KernelInfoHandler(GroovyKernel kernel) {
     super(kernel);
     logger = LoggerFactory.getLogger(KernelInfoHandler.class);
   }
 
+  @Override
   public void handle(Message message) throws NoSuchAlgorithmException {
     logger.info("Processing kernel info request");
     Message reply = new Message();

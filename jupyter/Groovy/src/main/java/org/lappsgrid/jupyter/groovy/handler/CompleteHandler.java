@@ -1,6 +1,6 @@
 package org.lappsgrid.jupyter.groovy.handler;
 
-import static com.twosigma.beaker.jupyter.msg.Type.COMPLETE_REPLY;
+import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMPLETE_REPLY;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -23,7 +23,7 @@ import groovy.lang.GroovyClassLoader;
  *
  * @author Keith Suderman
  */
-public class CompleteHandler extends AbstractHandler {
+public class CompleteHandler extends AbstractHandler<Message> {
 
   private GroovyClassLoader compiler;
   private static final String COMPLETE_CHARS = "\"\'};])";
@@ -36,6 +36,7 @@ public class CompleteHandler extends AbstractHandler {
     compiler = new GroovyClassLoader();
   }
 
+  @Override
   public void handle(Message message) throws NoSuchAlgorithmException {
     String code = ((String) message.getContent().get("code")).trim();
     logger.debug("Checking code: {}", code);
