@@ -325,6 +325,7 @@ public class GroovyKernel {
     }
 
     GroovyKernel kernel = new GroovyKernel();
+    GroovyKernelManager.register(kernel);
     kernel.connectionFile = config;
     kernel.run();
   }
