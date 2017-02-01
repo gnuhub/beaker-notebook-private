@@ -16,46 +16,70 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.jupyter.CommNamesEnum;
 import com.twosigma.beaker.jupyter.Utils;
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.GroovyKernelManager;
-import org.lappsgrid.jupyter.groovy.msg.Header;
-import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
-import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
-
 
 public class IntSlider {
 
-  private static final String TARGET_NAME = "jupyter.widget";
-  public static final String COMMS = "comms";
   String _view_name = "IntSliderView";
   String _model_name = "IntSliderModel";
   String _model_module = "jupyter-js-widgets";
   private Comm comm;
 
   public IntSlider() throws NoSuchAlgorithmException {
-    open();
+    comm = getComm();
+
+    comm.setData(openContent());
+    comm.open();
+
+    HashMap<String, Serializable> content = new HashMap<>();
+    content.put("method","display");
+    comm.setData(content);
+    comm.send();
   }
 
-  private void open() throws NoSuchAlgorithmException {
-    if(comm==null){
-     // comm= new Comm(Utils.uuid(), TARGET_NAME);
+  private Comm getComm() throws NoSuchAlgorithmException {
+    if (comm == null) {
       GroovyKernel kernel = GroovyKernelManager.get();
-      Message message = new Message();
-      Header header = new Header();
-      header.setTypeEnum(COMM_MSG);
-      message.setHeader(header);
-      HashMap<String, Serializable> content = new HashMap<>();
-      content.put("myXXX","Ok");
-      message.setContent(content);
-      kernel.send(message);
+      comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET, kernel);
     }
+    return comm;
+  }
+
+  private HashMap<String, Serializable> openContent() {
+    HashMap<String, Serializable> content = new HashMap<>();
+    content.put("_model_module",_model_module);
+    content.put("_model_name",_model_name);
+    content.put("_range",false);
+    content.put("_view_module","jupyter-js-widgets");
+    content.put("_view_name",_view_name);
+    content.put("background_color",null);
+    content.put("continuous_update",true);
+    content.put("description","");
+    content.put("disabled",false);
+    content.put("font_family","");
+    content.put("font_size","");
+    content.put("font_style","");
+    content.put("font_weight","");
+    content.put("layout","???");
+    content.put("max",100);
+    content.put("min",0);
+    content.put("msg_throttle",3);
+    content.put("orientation","horizontal");
+    content.put("readout",true);
+    content.put("readout_format","d");
+    content.put("slider_color",null);
+    content.put("step",1);
+    content.put("value",0);
+    content.put("visible",true);
+    return content;
   }
 
 }
