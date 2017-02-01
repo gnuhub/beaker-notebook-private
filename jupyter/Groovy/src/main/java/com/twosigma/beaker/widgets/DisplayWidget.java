@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 TWO SIGMA OPEN SOURCE, LLC
+ *  Copyright 2014 TWO SIGMA OPEN SOURCE, LLC
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,25 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package com.twosigma.beaker.widgets;
 
-package com.twosigma.beaker.jupyter;
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
-import org.lappsgrid.jupyter.groovy.msg.Message;
+public class DisplayWidget {
 
-public class GroovyKernelManager {
-
-  private static GroovyKernel groovyKernelInst;
-
-  public static void register(GroovyKernel groovyKernel) {
-    groovyKernelInst = groovyKernel;
+  public static void display(final Widget widget) {
+    HashMap<String, Serializable> content = new HashMap<>();
+    content.put("method", "display");
+    widget.getComm().setData(content);
+    try {
+      widget.getComm().send();
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
   }
 
-  public static GroovyKernel get() {
-    return groovyKernelInst;
-  }
-
-  public static void setParentMessage(Message parentMessage) {
-    groovyKernelInst.setParentMessage(parentMessage);
-  }
 }

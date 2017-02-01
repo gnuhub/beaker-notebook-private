@@ -111,10 +111,10 @@ public class Comm {
     this.closeCallbackList = new ArrayList<>();
   }
   
-  public void open(Message parentMessage) throws NoSuchAlgorithmException{
+  public void open() throws NoSuchAlgorithmException{
     Message message = new Message();
-    message.setHeader(new Header(COMM_OPEN, parentMessage.getHeader().getSession()));
-    message.setParentHeader(parentMessage.getHeader());
+    message.setHeader(new Header(COMM_OPEN, kernel.getParentMessage().getHeader().getSession()));
+    message.setParentHeader(kernel.getParentMessage().getHeader());
     HashMap<String, Serializable> map = new HashMap<>();
     map.put(COMM_ID, getCommId());
     map.put(TARGET_NAME, getTargetName());
@@ -141,10 +141,10 @@ public class Comm {
     kernel.publish(message);
   }
   
-  public void send(Message parentMessage) throws NoSuchAlgorithmException{
+  public void send() throws NoSuchAlgorithmException{
     Message message = new Message();
-    message.setHeader(new Header(COMM_MSG, parentMessage.getHeader().getSession()));
-    message.setParentHeader(parentMessage.getHeader());
+    message.setHeader(new Header(COMM_MSG, kernel.getParentMessage().getHeader().getSession()));
+    message.setParentHeader(kernel.getParentMessage().getHeader());
     HashMap<String, Serializable> map = new HashMap<>(6);
     map.put(COMM_ID, getCommId());
     map.put(DATA, data);

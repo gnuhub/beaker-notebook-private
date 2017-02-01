@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 TWO SIGMA OPEN SOURCE, LLC
+ *  Copyright 2014 TWO SIGMA OPEN SOURCE, LLC
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,25 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package com.twosigma.beaker.widgets;
 
-package com.twosigma.beaker.jupyter;
+import com.twosigma.beaker.jupyter.Comm;
 
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
-import org.lappsgrid.jupyter.groovy.msg.Message;
+public interface Widget {
 
-public class GroovyKernelManager {
+  Comm getComm();
 
-  private static GroovyKernel groovyKernelInst;
-
-  public static void register(GroovyKernel groovyKernel) {
-    groovyKernelInst = groovyKernel;
-  }
-
-  public static GroovyKernel get() {
-    return groovyKernelInst;
-  }
-
-  public static void setParentMessage(Message parentMessage) {
-    groovyKernelInst.setParentMessage(parentMessage);
-  }
 }
