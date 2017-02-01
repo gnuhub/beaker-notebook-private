@@ -80,6 +80,8 @@ public class GroovyKernel {
   private ZMQ.Socket iopubSocket;
   private ZMQ.Socket stdinSocket;
 
+  private Message parentMessage;
+
   public GroovyKernel() {
     id = uuid();
     installHandlers();
@@ -337,5 +339,13 @@ public class GroovyKernel {
 
   public ExecutionResultSender getExecutionResultSender() {
     return executionResultSender;
+  }
+
+  public void setParentMessage(Message parentMessage) {
+    this.parentMessage = parentMessage;
+  }
+
+  public Message getParentMessage() {
+    return parentMessage;
   }
 }

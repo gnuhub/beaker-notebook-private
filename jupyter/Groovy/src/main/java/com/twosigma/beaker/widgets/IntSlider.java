@@ -23,25 +23,19 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
+public class IntSlider implements Widget {
 
-public class IntSlider {
-
-  String _view_name = "IntSliderView";
-  String _model_name = "IntSliderModel";
-  String _model_module = "jupyter-js-widgets";
-
+  private String _view_name = "IntSliderView";
+  private String _model_name = "IntSliderModel";
+  private String _model_module = "jupyter-js-widgets";
   private Comm comm;
+  public String value;
 
   public IntSlider() {
     try {
       comm = getComm();
       comm.setData(openContent());
       comm.open();
-
-//    HashMap<String, Serializable> content = new HashMap<>();
-//    content.put("method","display");
-//    comm.setData(content);
-//    comm.send();
     } catch (NoSuchAlgorithmException e) {
       e.printStackTrace();
     }
@@ -78,7 +72,7 @@ public class IntSlider {
     content.put("readout_format", "d");
     content.put("slider_color", null);
     content.put("step", 1);
-    content.put("value", 0);
+    content.put("value", value);
     content.put("visible", true);
     return content;
   }
