@@ -42,16 +42,16 @@ public class Comm {
   private String targetModule;
   private GroovyKernel kernel;
 
-  public Comm(String commId, String targetName, GroovyKernel kernel) {
+  public Comm(String commId, String targetName) {
     super();
-    this.kernel = kernel;
+    this.kernel = GroovyKernelManager.get();
     this.commId = commId;
     this.targetName = targetName;
     this.data = new HashMap<>();
   }
   
-  public Comm(String commId, CommNamesEnum targetName, GroovyKernel kernel) {
-    this(commId, targetName.getTargetName(), kernel);
+  public Comm(String commId, CommNamesEnum targetName) {
+    this(commId, targetName.getTargetName());
   }
   
   public String getCommId() {
@@ -91,6 +91,20 @@ public class Comm {
     kernel.addComm(getCommId(), this);
   }
   
+  public void open(Message parentMessage) throws NoSuchAlgorithmException{
+    Message message = new Message();
+    message.setHeader(new Header(COMM_OPEN,  parentMessage.getHeader().getSession()));
+    message.setParentHeader(parentMessage.getHeader());
+    HashMap<String, Serializable> map = new HashMap<>();
+    map.put(COMM_ID, getCommId());
+    map.put(TARGET_NAME, getTargetName());
+    map.put(DATA, data);
+    map.put(TARGET_MODULE, getTargetModule());
+    message.setContent(map);
+    kernel.publish(message);
+    kernel.addComm(getCommId(), this);
+  }
+  
   public void close() throws NoSuchAlgorithmException{
     Message message = new Message();
     message.setHeader(new Header(COMM_CLOSE, null));  // TODO put session ID, if needed
@@ -101,9 +115,10 @@ public class Comm {
     kernel.publish(message);
   }
   
-  public void send() throws NoSuchAlgorithmException{
+  public void send(Message parentMessage) throws NoSuchAlgorithmException{
     Message message = new Message();
-    message.setHeader(new Header(COMM_MSG, null)); // TODO put session ID, if needed
+    message.setHeader(new Header(COMM_MSG, parentMessage.getHeader().getSession()));
+    message.setParentHeader(parentMessage.getHeader());
     HashMap<String, Serializable> map = new HashMap<>(6);
     map.put(COMM_ID, getCommId());
     map.put(DATA, data);
