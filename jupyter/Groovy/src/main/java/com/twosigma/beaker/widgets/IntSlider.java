@@ -29,7 +29,7 @@ public class IntSlider implements Widget {
   private String _model_name = "IntSliderModel";
   private String _model_module = "jupyter-js-widgets";
   private Comm comm;
-  public String value;
+  private int value;
 
   public IntSlider() {
     try {
@@ -77,4 +77,18 @@ public class IntSlider implements Widget {
     return content;
   }
 
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) throws NoSuchAlgorithmException {
+    this.value = value;
+    HashMap<String, Serializable> content = new HashMap<>();
+    content.put("method", "update");
+    HashMap<Object, Object> state = new HashMap<>();
+    state.put("value",value);
+    content.put("state", state);
+    getComm().setData(content);
+    getComm().send();
+  }
 }
