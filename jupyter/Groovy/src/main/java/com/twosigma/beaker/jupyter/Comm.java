@@ -21,13 +21,21 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
+import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Comm {
+  
+  private static final Logger logger = LoggerFactory.getLogger(GroovyKernel.class);
   
   public static final String COMM_ID = "comm_id";
   public static final String TARGET_NAME = "target_name";
@@ -35,13 +43,14 @@ public class Comm {
   public static final String TARGET_MODULE = "target_module";
   public static final String COMMS = "comms";
 
-
   private String commId;
   private String targetName;
   private HashMap<?,?> data;
   private String targetModule;
   private GroovyKernel kernel;
-
+  private List<IHandler<Message>> msgCallbackList = new ArrayList<>();
+  private List<IHandler<Message>> closeCallbackList  = new ArrayList<>(); 
+  
   public Comm(String commId, String targetName) {
     super();
     this.kernel = GroovyKernelManager.get();
@@ -78,22 +87,33 @@ public class Comm {
     this.targetModule = targetModule;
   }
   
-  public void open() throws NoSuchAlgorithmException{
-    Message message = new Message();
-    message.setHeader(new Header(COMM_OPEN, null)); // TODO put session ID, if needed
-    HashMap<String, Serializable> map = new HashMap<>();
-    map.put(COMM_ID, getCommId());
-    map.put(TARGET_NAME, getTargetName());
-    map.put(DATA, data);
-    map.put(TARGET_MODULE, getTargetModule());
-    message.setContent(map);
-    kernel.publish(message);
-    kernel.addComm(getCommId(), this);
+  public List<IHandler<Message>> getMsgCallbackList() {
+    return msgCallbackList;
+  }
+
+  public void addMsgCallbackList(IHandler<Message> ... handlers) {
+    this.msgCallbackList.addAll(Arrays.asList(handlers));
+  }
+  
+  public void clearMsgCallbackList() {
+    this.msgCallbackList = new ArrayList<>();
+  }
+
+  public List<IHandler<Message>> getCloseCallbackList() {
+    return closeCallbackList;
+  }
+
+  public void addCloseCallbackList(IHandler<Message> ... handlers) {
+    this.closeCallbackList.addAll(Arrays.asList(handlers));
+  }
+  
+  public void clearCloseCallbackList() {
+    this.closeCallbackList = new ArrayList<>();
   }
   
   public void open(Message parentMessage) throws NoSuchAlgorithmException{
     Message message = new Message();
-    message.setHeader(new Header(COMM_OPEN,  parentMessage.getHeader().getSession()));
+    message.setHeader(new Header(COMM_OPEN, parentMessage.getHeader().getSession()));
     message.setParentHeader(parentMessage.getHeader());
     HashMap<String, Serializable> map = new HashMap<>();
     map.put(COMM_ID, getCommId());
@@ -105,9 +125,15 @@ public class Comm {
     kernel.addComm(getCommId(), this);
   }
   
-  public void close() throws NoSuchAlgorithmException{
+  public void close(Message parentMessage) throws NoSuchAlgorithmException{
+    if(this.getCloseCallbackList() != null && !this.getMsgCallbackList().isEmpty()){
+      for (IHandler<Message> handler : getMsgCallbackList()) {
+        handler.handle(parentMessage);
+      }
+    }
     Message message = new Message();
-    message.setHeader(new Header(COMM_CLOSE, null));  // TODO put session ID, if needed
+    message.setHeader(new Header(COMM_CLOSE, parentMessage.getHeader().getSession()));
+    message.setParentHeader(parentMessage.getHeader());
     HashMap<String, Serializable> map = new HashMap<>();
     map.put(DATA, new HashMap<>());
     message.setContent(map);
@@ -124,6 +150,14 @@ public class Comm {
     map.put(DATA, data);
     message.setContent(map);
     kernel.send(message); //TODO check if right ?
+  }
+  
+  public void handleMsg(Message parentMessage) throws NoSuchAlgorithmException{
+    if(this.getMsgCallbackList() != null && !this.getMsgCallbackList().isEmpty()){
+      for (IHandler<Message> handler : getMsgCallbackList()) {
+        handler.handle(parentMessage);
+      }
+    }
   }
   
   @Override

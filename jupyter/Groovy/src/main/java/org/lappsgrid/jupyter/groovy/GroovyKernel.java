@@ -90,7 +90,7 @@ public class GroovyKernel {
     running = false;
     for (Comm comm : commMap.values()) {
       try {
-        comm.close();
+        comm.close(null);
       } catch (NoSuchAlgorithmException e) {
         logger.info("Comm close error, Comm info = " + comm );
       }
