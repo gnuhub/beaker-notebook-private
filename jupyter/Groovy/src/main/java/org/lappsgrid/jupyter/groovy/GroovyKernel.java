@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.handler.CompleteHandler;
 import org.lappsgrid.jupyter.groovy.handler.HistoryHandler;
