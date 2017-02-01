@@ -111,66 +111,72 @@ define([
 
       svg.selectAll(".plot-tooltip-line").remove();
 
-      _.each(scope.tips, function (d) {
-        var x = scope.data2scrX(d.datax),
-          y = scope.data2scrY(d.datay);
-        d.scrx = x;
-        d.scry = y;
-        var tipid = "tip_" + d.id;
-        var tipdiv = getTipElement(scope, d);
+      console.log(scope.tips);
 
-        if (tipdiv.length === 0) {
-          var tiptext = data[d.idx].createTip(d.ele, d.g, scope.stdmodel);
+      _.each(scope.tips, function (d, key) {
+        if (scope.tips.hasOwnProperty(key)) {
 
-          tipdiv = $("<div></div>").appendTo(scope.jqcontainer)
-            .attr("id", tipid)
-            .attr("class", "plot-tooltip")
-            .css("border-color", data[d.idx].tip_color)
-            .append(tiptext)
-            .on('mouseup', function (e) {
-              if (e.which == 3) {
-                clear(scope, d);
-                $(this).remove();
+          var x = scope.data2scrX(d.datax),
+            y = scope.data2scrY(d.datay);
+          d.scrx = x;
+          d.scry = y;
+          var tipid = "tip_" + d.id;
+          var tipdiv = getTipElement(scope, d);
+
+          if (tipdiv.length === 0) {
+            var tiptext = data[d.idx].createTip(d.ele, d.g, scope.stdmodel);
+
+            tipdiv = $("<div></div>").appendTo(scope.jqcontainer)
+              .attr("id", tipid)
+              .attr("class", "plot-tooltip")
+              .css("border-color", data[d.idx].tip_color)
+              .append(tiptext)
+              .on('mouseup', function (e) {
+                if (e.which == 3) {
+                  clear(scope, d);
+                  $(this).remove();
+                }
+              });
+            if (data[d.idx].tip_class) {
+              tipdiv.addClass(data[d.idx].tip_class);
+            }
+          }
+          var w = tipdiv.outerWidth(), h = tipdiv.outerHeight();
+          if (d.hidden === true || outsideGrid(scope, x, y, w, h)) {
+            clear(scope, d, true);
+            tipdiv.remove();
+            return;
+          }
+          var drag = function (e, ui) {
+            d.scrx = ui.position.left - plotUtils.fonts.tooltipWidth;
+            d.scry = ui.position.top;
+            d.datax = scope.scr2dataX(d.scrx);
+            d.datay = scope.scr2dataY(d.scry);
+            impl.renderTips(scope);
+          };
+          tipdiv
+            .draggable({
+              drag: function (e, ui) {
+                drag(e, ui)
+              },
+              stop: function (e, ui) {
+                drag(e, ui)
               }
             });
-          if (data[d.idx].tip_class) {
-            tipdiv.addClass(data[d.idx].tip_class);
-          }
-        }
-        var w = tipdiv.outerWidth(), h = tipdiv.outerHeight();
-        if (d.hidden === true || outsideGrid(scope, x, y, w, h)) {
-          clear(scope, d, true);
-          tipdiv.remove();
-          return;
-        }
-        var drag = function (e, ui) {
-          d.scrx = ui.position.left - plotUtils.fonts.tooltipWidth;
-          d.scry = ui.position.top;
-          d.datax = scope.scr2dataX(d.scrx);
-          d.datay = scope.scr2dataY(d.scry);
-          impl.renderTips(scope);
-        };
-        tipdiv
-          .draggable({
-            drag: function (e, ui) {
-              drag(e, ui)
-            },
-            stop: function (e, ui) {
-              drag(e, ui)
-            }
-          });
 
-        tipdiv
-          .css("left", x + plotUtils.fonts.tooltipWidth)
-          .css("top", y);
-        if (d.isresp === true) {
-          scope.jqsvg.find("#" + d.id).attr("opacity", 1);
-        } else {
-          scope.jqsvg.find("#" + d.id).attr("filter", "url(" + window.location.pathname + "#svgfilter)");
-        }
-        if (d.sticking == true) {
-          pinCloseIcon(scope, d);
-          drawLine(scope, d, tipdiv);
+          tipdiv
+            .css("left", x + plotUtils.fonts.tooltipWidth)
+            .css("top", y);
+          if (d.isresp === true) {
+            scope.jqsvg.find("#" + d.id).attr("opacity", 1);
+          } else {
+            scope.jqsvg.find("#" + d.id).attr("filter", "url(" + window.location.pathname + "#svgfilter)");
+          }
+          if (d.sticking == true) {
+            pinCloseIcon(scope, d);
+            drawLine(scope, d, tipdiv);
+          }
+
         }
       });
     },
