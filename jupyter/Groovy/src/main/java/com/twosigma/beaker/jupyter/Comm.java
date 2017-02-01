@@ -108,7 +108,7 @@ public class Comm {
     map.put(COMM_ID, getCommId());
     map.put(DATA, data);
     message.setContent(map);
-    kernel.send(message); //TODO check if right ?
+    kernel.publish(message); //TODO check if right ?
   }
   
   @Override
