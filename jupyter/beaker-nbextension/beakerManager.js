@@ -29,9 +29,6 @@ define([
       case 'CombinedPlot':
         initCombinedPlot(data);
         break;
-      case 'IpyWidgets':
-        initIpyWidgets(data);
-        break;
       default:
         initStandardPlot(data);
         break;
@@ -61,9 +58,5 @@ define([
     currentScope.buildTemplate();
     currentScope.setModelData(data);
     currentScope.run();
-  }
-
-  function initIpyWidgets(data) {
-    console.log('ipywidgets init', data);
   }
 });

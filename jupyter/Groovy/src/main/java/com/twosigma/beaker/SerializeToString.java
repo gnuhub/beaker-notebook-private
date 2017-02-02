@@ -23,8 +23,6 @@ import java.util.Map;
 
 import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.table.serializer.TableDisplaySerializer;
-import com.twosigma.beaker.widgets.IntSlider;
-import com.twosigma.beaker.widgets.IntSliderSerializer;
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -84,7 +82,6 @@ public class SerializeToString {
 
   static {
 
-    serializerMap.put(IntSlider.class, new IntSliderSerializer());
     serializerMap.put(TableDisplay.class, new TableDisplaySerializer());
     serializerMap.put(Color.class, new ColorSerializer());
     serializerMap.put(XYChart.class, new XYChartSerializer());
