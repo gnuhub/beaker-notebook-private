@@ -114,14 +114,7 @@ public class MessageCreator {
         
       }
 
-      Message reply = new Message();
-      reply.setParentHeader(message.getHeader());
-      reply.setIdentities(message.getIdentities());
-      // Tell Jupyter that this kernel is idle again.
-      reply.setHeader(new Header(STATUS, message.getHeader().getSession()));
-      Hashtable<String, Serializable> map5 = new Hashtable<String, Serializable>(1);
-      map5.put("execution_state", "idle");
-      reply.setContent(map5);
+      Message reply = createIdleMessage(message);
       ret.add(new MessageHolder(SocketEnum.IOPUB_SOCKET, reply));
     
       // Send the REPLY to the original message. This is NOT the result of
@@ -155,11 +148,11 @@ public class MessageCreator {
     return ret;
   }
 
-  public Message busyMessage(Message parentMessage) {
+  public Message createBusyMessage(Message parentMessage) {
     return getExecutionStateMessage(parentMessage, BUSY);
   }
 
-  public Message idleMessage(Message parentMessage) {
+  public Message createIdleMessage(Message parentMessage) {
     return getExecutionStateMessage(parentMessage, IDLE);
   }
 
