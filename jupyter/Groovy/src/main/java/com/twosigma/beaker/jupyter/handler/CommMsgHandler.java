@@ -39,13 +39,13 @@ public class CommMsgHandler extends AbstractHandler<Message> {
   }
 
   public void handle(Message message) throws NoSuchAlgorithmException {
-    publish(this.messageCreator.busyMessage(message));
+    publish(this.messageCreator.createBusyMessage(message));
 
     Map<String, Serializable> commMap = message.getContent();
     Comm comm = kernel.getComm(getString(commMap, COMM_ID));
     comm.handleMsg(message);
 
-    publish(this.messageCreator.idleMessage(message));
+    publish(this.messageCreator.createIdleMessage(message));
   }
 
   public static String getString(Map<String, Serializable> map, String name) {
