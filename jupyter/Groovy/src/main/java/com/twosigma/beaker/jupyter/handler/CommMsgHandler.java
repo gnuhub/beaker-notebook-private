@@ -16,11 +16,11 @@
 package com.twosigma.beaker.jupyter.handler;
 
 import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
-
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
+import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
@@ -30,15 +30,22 @@ import com.twosigma.beaker.jupyter.Comm;
 
 public class CommMsgHandler extends AbstractHandler<Message> {
 
-  public CommMsgHandler(GroovyKernel kernel) {
+  private MessageCreator messageCreator;
+
+  public CommMsgHandler(final GroovyKernel kernel, final MessageCreator messageCreator) {
     super(kernel);
+    this.messageCreator = messageCreator;
     logger = LoggerFactory.getLogger(CommMsgHandler.class);
   }
 
   public void handle(Message message) throws NoSuchAlgorithmException {
+    publish(this.messageCreator.busyMessage(message));
+
     Map<String, Serializable> commMap = message.getContent();
     Comm comm = kernel.getComm(getString(commMap, COMM_ID));
     comm.handleMsg(message);
+
+    publish(this.messageCreator.idleMessage(message));
   }
 
   public static String getString(Map<String, Serializable> map, String name) {
