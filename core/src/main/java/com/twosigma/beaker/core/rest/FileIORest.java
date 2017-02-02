@@ -17,12 +17,10 @@ package com.twosigma.beaker.core.rest;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.sun.jersey.api.Responses;
 import com.twosigma.beaker.core.module.config.BeakerConfig;
 import com.twosigma.beaker.shared.module.util.GeneralUtils;
 import jcifs.util.MimeMap;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -31,7 +29,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
@@ -208,13 +205,10 @@ public class FileIORest {
   @Path("createDirectory")
   public void createDirectory(
       @FormParam("path") String path) throws IOException {
-    if (Files.exists(Paths.get(path))) {
-      throw new FileAlreadyExistsException();
-    }
+
     try {
       new File(path).mkdirs();
     } catch (Throwable t) {
-      throw new DirectoryCreationException(ExceptionUtils.getStackTrace(t));
     }
   }
 
@@ -227,9 +221,7 @@ public class FileIORest {
     try {
       utils.saveFile(path, contentAsString);
     } catch (AccessDeniedException ade) {
-      throw new FileAccessDeniedException(ExceptionUtils.getMessage(ade));
     }  catch (Throwable t) {
-      throw new FileSaveException(ExceptionUtils.getStackTrace(t));
     }
   }
 
@@ -239,16 +231,9 @@ public class FileIORest {
       @FormParam("path") String path,
       @FormParam("content") String contentAsString) throws IOException {
     path = removePrefix(path);
-    if (Files.exists(Paths.get(path))) {
-      if (new File(path).isDirectory()) {
-        throw new FileAlreadyExistsAndIsDirectoryException();
-      }
-      throw new FileAlreadyExistsException();
-    }
     try {
       utils.saveFile(path, contentAsString);
     } catch (Throwable t) {
-      throw new FileSaveException(ExceptionUtils.getStackTrace(t));
     }
   }
 
@@ -259,30 +244,21 @@ public class FileIORest {
       @FormParam("newPath") String newPath,
       @FormParam("overwrite") boolean overwrite) throws IOException {
     newPath = removePrefix(newPath);
-    if (Files.exists(Paths.get(newPath))) {
-      if (new File(newPath).isDirectory()) {
-        throw new FileAlreadyExistsAndIsDirectoryException();
-      }
-      if (!overwrite) {
-        throw new FileAlreadyExistsException();
-      }
-    }
+
     try {
       utils.renameFile(oldPath, newPath);
     } catch (Throwable t) {
-      throw new FileSaveException(ExceptionUtils.getStackTrace(t));
     }
   }
 
   private String readAsString(String path) {
-    try {
-      byte[] encoded = Files.readAllBytes(Paths.get(path));
+      byte[] encoded = new byte[0];
+      try {
+          encoded = Files.readAllBytes(Paths.get(path));
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
       return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(encoded)).toString();
-    } catch (AccessDeniedException ade) {
-      throw new FileAccessDeniedException(ExceptionUtils.getMessage(ade));
-    } catch (Throwable t) {
-      throw new FileOpenException(ExceptionUtils.getStackTrace(t));
-    }
   }
 
   @GET
@@ -299,7 +275,7 @@ public class FileIORest {
         return readAsString(npath);
       }
     }
-    throw new FileDoesntExistException(path + " was not found");
+    throw new IOException();
   }
 
   private static final String FILE_PREFIX = "file:";
@@ -453,9 +429,7 @@ public class FileIORest {
       FilenameFilter fileNameFilter = new FilenameFilter() {          
         @Override
         public boolean accept(File dir, String name) {
-          if(name.startsWith(p))
-            return true;
-          return false;
+            return name.startsWith(p);
         }
       };
       File dir = new File(".");
@@ -471,9 +445,7 @@ public class FileIORest {
         FilenameFilter fileNameFilter = new FilenameFilter() {          
           @Override
           public boolean accept(File dir, String name) {
-            if(name.startsWith(n))
-              return true;
-            return false;
+              return name.startsWith(n);
           }
         };
         File[] filesList = f.listFiles(fileNameFilter);
@@ -492,61 +464,6 @@ public class FileIORest {
       filePermissions.add(PosixFilePermission.valueOf(permission));
     }
     return filePermissions;
-  }
-
-  private static class DirectoryCreationException extends WebApplicationException {
-    public DirectoryCreationException(String stackTrace) {
-      super(status(Responses.PRECONDITION_FAILED)
-          .entity("<h1>Directory Creation Failed</h1><pre>" + stackTrace + "</pre>")
-          .type("text/plain")
-          .build());
-    }
-  }
-
-  private static class FileSaveException extends WebApplicationException {
-    public FileSaveException(String stackTrace) {
-      super(status(Responses.PRECONDITION_FAILED)
-          .entity("<h1>Save failed</h1><pre>" + stackTrace + "</pre>")
-          .type("text/plain")
-          .build());
-    }
-  }
-
-  private static class FileOpenException extends WebApplicationException {
-    public FileOpenException(String stackTrace) {
-      super(status(Responses.PRECONDITION_FAILED)
-          .entity("<h1>Open failed</h1><pre>" + stackTrace + "</pre>")
-          .type("text/plain")
-          .build());
-    }
-  }
-
-  private static class FileAlreadyExistsAndIsDirectoryException extends WebApplicationException {
-    public FileAlreadyExistsAndIsDirectoryException() {
-      super(status(Responses.PRECONDITION_FAILED)
-          .entity("isDirectory").type("text/plain").build());
-    }
-  }
-
-  private static class FileAlreadyExistsException extends WebApplicationException {
-    public FileAlreadyExistsException() {
-      super(status(Responses.CONFLICT)
-          .entity("exists").type("text/plain").build());
-    }
-  }
-
-  private static class FileDoesntExistException extends WebApplicationException {
-    public FileDoesntExistException(String message) {
-      super(status(Responses.NOT_FOUND)
-          .entity(message).type("text/plain").build());
-    }
-  }
-
-  private static class FileAccessDeniedException extends WebApplicationException {
-    public FileAccessDeniedException(String message) {
-      super(status(Responses.NOT_ACCEPTABLE)
-        .entity(message).type("text/plain").build());
-    }
   }
 
 }

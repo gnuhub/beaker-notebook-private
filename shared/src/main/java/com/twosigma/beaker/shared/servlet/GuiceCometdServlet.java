@@ -25,7 +25,6 @@ import org.cometd.annotation.AnnotationCometdServlet;
 import org.cometd.annotation.ServerAnnotationProcessor;
 import org.cometd.bayeux.server.BayeuxServer;
 import org.cometd.server.BayeuxServerImpl;
-import org.eclipse.jetty.util.Loader;
 
 /**
  * Taken from
@@ -47,13 +46,7 @@ public class GuiceCometdServlet
 
   @Override
   public void init() throws ServletException {
-    getServletContext().setAttribute(BayeuxServer.ATTRIBUTE, newBayeuxServer());
     super.init();
-  }
-
-  @Override
-  protected BayeuxServerImpl newBayeuxServer() {
-    return injector.getInstance(BayeuxServerImpl.class);
   }
 
   @Override
@@ -61,9 +54,4 @@ public class GuiceCometdServlet
     return injector.getInstance(ServerAnnotationProcessor.class);
   }
 
-  @SuppressWarnings({"unchecked"})
-  @Override
-  protected Object newService(String serviceClassName) throws Exception {
-    return injector.getInstance(Loader.loadClass(getClass(), serviceClassName));
-  }
 }

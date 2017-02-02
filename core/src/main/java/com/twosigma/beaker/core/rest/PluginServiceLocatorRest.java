@@ -18,14 +18,12 @@ package com.twosigma.beaker.core.rest;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.sun.jersey.api.Responses;
 import com.twosigma.beaker.core.module.config.BeakerConfig;
 import com.twosigma.beaker.shared.module.config.WebServerConfig;
 import com.twosigma.beaker.shared.module.util.GeneralUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.fluent.Request;
 import org.jvnet.winp.WinProcess;
@@ -47,7 +45,6 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -472,10 +469,6 @@ public class PluginServiceLocatorRest {
       fullCommand.set(0, (this.pluginLocations.containsKey(pluginId) ?
                           this.pluginLocations.get(pluginId) : this.pluginDir)
                       + "/" + fullCommand.get(0));
-      if (Files.notExists(Paths.get(fullCommand.get(0)))) {
-        throw new PluginServiceNotFoundException("plugin service " + pluginId + " not found at "
-                                                 + command);
-      }
 
       List<String> extraArgs = this.pluginArgs.get(pluginId);
       if (extraArgs != null) {
@@ -509,10 +502,6 @@ public class PluginServiceLocatorRest {
           logger.info("Acknowledge " + pluginId + " plugin started due to "+startedIndicator);
           break;
         }
-      }
-      if (null == line) {
-        throw new PluginServiceNotFoundException("plugin service: "
-                                                 + pluginId + " failed to start");
       }
     }
 
@@ -590,13 +579,6 @@ public class PluginServiceLocatorRest {
         interval = RESTART_ENSURE_RETRY_MAX_INTERVAL;
     }
     throw new RuntimeException("Spin check timed out: " + url);
-  }
-
-  private static class PluginServiceNotFoundException extends WebApplicationException {
-    public PluginServiceNotFoundException(String message) {
-      super(Response.status(Responses.NOT_FOUND)
-          .entity(message).type("text/plain").build());
-    }
   }
 
    private static class NginxRestartFailedException extends WebApplicationException {

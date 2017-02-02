@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.twosigma.beaker.shared.module.BkWebSocketListener;
-import com.twosigma.beaker.shared.module.BkWebSocketTransport;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.cometd.annotation.Listener;
 import org.cometd.annotation.Service;
@@ -38,7 +37,6 @@ import org.cometd.bayeux.server.LocalSession;
 import org.cometd.bayeux.server.ServerChannel;
 import org.cometd.bayeux.server.ServerMessage;
 import org.cometd.bayeux.server.ServerSession;
-import org.cometd.websocket.server.WebSocketTransport;
 
 /**
  * The NamespaceService is the service manager for the notebook
@@ -59,19 +57,9 @@ public class NamespaceService {
   private String channelName = "/namespace";
   private Map<String, SynchronousQueue<NamespaceBinding>> handoff = new HashMap<>();
   private Map<String, List<String>> namesMap = new HashMap<>();
-  private BkWebSocketTransport bkWebSocketTransport;
   private Map<String, BkWebSocketListener> sessionListeners = new HashMap<>();
 
-  @Inject
-  public NamespaceService(BayeuxServer bayeuxServer) {
-    this.bayeux = bayeuxServer;
-    this.localSession = bayeuxServer.newLocalSession(getClass().getCanonicalName());
-    this.localSession.handshake();
-    Transport transport = this.bayeux.getTransport(WebSocketTransport.NAME);
-    if (transport instanceof BkWebSocketTransport) {
-      bkWebSocketTransport = (BkWebSocketTransport) transport;
-    }
-  }
+
 
   private ServerChannel getChannel(String session) {
     return bayeux.getChannel(channelName + "/" + session);
@@ -93,26 +81,6 @@ public class NamespaceService {
     return namesMap.get(session);
   }
 
-  private void addSocketListener(final String session) {
-    if (bkWebSocketTransport != null) {
-      if(sessionListeners.get(session) == null) {
-        BkWebSocketListener listener = new BkWebSocketListener() {
-          @Override
-          public void onClose(int code, String message) {
-            try {
-              if(code == BkWebSocketTransport.CLOSE_MESSAGE_TOO_LARGE){
-                getHandoff(session).put(new NamespaceBinding(session, message));
-              }
-            } catch (InterruptedException e) {
-              throw new RuntimeException(e);
-            }
-          }
-        };
-        bkWebSocketTransport.addListener(listener);
-        sessionListeners.put(session, listener);
-      }
-    }
-  }
 
   public NamespaceBinding get(String session, String name)
     throws RuntimeException, InterruptedException
@@ -125,7 +93,6 @@ public class NamespaceService {
       return null;
     }
     getNames(session).add(name);
-    addSocketListener(session);
     channel.publish(this.localSession, data, null);
     NamespaceBinding binding = getHandoff(session).take(); // blocks
     if (binding.getError() != null) {
@@ -153,7 +120,6 @@ public class NamespaceService {
       return;
     }
     getNames(session).add(name);
-    addSocketListener(session);
     channel.publish(this.localSession, data, null);
     if (sync) {
       NamespaceBinding binding = getHandoff(session).take(); // blocks

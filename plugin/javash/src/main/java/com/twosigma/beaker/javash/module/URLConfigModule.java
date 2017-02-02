@@ -34,11 +34,7 @@ public class URLConfigModule extends ServletModule {
   protected void configureServlets() {
 
     bind(GuiceContainer.class);
-    serve("/rest/*").with(GuiceContainer.class, new HashMap<String, String>() {
-      {
-        // put config that is normally in web.xml here
-      }
-    });
+
 
     bind(GuiceCometdServlet.class);
     serve("/cometd/*").with(GuiceCometdServlet.class, new HashMap<String, String>() {

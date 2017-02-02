@@ -19,7 +19,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.twosigma.beaker.javash.module.URLConfigModule;
 import com.twosigma.beaker.jvm.module.SerializerModule;
-import com.twosigma.beaker.jvm.module.WebServerModule;
 import com.twosigma.beaker.jvm.threads.BeakerStdOutErrHandler;
 import com.twosigma.beaker.shared.module.GuiceCometdModule;
 import com.twosigma.beaker.shared.module.config.DefaultWebServerConfigModule;
@@ -28,7 +27,6 @@ import com.twosigma.beaker.shared.module.config.DefaultWebAppConfigPref;
 
 import java.util.logging.Logger;
 
-import org.eclipse.jetty.server.Server;
 
 /**
  * In the main function, create modules and perform initialization.
@@ -37,12 +35,9 @@ public class Main {
 
   private static final Logger GuiceComponentProviderFactoryLogger =
           Logger.getLogger(com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory.class.getName());
-  private static final Logger WebApplicationImplLogger =
-          Logger.getLogger(com.sun.jersey.server.impl.application.WebApplicationImpl.class.getName());
 
   static {
     GuiceComponentProviderFactoryLogger.setLevel(java.util.logging.Level.WARNING);
-    WebApplicationImplLogger.setLevel(java.util.logging.Level.WARNING);
   }
 
   public static void main(String[] args) throws Exception {
@@ -55,13 +50,10 @@ public class Main {
     WebAppConfigPref webAppPref = new DefaultWebAppConfigPref(port);
     Injector injector = Guice.createInjector(
         new DefaultWebServerConfigModule(webAppPref),
-        new WebServerModule(),
         new URLConfigModule(),
         new SerializerModule(),
         new GuiceCometdModule());
 
-    Server server = injector.getInstance(Server.class);
-    server.start();
     BeakerStdOutErrHandler.init();
   }
 }

@@ -20,7 +20,6 @@ import com.google.inject.Injector;
 import com.twosigma.beaker.shared.module.GuiceCometdModule;
 import com.twosigma.beaker.core.module.SerializerModule;
 import com.twosigma.beaker.core.module.URLConfigModule;
-import com.twosigma.beaker.core.module.WebServerModule;
 import com.twosigma.beaker.core.module.config.DefaultBeakerConfigModule;
 import com.twosigma.beaker.core.module.config.BeakerConfig;
 import com.twosigma.beaker.core.module.config.BeakerConfigPref;
@@ -52,7 +51,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jetty.server.Server;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -64,13 +62,10 @@ public class Main {
 
   private static final Logger GuiceComponentProviderFactoryLogger =
           Logger.getLogger(com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory.class.getName());
-  private static final Logger WebApplicationImplLogger =
-          Logger.getLogger(com.sun.jersey.server.impl.application.WebApplicationImpl.class.getName());
   private static final Logger JerseyLogger = Logger.getLogger("com.sun.jersey");
 
   static {
     GuiceComponentProviderFactoryLogger.setLevel(Level.WARNING);
-    WebApplicationImplLogger.setLevel(Level.WARNING);
     JerseyLogger.setLevel(Level.OFF);
   }
 
@@ -218,7 +213,6 @@ public class Main {
         new DefaultBeakerConfigModule(beakerCorePref),
         new DefaultWebServerConfigModule(webAppPref),
         new GeneralUtilsModule(),
-        new WebServerModule(),
         new SerializerModule(),
         new GuiceCometdModule(),
         new URLConfigModule(beakerCorePref));
@@ -231,8 +225,6 @@ public class Main {
 
     writePID(bkConfig);
 
-    Server server = injector.getInstance(Server.class);
-    server.start();
 
     // openBrower and show connection instruction message
     final String initUrl = bkConfig.getBaseURL();

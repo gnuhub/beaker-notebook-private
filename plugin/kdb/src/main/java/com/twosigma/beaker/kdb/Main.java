@@ -18,9 +18,7 @@ package com.twosigma.beaker.kdb;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory;
-import com.sun.jersey.server.impl.application.WebApplicationImpl;
 import com.twosigma.beaker.jvm.module.SerializerModule;
-import com.twosigma.beaker.jvm.module.WebServerModule;
 import com.twosigma.beaker.jvm.threads.BeakerStdOutErrHandler;
 import com.twosigma.beaker.kdb.module.URLConfigModule;
 import com.twosigma.beaker.kdb.rest.KdbRest;
@@ -28,7 +26,6 @@ import com.twosigma.beaker.shared.module.GuiceCometdModule;
 import com.twosigma.beaker.shared.module.config.DefaultWebAppConfigPref;
 import com.twosigma.beaker.shared.module.config.DefaultWebServerConfigModule;
 import com.twosigma.beaker.shared.module.config.WebAppConfigPref;
-import org.eclipse.jetty.server.Server;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
@@ -46,11 +43,9 @@ public class Main {
   private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Main.class.getName());
 
   private static final Logger guiceLogger = Logger.getLogger(GuiceComponentProviderFactory.class.getName());
-  private static final Logger webLogger   = Logger.getLogger(WebApplicationImpl.class.getName());
 
   static {
     guiceLogger .setLevel(WARNING);
-    webLogger   .setLevel(WARNING);
   }
 
   private static final LogManager logManager = LogManager.getLogManager();
@@ -81,7 +76,6 @@ public class Main {
     WebAppConfigPref webAppPref = new DefaultWebAppConfigPref(port);
     Injector injector = Guice.createInjector(
                                              new DefaultWebServerConfigModule(webAppPref),
-                                             new WebServerModule(),
                                              new URLConfigModule(),
                                              new SerializerModule(),
                                              new GuiceCometdModule());
@@ -91,8 +85,6 @@ public class Main {
     final KdbRest rest = injector.getInstance(KdbRest.class);
     rest.setCorePort(corePort);
 
-    Server server = injector.getInstance(Server.class);
-    server.start();
     BeakerStdOutErrHandler.init();
   }
 }

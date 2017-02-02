@@ -16,15 +16,11 @@
 package com.twosigma.beaker.core.module;
 
 import com.google.inject.Singleton;
-import java.io.IOException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.servlet.MultipartConfigElement;
-import org.eclipse.jetty.server.Request;
 
 @Singleton 
 public class FileUploadServlet extends HttpServlet {
@@ -37,7 +33,6 @@ public class FileUploadServlet extends HttpServlet {
     // This is the workaround.
     if (request.getContentType() != null &&
         request.getContentType().startsWith("multipart/form-data")) {
-      request.setAttribute(Request.__MULTIPART_CONFIG_ELEMENT, MULTI_PART_CONFIG);
     }
     try {
       // Should confirm there is exactly one part.

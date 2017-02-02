@@ -18,7 +18,6 @@ package com.twosigma.beaker.shared.module;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
-import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.AbstractMatcher;
@@ -26,23 +25,17 @@ import com.google.inject.spi.InjectionListener;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.cometd.annotation.ServerAnnotationProcessor;
 import org.cometd.annotation.Service;
 import org.cometd.bayeux.server.BayeuxServer;
 import org.cometd.server.BayeuxServerImpl;
-import org.cometd.server.JacksonJSONContextServer;
-import org.cometd.websocket.server.WebSocketTransport;
 
 // Should load from cometd-contrib
 public class GuiceCometdModule extends AbstractModule {
   
   @Override
   protected final void configure() {
-    
-    bind(BayeuxServer.class).to(BayeuxServerImpl.class).in(Scopes.SINGLETON);
 
-    
     if (discoverBindings()) {
       // automatically add services
       bindListener(new AbstractMatcher<TypeLiteral<?>>() {
@@ -104,36 +97,6 @@ public class GuiceCometdModule extends AbstractModule {
   }
 
   protected void applicationBindings() {
-  }
-
-  @Singleton
-  @Provides
-  public final BayeuxServerImpl getBayeuxServer(final ObjectMapper om) {
-    BayeuxServerImpl server = new BayeuxServerImpl();
-    /*
-     * Set the max idle time.
-     * @param timeMs the max idle time in MS. Timeout <= 0 implies an infinite timeout
-     */
-    server.setOption(WebSocketTransport.IDLE_TIMEOUT_OPTION, -1);
-    
-    server.addTransport(new BkWebSocketTransport(server));
-
-    server.setOption(BayeuxServerImpl.JSON_CONTEXT, new JacksonJSONContextServer() {
-      @Override
-      public ObjectMapper getObjectMapper() {
-        return om;
-      }
-    });
-    server.setOption("ws.bufferSize", new Integer(1024*1024));
-    server.setOption("ws.maxMessageSize", new Integer(1024*1024*16));
-    server.setOption("threadPoolMaxSize", 16);
-    configure(server);
-    try {
-      server.start();
-    } catch (Exception e) {
-      throw new RuntimeException(e.getMessage(), e);
-    }
-    return server;
   }
 
   protected boolean discoverBindings() {
