@@ -18,10 +18,13 @@ package com.twosigma.beaker.widgets;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
 import com.twosigma.beaker.jupyter.Utils;
+import org.lappsgrid.jupyter.groovy.handler.IHandler;
+import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class IntSlider implements Widget {
 
@@ -31,24 +34,48 @@ public class IntSlider implements Widget {
   private Comm comm;
   private int value;
 
-  public IntSlider() {
-    try {
-      comm = getComm();
-      comm.setData(openContent());
-      comm.open();
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
+  public IntSlider() throws NoSuchAlgorithmException {
+    comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
+    openComm(comm);
   }
 
+  @Override
   public Comm getComm() {
-    if (comm == null) {
-      comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
-    }
     return comm;
   }
 
-  private HashMap<String, Serializable> openContent() {
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) throws NoSuchAlgorithmException {
+    this.value = value;
+    sendValueUpdate(value);
+  }
+
+  private void openComm(final Comm comm) throws NoSuchAlgorithmException {
+    comm.setData(content());
+    addValueChangeMsgCallback(comm);
+    comm.open();
+  }
+
+  private void addValueChangeMsgCallback(final Comm comm) {
+    comm.addMsgCallbackList(new IHandler<Message>() {
+      @Override
+      public void handle(Message message) throws NoSuchAlgorithmException {
+        Map data = (Map) message.getContent().get("data");
+        Map sync_data = (Map) data.get("sync_data");
+        int value = (int) sync_data.get("value");
+        updateValue(value);
+      }
+    });
+  }
+
+  private void updateValue(int value) {
+    this.value = value;
+  }
+
+  private HashMap<String, Serializable> content() {
     HashMap<String, Serializable> content = new HashMap<>();
     content.put("_model_module", _model_module);
     content.put("_model_name", _model_name);
@@ -77,18 +104,14 @@ public class IntSlider implements Widget {
     return content;
   }
 
-  public int getValue() {
-    return value;
-  }
-
-  public void setValue(int value) throws NoSuchAlgorithmException {
-    this.value = value;
+  private void sendValueUpdate(int value) throws NoSuchAlgorithmException {
     HashMap<String, Serializable> content = new HashMap<>();
     content.put("method", "update");
     HashMap<Object, Object> state = new HashMap<>();
-    state.put("value",value);
+    state.put("value", value);
     content.put("state", state);
     getComm().setData(content);
     getComm().send();
   }
+
 }
