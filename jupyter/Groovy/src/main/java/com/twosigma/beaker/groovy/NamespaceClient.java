@@ -89,7 +89,7 @@ public class NamespaceClient {
     } catch (NoSuchAlgorithmException e) {
       e.printStackTrace();
     }
-    return "set:" + name + "/" + value;
+    return value;
   }
 
   public Object setFast(String name, Object value) {
@@ -101,7 +101,7 @@ public class NamespaceClient {
   }
 
   public Object get(final String name) {
-    final ObjectHolder ret = new ObjectHolder();
+    final ObjectHolder<Object> ret = new ObjectHolder<Object>();
     try {
       Comm c = getAutotranslationComm();
       HashMap<String, Serializable> data = new HashMap<>();
