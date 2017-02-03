@@ -130,25 +130,20 @@ public class GroovyKernel {
     return commMap.get(hash);
   }
   
-  public Comm getCommByTargetName(String targetName){
-    Comm ret = null;
+  public List<Comm> getCommByTargetName(String targetName){
+    List<Comm> ret = new ArrayList<>();
     if(targetName != null){
       for (Comm comm : commMap.values()) {
         if(comm.getTargetName().equals(targetName)){
-          ret = comm;
-          break;
+          ret.add(comm);
         }
       }
     }
     return ret;
   }
   
-  public Comm getCommByTargetName(CommNamesEnum targetName){
-    Comm ret = null;
-    if(targetName != null){
-      ret = getCommByTargetName(targetName.getTargetName());
-    }
-    return ret;
+  public  List<Comm> getCommByTargetName(CommNamesEnum targetName){
+    return targetName != null ? getCommByTargetName(targetName.getTargetName()) : new ArrayList<>() ;
   }
   
   public void removeComm(String hash){
