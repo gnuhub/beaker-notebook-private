@@ -34,8 +34,9 @@ dependencies {
     exclude group: 'org.apache.ws.xmlschema', module: 'xmlschema-core'
     exclude group: 'wsdl4j', module: 'wsdl4j'
     exclude group: 'javax.ws.rs', module: 'javax.ws.rs-api'
+    exclude group: 'org.apache.geronimo.specs', module:'geronimo-servlet_3.0_spec'
   }
-  compile group: 'org.codehaus.jackson', name: 'jackson-jaxrs', version: '1.9.13'
+  compile group: "com.fasterxml.jackson.jaxrs", name: "jackson-jaxrs-json-provider", version : "2.7.4"
   compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3'
   compile('com.sun.jersey.contribs:jersey-guice:1.18.1') {
     exclude group: 'com.sun.jersey', module: 'jersey-servlet'
