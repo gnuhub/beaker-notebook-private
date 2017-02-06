@@ -93,6 +93,7 @@ public class NamespaceClient {
     StringWriter sw = new StringWriter();
     JsonGenerator jgen = objectMapper.getJsonFactory().createJsonGenerator(sw);
     objectSerializer.writeObject(value, jgen, true);
+    sw.flush();
     return sw.toString();
   }
   
