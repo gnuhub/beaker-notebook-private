@@ -129,7 +129,7 @@ public class TableDisplayDeSerializer implements ObjectDeserializer {
         o = getValuesAsMatrix(parent, n, mapper);
       }
       if (o == null) {
-        if (n.has("hasIndex") && mapper.readValue(n.path("hasIndex").asText(), String.class).equals("true")
+        if (n.has("hasIndex") && mapper.readValue(n.get("hasIndex").asText(), String.class).equals("true")
           && columns != null && values != null) {
           columns.remove(0);
           classes.remove(0);
