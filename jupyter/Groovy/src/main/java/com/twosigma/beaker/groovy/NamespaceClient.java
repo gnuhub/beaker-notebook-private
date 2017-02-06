@@ -15,7 +15,9 @@
  */
 package com.twosigma.beaker.groovy;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,31 +25,25 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
-
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.map.ObjectMapper;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
 
 public class NamespaceClient {
   
-  private class ObjectHolder<T>{
-    
-    private T value;
-
-    public T getValue() {
-      return value;
-    }
-
-    public void setValue(T value) {
-      this.value = value;
-    }
-    
-  }
-  
   private static Map<String,NamespaceClient> nsClients = new ConcurrentHashMap<String,NamespaceClient>();
   private static String currentSession;
   
+  private ObjectMapper objectMapper;
+  private BeakerObjectConverter objectSerializer;
   private SimpleEvaluationObject currentCeo = null;
   private Comm autotranslationComm = null;
+  
+  public NamespaceClient() {
+    objectMapper = new ObjectMapper();
+    objectSerializer = new BasicObjectSerializer();
+  }
   
   public SimpleEvaluationObject getOutputObj() {
     return currentCeo;
@@ -77,12 +73,12 @@ public class NamespaceClient {
     currentSession = null;
   }
   
-  public Object set(String name, Object value) {
+  public Object set(String name, Object value) throws IOException {
     try {
       Comm c = getAutotranslationComm();
       HashMap<String, Serializable> data = new HashMap<>();
       data.put("name", name);
-      data.put("value", value.toString());
+      data.put("value", getJson(value));
       data.put("sync", true);
       c.setData(data);
       c.send();
@@ -91,6 +87,15 @@ public class NamespaceClient {
     }
     return value;
   }
+  
+  
+  protected String getJson(Object value) throws IOException{
+    StringWriter sw = new StringWriter();
+    JsonGenerator jgen = objectMapper.getJsonFactory().createJsonGenerator(sw);
+    objectSerializer.writeObject(value, jgen, true);
+    return sw.toString();
+  }
+  
 
   public Object setFast(String name, Object value) {
     return "setFast:" + name + "/" +value;
@@ -100,6 +105,7 @@ public class NamespaceClient {
     return "unset:" + name;
   }
 
+  //TODO : Not Implemented
   public Object get(final String name) {
     final ObjectHolder<Object> ret = new ObjectHolder<Object>();
     try {
@@ -131,5 +137,18 @@ public class NamespaceClient {
     return autotranslationComm;
   }
   
+  private class ObjectHolder<T>{
+    
+    private T value;
+
+    public T getValue() {
+      return value;
+    }
+
+    public void setValue(T value) {
+      this.value = value;
+    }
+    
+  }
   
 }
