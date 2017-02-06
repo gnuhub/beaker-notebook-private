@@ -36,6 +36,10 @@ public class IntSlider extends Widget {
   public static final String MIN = "min";
   public static final String VISIBLE = "visible";
   public static final String DESCRIPTION = "description";
+  public static final String SLIDER_COLOR = "slider_color";
+  public static final String READOUT = "readout";
+  public static final String CONTINUOUS_UPDATE = "continuous_update";
+  public static final String MSG_THROTTLE = "msg_throttle";
 
   private String _view_name = "IntSliderView";
   private String _model_name = "IntSliderModel";
@@ -51,7 +55,11 @@ public class IntSlider extends Widget {
   private Integer max = 100;
   private Integer min = 0;
   private Boolean visible = true;
-  private String description="";
+  private String description = "";
+  private String slider_color;
+  private Boolean readOut = true;
+  private Boolean continuous_update = true;
+  private Integer msg_throttle = 3;
 
   public IntSlider() throws NoSuchAlgorithmException {
     comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
@@ -136,6 +144,42 @@ public class IntSlider extends Widget {
     this.description = description;
   }
 
+  public String getSlider_color() {
+    return slider_color;
+  }
+
+  public void setSlider_color(String slider_color) {
+    this.slider_color = slider_color;
+    sendUpdate(SLIDER_COLOR, slider_color);
+  }
+
+  public Boolean getReadOut() {
+    return readOut;
+  }
+
+  public void setReadOut(Boolean readOut) {
+    this.readOut = readOut;
+    sendUpdate(READOUT, readOut);
+  }
+
+  public Boolean getContinuous_update() {
+    return continuous_update;
+  }
+
+  public void setContinuous_update(Boolean continuous_update) {
+    this.continuous_update = continuous_update;
+    sendUpdate(CONTINUOUS_UPDATE, continuous_update);
+  }
+
+  public Integer getMsg_throttle() {
+    return msg_throttle;
+  }
+
+  public void setMsg_throttle(Integer msg_throttle) {
+    this.msg_throttle = msg_throttle;
+    sendUpdate(MSG_THROTTLE, msg_throttle);
+  }
+
   private void openComm(final Comm comm) throws NoSuchAlgorithmException {
     comm.setData(content());
     addValueChangeMsgCallback(comm);
@@ -164,26 +208,26 @@ public class IntSlider extends Widget {
     content.put("_model_name", _model_name);
     content.put("_view_module", _view_module);
     content.put("_view_name", _view_name);
-    content.put("_range", false);
     content.put("layout", "IPY_MODEL_" + layout.getComm().getCommId());
-    content.put("background_color", null);
-    content.put("continuous_update", true);
+    content.put(CONTINUOUS_UPDATE, this.continuous_update);
     content.put(DESCRIPTION, this.description);
     content.put(DISABLED, this.disabled);
+    content.put(MAX, this.max);
+    content.put(MIN, this.min);
+    content.put(ORIENTATION, orientation);
+    content.put(READOUT, this.readOut);
+    content.put(SLIDER_COLOR, this.slider_color);
+    content.put(STEP, 1);
+    content.put(VALUE, this.value);
+    content.put(VISIBLE, this.visible);
+    content.put(MSG_THROTTLE, this.msg_throttle);
+    content.put("_range", false);
+    content.put("background_color", null);
     content.put("font_family", "");
     content.put("font_size", "");
     content.put("font_style", "");
     content.put("font_weight", "");
-    content.put(MAX, this.max);
-    content.put(MIN, this.min);
-    content.put("msg_throttle", 3);
-    content.put(ORIENTATION, orientation);
-    content.put("readout", true);
     content.put("readout_format", "d");
-    content.put("slider_color", null);
-    content.put(STEP, 1);
-    content.put(VALUE, value);
-    content.put(VISIBLE, this.visible);
     return content;
   }
 
