@@ -279,8 +279,8 @@ public class BasicObjectSerializer implements BeakerObjectConverter {
         // convert this 'on the fly' to a datatable
         @SuppressWarnings("unchecked")
         Collection<Map<?, ?>> co = (Collection<Map<?, ?>>) obj;
-        TableDisplay t = new TableDisplay(co, parent);
-        jgen.writeObject(t);
+        //TableDisplay t = new TableDisplay(co, parent);
+        //jgen.writeObject(t);
         return true;
       } catch(Exception e) {
         return false;
