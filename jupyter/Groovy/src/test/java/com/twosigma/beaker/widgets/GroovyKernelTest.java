@@ -13,21 +13,28 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package com.twosigma.beaker.widgets;
 
-package com.twosigma.beaker.jupyter;
-
+import com.twosigma.beaker.jupyter.Comm;
 import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
+import org.lappsgrid.jupyter.groovy.msg.Message;
 
-public class GroovyKernelManager {
+import java.security.NoSuchAlgorithmException;
 
-  private static GroovyKernelFunctionality groovyKernelInst;
+public class GroovyKernelTest implements GroovyKernelFunctionality {
 
-  public static void register(GroovyKernelFunctionality groovyKernel) {
-    groovyKernelInst = groovyKernel;
+  @Override
+  public void publish(Message message) throws NoSuchAlgorithmException {
+
   }
 
-  public static GroovyKernelFunctionality get() {
-    return groovyKernelInst;
+  @Override
+  public void addComm(String commId, Comm comm) {
+
   }
 
+  @Override
+  public void removeComm(String commId) {
+
+  }
 }

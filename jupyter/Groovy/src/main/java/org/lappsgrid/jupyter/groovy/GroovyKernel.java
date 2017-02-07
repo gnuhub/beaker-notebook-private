@@ -49,7 +49,7 @@ import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
  *
  * @author Keith Suderman
  */
-public class GroovyKernel {
+public class GroovyKernel implements GroovyKernelFunctionality{
 
   private static final Logger logger = LoggerFactory.getLogger(GroovyKernel.class);
 

@@ -13,21 +13,32 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package com.twosigma.beaker.widgets;
 
-package com.twosigma.beaker.jupyter;
+import com.twosigma.beaker.jupyter.GroovyKernelManager;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
+public class IntSliderTest {
 
-public class GroovyKernelManager {
-
-  private static GroovyKernelFunctionality groovyKernelInst;
-
-  public static void register(GroovyKernelFunctionality groovyKernel) {
-    groovyKernelInst = groovyKernel;
+  @Before
+  public void setUp() throws Exception {
+    GroovyKernelManager.register(new GroovyKernelTest());
   }
 
-  public static GroovyKernelFunctionality get() {
-    return groovyKernelInst;
+  @After
+  public void tearDown() throws Exception {
+    GroovyKernelManager.register(null);
   }
 
+  @Test
+  public void shouldSendCommOpenMsgWhenCreate() throws Exception {
+    //given
+
+    //when
+    new IntSlider();
+    //then
+
+  }
 }
