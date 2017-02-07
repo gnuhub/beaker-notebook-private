@@ -34,11 +34,14 @@ public abstract class Widget {
   public static final String UPDATE = "update";
   public static final String STATE = "state";
 
+  public static final String VALUE = "value";
   public static final String DISABLED = "disabled";
   public static final String VISIBLE = "visible";
+  public static final String DESCRIPTION = "description";
 
   private Boolean disabled = false;
   private Boolean visible = true;
+  private String description = "";
 
   public abstract Comm getComm();
 
@@ -72,6 +75,15 @@ public abstract class Widget {
   public void setVisible(Boolean visible) {
     this.visible = visible;
     sendUpdate(VISIBLE, visible);
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    sendUpdate(DESCRIPTION, description);
+    this.description = description;
   }
 
 }

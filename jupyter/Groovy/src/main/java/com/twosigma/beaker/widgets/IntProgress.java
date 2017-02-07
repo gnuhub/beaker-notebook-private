@@ -31,12 +31,10 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
 public class IntProgress extends Widget {
 
-  protected static final String VALUE = "value";
   protected static final String STEP = "step";
   protected static final String ORIENTATION = "orientation";
   protected static final String MAX = "max";
   protected static final String MIN = "min";
-  protected static final String DESCRIPTION = "description";
   protected static final String MSG_THROTTLE = "msg_throttle";
 
   private String _view_name = "ProgressView";
@@ -53,7 +51,6 @@ public class IntProgress extends Widget {
   private String orientation = "horizontal";
   private Integer max = 100;
   private Integer min = 0;
-  private String description = "";
 
   public IntProgress() throws NoSuchAlgorithmException {
     comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
@@ -97,7 +94,7 @@ public class IntProgress extends Widget {
     content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
     content.put(VALUE, this.value);
 
-    content.put(DESCRIPTION, this.description);
+    content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());
     content.put(MAX, this.max);
     content.put(MIN, this.min);
@@ -172,12 +169,4 @@ public class IntProgress extends Widget {
     sendUpdate(MIN, min);
   }
 
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-    sendUpdate(DESCRIPTION, description);
-  }
 }
