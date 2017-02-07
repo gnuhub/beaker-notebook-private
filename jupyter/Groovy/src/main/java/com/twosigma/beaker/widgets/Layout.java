@@ -25,6 +25,9 @@ import java.util.HashMap;
 
 public class Layout extends Widget {
 
+  public static final String IPY_MODEL = "IPY_MODEL_";
+  public static final String LAYOUT = "layout";
+
   private String _view_name = "LayoutView";
   private String _model_name = "LayoutModel";
   private String _model_module = "jupyter-js-widgets";

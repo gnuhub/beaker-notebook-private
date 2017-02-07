@@ -26,6 +26,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.twosigma.beaker.widgets.Layout.IPY_MODEL;
+import static com.twosigma.beaker.widgets.Layout.LAYOUT;
+
 public class IntSlider extends Widget {
 
   protected static final String VALUE = "value";
@@ -102,7 +105,7 @@ public class IntSlider extends Widget {
     content.put("_model_name", _model_name);
     content.put("_view_module", _view_module);
     content.put("_view_name", _view_name);
-    content.put("layout", "IPY_MODEL_" + layout.getComm().getCommId());
+    content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
     content.put(CONTINUOUS_UPDATE, this.continuous_update);
     content.put(DESCRIPTION, this.description);
     content.put(DISABLED, this.disabled);
