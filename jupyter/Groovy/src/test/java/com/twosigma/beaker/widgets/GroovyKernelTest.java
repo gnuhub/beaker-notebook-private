@@ -20,12 +20,16 @@ import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroovyKernelTest implements GroovyKernelFunctionality {
 
+  private List<Message> messages = new ArrayList<>();
+
   @Override
   public void publish(Message message) throws NoSuchAlgorithmException {
-
+    this.messages.add(message);
   }
 
   @Override
@@ -36,5 +40,17 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   @Override
   public void removeComm(String commId) {
 
+  }
+
+  @Override
+  public Message getParentMessage() {
+    return null;
+  }
+
+  public List<Message> getMessages() {
+    return messages;
+  }
+  public void clearMessages(){
+    this.messages = new ArrayList<>();
   }
 }

@@ -34,12 +34,10 @@ import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.twosigma.beaker.groovy.NamespaceClient;
-
 public class Comm {
-  
+
   private static final Logger logger = LoggerFactory.getLogger(GroovyKernel.class);
-  
+
   public static final String COMM_ID = "comm_id";
   public static final String TARGET_NAME = "target_name";
   public static final String DATA = "data";
@@ -48,12 +46,12 @@ public class Comm {
 
   private String commId;
   private String targetName;
-  private HashMap<?,?> data;
+  private HashMap<?, ?> data;
   private String targetModule;
   private GroovyKernelFunctionality kernel;
   private List<IHandler<Message>> msgCallbackList = new ArrayList<>();
-  private List<IHandler<Message>> closeCallbackList  = new ArrayList<>(); 
-  
+  private List<IHandler<Message>> closeCallbackList = new ArrayList<>();
+
   public Comm(String commId, String targetName) {
     super();
     this.kernel = GroovyKernelManager.get();
@@ -61,19 +59,19 @@ public class Comm {
     this.targetName = targetName;
     this.data = new HashMap<>();
   }
-  
+
   public Comm(String commId, CommNamesEnum targetName) {
     this(commId, targetName.getTargetName());
   }
-  
+
   public Comm(CommNamesEnum targetName) {
     this(Utils.uuid(), targetName.getTargetName());
   }
-  
+
   public Comm(String targetName) {
     this(Utils.uuid(), targetName);
   }
-  
+
   public String getCommId() {
     return commId;
   }
@@ -82,11 +80,11 @@ public class Comm {
     return targetName;
   }
 
-  public HashMap<?,?> getData() {
+  public HashMap<?, ?> getData() {
     return data;
   }
 
-  public void setData(HashMap<?,?> data) {
+  public void setData(HashMap<?, ?> data) {
     this.data = data;
   }
 
@@ -97,15 +95,15 @@ public class Comm {
   public void setTargetModule(String targetModule) {
     this.targetModule = targetModule;
   }
-  
+
   public List<IHandler<Message>> getMsgCallbackList() {
     return msgCallbackList;
   }
 
-  public void addMsgCallbackList(IHandler<Message> ... handlers) {
+  public void addMsgCallbackList(IHandler<Message>... handlers) {
     this.msgCallbackList.addAll(Arrays.asList(handlers));
   }
-  
+
   public void clearMsgCallbackList() {
     this.msgCallbackList = new ArrayList<>();
   }
@@ -114,20 +112,20 @@ public class Comm {
     return closeCallbackList;
   }
 
-  public void addCloseCallbackList(IHandler<Message> ... handlers) {
+  public void addCloseCallbackList(IHandler<Message>... handlers) {
     this.closeCallbackList.addAll(Arrays.asList(handlers));
   }
-  
+
   public void clearCloseCallbackList() {
     this.closeCallbackList = new ArrayList<>();
   }
-  
-  public void open() throws NoSuchAlgorithmException{
+
+  public void open() throws NoSuchAlgorithmException {
     Message parentMessage = getParentMessage();// can be null
     Message message = new Message();
     message.setHeader(new Header(COMM_OPEN, parentMessage != null ? parentMessage.getHeader().getSession() : null));
-    if(parentMessage != null){
-      message.setParentHeader(getParentMessage().getHeader()); 
+    if (parentMessage != null) {
+      message.setParentHeader(getParentMessage().getHeader());
     }
     HashMap<String, Serializable> map = new HashMap<>();
     map.put(COMM_ID, getCommId());
@@ -138,18 +136,18 @@ public class Comm {
     kernel.publish(message);
     kernel.addComm(getCommId(), this);
   }
-  
-  public void close() throws NoSuchAlgorithmException{
+
+  public void close() throws NoSuchAlgorithmException {
     Message parentMessage = getParentMessage();// can be null
-    
-    if(this.getCloseCallbackList() != null && !this.getMsgCallbackList().isEmpty()){
+
+    if (this.getCloseCallbackList() != null && !this.getMsgCallbackList().isEmpty()) {
       for (IHandler<Message> handler : getMsgCallbackList()) {
         handler.handle(parentMessage);
       }
     }
     Message message = new Message();
     message.setHeader(new Header(COMM_CLOSE, parentMessage != null ? parentMessage.getHeader().getSession() : null));
-    if(parentMessage != null){
+    if (parentMessage != null) {
       message.setParentHeader(parentMessage.getHeader());
     }
     HashMap<String, Serializable> map = new HashMap<>();
@@ -158,13 +156,13 @@ public class Comm {
     kernel.removeComm(getCommId());
     kernel.publish(message);
   }
-  
-  public void send() throws NoSuchAlgorithmException{
+
+  public void send() throws NoSuchAlgorithmException {
     Message parentMessage = getParentMessage();// can be null
     Message message = new Message();
     message.setHeader(new Header(COMM_MSG, parentMessage != null ? parentMessage.getHeader().getSession() : null));
-    if(parentMessage != null){
-      message.setParentHeader(getParentMessage().getHeader()); 
+    if (parentMessage != null) {
+      message.setParentHeader(getParentMessage().getHeader());
     }
     HashMap<String, Serializable> map = new HashMap<>(6);
     map.put(COMM_ID, getCommId());
@@ -172,22 +170,22 @@ public class Comm {
     message.setContent(map);
     kernel.publish(message);
   }
-  
-  protected Message getParentMessage(){
-    return NamespaceClient.getBeaker().getOutputObj() != null ? NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
+
+  protected Message getParentMessage() {
+    return this.kernel.getParentMessage();
   }
-  
-  public void handleMsg(Message parentMessage) throws NoSuchAlgorithmException{
-    if(this.getMsgCallbackList() != null && !this.getMsgCallbackList().isEmpty()){
+
+  public void handleMsg(Message parentMessage) throws NoSuchAlgorithmException {
+    if (this.getMsgCallbackList() != null && !this.getMsgCallbackList().isEmpty()) {
       for (IHandler<Message> handler : getMsgCallbackList()) {
         handler.handle(parentMessage);
       }
     }
   }
-  
+
   @Override
   public String toString() {
-    return commId + "/" + targetName + "/" + (targetModule != null && !targetModule.isEmpty()? targetModule : "");
+    return commId + "/" + targetName + "/" + (targetModule != null && !targetModule.isEmpty() ? targetModule : "");
   }
 
 }

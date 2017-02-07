@@ -32,10 +32,8 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 public class Dropdown extends Widget {
 
   protected static final String VALUE = "value";
-  protected static final String VISIBLE = "visible";
   protected static final String DESCRIPTION = "description";
   protected static final String MSG_THROTTLE = "msg_throttle";
-  protected static final String DISABLED = "disabled";
   public static final String OPTIONS_LABELS = "_options_labels";
 
   private final String _view_name = "DropdownView";
@@ -47,10 +45,8 @@ public class Dropdown extends Widget {
   private Layout layout;
   private String value = "";
 
-  private Boolean disabled = false;
   private String description = "";
   private Integer msg_throttle = 3;
-  private Boolean visible = true;
   private String[] options = new String[0];
 
   public Dropdown() throws NoSuchAlgorithmException {
@@ -96,8 +92,8 @@ public class Dropdown extends Widget {
     content.put(VALUE, this.value);
 
     content.put(DESCRIPTION, this.description);
-    content.put(DISABLED, this.disabled);
-    content.put(VISIBLE, this.visible);
+    content.put(DISABLED, this.getDisabled());
+    content.put(VISIBLE, this.getVisible());
     content.put(MSG_THROTTLE, this.msg_throttle);
 
     content.put("background_color", null);
@@ -122,15 +118,6 @@ public class Dropdown extends Widget {
     sendUpdate(VALUE, value);
   }
 
-  public Boolean getDisabled() {
-    return disabled;
-  }
-
-  public void setDisabled(Boolean disabled) {
-    this.disabled = disabled;
-    sendUpdate(DISABLED, disabled);
-  }
-
   public String getDescription() {
     return description;
   }
@@ -147,15 +134,6 @@ public class Dropdown extends Widget {
   public void setMsg_throttle(Integer msg_throttle) {
     this.msg_throttle = msg_throttle;
     sendUpdate(MSG_THROTTLE, msg_throttle);
-  }
-
-  public Boolean getVisible() {
-    return visible;
-  }
-
-  public void setVisible(Boolean visible) {
-    this.visible = visible;
-    sendUpdate(VISIBLE, visible);
   }
 
   public String[] getOptions() {

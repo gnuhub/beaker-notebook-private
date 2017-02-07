@@ -31,35 +31,29 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
 public class IntSlider extends Widget {
 
+  public static final String VIEW_NAME_VALUE = "IntSliderView";
+  public static final String MODEL_NAME_VALUE = "IntSliderModel";
+
   protected static final String VALUE = "value";
-  protected static final String DISABLED = "disabled";
   protected static final String STEP = "step";
   protected static final String ORIENTATION = "orientation";
   protected static final String MAX = "max";
   protected static final String MIN = "min";
-  protected static final String VISIBLE = "visible";
   protected static final String DESCRIPTION = "description";
   protected static final String SLIDER_COLOR = "slider_color";
   protected static final String READOUT = "readout";
   protected static final String CONTINUOUS_UPDATE = "continuous_update";
   protected static final String MSG_THROTTLE = "msg_throttle";
 
-  private String _view_name = "IntSliderView";
-  private String _model_name = "IntSliderModel";
-  private String _model_module = "jupyter-js-widgets";
-  private String _view_module = "jupyter-js-widgets";
-
   private Comm comm;
   private Layout layout;
   private Integer value = 0;
 
   private Integer msg_throttle = 3;
-  private Boolean visible = true;
   private Integer step = 1;
   private String orientation = "horizontal";
   private Integer max = 100;
   private Integer min = 0;
-  private Boolean disabled = false;
   private String description = "";
 
   private String slider_color;
@@ -101,14 +95,14 @@ public class IntSlider extends Widget {
 
   private HashMap<String, Serializable> content() {
     HashMap<String, Serializable> content = new HashMap<>();
-    content.put("_model_module", _model_module);
-    content.put("_model_name", _model_name);
-    content.put("_view_module", _view_module);
-    content.put("_view_name", _view_name);
+    content.put(MODEL_MODULE, MODEL_MODULE_VALUE);
+    content.put(MODEL_NAME, MODEL_NAME_VALUE);
+    content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
+    content.put(VIEW_NAME, VIEW_NAME_VALUE);
     content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
     content.put(CONTINUOUS_UPDATE, this.continuous_update);
     content.put(DESCRIPTION, this.description);
-    content.put(DISABLED, this.disabled);
+    content.put(DISABLED, this.getDisabled());
     content.put(MAX, this.max);
     content.put(MIN, this.min);
     content.put(ORIENTATION, orientation);
@@ -116,7 +110,7 @@ public class IntSlider extends Widget {
     content.put(SLIDER_COLOR, this.slider_color);
     content.put(STEP, this.step);
     content.put(VALUE, this.value);
-    content.put(VISIBLE, this.visible);
+    content.put(VISIBLE, this.getVisible());
     content.put(MSG_THROTTLE, this.msg_throttle);
     content.put("_range", false);
     content.put("background_color", null);
@@ -135,15 +129,6 @@ public class IntSlider extends Widget {
   public void setValue(int value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public boolean isDisabled() {
-    return disabled;
-  }
-
-  public void setDisabled(boolean disabled) {
-    this.disabled = disabled;
-    sendUpdate(DISABLED, disabled);
   }
 
   public Integer getStep() {
@@ -180,15 +165,6 @@ public class IntSlider extends Widget {
   public void setMin(Integer min) {
     this.min = min;
     sendUpdate(MIN, min);
-  }
-
-  public Boolean getVisible() {
-    return visible;
-  }
-
-  public void setVisible(Boolean visible) {
-    this.visible = visible;
-    sendUpdate(VISIBLE, visible);
   }
 
   public String getDescription() {
