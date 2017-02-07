@@ -23,10 +23,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
+import com.twosigma.beaker.jvm.serialization.BasicObjectSerializer;
+import com.twosigma.beaker.jvm.serialization.BeakerObjectConverter;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.ObjectMapper;
+
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
 
@@ -91,8 +95,9 @@ public class NamespaceClient {
   
   protected String getJson(Object value) throws IOException{
     StringWriter sw = new StringWriter();
-    JsonGenerator jgen = objectMapper.getJsonFactory().createJsonGenerator(sw);
+    JsonGenerator jgen = objectMapper.getFactory().createGenerator(sw);
     objectSerializer.writeObject(value, jgen, true);
+    jgen.flush();
     sw.flush();
     return sw.toString();
   }
