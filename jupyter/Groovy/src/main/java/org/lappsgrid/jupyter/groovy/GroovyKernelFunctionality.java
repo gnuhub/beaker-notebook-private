@@ -27,4 +27,6 @@ public interface GroovyKernelFunctionality {
   void addComm(String commId, Comm comm);
 
   void removeComm(String commId);
+
+  Message getParentMessage();
 }

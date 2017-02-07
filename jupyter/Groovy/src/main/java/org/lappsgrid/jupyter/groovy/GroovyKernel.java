@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.twosigma.beaker.groovy.NamespaceClient;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.handler.CompleteHandler;
 import org.lappsgrid.jupyter.groovy.handler.HistoryHandler;
@@ -356,4 +357,9 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   public ExecutionResultSender getExecutionResultSender() {
     return executionResultSender;
   }
+
+  public Message getParentMessage(){
+    return NamespaceClient.getBeaker().getOutputObj() != null ? NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
+  }
+
 }

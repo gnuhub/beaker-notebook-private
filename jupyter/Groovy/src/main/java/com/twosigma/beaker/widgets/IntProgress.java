@@ -32,12 +32,10 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 public class IntProgress extends Widget {
 
   protected static final String VALUE = "value";
-  protected static final String DISABLED = "disabled";
   protected static final String STEP = "step";
   protected static final String ORIENTATION = "orientation";
   protected static final String MAX = "max";
   protected static final String MIN = "min";
-  protected static final String VISIBLE = "visible";
   protected static final String DESCRIPTION = "description";
   protected static final String MSG_THROTTLE = "msg_throttle";
 
@@ -51,12 +49,10 @@ public class IntProgress extends Widget {
   private Integer value = 0;
 
   private Integer msg_throttle = 3;
-  private Boolean visible = true;
   private Integer step = 1;
   private String orientation = "horizontal";
   private Integer max = 100;
   private Integer min = 0;
-  private Boolean disabled = false;
   private String description = "";
 
   public IntProgress() throws NoSuchAlgorithmException {
@@ -102,12 +98,12 @@ public class IntProgress extends Widget {
     content.put(VALUE, this.value);
 
     content.put(DESCRIPTION, this.description);
-    content.put(DISABLED, this.disabled);
+    content.put(DISABLED, this.getDisabled());
     content.put(MAX, this.max);
     content.put(MIN, this.min);
     content.put(ORIENTATION, orientation);
     content.put(STEP, this.step);
-    content.put(VISIBLE, this.visible);
+    content.put(VISIBLE, this.getVisible());
     content.put(MSG_THROTTLE, this.msg_throttle);
 
     content.put("background_color", null);
@@ -138,15 +134,6 @@ public class IntProgress extends Widget {
   public void setMsg_throttle(Integer msg_throttle) {
     this.msg_throttle = msg_throttle;
     sendUpdate(MSG_THROTTLE, msg_throttle);
-  }
-
-  public Boolean getVisible() {
-    return visible;
-  }
-
-  public void setVisible(Boolean visible) {
-    this.visible = visible;
-    sendUpdate(VISIBLE, visible);
   }
 
   public Integer getStep() {
@@ -183,15 +170,6 @@ public class IntProgress extends Widget {
   public void setMin(Integer min) {
     this.min = min;
     sendUpdate(MIN, min);
-  }
-
-  public Boolean getDisabled() {
-    return disabled;
-  }
-
-  public void setDisabled(Boolean disabled) {
-    this.disabled = disabled;
-    sendUpdate(DISABLED, disabled);
   }
 
   public String getDescription() {

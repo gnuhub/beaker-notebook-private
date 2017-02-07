@@ -23,14 +23,31 @@ import java.util.HashMap;
 
 public abstract class Widget {
 
+  public static final String MODEL_MODULE = "_model_module";
+  public static final String MODEL_NAME = "_model_name";
+  public static final String VIEW_MODULE = "_view_module";
+  public static final String VIEW_NAME = "_view_name";
+
+  public static final String MODEL_MODULE_VALUE = "jupyter-js-widgets";
+  public static final String VIEW_MODULE_VALUE = "jupyter-js-widgets";
+  public static final String METHOD = "method";
+  public static final String UPDATE = "update";
+  public static final String STATE = "state";
+
+  public static final String DISABLED = "disabled";
+  public static final String VISIBLE = "visible";
+
+  private Boolean disabled = false;
+  private Boolean visible = true;
+
   public abstract Comm getComm();
 
   public void sendUpdate(String propertyName, Object value) {
     HashMap<String, Serializable> content = new HashMap<>();
-    content.put("method", "update");
+    content.put(METHOD, UPDATE);
     HashMap<Object, Object> state = new HashMap<>();
     state.put(propertyName, value);
-    content.put("state", state);
+    content.put(STATE, state);
     getComm().setData(content);
     try {
       getComm().send();
@@ -38,4 +55,23 @@ public abstract class Widget {
       throw new RuntimeException(e);
     }
   }
+
+  public Boolean getDisabled() {
+    return disabled;
+  }
+
+  public void setDisabled(Boolean disabled) {
+    this.disabled = disabled;
+    sendUpdate(DISABLED, disabled);
+  }
+
+  public Boolean getVisible() {
+    return visible;
+  }
+
+  public void setVisible(Boolean visible) {
+    this.visible = visible;
+    sendUpdate(VISIBLE, visible);
+  }
+
 }
