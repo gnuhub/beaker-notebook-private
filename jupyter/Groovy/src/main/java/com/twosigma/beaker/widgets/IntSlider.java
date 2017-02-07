@@ -18,38 +18,28 @@ package com.twosigma.beaker.widgets;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
 import com.twosigma.beaker.jupyter.Utils;
-import org.lappsgrid.jupyter.groovy.handler.IHandler;
-import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.Map;
 
 import static com.twosigma.beaker.widgets.Layout.IPY_MODEL;
 import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
-public class IntSlider extends Widget {
+public class IntSlider extends BoundedIntWidget {
 
   public static final String VIEW_NAME_VALUE = "IntSliderView";
   public static final String MODEL_NAME_VALUE = "IntSliderModel";
 
-  protected static final String STEP = "step";
   protected static final String ORIENTATION = "orientation";
-  protected static final String MAX = "max";
-  protected static final String MIN = "min";
   protected static final String SLIDER_COLOR = "slider_color";
   protected static final String READOUT = "readout";
   protected static final String CONTINUOUS_UPDATE = "continuous_update";
 
   private Comm comm;
   private Layout layout;
-  private Integer value = 0;
 
-  private Integer step = 1;
   private String orientation = "horizontal";
-  private Integer max = 100;
-  private Integer min = 0;
 
   private String slider_color;
   private Boolean readOut = true;
@@ -72,21 +62,6 @@ public class IntSlider extends Widget {
     comm.open();
   }
 
-  private void addValueChangeMsgCallback(final Comm comm) {
-    comm.addMsgCallbackList(new IHandler<Message>() {
-      @Override
-      public void handle(Message message) throws NoSuchAlgorithmException {
-        Map data = (Map) message.getContent().get("data");
-        Map sync_data = (Map) data.get("sync_data");
-        int value = (int) sync_data.get(VALUE);
-        updateValue(value);
-      }
-    });
-  }
-
-  private void updateValue(int value) {
-    this.value = value;
-  }
 
   private HashMap<String, Serializable> content() {
     HashMap<String, Serializable> content = new HashMap<>();
@@ -98,13 +73,13 @@ public class IntSlider extends Widget {
     content.put(CONTINUOUS_UPDATE, this.continuous_update);
     content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());
-    content.put(MAX, this.max);
-    content.put(MIN, this.min);
+    content.put(MAX, this.getMax());
+    content.put(MIN, this.getMin());
     content.put(ORIENTATION, orientation);
     content.put(READOUT, this.readOut);
     content.put(SLIDER_COLOR, this.slider_color);
-    content.put(STEP, this.step);
-    content.put(VALUE, this.value);
+    content.put(STEP, this.getStep());
+    content.put(VALUE, this.getValue());
     content.put(VISIBLE, this.getVisible());
     content.put(MSG_THROTTLE, this.getMsg_throttle());
     content.put("_range", false);
@@ -117,24 +92,6 @@ public class IntSlider extends Widget {
     return content;
   }
 
-  public int getValue() {
-    return value;
-  }
-
-  public void setValue(int value) {
-    this.value = value;
-    sendUpdate(VALUE, value);
-  }
-
-  public Integer getStep() {
-    return step;
-  }
-
-  public void setStep(Integer step) {
-    this.step = step;
-    sendUpdate(STEP, step);
-  }
-
   public String getOrientation() {
     return orientation;
   }
@@ -142,24 +99,6 @@ public class IntSlider extends Widget {
   public void setOrientation(String orientation) {
     this.orientation = orientation;
     sendUpdate(ORIENTATION, orientation);
-  }
-
-  public Integer getMax() {
-    return max;
-  }
-
-  public void setMax(Integer max) {
-    this.max = max;
-    sendUpdate(MAX, max);
-  }
-
-  public Integer getMin() {
-    return min;
-  }
-
-  public void setMin(Integer min) {
-    this.min = min;
-    sendUpdate(MIN, min);
   }
 
   public String getSlider_color() {
