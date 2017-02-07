@@ -41,13 +41,11 @@ public class IntSlider extends Widget {
   protected static final String SLIDER_COLOR = "slider_color";
   protected static final String READOUT = "readout";
   protected static final String CONTINUOUS_UPDATE = "continuous_update";
-  protected static final String MSG_THROTTLE = "msg_throttle";
 
   private Comm comm;
   private Layout layout;
   private Integer value = 0;
 
-  private Integer msg_throttle = 3;
   private Integer step = 1;
   private String orientation = "horizontal";
   private Integer max = 100;
@@ -108,7 +106,7 @@ public class IntSlider extends Widget {
     content.put(STEP, this.step);
     content.put(VALUE, this.value);
     content.put(VISIBLE, this.getVisible());
-    content.put(MSG_THROTTLE, this.msg_throttle);
+    content.put(MSG_THROTTLE, this.getMsg_throttle());
     content.put("_range", false);
     content.put("background_color", null);
     content.put("font_family", "");
@@ -189,15 +187,6 @@ public class IntSlider extends Widget {
   public void setContinuous_update(Boolean continuous_update) {
     this.continuous_update = continuous_update;
     sendUpdate(CONTINUOUS_UPDATE, continuous_update);
-  }
-
-  public Integer getMsg_throttle() {
-    return msg_throttle;
-  }
-
-  public void setMsg_throttle(Integer msg_throttle) {
-    this.msg_throttle = msg_throttle;
-    sendUpdate(MSG_THROTTLE, msg_throttle);
   }
 
 }

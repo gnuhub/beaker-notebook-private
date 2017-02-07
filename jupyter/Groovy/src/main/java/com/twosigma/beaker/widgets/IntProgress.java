@@ -35,7 +35,6 @@ public class IntProgress extends Widget {
   protected static final String ORIENTATION = "orientation";
   protected static final String MAX = "max";
   protected static final String MIN = "min";
-  protected static final String MSG_THROTTLE = "msg_throttle";
 
   private String _view_name = "ProgressView";
   private String _model_name = "ProgressModel";
@@ -46,7 +45,6 @@ public class IntProgress extends Widget {
   private Layout layout;
   private Integer value = 0;
 
-  private Integer msg_throttle = 3;
   private Integer step = 1;
   private String orientation = "horizontal";
   private Integer max = 100;
@@ -101,7 +99,7 @@ public class IntProgress extends Widget {
     content.put(ORIENTATION, orientation);
     content.put(STEP, this.step);
     content.put(VISIBLE, this.getVisible());
-    content.put(MSG_THROTTLE, this.msg_throttle);
+    content.put(MSG_THROTTLE, this.getMsg_throttle());
 
     content.put("background_color", null);
     content.put("font_family", "");
@@ -122,15 +120,6 @@ public class IntProgress extends Widget {
   public void setValue(Integer value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public Integer getMsg_throttle() {
-    return msg_throttle;
-  }
-
-  public void setMsg_throttle(Integer msg_throttle) {
-    this.msg_throttle = msg_throttle;
-    sendUpdate(MSG_THROTTLE, msg_throttle);
   }
 
   public Integer getStep() {

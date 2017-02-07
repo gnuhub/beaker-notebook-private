@@ -38,10 +38,12 @@ public abstract class Widget {
   public static final String DISABLED = "disabled";
   public static final String VISIBLE = "visible";
   public static final String DESCRIPTION = "description";
+  public static final String MSG_THROTTLE = "msg_throttle";
 
   private Boolean disabled = false;
   private Boolean visible = true;
   private String description = "";
+  private Integer msg_throttle = 3;
 
   public abstract Comm getComm();
 
@@ -84,6 +86,15 @@ public abstract class Widget {
   public void setDescription(String description) {
     sendUpdate(DESCRIPTION, description);
     this.description = description;
+  }
+
+  public Integer getMsg_throttle() {
+    return msg_throttle;
+  }
+
+  public void setMsg_throttle(Integer msg_throttle) {
+    this.msg_throttle = msg_throttle;
+    sendUpdate(MSG_THROTTLE, msg_throttle);
   }
 
 }

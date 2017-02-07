@@ -31,8 +31,6 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
 public class Text extends Widget {
 
-  protected static final String MSG_THROTTLE = "msg_throttle";
-
   private final String _view_name = "TextView";
   private final String _model_name = "TextModel";
   private final String _model_module = "jupyter-js-widgets";
@@ -41,7 +39,6 @@ public class Text extends Widget {
   private Comm comm;
   private Layout layout;
   private String value = "";
-  private Integer msg_throttle = 3;
 
   public Text() throws NoSuchAlgorithmException {
     comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
@@ -88,7 +85,7 @@ public class Text extends Widget {
     content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());
     content.put(VISIBLE, this.getVisible());
-    content.put(MSG_THROTTLE, this.msg_throttle);
+    content.put(MSG_THROTTLE, this.getMsg_throttle());
 
     content.put("background_color", null);
     content.put("font_family", "");
@@ -109,15 +106,6 @@ public class Text extends Widget {
   public void setValue(String value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public Integer getMsg_throttle() {
-    return msg_throttle;
-  }
-
-  public void setMsg_throttle(Integer msg_throttle) {
-    this.msg_throttle = msg_throttle;
-    sendUpdate(MSG_THROTTLE, msg_throttle);
   }
 
 }
