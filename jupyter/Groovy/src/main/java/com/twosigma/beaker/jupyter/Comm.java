@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
+import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
@@ -49,7 +50,7 @@ public class Comm {
   private String targetName;
   private HashMap<?,?> data;
   private String targetModule;
-  private GroovyKernel kernel;
+  private GroovyKernelFunctionality kernel;
   private List<IHandler<Message>> msgCallbackList = new ArrayList<>();
   private List<IHandler<Message>> closeCallbackList  = new ArrayList<>(); 
   
