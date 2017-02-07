@@ -31,8 +31,6 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
 public class Text extends Widget {
 
-  protected static final String VALUE = "value";
-  protected static final String DESCRIPTION = "description";
   protected static final String MSG_THROTTLE = "msg_throttle";
 
   private final String _view_name = "TextView";
@@ -43,7 +41,6 @@ public class Text extends Widget {
   private Comm comm;
   private Layout layout;
   private String value = "";
-  private String description = "";
   private Integer msg_throttle = 3;
 
   public Text() throws NoSuchAlgorithmException {
@@ -88,7 +85,7 @@ public class Text extends Widget {
     content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
     content.put(VALUE, this.value);
 
-    content.put(DESCRIPTION, this.description);
+    content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());
     content.put(VISIBLE, this.getVisible());
     content.put(MSG_THROTTLE, this.msg_throttle);
@@ -112,15 +109,6 @@ public class Text extends Widget {
   public void setValue(String value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-    sendUpdate(DESCRIPTION, description);
   }
 
   public Integer getMsg_throttle() {

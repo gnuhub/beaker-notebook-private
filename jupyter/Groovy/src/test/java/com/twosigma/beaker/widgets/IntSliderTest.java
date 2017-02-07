@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
@@ -59,8 +60,7 @@ public class IntSliderTest {
   @Test
   public void shouldSendCommMsgWhenChangeValue() throws Exception {
     //given
-    IntSlider intSlider = new IntSlider();
-    groovyKernel.clearMessages();
+    IntSlider intSlider = intSlider();
     //when
     intSlider.setValue(11);
     //then
@@ -73,8 +73,7 @@ public class IntSliderTest {
   @Test
   public void shouldSendCommMsgWhenChangeDisable() throws Exception {
     //given
-    IntSlider intSlider = new IntSlider();
-    groovyKernel.clearMessages();
+    IntSlider intSlider = intSlider();
     //when
     intSlider.setDisabled(true);
     //then
@@ -84,11 +83,16 @@ public class IntSliderTest {
     assertThat(((Map) data.get(Widget.STATE)).get(Widget.DISABLED)).isEqualTo(true);
   }
 
+  private IntSlider intSlider() throws NoSuchAlgorithmException {
+    IntSlider intSlider = new IntSlider();
+    groovyKernel.clearMessages();
+    return intSlider;
+  }
+
   @Test
   public void shouldSendCommMsgWhenChangeVisible() throws Exception {
     //given
-    IntSlider intSlider = new IntSlider();
-    groovyKernel.clearMessages();
+    IntSlider intSlider = intSlider();
     //when
     intSlider.setVisible(false);
     //then
@@ -96,6 +100,19 @@ public class IntSliderTest {
     Map data = getData(groovyKernel.getMessages().get(0));
     assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
     assertThat(((Map) data.get(Widget.STATE)).get(Widget.VISIBLE)).isEqualTo(false);
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenChangeDescription() throws Exception {
+    //given
+    IntSlider intSlider = intSlider();
+    //when
+    intSlider.setDescription("Description 2");
+    //then
+    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
+    Map data = getData(groovyKernel.getMessages().get(0));
+    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
+    assertThat(((Map) data.get(Widget.STATE)).get(Widget.DESCRIPTION)).isEqualTo("Description 2");
   }
 
 

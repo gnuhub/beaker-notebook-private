@@ -34,12 +34,10 @@ public class IntSlider extends Widget {
   public static final String VIEW_NAME_VALUE = "IntSliderView";
   public static final String MODEL_NAME_VALUE = "IntSliderModel";
 
-  protected static final String VALUE = "value";
   protected static final String STEP = "step";
   protected static final String ORIENTATION = "orientation";
   protected static final String MAX = "max";
   protected static final String MIN = "min";
-  protected static final String DESCRIPTION = "description";
   protected static final String SLIDER_COLOR = "slider_color";
   protected static final String READOUT = "readout";
   protected static final String CONTINUOUS_UPDATE = "continuous_update";
@@ -54,7 +52,6 @@ public class IntSlider extends Widget {
   private String orientation = "horizontal";
   private Integer max = 100;
   private Integer min = 0;
-  private String description = "";
 
   private String slider_color;
   private Boolean readOut = true;
@@ -101,7 +98,7 @@ public class IntSlider extends Widget {
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
     content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
     content.put(CONTINUOUS_UPDATE, this.continuous_update);
-    content.put(DESCRIPTION, this.description);
+    content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());
     content.put(MAX, this.max);
     content.put(MIN, this.min);
@@ -165,15 +162,6 @@ public class IntSlider extends Widget {
   public void setMin(Integer min) {
     this.min = min;
     sendUpdate(MIN, min);
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    sendUpdate(DESCRIPTION, description);
-    this.description = description;
   }
 
   public String getSlider_color() {

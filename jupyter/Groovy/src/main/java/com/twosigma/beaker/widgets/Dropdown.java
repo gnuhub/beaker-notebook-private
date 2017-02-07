@@ -31,8 +31,6 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
 public class Dropdown extends Widget {
 
-  protected static final String VALUE = "value";
-  protected static final String DESCRIPTION = "description";
   protected static final String MSG_THROTTLE = "msg_throttle";
   public static final String OPTIONS_LABELS = "_options_labels";
 
@@ -45,7 +43,6 @@ public class Dropdown extends Widget {
   private Layout layout;
   private String value = "";
 
-  private String description = "";
   private Integer msg_throttle = 3;
   private String[] options = new String[0];
 
@@ -91,7 +88,7 @@ public class Dropdown extends Widget {
     content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
     content.put(VALUE, this.value);
 
-    content.put(DESCRIPTION, this.description);
+    content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());
     content.put(VISIBLE, this.getVisible());
     content.put(MSG_THROTTLE, this.msg_throttle);
@@ -116,15 +113,6 @@ public class Dropdown extends Widget {
   public void setValue(String value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-    sendUpdate(DESCRIPTION, description);
   }
 
   public Integer getMsg_throttle() {
