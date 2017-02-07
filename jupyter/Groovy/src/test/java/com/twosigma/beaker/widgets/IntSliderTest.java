@@ -115,6 +115,18 @@ public class IntSliderTest {
     assertThat(((Map) data.get(Widget.STATE)).get(Widget.DESCRIPTION)).isEqualTo("Description 2");
   }
 
+  @Test
+  public void shouldSendCommMsgWhenChangeMsg_throttle() throws Exception {
+    //given
+    IntSlider intSlider = intSlider();
+    //when
+    intSlider.setMsg_throttle(12);
+    //then
+    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
+    Map data = getData(groovyKernel.getMessages().get(0));
+    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
+    assertThat(((Map) data.get(Widget.STATE)).get(Widget.MSG_THROTTLE)).isEqualTo(12);
+  }
 
   private void verifyIntSliderOpenCommMsg(Message message, Message layoutMessage) {
     assertThat(message.getHeader().getType()).isEqualTo(COMM_OPEN.getName());

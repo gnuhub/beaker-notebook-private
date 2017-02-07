@@ -31,8 +31,6 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
 public class ToggleButton extends Widget {
 
-  protected static final String MSG_THROTTLE = "msg_throttle";
-
   public static final String TOOLTIP = "tooltip";
 
   private final String _view_name = "ToggleButtonView";
@@ -44,7 +42,6 @@ public class ToggleButton extends Widget {
   private Layout layout;
   private Boolean value = false;
 
-  private Integer msg_throttle = 3;
   private String tooltip = "";
 
   public ToggleButton() throws NoSuchAlgorithmException {
@@ -92,7 +89,7 @@ public class ToggleButton extends Widget {
     content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());
     content.put(VISIBLE, this.getVisible());
-    content.put(MSG_THROTTLE, this.msg_throttle);
+    content.put(MSG_THROTTLE, this.getMsg_throttle());
 
     content.put("background_color", null);
     content.put("font_family", "");
@@ -116,15 +113,6 @@ public class ToggleButton extends Widget {
   public void setValue(Boolean value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public Integer getMsg_throttle() {
-    return msg_throttle;
-  }
-
-  public void setMsg_throttle(Integer msg_throttle) {
-    this.msg_throttle = msg_throttle;
-    sendUpdate(MSG_THROTTLE, msg_throttle);
   }
 
   public String getTooltip() {

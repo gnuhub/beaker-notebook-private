@@ -31,7 +31,6 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
 public class Dropdown extends Widget {
 
-  protected static final String MSG_THROTTLE = "msg_throttle";
   public static final String OPTIONS_LABELS = "_options_labels";
 
   private final String _view_name = "DropdownView";
@@ -43,7 +42,6 @@ public class Dropdown extends Widget {
   private Layout layout;
   private String value = "";
 
-  private Integer msg_throttle = 3;
   private String[] options = new String[0];
 
   public Dropdown() throws NoSuchAlgorithmException {
@@ -91,7 +89,7 @@ public class Dropdown extends Widget {
     content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());
     content.put(VISIBLE, this.getVisible());
-    content.put(MSG_THROTTLE, this.msg_throttle);
+    content.put(MSG_THROTTLE, this.getMsg_throttle());
 
     content.put("background_color", null);
     content.put("font_family", "");
@@ -113,15 +111,6 @@ public class Dropdown extends Widget {
   public void setValue(String value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public Integer getMsg_throttle() {
-    return msg_throttle;
-  }
-
-  public void setMsg_throttle(Integer msg_throttle) {
-    this.msg_throttle = msg_throttle;
-    sendUpdate(MSG_THROTTLE, msg_throttle);
   }
 
   public String[] getOptions() {
