@@ -128,6 +128,46 @@ public class IntSliderTest {
     assertThat(((Map) data.get(Widget.STATE)).get(Widget.MSG_THROTTLE)).isEqualTo(12);
   }
 
+  @Test
+  public void shouldSendCommMsgWhenChangeStep() throws Exception {
+    //given
+    IntSlider intSlider = intSlider();
+    //when
+    intSlider.setStep(12);
+    //then
+    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
+    Map data = getData(groovyKernel.getMessages().get(0));
+    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
+    assertThat(((Map) data.get(Widget.STATE)).get(BoundedIntWidget.STEP)).isEqualTo(12);
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenChangeMax() throws Exception {
+    //given
+    IntSlider intSlider = intSlider();
+    //when
+    intSlider.setMax(122);
+    //then
+    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
+    Map data = getData(groovyKernel.getMessages().get(0));
+    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
+    assertThat(((Map) data.get(Widget.STATE)).get(BoundedIntWidget.MAX)).isEqualTo(122);
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenChangeMin() throws Exception {
+    //given
+    IntSlider intSlider = intSlider();
+    //when
+    intSlider.setMin(10);
+    //then
+    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
+    Map data = getData(groovyKernel.getMessages().get(0));
+    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
+    assertThat(((Map) data.get(Widget.STATE)).get(BoundedIntWidget.MIN)).isEqualTo(10);
+  }
+
+
   private void verifyIntSliderOpenCommMsg(Message message, Message layoutMessage) {
     assertThat(message.getHeader().getType()).isEqualTo(COMM_OPEN.getName());
     Map data = getData(message);
