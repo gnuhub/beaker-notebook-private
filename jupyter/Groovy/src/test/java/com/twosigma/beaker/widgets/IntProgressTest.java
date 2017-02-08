@@ -46,7 +46,7 @@ public class IntProgressTest {
     //when
     new IntProgress();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), IntProgress.MODEL_NAME_VALUE, IntProgress.VIEW_NAME_VALUE, 0);
+    verifyOpenCommMsg(groovyKernel.getMessages(), IntProgress.MODEL_NAME_VALUE, IntProgress.VIEW_NAME_VALUE);
   }
 
   @Test

@@ -46,7 +46,7 @@ public class IntSliderTest {
     //when
     new IntSlider();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), IntSlider.MODEL_NAME_VALUE, IntSlider.VIEW_NAME_VALUE, 0);
+    verifyOpenCommMsg(groovyKernel.getMessages(), IntSlider.MODEL_NAME_VALUE, IntSlider.VIEW_NAME_VALUE);
   }
 
   @Test

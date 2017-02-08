@@ -27,8 +27,6 @@ import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
 public class DropdownTest {
 
-  public static final String EMPTY_VALUE = "";
-
   private GroovyKernelTest groovyKernel;
 
   @Before
@@ -48,7 +46,7 @@ public class DropdownTest {
     //when
     new Dropdown();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), Dropdown.MODEL_NAME_VALUE, Dropdown.VIEW_NAME_VALUE, EMPTY_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), Dropdown.MODEL_NAME_VALUE, Dropdown.VIEW_NAME_VALUE);
   }
 
   @Test

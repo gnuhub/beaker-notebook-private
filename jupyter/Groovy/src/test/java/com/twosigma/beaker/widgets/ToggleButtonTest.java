@@ -25,7 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
-public class TextTest {
+public class ToggleButtonTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -44,23 +44,34 @@ public class TextTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new Text();
+    new ToggleButton();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), Text.MODEL_NAME_VALUE, Text.VIEW_NAME_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), ToggleButton.MODEL_NAME_VALUE, ToggleButton.VIEW_NAME_VALUE);
   }
 
   @Test
   public void shouldSendCommMsgWhenValueChange() throws Exception {
     //given
-    Text text = text();
+    ToggleButton widget = toggleButton();
     //when
-    text.setValue("1");
+    widget.setValue(true);
     //then
-    verifyMsgForProperty(groovyKernel, Text.VALUE, "1");
+    verifyMsgForProperty(groovyKernel, ToggleButton.VALUE, true);
   }
 
-  private Text text() throws NoSuchAlgorithmException {
-    Text widget = new Text();
+  @Test
+  public void shouldSendCommMsgWhenTooltipChange() throws Exception {
+    //given
+    ToggleButton widget = toggleButton();
+    //when
+    widget.setTooltip("Tooltip 2");
+    //then
+    verifyMsgForProperty(groovyKernel, ToggleButton.TOOLTIP, "Tooltip 2");
+  }
+
+
+  private ToggleButton toggleButton() throws NoSuchAlgorithmException {
+    ToggleButton widget = new ToggleButton();
     groovyKernel.clearMessages();
     return widget;
   }
