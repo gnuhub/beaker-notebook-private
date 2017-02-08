@@ -28,6 +28,8 @@ public class Dropdown extends SelectionWidget {
   public static final String MODEL_NAME_VALUE = "DropdownModel";
 
   public Dropdown() throws NoSuchAlgorithmException {
+    super();
+    init();
   }
 
   @Override

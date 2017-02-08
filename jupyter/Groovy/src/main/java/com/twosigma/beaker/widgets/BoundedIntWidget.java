@@ -15,6 +15,8 @@
  */
 package com.twosigma.beaker.widgets;
 
+import java.security.NoSuchAlgorithmException;
+
 public abstract class BoundedIntWidget extends IntWidget {
 
   public static final String STEP = "step";
@@ -24,6 +26,10 @@ public abstract class BoundedIntWidget extends IntWidget {
   private Integer step = 1;
   private Integer max = 100;
   private Integer min = 0;
+
+  public BoundedIntWidget() throws NoSuchAlgorithmException {
+    super();
+  }
 
   public Integer getStep() {
     return step;

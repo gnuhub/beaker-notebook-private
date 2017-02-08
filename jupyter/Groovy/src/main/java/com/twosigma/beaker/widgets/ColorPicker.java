@@ -16,8 +16,6 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.jupyter.CommNamesEnum;
-import com.twosigma.beaker.jupyter.Utils;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
@@ -29,31 +27,21 @@ import java.util.Map;
 import static com.twosigma.beaker.widgets.Layout.IPY_MODEL;
 import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
-public class ColorPicker extends Widget {
+public class ColorPicker extends DOMWidget {
 
   public static final String VIEW_NAME_VALUE = "ColorPickerView";
   public static final String MODEL_NAME_VALUE = "ColorPickerModel";
   public static final String CONCISE = "concise";
 
-  private Comm comm;
-  private Layout layout;
-
   private String value = "";
   private Boolean concise = false;
 
   public ColorPicker() throws NoSuchAlgorithmException {
-    this.comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
-    this.layout = new Layout();
-    openComm(comm);
+    super();
+    init();
   }
 
-  private void openComm(final Comm comm) throws NoSuchAlgorithmException {
-    comm.setData(content());
-    addValueChangeMsgCallback(comm);
-    comm.open();
-  }
-
-
+  @Override
   protected void addValueChangeMsgCallback(final Comm comm) {
     comm.addMsgCallbackList(new IHandler<Message>() {
       @Override
@@ -71,18 +59,13 @@ public class ColorPicker extends Widget {
   }
 
   @Override
-  public Comm getComm() {
-    return this.comm;
-  }
-
-  @Override
   protected HashMap<String, Serializable> content() {
     HashMap<String, Serializable> content = new HashMap<>();
     content.put(MODEL_MODULE, MODEL_MODULE_VALUE);
     content.put(MODEL_NAME, MODEL_NAME_VALUE);
     content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put(LAYOUT, IPY_MODEL + this.layout.getComm().getCommId());
+    content.put(LAYOUT, IPY_MODEL + this.getLayout().getComm().getCommId());
     content.put(VALUE, this.getValue());
 
     content.put(DESCRIPTION, this.getDescription());

@@ -28,6 +28,8 @@ public class Text extends StringWidget {
   public static final String MODEL_NAME_VALUE = "TextModel";
 
   public Text() throws NoSuchAlgorithmException {
+    super();
+    init();
   }
 
   @Override

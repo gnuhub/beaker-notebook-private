@@ -22,9 +22,13 @@ import org.lappsgrid.jupyter.groovy.msg.Message;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-public abstract  class IntWidget extends Widget {
+public abstract class IntWidget extends DOMWidget {
 
   private Integer value = 0;
+
+  public IntWidget() throws NoSuchAlgorithmException {
+    super();
+  }
 
   protected void addValueChangeMsgCallback(final Comm comm) {
     comm.addMsgCallbackList(new IHandler<Message>() {
@@ -43,7 +47,7 @@ public abstract  class IntWidget extends Widget {
   }
 
   public int getValue() {
-    return value;
+    return this.value;
   }
 
   public void setValue(int value) {

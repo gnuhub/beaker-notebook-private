@@ -28,6 +28,8 @@ public class Textarea extends StringWidget {
   public static final String MODEL_NAME_VALUE = "TextareaModel";
 
   public Textarea() throws NoSuchAlgorithmException {
+    super();
+    init();
   }
 
   @Override

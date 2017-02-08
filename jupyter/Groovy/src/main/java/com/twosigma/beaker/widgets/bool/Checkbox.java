@@ -28,6 +28,8 @@ public class Checkbox extends BoolWidget {
   public static String MODEL_NAME_VALUE = "CheckboxModel";
 
   public Checkbox() throws NoSuchAlgorithmException {
+    super();
+    init();
   }
 
   @Override

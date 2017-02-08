@@ -15,10 +15,6 @@
  */
 package com.twosigma.beaker.widgets;
 
-import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.jupyter.CommNamesEnum;
-import com.twosigma.beaker.jupyter.Utils;
-
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -36,29 +32,14 @@ public class IntSlider extends BoundedIntWidget {
   protected static final String READOUT = "readout";
   protected static final String CONTINUOUS_UPDATE = "continuous_update";
 
-  private Comm comm;
-  private Layout layout;
-
   private String orientation = "horizontal";
   private String slider_color;
   private Boolean readOut = true;
   private Boolean continuous_update = true;
 
   public IntSlider() throws NoSuchAlgorithmException {
-    comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
-    layout = new Layout();
-    openComm(comm);
-  }
-
-  @Override
-  public Comm getComm() {
-    return comm;
-  }
-
-  private void openComm(final Comm comm) throws NoSuchAlgorithmException {
-    comm.setData(content());
-    addValueChangeMsgCallback(comm);
-    comm.open();
+    super();
+    init();
   }
 
   @Override
@@ -68,7 +49,7 @@ public class IntSlider extends BoundedIntWidget {
     content.put(MODEL_NAME, MODEL_NAME_VALUE);
     content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
+    content.put(LAYOUT, IPY_MODEL + this.getLayout().getComm().getCommId());
     content.put(CONTINUOUS_UPDATE, this.continuous_update);
     content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());

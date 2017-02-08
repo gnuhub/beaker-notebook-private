@@ -33,21 +33,13 @@ public class Layout extends Widget {
   private String _model_module = "jupyter-js-widgets";
   private String _view_module = "jupyter-js-widgets";
 
-  private Comm comm;
-
   public Layout() throws NoSuchAlgorithmException {
-    comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
-    openComm(comm);
-  }
-
-  private void openComm(final Comm comm) throws NoSuchAlgorithmException {
-    comm.setData(content());
-    comm.open();
+    super();
+    init();
   }
 
   @Override
-  public Comm getComm() {
-    return this.comm;
+  protected void addValueChangeMsgCallback(Comm comm) {
   }
 
   @Override

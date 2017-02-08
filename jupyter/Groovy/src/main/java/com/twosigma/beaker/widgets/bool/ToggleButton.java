@@ -31,6 +31,8 @@ public class ToggleButton extends BoolWidget {
   private String tooltip = "";
 
   public ToggleButton() throws NoSuchAlgorithmException {
+    super();
+    init();
   }
 
   @Override

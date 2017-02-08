@@ -18,6 +18,7 @@ package com.twosigma.beaker.widgets.selection;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
 import com.twosigma.beaker.jupyter.Utils;
+import com.twosigma.beaker.widgets.DOMWidget;
 import com.twosigma.beaker.widgets.Layout;
 import com.twosigma.beaker.widgets.Widget;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
@@ -26,29 +27,18 @@ import org.lappsgrid.jupyter.groovy.msg.Message;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-public abstract class SelectionWidget extends Widget {
+public abstract class SelectionWidget extends DOMWidget {
 
   public static final String OPTIONS_LABELS = "_options_labels";
-
-  private Comm comm;
-  private Layout layout;
 
   private String value = "";
   private String[] options = new String[0];
 
   public SelectionWidget() throws NoSuchAlgorithmException {
-    comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
-    layout = new Layout();
-    openComm(comm);
   }
 
-  private void openComm(final Comm comm) throws NoSuchAlgorithmException {
-    comm.setData(content());
-    addValueChangeMsgCallback(comm);
-    comm.open();
-  }
-
-  protected void addValueChangeMsgCallback(final Comm comm) {
+  @Override
+  protected void addValueChangeMsgCallback(Comm comm) {
     comm.addMsgCallbackList(new IHandler<Message>() {
       @Override
       public void handle(Message message) throws NoSuchAlgorithmException {
@@ -62,11 +52,6 @@ public abstract class SelectionWidget extends Widget {
 
   private void updateValue(String value) {
     this.value = value;
-  }
-
-  @Override
-  public Comm getComm() {
-    return this.comm;
   }
 
   public String getValue() {
@@ -85,9 +70,5 @@ public abstract class SelectionWidget extends Widget {
   public void setOptions(String[] options) {
     this.options = options;
     sendUpdate(OPTIONS_LABELS, options);
-  }
-
-  public Layout getLayout() {
-    return layout;
   }
 }

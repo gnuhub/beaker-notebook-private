@@ -15,10 +15,6 @@
  */
 package com.twosigma.beaker.widgets;
 
-import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.jupyter.CommNamesEnum;
-import com.twosigma.beaker.jupyter.Utils;
-
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -32,26 +28,11 @@ public class IntProgress extends BoundedIntWidget {
   public static final String MODEL_NAME_VALUE = "ProgressModel";
   protected static final String ORIENTATION = "orientation";
 
-  private Comm comm;
-  private Layout layout;
-
   private String orientation = "horizontal";
 
   public IntProgress() throws NoSuchAlgorithmException {
-    comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
-    layout = new Layout();
-    openComm(comm);
-  }
-
-  private void openComm(final Comm comm) throws NoSuchAlgorithmException {
-    comm.setData(content());
-    addValueChangeMsgCallback(comm);
-    comm.open();
-  }
-
-  @Override
-  public Comm getComm() {
-    return this.comm;
+    super();
+    init();
   }
 
   @Override
@@ -61,7 +42,7 @@ public class IntProgress extends BoundedIntWidget {
     content.put(MODEL_NAME, MODEL_NAME_VALUE);
     content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
+    content.put(LAYOUT, IPY_MODEL + this.getLayout().getComm().getCommId());
     content.put(VALUE, this.getValue());
 
     content.put(DESCRIPTION, this.getDescription());
