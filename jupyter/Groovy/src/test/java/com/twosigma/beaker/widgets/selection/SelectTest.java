@@ -26,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
-public class RadioButtonsTest {
+public class SelectTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -45,34 +45,35 @@ public class RadioButtonsTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new RadioButtons();
+    new Select();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), RadioButtons.MODEL_NAME_VALUE, RadioButtons.VIEW_NAME_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), Select.MODEL_NAME_VALUE, Select.VIEW_NAME_VALUE);
   }
 
   @Test
   public void shouldSendCommMsgWhenValueChange() throws Exception {
     //given
-    RadioButtons widget = radioButtons();
+    Select widget = select();
     //when
     widget.setValue("1");
     //then
-    verifyMsgForProperty(groovyKernel, RadioButtons.VALUE, "1");
+    verifyMsgForProperty(groovyKernel, Select.VALUE, "1");
   }
 
   @Test
   public void shouldSendCommMsgWhenOptionsChange() throws Exception {
     //given
-    RadioButtons widget = radioButtons();
+    Select widget = select();
     //when
     widget.setOptions(new String[]{"2", "3"});
     //then
     verifyMsgForProperty(groovyKernel, RadioButtons.OPTIONS_LABELS, new String[]{"2", "3"});
   }
 
-  private RadioButtons radioButtons() throws NoSuchAlgorithmException {
-    RadioButtons widget = new RadioButtons();
+  private Select select() throws NoSuchAlgorithmException {
+    Select widget = new Select();
     groovyKernel.clearMessages();
     return widget;
   }
+
 }
