@@ -13,11 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets;
+package com.twosigma.beaker.widgets.selection;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
 import com.twosigma.beaker.jupyter.Utils;
+import com.twosigma.beaker.widgets.Layout;
+import com.twosigma.beaker.widgets.Widget;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
@@ -26,22 +28,17 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.twosigma.beaker.widgets.Layout.IPY_MODEL;
-import static com.twosigma.beaker.widgets.Layout.LAYOUT;
+public abstract class SelectionWidget extends Widget {
 
-public class Dropdown extends Widget {
-
-  public static final String VIEW_NAME_VALUE = "DropdownView";
-  public static final String MODEL_NAME_VALUE = "DropdownModel";
   public static final String OPTIONS_LABELS = "_options_labels";
 
   private Comm comm;
   private Layout layout;
-  private String value = "";
 
+  private String value = "";
   private String[] options = new String[0];
 
-  public Dropdown() throws NoSuchAlgorithmException {
+  public SelectionWidget() throws NoSuchAlgorithmException {
     comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
     layout = new Layout();
     openComm(comm);
@@ -53,7 +50,9 @@ public class Dropdown extends Widget {
     comm.open();
   }
 
-  private void addValueChangeMsgCallback(final Comm comm) {
+  protected abstract HashMap<String, Serializable> content();
+
+  protected void addValueChangeMsgCallback(final Comm comm) {
     comm.addMsgCallbackList(new IHandler<Message>() {
       @Override
       public void handle(Message message) throws NoSuchAlgorithmException {
@@ -74,33 +73,6 @@ public class Dropdown extends Widget {
     return this.comm;
   }
 
-  private HashMap<String, Serializable> content() {
-    HashMap<String, Serializable> content = new HashMap<>();
-    content.put(MODEL_MODULE, MODEL_MODULE_VALUE);
-    content.put(MODEL_NAME, MODEL_NAME_VALUE);
-    content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
-    content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
-    content.put(VALUE, this.value);
-
-    content.put(DESCRIPTION, this.getDescription());
-    content.put(DISABLED, this.getDisabled());
-    content.put(VISIBLE, this.getVisible());
-    content.put(MSG_THROTTLE, this.getMsg_throttle());
-
-    content.put("background_color", null);
-    content.put("font_family", "");
-    content.put("font_size", "");
-    content.put("font_style", "");
-    content.put("font_weight", "");
-
-    content.put("color", null);
-    content.put("button_style", "");
-    content.put(OPTIONS_LABELS, this.options);
-
-    return content;
-  }
-
   public String getValue() {
     return value;
   }
@@ -117,5 +89,9 @@ public class Dropdown extends Widget {
   public void setOptions(String[] options) {
     this.options = options;
     sendUpdate(OPTIONS_LABELS, options);
+  }
+
+  public Layout getLayout() {
+    return layout;
   }
 }
