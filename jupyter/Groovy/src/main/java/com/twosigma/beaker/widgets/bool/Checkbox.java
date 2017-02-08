@@ -13,11 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets;
-
-import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.jupyter.CommNamesEnum;
-import com.twosigma.beaker.jupyter.Utils;
+package com.twosigma.beaker.widgets.bool;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -26,32 +22,12 @@ import java.util.HashMap;
 import static com.twosigma.beaker.widgets.Layout.IPY_MODEL;
 import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
-public class IntProgress extends BoundedIntWidget {
+public class Checkbox extends BoolWidget {
 
-  public static final String VIEW_NAME_VALUE = "ProgressView";
-  public static final String MODEL_NAME_VALUE = "ProgressModel";
-  protected static final String ORIENTATION = "orientation";
+  public static String VIEW_NAME_VALUE = "CheckboxView";
+  public static String MODEL_NAME_VALUE = "CheckboxModel";
 
-  private Comm comm;
-  private Layout layout;
-
-  private String orientation = "horizontal";
-
-  public IntProgress() throws NoSuchAlgorithmException {
-    comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
-    layout = new Layout();
-    openComm(comm);
-  }
-
-  private void openComm(final Comm comm) throws NoSuchAlgorithmException {
-    comm.setData(content());
-    addValueChangeMsgCallback(comm);
-    comm.open();
-  }
-
-  @Override
-  public Comm getComm() {
-    return this.comm;
+  public Checkbox() throws NoSuchAlgorithmException {
   }
 
   @Override
@@ -61,15 +37,11 @@ public class IntProgress extends BoundedIntWidget {
     content.put(MODEL_NAME, MODEL_NAME_VALUE);
     content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
+    content.put(LAYOUT, IPY_MODEL + getLayout().getComm().getCommId());
     content.put(VALUE, this.getValue());
 
     content.put(DESCRIPTION, this.getDescription());
     content.put(DISABLED, this.getDisabled());
-    content.put(MAX, this.getMax());
-    content.put(MIN, this.getMin());
-    content.put(ORIENTATION, orientation);
-    content.put(STEP, this.getStep());
     content.put(VISIBLE, this.getVisible());
     content.put(MSG_THROTTLE, this.getMsg_throttle());
 
@@ -78,20 +50,8 @@ public class IntProgress extends BoundedIntWidget {
     content.put("font_size", "");
     content.put("font_style", "");
     content.put("font_weight", "");
-
-    content.put("bar_style", "");
     content.put("color", null);
 
     return content;
   }
-
-  public String getOrientation() {
-    return orientation;
-  }
-
-  public void setOrientation(String orientation) {
-    this.orientation = orientation;
-    sendUpdate(ORIENTATION, orientation);
-  }
-
 }

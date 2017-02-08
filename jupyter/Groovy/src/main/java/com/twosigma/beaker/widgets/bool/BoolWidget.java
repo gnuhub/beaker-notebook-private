@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.selection;
+package com.twosigma.beaker.widgets.bool;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
@@ -23,20 +23,18 @@ import com.twosigma.beaker.widgets.Widget;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
 
-public abstract class SelectionWidget extends Widget {
-
-  public static final String OPTIONS_LABELS = "_options_labels";
+public abstract class BoolWidget extends Widget {
 
   private Comm comm;
   private Layout layout;
+  private Boolean value = false;
 
-  private String value = "";
-  private String[] options = new String[0];
-
-  public SelectionWidget() throws NoSuchAlgorithmException {
+  public BoolWidget() throws NoSuchAlgorithmException {
     comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
     layout = new Layout();
     openComm(comm);
@@ -48,19 +46,19 @@ public abstract class SelectionWidget extends Widget {
     comm.open();
   }
 
-  protected void addValueChangeMsgCallback(final Comm comm) {
+  private void addValueChangeMsgCallback(final Comm comm) {
     comm.addMsgCallbackList(new IHandler<Message>() {
       @Override
       public void handle(Message message) throws NoSuchAlgorithmException {
         Map data = (Map) message.getContent().get("data");
         Map sync_data = (Map) data.get("sync_data");
-        String value = (String) sync_data.get(VALUE);
+        Boolean value = (Boolean) sync_data.get(VALUE);
         updateValue(value);
       }
     });
   }
 
-  private void updateValue(String value) {
+  private void updateValue(Boolean value) {
     this.value = value;
   }
 
@@ -69,22 +67,13 @@ public abstract class SelectionWidget extends Widget {
     return this.comm;
   }
 
-  public String getValue() {
+  public Boolean getValue() {
     return value;
   }
 
-  public void setValue(String value) {
+  public void setValue(Boolean value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public String[] getOptions() {
-    return options;
-  }
-
-  public void setOptions(String[] options) {
-    this.options = options;
-    sendUpdate(OPTIONS_LABELS, options);
   }
 
   public Layout getLayout() {
