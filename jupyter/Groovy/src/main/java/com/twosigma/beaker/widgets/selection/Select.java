@@ -28,6 +28,8 @@ public class Select extends SelectionWidget {
   public static String MODEL_NAME_VALUE = "SelectModel";
 
   public Select() throws NoSuchAlgorithmException {
+    super();
+    init();
   }
 
   @Override

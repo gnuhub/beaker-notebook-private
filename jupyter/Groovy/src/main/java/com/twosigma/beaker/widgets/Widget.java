@@ -16,6 +16,8 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.jupyter.CommNamesEnum;
+import com.twosigma.beaker.jupyter.Utils;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -40,14 +42,34 @@ public abstract class Widget {
   public static final String DESCRIPTION = "description";
   public static final String MSG_THROTTLE = "msg_throttle";
 
+  private Comm comm;
+
   private Boolean disabled = false;
   private Boolean visible = true;
   private String description = "";
   private Integer msg_throttle = 3;
 
-  public abstract Comm getComm();
+  public Widget() {
+  }
+
+  public void init() throws NoSuchAlgorithmException {
+    comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
+    openComm(comm);
+  }
+
+  private void openComm(final Comm comm) throws NoSuchAlgorithmException {
+    comm.setData(content());
+    addValueChangeMsgCallback(comm);
+    comm.open();
+  }
+
+  protected abstract void addValueChangeMsgCallback(final Comm comm);
 
   protected abstract HashMap<String, Serializable> content();
+
+  public Comm getComm() {
+    return this.comm;
+  }
 
   public void sendUpdate(String propertyName, Object value) {
     HashMap<String, Serializable> content = new HashMap<>();

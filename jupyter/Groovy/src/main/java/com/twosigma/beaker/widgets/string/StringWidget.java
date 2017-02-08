@@ -18,6 +18,7 @@ package com.twosigma.beaker.widgets.string;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
 import com.twosigma.beaker.jupyter.Utils;
+import com.twosigma.beaker.widgets.DOMWidget;
 import com.twosigma.beaker.widgets.Layout;
 import com.twosigma.beaker.widgets.Widget;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
@@ -26,25 +27,15 @@ import org.lappsgrid.jupyter.groovy.msg.Message;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-public abstract class StringWidget extends Widget {
+public abstract class StringWidget extends DOMWidget {
 
-  private Comm comm;
-  private Layout layout;
   private String value = "";
 
   public StringWidget() throws NoSuchAlgorithmException {
-    comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
-    layout = new Layout();
-    openComm(comm);
   }
 
-  private void openComm(final Comm comm) throws NoSuchAlgorithmException {
-    comm.setData(content());
-    addValueChangeMsgCallback(comm);
-    comm.open();
-  }
-
-  private void addValueChangeMsgCallback(final Comm comm) {
+  @Override
+  protected void addValueChangeMsgCallback(Comm comm) {
     comm.addMsgCallbackList(new IHandler<Message>() {
       @Override
       public void handle(Message message) throws NoSuchAlgorithmException {
@@ -60,11 +51,6 @@ public abstract class StringWidget extends Widget {
     this.value = value;
   }
 
-  @Override
-  public Comm getComm() {
-    return this.comm;
-  }
-
   public String getValue() {
     return value;
   }
@@ -72,9 +58,5 @@ public abstract class StringWidget extends Widget {
   public void setValue(String value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public Layout getLayout() {
-    return layout;
   }
 }

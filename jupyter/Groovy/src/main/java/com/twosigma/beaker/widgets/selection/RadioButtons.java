@@ -28,6 +28,8 @@ public class RadioButtons extends SelectionWidget {
   public static String MODEL_NAME_VALUE = "RadioButtonsModel";
 
   public RadioButtons() throws NoSuchAlgorithmException {
+    super();
+    init();
   }
 
   @Override
