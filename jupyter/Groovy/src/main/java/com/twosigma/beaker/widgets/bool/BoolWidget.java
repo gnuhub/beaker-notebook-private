@@ -37,6 +37,13 @@ public abstract class BoolWidget extends DOMWidget {
   }
 
   @Override
+  protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
+    super.content(content);
+    content.put(VALUE, this.value);
+    return content;
+  }
+
+  @Override
   protected void addValueChangeMsgCallback(Comm comm) {
     comm.addMsgCallbackList(new IHandler<Message>() {
       @Override

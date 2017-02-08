@@ -15,7 +15,9 @@
  */
 package com.twosigma.beaker.widgets;
 
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 public abstract class DOMWidget extends Widget {
 
@@ -24,6 +26,18 @@ public abstract class DOMWidget extends Widget {
   public DOMWidget() throws NoSuchAlgorithmException {
     super();
     layout = new Layout();
+  }
+
+  @Override
+  protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
+    content.put(Layout.LAYOUT, Layout.IPY_MODEL + layout.getComm().getCommId());
+    content.put("font_family", "");
+    content.put("font_size", "");
+    content.put("font_style", "");
+    content.put("font_weight", "");
+    content.put("background_color", null);
+    content.put("color", null);
+    return content;
   }
 
   public Layout getLayout() {

@@ -19,7 +19,9 @@ import com.twosigma.beaker.jupyter.Comm;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class IntWidget extends DOMWidget {
@@ -28,6 +30,13 @@ public abstract class IntWidget extends DOMWidget {
 
   public IntWidget() throws NoSuchAlgorithmException {
     super();
+  }
+
+  @Override
+  protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
+    super.content(content);
+    content.put(VALUE, this.value);
+    return content;
   }
 
   protected void addValueChangeMsgCallback(final Comm comm) {
