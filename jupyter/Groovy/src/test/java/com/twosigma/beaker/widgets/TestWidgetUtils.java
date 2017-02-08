@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestWidgetUtils {
 
-  public static void verifyOpenCommMsg(List<Message> messages, String modelNameValue, String viewNameValue, Object expected) {
+  public static void verifyOpenCommMsg(List<Message> messages, String modelNameValue, String viewNameValue) {
     assertThat(messages.size()).isEqualTo(2);
     Message layout = messages.get(0);
     Message widget = messages.get(1);
@@ -39,7 +39,6 @@ public class TestWidgetUtils {
     assertThat(data.get(Widget.VIEW_MODULE)).isEqualTo(Widget.VIEW_MODULE_VALUE);
     assertThat(data.get(Widget.MODEL_NAME)).isEqualTo(modelNameValue);
     assertThat(data.get(Widget.VIEW_NAME)).isEqualTo(viewNameValue);
-    assertThat(data.get(IntSlider.VALUE)).isEqualTo(expected);
   }
 
   public static Map getData(Message message) {
