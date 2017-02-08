@@ -58,14 +58,27 @@ public abstract class Widget {
   }
 
   private void openComm(final Comm comm) throws NoSuchAlgorithmException {
-    comm.setData(content());
+    comm.setData(createContent());
     addValueChangeMsgCallback(comm);
     comm.open();
   }
 
+  private HashMap<String, Serializable> createContent() {
+    HashMap<String, Serializable> result = new HashMap<>();
+    result.put(MODEL_MODULE, MODEL_MODULE_VALUE);
+    result.put(VIEW_MODULE, VIEW_MODULE_VALUE);
+
+    result.put(DESCRIPTION, this.description);
+    result.put(DISABLED, this.disabled);
+    result.put(VISIBLE, this.visible);
+    result.put(MSG_THROTTLE, this.msg_throttle);
+    result = content(result);
+    return result;
+  }
+
   protected abstract void addValueChangeMsgCallback(final Comm comm);
 
-  protected abstract HashMap<String, Serializable> content();
+  protected abstract HashMap<String, Serializable> content(HashMap<String, Serializable> content);
 
   public Comm getComm() {
     return this.comm;

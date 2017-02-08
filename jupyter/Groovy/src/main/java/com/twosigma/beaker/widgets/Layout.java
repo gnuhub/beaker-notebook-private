@@ -30,8 +30,6 @@ public class Layout extends Widget {
 
   private String _view_name = "LayoutView";
   private String _model_name = "LayoutModel";
-  private String _model_module = "jupyter-js-widgets";
-  private String _view_module = "jupyter-js-widgets";
 
   public Layout() throws NoSuchAlgorithmException {
     super();
@@ -43,11 +41,8 @@ public class Layout extends Widget {
   }
 
   @Override
-  protected HashMap<String, Serializable> content() {
-    HashMap<String, Serializable> content = new HashMap<>();
-    content.put("_model_module", _model_module);
+  protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
     content.put("_model_name", _model_name);
-    content.put("_view_module", _view_module);
     content.put("_view_name", _view_name);
     content.put("align_content", "");
     content.put("align_items", "");

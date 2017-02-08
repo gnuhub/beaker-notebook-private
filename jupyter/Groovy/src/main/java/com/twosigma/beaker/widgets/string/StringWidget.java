@@ -16,15 +16,13 @@
 package com.twosigma.beaker.widgets.string;
 
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.jupyter.CommNamesEnum;
-import com.twosigma.beaker.jupyter.Utils;
 import com.twosigma.beaker.widgets.DOMWidget;
-import com.twosigma.beaker.widgets.Layout;
-import com.twosigma.beaker.widgets.Widget;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class StringWidget extends DOMWidget {
@@ -32,6 +30,14 @@ public abstract class StringWidget extends DOMWidget {
   private String value = "";
 
   public StringWidget() throws NoSuchAlgorithmException {
+  }
+
+  @Override
+  protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
+    super.content(content);
+    content.put(VALUE, this.value);
+    content.put("placeholder", "");
+    return content;
   }
 
   @Override

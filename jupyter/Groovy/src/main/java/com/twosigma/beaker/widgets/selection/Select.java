@@ -19,9 +19,6 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-import static com.twosigma.beaker.widgets.Layout.IPY_MODEL;
-import static com.twosigma.beaker.widgets.Layout.LAYOUT;
-
 public class Select extends SelectionWidget {
 
   public static String VIEW_NAME_VALUE = "SelectView";
@@ -33,30 +30,10 @@ public class Select extends SelectionWidget {
   }
 
   @Override
-  protected HashMap<String, Serializable> content() {
-
-    HashMap<String, Serializable> content = new HashMap<>();
-    content.put(MODEL_MODULE, MODEL_MODULE_VALUE);
+  protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
+    super.content(content);
     content.put(MODEL_NAME, MODEL_NAME_VALUE);
-    content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put(LAYOUT, IPY_MODEL + getLayout().getComm().getCommId());
-    content.put(VALUE, this.getValue());
-
-    content.put(DESCRIPTION, this.getDescription());
-    content.put(DISABLED, this.getDisabled());
-    content.put(VISIBLE, this.getVisible());
-    content.put(MSG_THROTTLE, this.getMsg_throttle());
-
-    content.put(OPTIONS_LABELS, this.getOptions());
-
-    content.put("background_color", null);
-    content.put("font_family", "");
-    content.put("font_size", "");
-    content.put("font_style", "");
-    content.put("font_weight", "");
-    content.put("color", null);
-
     return content;
   }
 
