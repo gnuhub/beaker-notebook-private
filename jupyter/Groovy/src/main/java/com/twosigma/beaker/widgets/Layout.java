@@ -50,7 +50,8 @@ public class Layout extends Widget {
     return this.comm;
   }
 
-  private HashMap<String, Serializable> content() {
+  @Override
+  protected HashMap<String, Serializable> content() {
     HashMap<String, Serializable> content = new HashMap<>();
     content.put("_model_module", _model_module);
     content.put("_model_name", _model_name);

@@ -61,8 +61,8 @@ public class IntSlider extends BoundedIntWidget {
     comm.open();
   }
 
-
-  private HashMap<String, Serializable> content() {
+  @Override
+  protected HashMap<String, Serializable> content() {
     HashMap<String, Serializable> content = new HashMap<>();
     content.put(MODEL_MODULE, MODEL_MODULE_VALUE);
     content.put(MODEL_NAME, MODEL_NAME_VALUE);

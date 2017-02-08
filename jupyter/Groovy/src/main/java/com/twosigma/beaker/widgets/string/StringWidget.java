@@ -23,9 +23,7 @@ import com.twosigma.beaker.widgets.Widget;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class StringWidget extends Widget {
@@ -39,8 +37,6 @@ public abstract class StringWidget extends Widget {
     layout = new Layout();
     openComm(comm);
   }
-
-  protected abstract HashMap<String, Serializable> content();
 
   private void openComm(final Comm comm) throws NoSuchAlgorithmException {
     comm.setData(content());

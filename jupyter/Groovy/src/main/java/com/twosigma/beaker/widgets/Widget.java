@@ -47,6 +47,8 @@ public abstract class Widget {
 
   public abstract Comm getComm();
 
+  protected abstract HashMap<String, Serializable> content();
+
   public void sendUpdate(String propertyName, Object value) {
     HashMap<String, Serializable> content = new HashMap<>();
     content.put(METHOD, UPDATE);
