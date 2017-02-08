@@ -117,49 +117,7 @@ public class NamespaceClient {
 
   //TODO : Not Implemented
   public synchronized Object get(final String name) {
-    if(true){
-      throw new RuntimeException("This option is not implemented now") ;
-    }
-
-    final ObjectHolder<Object> ret = new ObjectHolder<Object>();
-    try {
-      Comm c = getAutotranslationComm();
-      HashMap<String, Serializable> data = new HashMap<>();
-      data.put("name", name);
-      data.put("sync", true);
-      c.setData(data);
-      c.addMsgCallbackList(new IHandler<Message>() {
-        public void handle(Message message) throws NoSuchAlgorithmException{
-          Object answer = null;
-          try {
-            answer = objectMapper.readValue(message.getContent().get("data").toString(), Object.class);
-          } catch (IOException e) {
-            ret.setValue("");
-            ret.notify();
-          }
-          ret.setValue(answer);
-          ret.notify();
-        }
-        
-      });
-      c.send();
-
-    } catch (Exception e) {
-      logger.error(e.getMessage(),e);
-    }
-
-    for (int i = 0 ; i<3 ; i++) {
-      try {
-        ret.wait(5000);
-        if (ret.getValue() != null){
-          break;
-        }
-      } catch (InterruptedException e) {
-        logger.error(e.getMessage(),e);
-        break;
-      }
-    }
-    return ret.getValue();
+    throw new RuntimeException("This option is not implemented now") ;
   }
 
   protected Comm getAutotranslationComm() throws NoSuchAlgorithmException{
