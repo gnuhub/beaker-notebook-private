@@ -117,6 +117,10 @@ public class NamespaceClient {
 
   //TODO : Not Implemented
   public synchronized Object get(final String name) {
+    if(true){
+      throw new RuntimeException("This option is not implemented now") ;
+    }
+
     final ObjectHolder<Object> ret = new ObjectHolder<Object>();
     try {
       Comm c = getAutotranslationComm();
