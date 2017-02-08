@@ -13,18 +13,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.bool;
+package com.twosigma.beaker.widgets.strings;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class Checkbox extends BoolWidget {
+public class Textarea extends StringWidget {
 
-  public static String VIEW_NAME_VALUE = "CheckboxView";
-  public static String MODEL_NAME_VALUE = "CheckboxModel";
+  public static final String VIEW_NAME_VALUE = "TextareaView";
+  public static final String MODEL_NAME_VALUE = "TextareaModel";
 
-  public Checkbox() throws NoSuchAlgorithmException {
+  public Textarea() throws NoSuchAlgorithmException {
     super();
     init();
   }
@@ -36,4 +36,5 @@ public class Checkbox extends BoolWidget {
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
     return content;
   }
+
 }

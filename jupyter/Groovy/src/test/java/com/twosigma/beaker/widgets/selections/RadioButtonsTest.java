@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.bool;
+package com.twosigma.beaker.widgets.selections;
 
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
@@ -26,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
-public class ToggleButtonTest {
+public class RadioButtonsTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -45,34 +45,33 @@ public class ToggleButtonTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new ToggleButton();
+    new RadioButtons();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), ToggleButton.MODEL_NAME_VALUE, ToggleButton.VIEW_NAME_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), RadioButtons.MODEL_NAME_VALUE, RadioButtons.VIEW_NAME_VALUE);
   }
 
   @Test
   public void shouldSendCommMsgWhenValueChange() throws Exception {
     //given
-    ToggleButton widget = toggleButton();
+    RadioButtons widget = radioButtons();
     //when
-    widget.setValue(true);
+    widget.setValue("1");
     //then
-    verifyMsgForProperty(groovyKernel, ToggleButton.VALUE, true);
+    verifyMsgForProperty(groovyKernel, RadioButtons.VALUE, "1");
   }
 
   @Test
-  public void shouldSendCommMsgWhenTooltipChange() throws Exception {
+  public void shouldSendCommMsgWhenOptionsChange() throws Exception {
     //given
-    ToggleButton widget = toggleButton();
+    RadioButtons widget = radioButtons();
     //when
-    widget.setTooltip("Tooltip 2");
+    widget.setOptions(new String[]{"2", "3"});
     //then
-    verifyMsgForProperty(groovyKernel, ToggleButton.TOOLTIP, "Tooltip 2");
+    verifyMsgForProperty(groovyKernel, RadioButtons.OPTIONS_LABELS, new String[]{"2", "3"});
   }
 
-
-  private ToggleButton toggleButton() throws NoSuchAlgorithmException {
-    ToggleButton widget = new ToggleButton();
+  private RadioButtons radioButtons() throws NoSuchAlgorithmException {
+    RadioButtons widget = new RadioButtons();
     groovyKernel.clearMessages();
     return widget;
   }

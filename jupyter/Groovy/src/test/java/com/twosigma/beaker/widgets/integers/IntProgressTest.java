@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.selection;
+package com.twosigma.beaker.widgets.integers;
 
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
@@ -26,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
-public class DropdownTest {
+public class IntProgressTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -45,36 +45,25 @@ public class DropdownTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new Dropdown();
+    new IntProgress();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), Dropdown.MODEL_NAME_VALUE, Dropdown.VIEW_NAME_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), IntProgress.MODEL_NAME_VALUE, IntProgress.VIEW_NAME_VALUE);
   }
 
   @Test
-  public void shouldSendCommMsgWhenValueChange() throws Exception {
+  public void shouldSendCommMsgWhenOrientationChange() throws Exception {
     //given
-    Dropdown dropdown = dropdown();
+    IntProgress intProgress = intProgress();
     //when
-    dropdown.setValue("1");
+    intProgress.setOrientation("vertical");
     //then
-    verifyMsgForProperty(groovyKernel, Dropdown.VALUE, "1");
+    verifyMsgForProperty(groovyKernel, IntSlider.ORIENTATION, "vertical");
   }
 
-  @Test
-  public void shouldSendCommMsgWhenOptionsChange() throws Exception {
-    //given
-    Dropdown dropdown = dropdown();
-    //when
-    dropdown.setOptions(new String[]{"2", "3"});
-    //then
-    verifyMsgForProperty(groovyKernel, Dropdown.OPTIONS_LABELS, new String[]{"2", "3"});
-  }
-
-  private Dropdown dropdown() throws NoSuchAlgorithmException {
-    Dropdown widget = new Dropdown();
+  private IntProgress intProgress() throws NoSuchAlgorithmException {
+    IntProgress progress = new IntProgress();
     groovyKernel.clearMessages();
-    return widget;
+    return progress;
   }
-
 
 }

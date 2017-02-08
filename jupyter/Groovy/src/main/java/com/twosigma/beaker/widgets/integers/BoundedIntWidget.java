@@ -13,42 +13,60 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.bool;
+package com.twosigma.beaker.widgets.integers;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class ToggleButton extends BoolWidget {
+public abstract class BoundedIntWidget extends IntWidget {
 
-  public static String VIEW_NAME_VALUE = "ToggleButtonView";
-  public static String MODEL_NAME_VALUE = "ToggleButtonModel";
-  public static final String TOOLTIP = "tooltip";
+  public static final String STEP = "step";
+  public static final String MAX = "max";
+  public static final String MIN = "min";
 
-  private String tooltip = "";
+  private Integer step = 1;
+  private Integer max = 100;
+  private Integer min = 0;
 
-  public ToggleButton() throws NoSuchAlgorithmException {
+  public BoundedIntWidget() throws NoSuchAlgorithmException {
     super();
-    init();
   }
 
   @Override
   protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
     super.content(content);
-    content.put(MODEL_NAME, MODEL_NAME_VALUE);
-    content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put(TOOLTIP, this.tooltip);
-    content.put("button_style", "");
-    content.put("icon", "");
+    content.put(MAX, this.getMax());
+    content.put(MIN, this.getMin());
+    content.put(STEP, this.getStep());
     return content;
   }
 
-  public String getTooltip() {
-    return tooltip;
+  public Integer getStep() {
+    return step;
   }
 
-  public void setTooltip(String tooltip) {
-    this.tooltip = tooltip;
-    sendUpdate(TOOLTIP, tooltip);
+  public void setStep(Integer step) {
+    this.step = step;
+    sendUpdate(STEP, step);
   }
+
+  public Integer getMax() {
+    return max;
+  }
+
+  public void setMax(Integer max) {
+    this.max = max;
+    sendUpdate(MAX, max);
+  }
+
+  public Integer getMin() {
+    return min;
+  }
+
+  public void setMin(Integer min) {
+    this.min = min;
+    sendUpdate(MIN, min);
+  }
+
 }

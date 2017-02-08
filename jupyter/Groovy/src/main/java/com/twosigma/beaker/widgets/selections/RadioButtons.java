@@ -13,18 +13,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.selection;
+package com.twosigma.beaker.widgets.selections;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class Dropdown extends SelectionWidget {
+public class RadioButtons extends SelectionWidget {
 
-  public static final String VIEW_NAME_VALUE = "DropdownView";
-  public static final String MODEL_NAME_VALUE = "DropdownModel";
+  public static String VIEW_NAME_VALUE = "RadioButtonsView";
+  public static String MODEL_NAME_VALUE = "RadioButtonsModel";
 
-  public Dropdown() throws NoSuchAlgorithmException {
+  public RadioButtons() throws NoSuchAlgorithmException {
     super();
     init();
   }
@@ -34,7 +34,7 @@ public class Dropdown extends SelectionWidget {
     super.content(content);
     content.put(MODEL_NAME, MODEL_NAME_VALUE);
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put("button_style", "");
     return content;
   }
+
 }
