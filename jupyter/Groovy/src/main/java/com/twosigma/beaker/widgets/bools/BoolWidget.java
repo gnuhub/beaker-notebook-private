@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.selection;
+package com.twosigma.beaker.widgets.bools;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.DOMWidget;
@@ -25,20 +25,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class SelectionWidget extends DOMWidget {
+public abstract class BoolWidget extends DOMWidget {
 
-  public static final String OPTIONS_LABELS = "_options_labels";
+  private Boolean value = false;
 
-  private String value = "";
-  private String[] options = new String[0];
-
-  public SelectionWidget() throws NoSuchAlgorithmException {
+  public BoolWidget() throws NoSuchAlgorithmException {
   }
 
   @Override
   protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
     super.content(content);
-    content.put(OPTIONS_LABELS, this.options);
     content.put(VALUE, this.value);
     return content;
   }
@@ -50,31 +46,22 @@ public abstract class SelectionWidget extends DOMWidget {
       public void handle(Message message) throws NoSuchAlgorithmException {
         Map data = (Map) message.getContent().get("data");
         Map sync_data = (Map) data.get("sync_data");
-        String value = (String) sync_data.get(VALUE);
+        Boolean value = (Boolean) sync_data.get(VALUE);
         updateValue(value);
       }
     });
   }
 
-  private void updateValue(String value) {
+  private void updateValue(Boolean value) {
     this.value = value;
   }
 
-  public String getValue() {
+  public Boolean getValue() {
     return value;
   }
 
-  public void setValue(String value) {
+  public void setValue(Boolean value) {
     this.value = value;
     sendUpdate(VALUE, value);
-  }
-
-  public String[] getOptions() {
-    return options;
-  }
-
-  public void setOptions(String[] options) {
-    this.options = options;
-    sendUpdate(OPTIONS_LABELS, options);
   }
 }

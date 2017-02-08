@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.bool;
+package com.twosigma.beaker.widgets.strings;
 
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
@@ -26,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
-public class CheckboxTest {
+public class TextareaTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -45,23 +45,23 @@ public class CheckboxTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new Checkbox();
+    new Textarea();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), Checkbox.MODEL_NAME_VALUE, Checkbox.VIEW_NAME_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), Textarea.MODEL_NAME_VALUE, Textarea.VIEW_NAME_VALUE);
   }
 
   @Test
   public void shouldSendCommMsgWhenValueChange() throws Exception {
     //given
-    Checkbox widget = checkbox();
+    Textarea widget = textarea();
     //when
-    widget.setValue(true);
+    widget.setValue("Text area 1");
     //then
-    verifyMsgForProperty(groovyKernel, Checkbox.VALUE, true);
+    verifyMsgForProperty(groovyKernel, Textarea.VALUE, "Text area 1");
   }
 
-  private Checkbox checkbox() throws NoSuchAlgorithmException {
-    Checkbox widget = new Checkbox();
+  private Textarea textarea() throws NoSuchAlgorithmException {
+    Textarea widget = new Textarea();
     groovyKernel.clearMessages();
     return widget;
   }

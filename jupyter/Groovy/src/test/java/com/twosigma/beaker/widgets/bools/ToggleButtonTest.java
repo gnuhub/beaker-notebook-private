@@ -13,12 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.integer;
+package com.twosigma.beaker.widgets.bools;
 
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
-import com.twosigma.beaker.widgets.integer.IntProgress;
-import com.twosigma.beaker.widgets.integer.IntSlider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
-public class IntProgressTest {
+public class ToggleButtonTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -47,25 +45,35 @@ public class IntProgressTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new IntProgress();
+    new ToggleButton();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), IntProgress.MODEL_NAME_VALUE, IntProgress.VIEW_NAME_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), ToggleButton.MODEL_NAME_VALUE, ToggleButton.VIEW_NAME_VALUE);
   }
 
   @Test
-  public void shouldSendCommMsgWhenOrientationChange() throws Exception {
+  public void shouldSendCommMsgWhenValueChange() throws Exception {
     //given
-    IntProgress intProgress = intProgress();
+    ToggleButton widget = toggleButton();
     //when
-    intProgress.setOrientation("vertical");
+    widget.setValue(true);
     //then
-    verifyMsgForProperty(groovyKernel, IntSlider.ORIENTATION, "vertical");
+    verifyMsgForProperty(groovyKernel, ToggleButton.VALUE, true);
   }
 
-  private IntProgress intProgress() throws NoSuchAlgorithmException {
-    IntProgress progress = new IntProgress();
+  @Test
+  public void shouldSendCommMsgWhenTooltipChange() throws Exception {
+    //given
+    ToggleButton widget = toggleButton();
+    //when
+    widget.setTooltip("Tooltip 2");
+    //then
+    verifyMsgForProperty(groovyKernel, ToggleButton.TOOLTIP, "Tooltip 2");
+  }
+
+
+  private ToggleButton toggleButton() throws NoSuchAlgorithmException {
+    ToggleButton widget = new ToggleButton();
     groovyKernel.clearMessages();
-    return progress;
+    return widget;
   }
-
 }

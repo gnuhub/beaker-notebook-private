@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.selection;
+package com.twosigma.beaker.widgets.selections;
 
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
@@ -26,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
-public class RadioButtonsTest {
+public class DropdownTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -45,34 +45,36 @@ public class RadioButtonsTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new RadioButtons();
+    new Dropdown();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), RadioButtons.MODEL_NAME_VALUE, RadioButtons.VIEW_NAME_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), Dropdown.MODEL_NAME_VALUE, Dropdown.VIEW_NAME_VALUE);
   }
 
   @Test
   public void shouldSendCommMsgWhenValueChange() throws Exception {
     //given
-    RadioButtons widget = radioButtons();
+    Dropdown dropdown = dropdown();
     //when
-    widget.setValue("1");
+    dropdown.setValue("1");
     //then
-    verifyMsgForProperty(groovyKernel, RadioButtons.VALUE, "1");
+    verifyMsgForProperty(groovyKernel, Dropdown.VALUE, "1");
   }
 
   @Test
   public void shouldSendCommMsgWhenOptionsChange() throws Exception {
     //given
-    RadioButtons widget = radioButtons();
+    Dropdown dropdown = dropdown();
     //when
-    widget.setOptions(new String[]{"2", "3"});
+    dropdown.setOptions(new String[]{"2", "3"});
     //then
-    verifyMsgForProperty(groovyKernel, RadioButtons.OPTIONS_LABELS, new String[]{"2", "3"});
+    verifyMsgForProperty(groovyKernel, Dropdown.OPTIONS_LABELS, new String[]{"2", "3"});
   }
 
-  private RadioButtons radioButtons() throws NoSuchAlgorithmException {
-    RadioButtons widget = new RadioButtons();
+  private Dropdown dropdown() throws NoSuchAlgorithmException {
+    Dropdown widget = new Dropdown();
     groovyKernel.clearMessages();
     return widget;
   }
+
+
 }

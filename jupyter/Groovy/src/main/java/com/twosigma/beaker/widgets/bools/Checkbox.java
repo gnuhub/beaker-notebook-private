@@ -13,22 +13,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.integer;
+package com.twosigma.beaker.widgets.bools;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
+public class Checkbox extends BoolWidget {
 
-public class IntProgress extends BoundedIntWidget {
+  public static String VIEW_NAME_VALUE = "CheckboxView";
+  public static String MODEL_NAME_VALUE = "CheckboxModel";
 
-  public static final String VIEW_NAME_VALUE = "ProgressView";
-  public static final String MODEL_NAME_VALUE = "ProgressModel";
-  protected static final String ORIENTATION = "orientation";
-
-  private String orientation = "horizontal";
-
-  public IntProgress() throws NoSuchAlgorithmException {
+  public Checkbox() throws NoSuchAlgorithmException {
     super();
     init();
   }
@@ -38,18 +34,6 @@ public class IntProgress extends BoundedIntWidget {
     super.content(content);
     content.put(MODEL_NAME, MODEL_NAME_VALUE);
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put(ORIENTATION, this.orientation);
-    content.put("bar_style", "");
     return content;
   }
-
-  public String getOrientation() {
-    return this.orientation;
-  }
-
-  public void setOrientation(String orientation) {
-    this.orientation = orientation;
-    sendUpdate(ORIENTATION, orientation);
-  }
-
 }

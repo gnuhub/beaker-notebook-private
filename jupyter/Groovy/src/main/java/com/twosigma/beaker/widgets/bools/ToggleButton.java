@@ -13,18 +13,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.string;
+package com.twosigma.beaker.widgets.bools;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class Text extends StringWidget {
+public class ToggleButton extends BoolWidget {
 
-  public static final String VIEW_NAME_VALUE = "TextView";
-  public static final String MODEL_NAME_VALUE = "TextModel";
+  public static String VIEW_NAME_VALUE = "ToggleButtonView";
+  public static String MODEL_NAME_VALUE = "ToggleButtonModel";
+  public static final String TOOLTIP = "tooltip";
 
-  public Text() throws NoSuchAlgorithmException {
+  private String tooltip = "";
+
+  public ToggleButton() throws NoSuchAlgorithmException {
     super();
     init();
   }
@@ -34,8 +37,18 @@ public class Text extends StringWidget {
     super.content(content);
     content.put(MODEL_NAME, MODEL_NAME_VALUE);
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
+    content.put(TOOLTIP, this.tooltip);
+    content.put("button_style", "");
+    content.put("icon", "");
     return content;
   }
 
+  public String getTooltip() {
+    return tooltip;
+  }
 
+  public void setTooltip(String tooltip) {
+    this.tooltip = tooltip;
+    sendUpdate(TOOLTIP, tooltip);
+  }
 }

@@ -13,18 +13,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.string;
+package com.twosigma.beaker.widgets.strings;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class Textarea extends StringWidget {
+public class Text extends StringWidget {
 
-  public static final String VIEW_NAME_VALUE = "TextareaView";
-  public static final String MODEL_NAME_VALUE = "TextareaModel";
+  public static final String VIEW_NAME_VALUE = "TextView";
+  public static final String MODEL_NAME_VALUE = "TextModel";
 
-  public Textarea() throws NoSuchAlgorithmException {
+  public Text() throws NoSuchAlgorithmException {
     super();
     init();
   }
@@ -36,5 +36,6 @@ public class Textarea extends StringWidget {
     content.put(VIEW_NAME, VIEW_NAME_VALUE);
     return content;
   }
+
 
 }

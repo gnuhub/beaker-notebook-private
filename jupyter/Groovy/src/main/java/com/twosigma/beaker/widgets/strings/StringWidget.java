@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.integer;
+package com.twosigma.beaker.widgets.strings;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.DOMWidget;
@@ -25,44 +25,44 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class IntWidget extends DOMWidget {
+public abstract class StringWidget extends DOMWidget {
 
-  private Integer value = 0;
+  private String value = "";
 
-  public IntWidget() throws NoSuchAlgorithmException {
-    super();
+  public StringWidget() throws NoSuchAlgorithmException {
   }
 
   @Override
   protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
     super.content(content);
     content.put(VALUE, this.value);
+    content.put("placeholder", "");
     return content;
   }
 
-  protected void addValueChangeMsgCallback(final Comm comm) {
+  @Override
+  protected void addValueChangeMsgCallback(Comm comm) {
     comm.addMsgCallbackList(new IHandler<Message>() {
       @Override
       public void handle(Message message) throws NoSuchAlgorithmException {
         Map data = (Map) message.getContent().get("data");
         Map sync_data = (Map) data.get("sync_data");
-        int value = (int) sync_data.get(VALUE);
+        String value = (String) sync_data.get(VALUE);
         updateValue(value);
       }
     });
   }
 
-  private void updateValue(int value) {
+  private void updateValue(String value) {
     this.value = value;
   }
 
-  public int getValue() {
-    return this.value;
+  public String getValue() {
+    return value;
   }
 
-  public void setValue(int value) {
+  public void setValue(String value) {
     this.value = value;
     sendUpdate(VALUE, value);
   }
-
 }

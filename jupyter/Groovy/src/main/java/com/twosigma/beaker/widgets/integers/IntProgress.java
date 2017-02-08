@@ -13,60 +13,43 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.integer;
+package com.twosigma.beaker.widgets.integers;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public abstract class BoundedIntWidget extends IntWidget {
 
-  public static final String STEP = "step";
-  public static final String MAX = "max";
-  public static final String MIN = "min";
+public class IntProgress extends BoundedIntWidget {
 
-  private Integer step = 1;
-  private Integer max = 100;
-  private Integer min = 0;
+  public static final String VIEW_NAME_VALUE = "ProgressView";
+  public static final String MODEL_NAME_VALUE = "ProgressModel";
+  protected static final String ORIENTATION = "orientation";
 
-  public BoundedIntWidget() throws NoSuchAlgorithmException {
+  private String orientation = "horizontal";
+
+  public IntProgress() throws NoSuchAlgorithmException {
     super();
+    init();
   }
 
   @Override
   protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
     super.content(content);
-    content.put(MAX, this.getMax());
-    content.put(MIN, this.getMin());
-    content.put(STEP, this.getStep());
+    content.put(MODEL_NAME, MODEL_NAME_VALUE);
+    content.put(VIEW_NAME, VIEW_NAME_VALUE);
+    content.put(ORIENTATION, this.orientation);
+    content.put("bar_style", "");
     return content;
   }
 
-  public Integer getStep() {
-    return step;
+  public String getOrientation() {
+    return this.orientation;
   }
 
-  public void setStep(Integer step) {
-    this.step = step;
-    sendUpdate(STEP, step);
-  }
-
-  public Integer getMax() {
-    return max;
-  }
-
-  public void setMax(Integer max) {
-    this.max = max;
-    sendUpdate(MAX, max);
-  }
-
-  public Integer getMin() {
-    return min;
-  }
-
-  public void setMin(Integer min) {
-    this.min = min;
-    sendUpdate(MIN, min);
+  public void setOrientation(String orientation) {
+    this.orientation = orientation;
+    sendUpdate(ORIENTATION, orientation);
   }
 
 }
