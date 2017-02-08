@@ -40,7 +40,6 @@ public class IntSlider extends BoundedIntWidget {
   private Layout layout;
 
   private String orientation = "horizontal";
-
   private String slider_color;
   private Boolean readOut = true;
   private Boolean continuous_update = true;

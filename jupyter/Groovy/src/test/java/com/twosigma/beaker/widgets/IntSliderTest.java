@@ -17,7 +17,6 @@ package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,115 +57,132 @@ public class IntSliderTest {
   }
 
   @Test
-  public void shouldSendCommMsgWhenChangeValue() throws Exception {
+  public void shouldSendCommMsgWhenValueChange() throws Exception {
     //given
     IntSlider intSlider = intSlider();
     //when
     intSlider.setValue(11);
     //then
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = getData(groovyKernel.getMessages().get(0));
-    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(IntSlider.VALUE)).isEqualTo(11);
+    verifyMsgForProperty(IntSlider.VALUE, 11);
   }
 
   @Test
-  public void shouldSendCommMsgWhenChangeDisable() throws Exception {
+  public void shouldSendCommMsgWhenDisableChange() throws Exception {
     //given
     IntSlider intSlider = intSlider();
     //when
     intSlider.setDisabled(true);
     //then
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = getData(groovyKernel.getMessages().get(0));
-    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(Widget.DISABLED)).isEqualTo(true);
-  }
-
-  private IntSlider intSlider() throws NoSuchAlgorithmException {
-    IntSlider intSlider = new IntSlider();
-    groovyKernel.clearMessages();
-    return intSlider;
+    verifyMsgForProperty(Widget.DISABLED, true);
   }
 
   @Test
-  public void shouldSendCommMsgWhenChangeVisible() throws Exception {
+  public void shouldSendCommMsgWhenVisibleChange() throws Exception {
     //given
     IntSlider intSlider = intSlider();
     //when
     intSlider.setVisible(false);
     //then
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = getData(groovyKernel.getMessages().get(0));
-    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(Widget.VISIBLE)).isEqualTo(false);
+    verifyMsgForProperty(Widget.VISIBLE, false);
   }
 
   @Test
-  public void shouldSendCommMsgWhenChangeDescription() throws Exception {
+  public void shouldSendCommMsgWhenDescriptionChange() throws Exception {
     //given
     IntSlider intSlider = intSlider();
     //when
     intSlider.setDescription("Description 2");
     //then
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = getData(groovyKernel.getMessages().get(0));
-    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(Widget.DESCRIPTION)).isEqualTo("Description 2");
+    verifyMsgForProperty(Widget.DESCRIPTION, "Description 2");
   }
 
   @Test
-  public void shouldSendCommMsgWhenChangeMsg_throttle() throws Exception {
+  public void shouldSendCommMsgWhenMsg_throttleChange() throws Exception {
     //given
     IntSlider intSlider = intSlider();
     //when
     intSlider.setMsg_throttle(12);
     //then
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = getData(groovyKernel.getMessages().get(0));
-    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(Widget.MSG_THROTTLE)).isEqualTo(12);
+    verifyMsgForProperty(Widget.MSG_THROTTLE, 12);
   }
 
   @Test
-  public void shouldSendCommMsgWhenChangeStep() throws Exception {
+  public void shouldSendCommMsgWhenStepChange() throws Exception {
     //given
     IntSlider intSlider = intSlider();
     //when
     intSlider.setStep(12);
     //then
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = getData(groovyKernel.getMessages().get(0));
-    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(BoundedIntWidget.STEP)).isEqualTo(12);
+    verifyMsgForProperty(BoundedIntWidget.STEP, 12);
   }
 
   @Test
-  public void shouldSendCommMsgWhenChangeMax() throws Exception {
+  public void shouldSendCommMsgWhenMaxChange() throws Exception {
     //given
     IntSlider intSlider = intSlider();
     //when
     intSlider.setMax(122);
     //then
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = getData(groovyKernel.getMessages().get(0));
-    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(BoundedIntWidget.MAX)).isEqualTo(122);
+    verifyMsgForProperty(BoundedIntWidget.MAX, 122);
   }
 
   @Test
-  public void shouldSendCommMsgWhenChangeMin() throws Exception {
+  public void shouldSendCommMsgWhenMinChange() throws Exception {
     //given
     IntSlider intSlider = intSlider();
     //when
     intSlider.setMin(10);
     //then
+    verifyMsgForProperty(BoundedIntWidget.MIN, 10);
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenOrientationChange() throws Exception {
+    //given
+    IntSlider intSlider = intSlider();
+    //when
+    intSlider.setOrientation("vertical");
+    //then
+    verifyMsgForProperty(IntSlider.ORIENTATION, "vertical");
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenSliderColorChange() throws Exception {
+    //given
+    IntSlider intSlider = intSlider();
+    //when
+    intSlider.setSlider_color("#456789");
+    //then
+    verifyMsgForProperty(IntSlider.SLIDER_COLOR, "#456789");
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenReadOutChange() throws Exception {
+    //given
+    IntSlider intSlider = intSlider();
+    //when
+    intSlider.setReadOut(false);
+    //then
+    verifyMsgForProperty(IntSlider.READOUT, false);
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenChangeContinuous_update() throws Exception {
+    //given
+    IntSlider intSlider = intSlider();
+    //when
+    intSlider.setContinuous_update(false);
+    //then
+    verifyMsgForProperty(IntSlider.CONTINUOUS_UPDATE, false);
+  }
+
+
+  private void verifyMsgForProperty(String propertyName, Object expected) {
     assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
     Map data = getData(groovyKernel.getMessages().get(0));
     assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(BoundedIntWidget.MIN)).isEqualTo(10);
+    assertThat(((Map) data.get(Widget.STATE)).get(propertyName)).isEqualTo(expected);
   }
-
 
   private void verifyIntSliderOpenCommMsg(Message message, Message layoutMessage) {
     assertThat(message.getHeader().getType()).isEqualTo(COMM_OPEN.getName());
@@ -177,6 +193,12 @@ public class IntSliderTest {
     assertThat(data.get(Widget.MODEL_NAME)).isEqualTo(IntSlider.MODEL_NAME_VALUE);
     assertThat(data.get(Widget.VIEW_NAME)).isEqualTo(IntSlider.VIEW_NAME_VALUE);
     assertThat(data.get(IntSlider.VALUE)).isEqualTo(0);
+  }
+
+  private IntSlider intSlider() throws NoSuchAlgorithmException {
+    IntSlider intSlider = new IntSlider();
+    groovyKernel.clearMessages();
+    return intSlider;
   }
 
   private Map getData(Message message) {

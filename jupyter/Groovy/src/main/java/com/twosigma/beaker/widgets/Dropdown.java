@@ -31,12 +31,9 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
 public class Dropdown extends Widget {
 
+  public static final String VIEW_NAME_VALUE = "DropdownView";
+  public static final String MODEL_NAME_VALUE = "DropdownModel";
   public static final String OPTIONS_LABELS = "_options_labels";
-
-  private final String _view_name = "DropdownView";
-  private final String _model_name = "DropdownModel";
-  private final String _model_module = "jupyter-js-widgets";
-  private final String _view_module = "jupyter-js-widgets";
 
   private Comm comm;
   private Layout layout;
@@ -79,10 +76,10 @@ public class Dropdown extends Widget {
 
   private HashMap<String, Serializable> content() {
     HashMap<String, Serializable> content = new HashMap<>();
-    content.put("_model_module", _model_module);
-    content.put("_model_name", _model_name);
-    content.put("_view_module", _view_module);
-    content.put("_view_name", _view_name);
+    content.put(MODEL_MODULE, MODEL_MODULE_VALUE);
+    content.put(MODEL_NAME, MODEL_NAME_VALUE);
+    content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
+    content.put(VIEW_NAME, VIEW_NAME_VALUE);
     content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
     content.put(VALUE, this.value);
 
