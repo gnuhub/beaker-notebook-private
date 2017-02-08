@@ -28,16 +28,9 @@ import static com.twosigma.beaker.widgets.Layout.LAYOUT;
 
 public class IntProgress extends BoundedIntWidget {
 
-  protected static final String STEP = "step";
-  protected static final String MAX = "max";
-  protected static final String MIN = "min";
-
+  public static final String VIEW_NAME_VALUE = "ProgressView";
+  public static final String MODEL_NAME_VALUE = "ProgressModel";
   protected static final String ORIENTATION = "orientation";
-
-  private String _view_name = "ProgressView";
-  private String _model_name = "ProgressModel";
-  private String _model_module = "jupyter-js-widgets";
-  private String _view_module = "jupyter-js-widgets";
 
   private Comm comm;
   private Layout layout;
@@ -63,10 +56,10 @@ public class IntProgress extends BoundedIntWidget {
 
   private HashMap<String, Serializable> content() {
     HashMap<String, Serializable> content = new HashMap<>();
-    content.put("_model_module", _model_module);
-    content.put("_model_name", _model_name);
-    content.put("_view_module", _view_module);
-    content.put("_view_name", _view_name);
+    content.put(MODEL_MODULE, MODEL_MODULE_VALUE);
+    content.put(MODEL_NAME, MODEL_NAME_VALUE);
+    content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
+    content.put(VIEW_NAME, VIEW_NAME_VALUE);
     content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
     content.put(VALUE, this.getValue());
 
