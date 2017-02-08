@@ -19,7 +19,9 @@ import static com.twosigma.beaker.groovy.GroovyDefaultVariables.CLASS_PATH;
 import static com.twosigma.beaker.groovy.GroovyDefaultVariables.IMPORTS;
 import static com.twosigma.beaker.groovy.GroovyDefaultVariables.OUT_DIR;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
@@ -40,7 +42,7 @@ public class GroovyEvaluatorManager {
     try {
       groovyEvaluator.setShellOptions(CLASS_PATH, IMPORTS, OUT_DIR);
     } catch (IOException e) {
-      logger.error("Error while setting Shell Options: " + e.getMessage());
+      logger.error("Error while setting Shell Options", e);
     }
     groovyEvaluator.startWorker();
   }
@@ -56,5 +58,23 @@ public class GroovyEvaluatorManager {
   public void exit() {
     groovyEvaluator.exit();
   }
+
+  public static String readJupyterTempFolder(){
+    StringBuffer ret = new StringBuffer();
+    try {
+      Runtime rt = Runtime.getRuntime();
+      String[] commands = {"jupyter","--runtime-dir"};
+      Process proc = rt.exec(commands);
+      BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+      String s = null;
+      while ((s = stdInput.readLine()) != null) {
+        ret.append(s);
+      }
+    } catch (IOException e) {
+      logger.error("No temp folder set for beaker", e);
+    }
+    return ret.toString();
+  }
+
   
 }

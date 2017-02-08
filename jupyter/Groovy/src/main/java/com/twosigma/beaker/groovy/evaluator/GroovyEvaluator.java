@@ -15,10 +15,7 @@
  */
 package com.twosigma.beaker.groovy.evaluator;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.nio.file.FileSystems;
@@ -106,7 +103,7 @@ public class GroovyEvaluator {
     updateLoader = false;
     currentClassPath = "";
     currentImports = "";
-    outDir = FileSystems.getDefault().getPath(System.getenv("beaker_tmp_dir"),"dynclasses",sessionId).toString();
+    outDir = readJupyterTempFolder();
     outDir = envVariablesFilter(outDir, System.getenv());
     outDirInput = outDir;
     try { (new File(outDir)).mkdirs(); } catch (Exception e) { }
@@ -159,14 +156,27 @@ public class GroovyEvaluator {
     cancelExecution();
     syncObject.release();
   }
+  public static String readJupyterTempFolder(){
+    StringBuffer ret = new StringBuffer();
+    try {
+      String[] commands = {"jupyter","--runtime-dir"};
+      Process proc = Runtime.getRuntime().exec(commands);
+      BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+      String s = null;
+      while ((s = stdInput.readLine()) != null) {
+        ret.append(s);
+      }
+    } catch (IOException e) {
+      logger.error("No temp folder set for beaker", e);
+    }
+    return ret.toString();
+  }
 
   public void setShellOptions(String cp, String in, String od) throws IOException {
     if (od==null || od.isEmpty()) {
-      od = FileSystems.getDefault().getPath(System.getenv("beaker_tmp_dir"),"dynclasses",sessionId).toString();
-    } else {
-      od = od.replace("$BEAKERDIR",System.getenv("beaker_tmp_dir"));
+      od = readJupyterTempFolder();
     }
-    
+    logger.info("Dynamic folder is = " + od);
     // check if we are not changing anything
     if (currentClassPath.equals(cp) && currentImports.equals(in) && outDirInput.equals(od))
       return;
