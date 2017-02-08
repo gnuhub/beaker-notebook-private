@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets;
+package com.twosigma.beaker.widgets.integer;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
