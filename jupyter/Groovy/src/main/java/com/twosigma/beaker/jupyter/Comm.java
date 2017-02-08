@@ -172,11 +172,11 @@ public class Comm {
     message.setContent(map);
     kernel.publish(message);
   }
-  
-  protected Message getParentMessage(){
-    return NamespaceClient.getBeaker().getOutputObj() != null ? (Message)NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
+
+  protected Message getParentMessage() {
+    return this.kernel.getParentMessage();
   }
-  
+
   public void handleMsg(Message parentMessage) throws NoSuchAlgorithmException{
     if(this.getMsgCallbackList() != null && !this.getMsgCallbackList().isEmpty()){
       for (IHandler<Message> handler : getMsgCallbackList()) {
