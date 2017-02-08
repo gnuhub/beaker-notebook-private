@@ -15,19 +15,15 @@
  */
 package com.twosigma.beaker.widgets;
 
-import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.lappsgrid.jupyter.groovy.msg.Message;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
-import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
+import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
 public class IntSliderTest {
 
@@ -50,10 +46,7 @@ public class IntSliderTest {
     //when
     new IntSlider();
     //then
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(2);
-    Message layoutMessage = groovyKernel.getMessages().get(0);
-    Message intSliderMessage = groovyKernel.getMessages().get(1);
-    verifyIntSliderOpenCommMsg(intSliderMessage, layoutMessage);
+    verifyOpenCommMsg(groovyKernel.getMessages(), IntSlider.MODEL_NAME_VALUE, IntSlider.VIEW_NAME_VALUE, 0);
   }
 
   @Test
@@ -63,7 +56,7 @@ public class IntSliderTest {
     //when
     intSlider.setValue(11);
     //then
-    verifyMsgForProperty(IntSlider.VALUE, 11);
+    verifyMsgForProperty(groovyKernel, IntSlider.VALUE, 11);
   }
 
   @Test
@@ -73,7 +66,7 @@ public class IntSliderTest {
     //when
     intSlider.setDisabled(true);
     //then
-    verifyMsgForProperty(Widget.DISABLED, true);
+    verifyMsgForProperty(groovyKernel, Widget.DISABLED, true);
   }
 
   @Test
@@ -83,7 +76,7 @@ public class IntSliderTest {
     //when
     intSlider.setVisible(false);
     //then
-    verifyMsgForProperty(Widget.VISIBLE, false);
+    verifyMsgForProperty(groovyKernel, Widget.VISIBLE, false);
   }
 
   @Test
@@ -93,7 +86,7 @@ public class IntSliderTest {
     //when
     intSlider.setDescription("Description 2");
     //then
-    verifyMsgForProperty(Widget.DESCRIPTION, "Description 2");
+    verifyMsgForProperty(groovyKernel, Widget.DESCRIPTION, "Description 2");
   }
 
   @Test
@@ -103,7 +96,7 @@ public class IntSliderTest {
     //when
     intSlider.setMsg_throttle(12);
     //then
-    verifyMsgForProperty(Widget.MSG_THROTTLE, 12);
+    verifyMsgForProperty(groovyKernel, Widget.MSG_THROTTLE, 12);
   }
 
   @Test
@@ -113,7 +106,7 @@ public class IntSliderTest {
     //when
     intSlider.setStep(12);
     //then
-    verifyMsgForProperty(BoundedIntWidget.STEP, 12);
+    verifyMsgForProperty(groovyKernel, BoundedIntWidget.STEP, 12);
   }
 
   @Test
@@ -123,7 +116,7 @@ public class IntSliderTest {
     //when
     intSlider.setMax(122);
     //then
-    verifyMsgForProperty(BoundedIntWidget.MAX, 122);
+    verifyMsgForProperty(groovyKernel, BoundedIntWidget.MAX, 122);
   }
 
   @Test
@@ -133,7 +126,7 @@ public class IntSliderTest {
     //when
     intSlider.setMin(10);
     //then
-    verifyMsgForProperty(BoundedIntWidget.MIN, 10);
+    verifyMsgForProperty(groovyKernel, BoundedIntWidget.MIN, 10);
   }
 
   @Test
@@ -143,7 +136,7 @@ public class IntSliderTest {
     //when
     intSlider.setOrientation("vertical");
     //then
-    verifyMsgForProperty(IntSlider.ORIENTATION, "vertical");
+    verifyMsgForProperty(groovyKernel, IntSlider.ORIENTATION, "vertical");
   }
 
   @Test
@@ -153,7 +146,7 @@ public class IntSliderTest {
     //when
     intSlider.setSlider_color("#456789");
     //then
-    verifyMsgForProperty(IntSlider.SLIDER_COLOR, "#456789");
+    verifyMsgForProperty(groovyKernel, IntSlider.SLIDER_COLOR, "#456789");
   }
 
   @Test
@@ -163,7 +156,7 @@ public class IntSliderTest {
     //when
     intSlider.setReadOut(false);
     //then
-    verifyMsgForProperty(IntSlider.READOUT, false);
+    verifyMsgForProperty(groovyKernel, IntSlider.READOUT, false);
   }
 
   @Test
@@ -173,26 +166,7 @@ public class IntSliderTest {
     //when
     intSlider.setContinuous_update(false);
     //then
-    verifyMsgForProperty(IntSlider.CONTINUOUS_UPDATE, false);
-  }
-
-
-  private void verifyMsgForProperty(String propertyName, Object expected) {
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = getData(groovyKernel.getMessages().get(0));
-    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(propertyName)).isEqualTo(expected);
-  }
-
-  private void verifyIntSliderOpenCommMsg(Message message, Message layoutMessage) {
-    assertThat(message.getHeader().getType()).isEqualTo(COMM_OPEN.getName());
-    Map data = getData(message);
-    assertThat(data.get(Layout.LAYOUT)).isEqualTo(Layout.IPY_MODEL + layoutMessage.getContent().get(Comm.COMM_ID));
-    assertThat(data.get(Widget.MODEL_MODULE)).isEqualTo(Widget.MODEL_MODULE_VALUE);
-    assertThat(data.get(Widget.VIEW_MODULE)).isEqualTo(Widget.VIEW_MODULE_VALUE);
-    assertThat(data.get(Widget.MODEL_NAME)).isEqualTo(IntSlider.MODEL_NAME_VALUE);
-    assertThat(data.get(Widget.VIEW_NAME)).isEqualTo(IntSlider.VIEW_NAME_VALUE);
-    assertThat(data.get(IntSlider.VALUE)).isEqualTo(0);
+    verifyMsgForProperty(groovyKernel, IntSlider.CONTINUOUS_UPDATE, false);
   }
 
   private IntSlider intSlider() throws NoSuchAlgorithmException {
@@ -201,8 +175,4 @@ public class IntSliderTest {
     return intSlider;
   }
 
-  private Map getData(Message message) {
-    Map<String, Serializable> content = message.getContent();
-    return (Map) content.get(Comm.DATA);
-  }
 }
