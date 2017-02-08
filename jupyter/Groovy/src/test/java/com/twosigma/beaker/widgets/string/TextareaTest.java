@@ -13,9 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets;
+package com.twosigma.beaker.widgets.string;
 
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
+import com.twosigma.beaker.widgets.GroovyKernelTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
-public class TextTest {
+public class TextareaTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -44,24 +45,25 @@ public class TextTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new Text();
+    new Textarea();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), Text.MODEL_NAME_VALUE, Text.VIEW_NAME_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), Textarea.MODEL_NAME_VALUE, Textarea.VIEW_NAME_VALUE);
   }
 
   @Test
   public void shouldSendCommMsgWhenValueChange() throws Exception {
     //given
-    Text text = text();
+    Textarea widget = textarea();
     //when
-    text.setValue("1");
+    widget.setValue("Text area 1");
     //then
-    verifyMsgForProperty(groovyKernel, Text.VALUE, "1");
+    verifyMsgForProperty(groovyKernel, Textarea.VALUE, "Text area 1");
   }
 
-  private Text text() throws NoSuchAlgorithmException {
-    Text widget = new Text();
+  private Textarea textarea() throws NoSuchAlgorithmException {
+    Textarea widget = new Textarea();
     groovyKernel.clearMessages();
     return widget;
   }
+
 }

@@ -13,11 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets;
+package com.twosigma.beaker.widgets.string;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
 import com.twosigma.beaker.jupyter.Utils;
+import com.twosigma.beaker.widgets.Layout;
+import com.twosigma.beaker.widgets.Widget;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
@@ -26,23 +28,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.twosigma.beaker.widgets.Layout.IPY_MODEL;
-import static com.twosigma.beaker.widgets.Layout.LAYOUT;
-
-public class Text extends Widget {
-
-  public static final String VIEW_NAME_VALUE = "TextView";
-  public static final String MODEL_NAME_VALUE = "TextModel";
+public abstract class StringWidget extends Widget {
 
   private Comm comm;
   private Layout layout;
   private String value = "";
 
-  public Text() throws NoSuchAlgorithmException {
+  public StringWidget() throws NoSuchAlgorithmException {
     comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
     layout = new Layout();
     openComm(comm);
   }
+
+  protected abstract HashMap<String, Serializable> content();
 
   private void openComm(final Comm comm) throws NoSuchAlgorithmException {
     comm.setData(content());
@@ -71,32 +69,6 @@ public class Text extends Widget {
     return this.comm;
   }
 
-  private HashMap<String, Serializable> content() {
-    HashMap<String, Serializable> content = new HashMap<>();
-    content.put(MODEL_MODULE, MODEL_MODULE_VALUE);
-    content.put(MODEL_NAME, MODEL_NAME_VALUE);
-    content.put(VIEW_MODULE, VIEW_MODULE_VALUE);
-    content.put(VIEW_NAME, VIEW_NAME_VALUE);
-    content.put(LAYOUT, IPY_MODEL + layout.getComm().getCommId());
-    content.put(VALUE, this.value);
-
-    content.put(DESCRIPTION, this.getDescription());
-    content.put(DISABLED, this.getDisabled());
-    content.put(VISIBLE, this.getVisible());
-    content.put(MSG_THROTTLE, this.getMsg_throttle());
-
-    content.put("background_color", null);
-    content.put("font_family", "");
-    content.put("font_size", "");
-    content.put("font_style", "");
-    content.put("font_weight", "");
-
-    content.put("color", null);
-    content.put("placeholder", "");
-
-    return content;
-  }
-
   public String getValue() {
     return value;
   }
@@ -106,4 +78,7 @@ public class Text extends Widget {
     sendUpdate(VALUE, value);
   }
 
+  public Layout getLayout() {
+    return layout;
+  }
 }
