@@ -76,7 +76,8 @@ public abstract class Widget {
     return result;
   }
 
-  protected abstract void addValueChangeMsgCallback(final Comm comm);
+  protected void addValueChangeMsgCallback(final Comm comm){
+  }
 
   protected abstract HashMap<String, Serializable> content(HashMap<String, Serializable> content);
 

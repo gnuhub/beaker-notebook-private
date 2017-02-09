@@ -15,10 +15,6 @@
  */
 package com.twosigma.beaker.widgets;
 
-import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.jupyter.CommNamesEnum;
-import com.twosigma.beaker.jupyter.Utils;
-
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -34,10 +30,6 @@ public class Layout extends Widget {
   public Layout() throws NoSuchAlgorithmException {
     super();
     init();
-  }
-
-  @Override
-  protected void addValueChangeMsgCallback(Comm comm) {
   }
 
   @Override
