@@ -360,7 +360,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   }
 
   public Message getParentMessage(){
-    return NamespaceClient.getBeaker().getOutputObj() != null ? (Message) NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
+    return NamespaceClient.getBeaker() != null && NamespaceClient.getBeaker().getOutputObj() != null ? (Message)NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
   }
 
 }
