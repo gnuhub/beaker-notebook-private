@@ -41,20 +41,8 @@ public abstract class StringWidget extends DOMWidget {
   }
 
   @Override
-  protected void addValueChangeMsgCallback(Comm comm) {
-    comm.addMsgCallbackList(new IHandler<Message>() {
-      @Override
-      public void handle(Message message) throws NoSuchAlgorithmException {
-        Map data = (Map) message.getContent().get("data");
-        Map sync_data = (Map) data.get("sync_data");
-        String value = (String) sync_data.get(VALUE);
-        updateValue(value);
-      }
-    });
-  }
-
-  private void updateValue(String value) {
-    this.value = value;
+  protected void updateValue(Object value) {
+    this.value = (String) value;
   }
 
   public String getValue() {

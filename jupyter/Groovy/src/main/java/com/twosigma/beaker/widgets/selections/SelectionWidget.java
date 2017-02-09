@@ -15,15 +15,11 @@
  */
 package com.twosigma.beaker.widgets.selections;
 
-import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.DOMWidget;
-import org.lappsgrid.jupyter.groovy.handler.IHandler;
-import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class SelectionWidget extends DOMWidget {
 
@@ -44,20 +40,8 @@ public abstract class SelectionWidget extends DOMWidget {
   }
 
   @Override
-  protected void addValueChangeMsgCallback(Comm comm) {
-    comm.addMsgCallbackList(new IHandler<Message>() {
-      @Override
-      public void handle(Message message) throws NoSuchAlgorithmException {
-        Map data = (Map) message.getContent().get("data");
-        Map sync_data = (Map) data.get("sync_data");
-        String value = (String) sync_data.get(VALUE);
-        updateValue(value);
-      }
-    });
-  }
-
-  private void updateValue(String value) {
-    this.value = value;
+  protected void updateValue(Object value) {
+    this.value = (String) value;
   }
 
   public String getValue() {

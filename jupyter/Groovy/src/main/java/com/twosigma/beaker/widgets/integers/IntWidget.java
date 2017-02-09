@@ -15,15 +15,11 @@
  */
 package com.twosigma.beaker.widgets.integers;
 
-import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.DOMWidget;
-import org.lappsgrid.jupyter.groovy.handler.IHandler;
-import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class IntWidget extends DOMWidget {
 
@@ -40,20 +36,9 @@ public abstract class IntWidget extends DOMWidget {
     return content;
   }
 
-  protected void addValueChangeMsgCallback(final Comm comm) {
-    comm.addMsgCallbackList(new IHandler<Message>() {
-      @Override
-      public void handle(Message message) throws NoSuchAlgorithmException {
-        Map data = (Map) message.getContent().get("data");
-        Map sync_data = (Map) data.get("sync_data");
-        int value = (int) sync_data.get(VALUE);
-        updateValue(value);
-      }
-    });
-  }
-
-  private void updateValue(int value) {
-    this.value = value;
+  @Override
+  protected void updateValue(Object value) {
+    this.value = (int) value;
   }
 
   public int getValue() {

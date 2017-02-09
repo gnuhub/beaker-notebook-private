@@ -15,15 +15,11 @@
  */
 package com.twosigma.beaker.widgets.floats;
 
-import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.DOMWidget;
-import org.lappsgrid.jupyter.groovy.handler.IHandler;
-import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.Map;
 
 public class FloatWidget extends DOMWidget {
 
@@ -40,20 +36,9 @@ public class FloatWidget extends DOMWidget {
     return content;
   }
 
-  protected void addValueChangeMsgCallback(final Comm comm) {
-    comm.addMsgCallbackList(new IHandler<Message>() {
-      @Override
-      public void handle(Message message) throws NoSuchAlgorithmException {
-        Map data = (Map) message.getContent().get("data");
-        Map sync_data = (Map) data.get("sync_data");
-        Object o = sync_data.get(VALUE);
-        updateValue((o instanceof Integer) ? ((Integer) o).doubleValue() : (double) o);
-      }
-    });
-  }
-
-  private void updateValue(Double value) {
-    this.value = value;
+  @Override
+  protected void updateValue(Object value) {
+    this.value = (value instanceof Integer) ? ((Integer) value).doubleValue() : (double) value;
   }
 
   public Double getValue() {

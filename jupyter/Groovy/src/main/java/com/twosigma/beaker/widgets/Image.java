@@ -38,10 +38,6 @@ public class Image extends DOMWidget {
     init();
   }
 
-  private void updateValue(byte[] value) {
-    this.value = value;
-  }
-
   @Override
   protected HashMap<String, Serializable> content(HashMap<String, Serializable> content) {
     super.content(content);
