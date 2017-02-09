@@ -1,25 +1,15 @@
 package org.lappsgrid.jupyter.groovy;
 
-import static com.twosigma.beaker.jupyter.Utils.uuid;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.twosigma.beaker.groovy.NamespaceClient;
-import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
-import org.lappsgrid.jupyter.groovy.handler.CompleteHandler;
-import org.lappsgrid.jupyter.groovy.handler.HistoryHandler;
-import org.lappsgrid.jupyter.groovy.handler.IHandler;
-import org.lappsgrid.jupyter.groovy.handler.KernelInfoHandler;
+import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.jupyter.CommNamesEnum;
+import com.twosigma.beaker.jupyter.GroovyKernelManager;
+import com.twosigma.beaker.jupyter.handler.*;
+import com.twosigma.beaker.jupyter.msg.JupyterMessages;
+import com.twosigma.beaker.jupyter.msg.MessageCreator;
+import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
+import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
+import org.lappsgrid.jupyter.groovy.handler.*;
 import org.lappsgrid.jupyter.groovy.json.Serializer;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
@@ -32,18 +22,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;
 
-import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.jupyter.CommNamesEnum;
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.jupyter.handler.CommCloseHandler;
-import com.twosigma.beaker.jupyter.handler.CommInfoHandler;
-import com.twosigma.beaker.jupyter.handler.CommMsgHandler;
-import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
-import com.twosigma.beaker.jupyter.handler.ExecuteRequestHandler;
-import com.twosigma.beaker.jupyter.msg.JupyterMessages;
-import com.twosigma.beaker.jupyter.msg.MessageCreator;
-import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
-import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+
+import static com.twosigma.beaker.jupyter.Utils.uuid;
 
 /**
  * The entry point for the Jupyter kernel.
@@ -358,8 +343,16 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     return executionResultSender;
   }
 
+  @Deprecated
+  private Message pm = null;
+
+  @Deprecated //uncoment !!! this implementation only for reproduce "parent message" bug. It is not right!!!
   public Message getParentMessage(){
-    return NamespaceClient.getBeaker().getOutputObj() != null ? (Message) NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
+    if(pm == null){
+      pm = NamespaceClient.getBeaker().getOutputObj() != null ? (Message) NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
+    }
+    return pm;
+    //return NamespaceClient.getBeaker().getOutputObj() != null ? (Message) NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
   }
 
 }
