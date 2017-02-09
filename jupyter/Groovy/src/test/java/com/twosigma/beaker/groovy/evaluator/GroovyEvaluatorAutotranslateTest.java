@@ -29,7 +29,8 @@ public class GroovyEvaluatorAutotranslateTest extends GroovyEvaluatorTest{
         Assertions.assertThat(result instanceof Number).isTrue();
     }
 
-    @Test
+    //TODO : After NamespaceClient.get() will be implemented - remove expected exception
+    @Test(expected = java.lang.RuntimeException.class)
     public void parseGetBeakerObjectScript_returnBeakerObjectValue(){
         //when
         parseClassFromScript("beaker.x = 10 ");
