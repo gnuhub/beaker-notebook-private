@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.floats;
+package com.twosigma.beaker.widgets.strings;
 
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
@@ -26,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyMsgForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsg;
 
-public class FloatProgressTest {
+public class LabelTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -45,25 +45,25 @@ public class FloatProgressTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new FloatProgress();
+    new Label();
     //then
-    verifyOpenCommMsg(groovyKernel.getMessages(), FloatProgress.MODEL_NAME_VALUE, FloatProgress.VIEW_NAME_VALUE);
+    verifyOpenCommMsg(groovyKernel.getMessages(), Label.MODEL_NAME_VALUE, Label.VIEW_NAME_VALUE);
   }
 
   @Test
-  public void shouldSendCommMsgWhenOrientationChange() throws Exception {
+  public void shouldSendCommMsgWhenValueChange() throws Exception {
     //given
-    FloatProgress floatProgress = floatProgress();
+    Label widget = label();
     //when
-    floatProgress.setOrientation("vertical");
+    widget.setValue("1");
     //then
-    verifyMsgForProperty(groovyKernel, FloatProgress.ORIENTATION, "vertical");
+    verifyMsgForProperty(groovyKernel, Label.VALUE, "1");
   }
 
-  private FloatProgress floatProgress() throws NoSuchAlgorithmException {
-    FloatProgress progress = new FloatProgress();
+  private Label label() throws NoSuchAlgorithmException {
+    Label widget = new Label();
     groovyKernel.clearMessages();
-    return progress;
+    return widget;
   }
 
 }
