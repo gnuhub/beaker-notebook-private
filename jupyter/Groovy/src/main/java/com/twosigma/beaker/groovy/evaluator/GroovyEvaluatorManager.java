@@ -46,6 +46,7 @@ public class GroovyEvaluatorManager {
   }
   
   public void executeCode(String code, Message message, int executionCount){
+    kernel.setParentMessage(message);
     SimpleEvaluationObject seo = new SimpleEvaluationObject(code);
     seo.setJupyterMessage(message);
     seo.setExecutionCount(executionCount);

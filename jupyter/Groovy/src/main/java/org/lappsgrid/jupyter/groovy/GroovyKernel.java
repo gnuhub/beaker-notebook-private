@@ -343,14 +343,16 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     return executionResultSender;
   }
 
-  @Deprecated
+  @Deprecated //this implementation only for reproduce "parent message" bug. It is not right!!!
   private Message pm = null;
+
+  @Deprecated // this implementation only for reproduce "parent message" bug. It is not right!!!
+  public void setParentMessage(Message pm){
+    this.pm = pm;
+  }
 
   @Deprecated //uncoment !!! this implementation only for reproduce "parent message" bug. It is not right!!!
   public Message getParentMessage(){
-    if(pm == null){
-      pm = NamespaceClient.getBeaker().getOutputObj() != null ? (Message) NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
-    }
     return pm;
     //return NamespaceClient.getBeaker().getOutputObj() != null ? (Message) NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
   }
