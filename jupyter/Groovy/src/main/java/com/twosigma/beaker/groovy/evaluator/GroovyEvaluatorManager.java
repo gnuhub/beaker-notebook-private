@@ -58,23 +58,5 @@ public class GroovyEvaluatorManager {
   public void exit() {
     groovyEvaluator.exit();
   }
-
-  public static String readJupyterTempFolder(){
-    StringBuffer ret = new StringBuffer();
-    try {
-      Runtime rt = Runtime.getRuntime();
-      String[] commands = {"jupyter","--runtime-dir"};
-      Process proc = rt.exec(commands);
-      BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-      String s = null;
-      while ((s = stdInput.readLine()) != null) {
-        ret.append(s);
-      }
-    } catch (IOException e) {
-      logger.error("No temp folder set for beaker", e);
-    }
-    return ret.toString();
-  }
-
   
 }
