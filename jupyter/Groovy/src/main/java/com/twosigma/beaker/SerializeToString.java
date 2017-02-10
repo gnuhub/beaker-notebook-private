@@ -73,6 +73,8 @@ import com.twosigma.beaker.chart.xychart.plotitem.Points;
 import com.twosigma.beaker.chart.xychart.plotitem.Stems;
 import com.twosigma.beaker.chart.xychart.plotitem.Text;
 import com.twosigma.beaker.chart.xychart.plotitem.YAxis;
+import com.twosigma.beaker.widgets.CommFunctionality;
+import com.twosigma.beaker.widgets.DisplayWidget;
 
 
 public class SerializeToString {
@@ -80,10 +82,12 @@ public class SerializeToString {
   private static int count = 0;
   private static ObjectMapper mapper;
   private static Map<Class<?>, JsonSerializer> serializerMap = new Hashtable<>();
+  private static Map<Class<?>, JsonSerializer> widgetMap = new Hashtable<>();
 
   static {
 
-    //serializerMap.put(TableDisplay.class, new TableDisplaySerializer());
+    widgetMap.put(TableDisplay.class, new TableDisplaySerializer());
+
     serializerMap.put(Color.class, new ColorSerializer());
     serializerMap.put(XYChart.class, new XYChartSerializer());
     serializerMap.put(CombinedPlot.class, new CombinedPlotSerializer());
@@ -107,7 +111,7 @@ public class SerializeToString {
     serializerMap.put(Histogram.class, new HistogramSerializer());
     serializerMap.put(HeatMap.class, new HeatMapSerializer());
 
-    SimpleModule module = new SimpleModule("MySerializer", new Version(1, 0, 0, null, null, null));
+    SimpleModule module = new SimpleModule("MySerializer", new Version(1, 0, 0, null));
     serializerMap.forEach((k, v) -> {
       module.addSerializer(k, v);
     });
@@ -116,12 +120,25 @@ public class SerializeToString {
     mapper.registerModule(module);
   }
 
-  protected static boolean isBeakerChart(Object result) {
+  protected static boolean isBeakerWidget(Object result){
     boolean ret = false;
-    if (result != null) {
+    if(result != null){
+      for (Class<?> clazz : widgetMap.keySet()) {
+        ret = clazz.isAssignableFrom(result.getClass());
+        if(ret){
+          break;
+        }
+      }
+    }
+    return ret;
+  }
+
+  protected static boolean isBeakerChart(Object result){
+    boolean ret = false;
+    if(result != null){
       for (Class<?> clazz : serializerMap.keySet()) {
         ret = clazz.isAssignableFrom(result.getClass());
-        if (ret) {
+        if(ret){
           break;
         }
       }
@@ -130,24 +147,28 @@ public class SerializeToString {
   }
 
   public static String doit(Object result) {
-    if (mapper != null && isBeakerChart(result)) {
-      try {
-        String s = mapper.writeValueAsString(result);
-        count++;
-        s = "<html><div id='beakerChart" + count + 
-          "'></div><script>var j = " + s + 
-          "; window.initPlotd(j,'beakerChart" + count +
-          "');</script></html>";
-        return s;
-      } catch (Exception e) {
-        StringWriter w = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(w);
-        e.printStackTrace(printWriter);
-        printWriter.flush();
-        return w.toString();
-      }
+    if (isBeakerWidget(result) && result instanceof CommFunctionality) {
+      DisplayWidget.display((CommFunctionality) result);
+      return "";
     }
-    return result != null ? result.toString() : null;
+	  if (mapper != null && isBeakerChart(result)) {
+		  try {
+	        String s = mapper.writeValueAsString(result);
+	        count++;
+	        s = "<html><div id='beakerChart" + count +
+	            "'></div><script>var j = " + s +
+	            "; console.log('plot this:'); console.log(j); window.initPlotd(j,'beakerChart" + count +
+	            "');</script></html>";
+	        return s;
+	      } catch (Exception e) {
+	        StringWriter w = new StringWriter();
+	        PrintWriter printWriter = new PrintWriter( w );
+	        e.printStackTrace( printWriter );
+	        printWriter.flush();
+	        return w.toString();
+	      }
+	  }
+	  return result != null ? result.toString() : null;
   }
 
 }
