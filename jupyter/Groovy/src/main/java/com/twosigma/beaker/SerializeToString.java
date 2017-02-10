@@ -86,8 +86,10 @@ public class SerializeToString {
 
   static {
 
-    widgetMap.put(TableDisplay.class, new TableDisplaySerializer());
+    widgetMap.put(com.twosigma.beaker.widgets.table.TableDisplay.class, new TableDisplaySerializer());
+    widgetMap.put(com.twosigma.beaker.widgets.chart.categoryplot.CategoryPlot.class, new CategoryPlotSerializer());
 
+    serializerMap.put(TableDisplay.class, new TableDisplaySerializer());
     serializerMap.put(Color.class, new ColorSerializer());
     serializerMap.put(XYChart.class, new XYChartSerializer());
     serializerMap.put(CombinedPlot.class, new CombinedPlotSerializer());

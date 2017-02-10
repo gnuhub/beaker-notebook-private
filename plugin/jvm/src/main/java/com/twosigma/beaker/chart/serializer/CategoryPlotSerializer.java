@@ -27,6 +27,8 @@ import java.util.List;
 
 public class CategoryPlotSerializer extends AbstractChartSerializer<CategoryPlot> {
 
+  public static final String GRAPHICS_LIST = "graphics_list";
+
   @Override
   public void serialize(CategoryPlot categoryPlot, JsonGenerator jgen, SerializerProvider provider) throws
                                                                                              IOException,
@@ -44,7 +46,7 @@ public class CategoryPlotSerializer extends AbstractChartSerializer<CategoryPlot
       for (CategoryGraphics categoryGraphics : categoryGraphicsList) {
         categoryGraphics.createItemLabels(categoryPlot);
       }
-      jgen.writeObjectField("graphics_list", categoryGraphicsList);
+      jgen.writeObjectField(GRAPHICS_LIST, categoryGraphicsList);
     }
 
     jgen.writeObjectField("orientation", categoryPlot.getOrientation());
