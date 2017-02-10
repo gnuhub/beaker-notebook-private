@@ -46,8 +46,7 @@ public class CsvPlotReader {
   }
 
   public Table read(String fileName) throws IOException {
-    Table reader = Table.createFromCsv(fileName);
-    return reader;
+    return Table.createFromCsv(fileName);
   }
 
   private Object convertToNumber(Object value){
