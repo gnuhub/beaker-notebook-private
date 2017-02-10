@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public abstract class Widget {
+public abstract class Widget implements CommFunctionality {
 
   public static final String MODEL_MODULE = "_model_module";
   public static final String MODEL_NAME = "_model_name";
@@ -81,6 +81,7 @@ public abstract class Widget {
 
   protected abstract HashMap<String, Serializable> content(HashMap<String, Serializable> content);
 
+  @Override
   public Comm getComm() {
     return this.comm;
   }

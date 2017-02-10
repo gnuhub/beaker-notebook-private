@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 TWO SIGMA OPEN SOURCE, LLC
+ *  Copyright 2017 TWO SIGMA OPEN SOURCE, LLC
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,17 +15,11 @@
  */
 package com.twosigma.beaker.widgets;
 
-import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
+import com.twosigma.beaker.jupyter.Comm;
 
-public class DisplayWidget {
+public interface CommFunctionality {
 
-  public static void display(final CommFunctionality widget) throws NoSuchAlgorithmException {
-    HashMap<String, Serializable> content = new HashMap<>();
-    content.put("method", "display");
-    widget.getComm().setData(content);
-    widget.getComm().send();
-  }
+  Comm getComm();
 
 }
+
