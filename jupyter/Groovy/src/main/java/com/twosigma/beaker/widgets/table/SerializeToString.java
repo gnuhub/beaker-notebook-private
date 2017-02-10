@@ -14,21 +14,12 @@
  *  limitations under the License.
  */
 
-package com.twosigma.beaker;
+package com.twosigma.beaker.widgets.table;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Hashtable;
-import java.util.Map;
-
-import com.twosigma.beaker.table.TableDisplay;
-import com.twosigma.beaker.table.serializer.TableDisplaySerializer;
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.JsonSerializer;
-
-
 import com.twosigma.beaker.chart.Color;
 import com.twosigma.beaker.chart.GradientColor;
 import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
@@ -39,51 +30,27 @@ import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryStems;
 import com.twosigma.beaker.chart.heatmap.HeatMap;
 import com.twosigma.beaker.chart.histogram.Histogram;
 import com.twosigma.beaker.chart.legend.LegendPosition;
-import com.twosigma.beaker.chart.serializer.AreaSerializer;
-import com.twosigma.beaker.chart.serializer.BarsSerializer;
-import com.twosigma.beaker.chart.serializer.CategoryBarsSerializer;
-import com.twosigma.beaker.chart.serializer.CategoryLinesSerializer;
-import com.twosigma.beaker.chart.serializer.CategoryPlotSerializer;
-import com.twosigma.beaker.chart.serializer.CategoryPointsSerializer;
-import com.twosigma.beaker.chart.serializer.CategoryStemsSerializer;
-import com.twosigma.beaker.chart.serializer.ColorSerializer;
-import com.twosigma.beaker.chart.serializer.CombinedPlotSerializer;
-import com.twosigma.beaker.chart.serializer.ConstantBandSerializer;
-import com.twosigma.beaker.chart.serializer.ConstantLineSerializer;
-import com.twosigma.beaker.chart.serializer.CrosshairSerializer;
-import com.twosigma.beaker.chart.serializer.GradientColorSerializer;
-import com.twosigma.beaker.chart.serializer.HeatMapSerializer;
-import com.twosigma.beaker.chart.serializer.HistogramSerializer;
-import com.twosigma.beaker.chart.serializer.LegendPositionSerializer;
-import com.twosigma.beaker.chart.serializer.LineSerializer;
-import com.twosigma.beaker.chart.serializer.PointsSerializer;
-import com.twosigma.beaker.chart.serializer.StemsSerializer;
-import com.twosigma.beaker.chart.serializer.TextSerializer;
-import com.twosigma.beaker.chart.serializer.XYChartSerializer;
-import com.twosigma.beaker.chart.serializer.YAxisSerializer;
+import com.twosigma.beaker.chart.serializer.*;
 import com.twosigma.beaker.chart.xychart.CombinedPlot;
 import com.twosigma.beaker.chart.xychart.XYChart;
-import com.twosigma.beaker.chart.xychart.plotitem.Area;
-import com.twosigma.beaker.chart.xychart.plotitem.Bars;
-import com.twosigma.beaker.chart.xychart.plotitem.ConstantBand;
-import com.twosigma.beaker.chart.xychart.plotitem.ConstantLine;
-import com.twosigma.beaker.chart.xychart.plotitem.Crosshair;
-import com.twosigma.beaker.chart.xychart.plotitem.Line;
-import com.twosigma.beaker.chart.xychart.plotitem.Points;
-import com.twosigma.beaker.chart.xychart.plotitem.Stems;
-import com.twosigma.beaker.chart.xychart.plotitem.Text;
-import com.twosigma.beaker.chart.xychart.plotitem.YAxis;
+import com.twosigma.beaker.chart.xychart.plotitem.*;
+import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.serializer.TableDisplaySerializer;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Hashtable;
+import java.util.Map;
 
 
 public class SerializeToString {
 	
-  private static int count = 0;
   private static ObjectMapper mapper;
   private static Map<Class<?>, JsonSerializer> serializerMap = new Hashtable<>();
 
   static {
 
-    //serializerMap.put(TableDisplay.class, new TableDisplaySerializer());
+    serializerMap.put(TableDisplay.class, new TableDisplaySerializer());
     serializerMap.put(Color.class, new ColorSerializer());
     serializerMap.put(XYChart.class, new XYChartSerializer());
     serializerMap.put(CombinedPlot.class, new CombinedPlotSerializer());
@@ -128,26 +95,21 @@ public class SerializeToString {
     }
     return ret;
   }
-  
-  public static String doit(Object result) {
-	  if (mapper != null && isBeakerChart(result)) {
-		  try {
-	        String s = mapper.writeValueAsString(result);
-	        count++;
-	        s = "<html><div id='beakerChart" + count + 
-	            "'></div><script>var j = " + s + 
-	            "; console.log('plot this:'); console.log(j); window.initPlotd(j,'beakerChart" + count +
-	            "');</script></html>";
-	        return s;
-	      } catch (Exception e) {
-	        StringWriter w = new StringWriter();
-	        PrintWriter printWriter = new PrintWriter( w );
-	        e.printStackTrace( printWriter );
-	        printWriter.flush();
-	        return w.toString();
-	      }
-	  } 
-	  return result != null ? result.toString() : null;
+
+  public static String toJson(Object result) {
+    if (mapper != null && isBeakerChart(result)) {
+      try {
+        return mapper.writeValueAsString(result);
+      } catch (Exception e) {
+        StringWriter w = new StringWriter();
+        PrintWriter printWriter = new PrintWriter( w );
+        e.printStackTrace( printWriter );
+        printWriter.flush();
+        return w.toString();
+      }
+    }
+    return result != null ? result.toString() : null;
   }
+
 
 }
