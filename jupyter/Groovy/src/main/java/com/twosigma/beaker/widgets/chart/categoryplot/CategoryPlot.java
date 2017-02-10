@@ -13,29 +13,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.table;
+package com.twosigma.beaker.widgets.chart.categoryplot;
 
+import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
+import com.twosigma.beaker.widgets.internal.SerializeToString;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 
-public class TableDisplay extends com.twosigma.beaker.table.TableDisplay implements CommFunctionality, InternalWidget {
+import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
 
-  public static final String VIEW_NAME_VALUE = "TableDisplayView";
-  public static final String MODEL_NAME_VALUE = "TableDisplayModel";
+public class CategoryPlot extends com.twosigma.beaker.chart.categoryplot.CategoryPlot implements CommFunctionality, InternalWidget {
+
+  public static final String VIEW_NAME_VALUE = "CategoryPlotView";
+  public static final String MODEL_NAME_VALUE = "CategoryPlotModel";
 
   private Comm comm;
 
-  public TableDisplay(Collection<Map<?, ?>> v) throws NoSuchAlgorithmException {
-    super(v);
+  public CategoryPlot() throws NoSuchAlgorithmException {
     this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
       @Override
       public void addContent(HashMap<String, Serializable> content) {
@@ -43,6 +44,13 @@ public class TableDisplay extends com.twosigma.beaker.table.TableDisplay impleme
         content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
       }
     });
+  }
+
+  @Override
+  public com.twosigma.beaker.chart.categoryplot.CategoryPlot leftShift(CategoryGraphics graphics) {
+    com.twosigma.beaker.chart.categoryplot.CategoryPlot categoryPlot = super.leftShift(graphics);
+    this.comm.sendUpdate(GRAPHICS_LIST, SerializeToString.toJson(categoryPlot));
+    return categoryPlot;
   }
 
   @Override
