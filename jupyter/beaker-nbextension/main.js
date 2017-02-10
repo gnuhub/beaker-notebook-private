@@ -38,7 +38,7 @@ define([
 
 
   var load_ipython_extension = function() {
-    load_css('bower_components/datatables/media/css/jquery.dataTables.min.css');
+    load_css('bower_components/datatables.net-dt/css/jquery.dataTables.min.css');
     load_css('bower_components/datatables.net-colreorder-dt/css/colReorder.dataTables.min.css');
     load_css('bower_components/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.min.css');
     load_css('bower_components/datatables.net-keytable-dt/css/keyTable.dataTables.min.css');
