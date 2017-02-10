@@ -40,7 +40,7 @@ public class TestWidgetUtils {
     assertThat(data.get(Widget.MODEL_NAME)).isEqualTo(modelNameValue);
     assertThat(data.get(Widget.VIEW_NAME)).isEqualTo(viewNameValue);
   }
-
+  @SuppressWarnings("unchecked")
   public static Map getData(Message message) {
     Map<String, Serializable> content = getContent(message);
     return (Map) content.get(Comm.DATA);
@@ -50,14 +50,21 @@ public class TestWidgetUtils {
     return message.getContent();
   }
 
-  public static void verifyMsgForProperty(GroovyKernelTest groovyKernel, String propertyName, Object expected) {
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = TestWidgetUtils.getData(groovyKernel.getMessages().get(0));
-    assertThat(data.get(Widget.METHOD)).isEqualTo(Widget.UPDATE);
-    assertThat(((Map) data.get(Widget.STATE)).get(propertyName)).isEqualTo(expected);
+
+  public static <T> void verifyMsgForProperty(GroovyKernelTest groovyKernel, String propertyName, T expected) {
+    Object actual = getValueForProperty(groovyKernel, propertyName, expected.getClass());
+    assertThat(actual).isEqualTo(expected);
   }
 
-  public static void verifyOpenCommMsgBeakerWidgets(List<Message> messages, String modelNameValue, String viewNameValue) {
+  public static <T> T getValueForProperty(GroovyKernelTest groovyKernel, String propertyName, Class<T> clazz) {
+    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
+    Map data = TestWidgetUtils.getData(groovyKernel.getMessages().get(0));
+    assertThat(data.get(Comm.METHOD)).isEqualTo(Comm.UPDATE);
+    Object o = ((Map) data.get(Comm.STATE)).get(propertyName);
+    return clazz.cast(o);
+  }
+
+  public static void verifyOpenCommMsgInternalWidgets(List<Message> messages, String modelNameValue, String viewNameValue) {
     assertThat(messages.size()).isEqualTo(1);
     Message widget = messages.get(0);
 

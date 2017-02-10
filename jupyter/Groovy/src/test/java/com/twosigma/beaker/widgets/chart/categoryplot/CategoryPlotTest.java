@@ -13,19 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.table;
+package com.twosigma.beaker.widgets.chart.categoryplot;
 
+import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryBars;
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.security.NoSuchAlgorithmException;
 
+import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
+import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsgInternalWidgets;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class TableDisplayTest {
+public class CategoryPlotTest {
 
   private GroovyKernelTest groovyKernel;
 
@@ -44,9 +48,27 @@ public class TableDisplayTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     //when
-    new TableDisplay(new ArrayList<>());
+    new CategoryPlot();
     //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), TableDisplay.MODEL_NAME_VALUE, TableDisplay.VIEW_NAME_VALUE);
+    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), CategoryPlot.MODEL_NAME_VALUE, CategoryPlot.VIEW_NAME_VALUE);
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenCategoryGraphicsChange() throws Exception {
+    //given
+    CategoryPlot categoryPlot = categoryPlot();
+    //when
+    categoryPlot.leftShift(new CategoryBars());
+    //then
+    String valueForProperty = getValueForProperty(groovyKernel, GRAPHICS_LIST, String.class);
+    assertThat(valueForProperty).isNotNull();
+    assertThat(valueForProperty).contains(GRAPHICS_LIST);
+  }
+
+  private CategoryPlot categoryPlot() throws NoSuchAlgorithmException {
+    CategoryPlot categoryPlot = new CategoryPlot();
+    groovyKernel.clearMessages();
+    return categoryPlot;
   }
 
 }
