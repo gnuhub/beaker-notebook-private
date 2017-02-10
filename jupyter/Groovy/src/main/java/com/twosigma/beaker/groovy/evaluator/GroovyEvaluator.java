@@ -15,7 +15,10 @@
  */
 package com.twosigma.beaker.groovy.evaluator;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.nio.file.FileSystems;
