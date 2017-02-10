@@ -42,8 +42,12 @@ public class TestWidgetUtils {
   }
 
   public static Map getData(Message message) {
-    Map<String, Serializable> content = message.getContent();
+    Map<String, Serializable> content = getContent(message);
     return (Map) content.get(Comm.DATA);
+  }
+
+  public static Map getContent(Message message) {
+    return message.getContent();
   }
 
   public static void verifyMsgForProperty(GroovyKernelTest groovyKernel, String propertyName, Object expected) {
