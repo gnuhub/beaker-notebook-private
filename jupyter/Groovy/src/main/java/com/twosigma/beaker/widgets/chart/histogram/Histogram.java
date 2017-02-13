@@ -15,6 +15,8 @@
  */
 package com.twosigma.beaker.widgets.chart.histogram;
 
+import com.twosigma.beaker.chart.AbstractChart;
+import com.twosigma.beaker.chart.Chart;
 import com.twosigma.beaker.chart.serializer.HistogramSerializer;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
@@ -59,6 +61,52 @@ public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram imp
   public void setBinCount(int binCount) {
     super.setBinCount(binCount);
     sendUpdate(HistogramSerializer.BIN_COUNT, SerializeToString.toJson(this));
+  }
+
+  @Override
+  public Chart setTitle(String title) {
+    Chart chart = super.setTitle(title);
+    sendUpdate(HistogramSerializer.CHART_TITLE, SerializeToString.toJson(this));
+    return chart;
+  }
+
+  @Override
+  public AbstractChart setXLabel(String xLabel) {
+    AbstractChart abstractChart = super.setXLabel(xLabel);
+    sendUpdate(HistogramSerializer.DOMAIN_AXIS_LABEL, SerializeToString.toJson(this));
+    return abstractChart;
+  }
+
+  @Override
+  public AbstractChart setxLabel(String xLabel) {
+    return setXLabel(xLabel);
+  }
+
+  @Override
+  public AbstractChart setYLabel(String yLabel) {
+    AbstractChart abstractChart = super.setYLabel(yLabel);
+    sendUpdate(HistogramSerializer.Y_LABEL, SerializeToString.toJson(this));
+    return abstractChart;
+  }
+
+  @Override
+  public void setColor(Object color) {
+    super.setColor(color);
+    sendUpdate(HistogramSerializer.COLOR, SerializeToString.toJson(this));
+  }
+
+  @Override
+  public Chart setInitWidth(int w) {
+    Chart chart = super.setInitWidth(w);
+    sendUpdate(HistogramSerializer.INIT_WIDTH, SerializeToString.toJson(this));
+    return chart;
+  }
+
+  @Override
+  public Chart setInitHeight(int h) {
+    Chart chart = super.setInitHeight(h);
+    sendUpdate(HistogramSerializer.INIT_HEIGHT, SerializeToString.toJson(this));
+    return chart;
   }
 
   private void sendUpdate(final String propertyName, final Object value) {
