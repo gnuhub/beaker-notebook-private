@@ -26,6 +26,9 @@ import java.util.Arrays;
 
 public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
 
+  public static final String GRAPHICS_LIST = "graphics_list";
+  public static final String BIN_COUNT = "bin_count";
+
   @Override
   public void serialize(Histogram histogram, JsonGenerator jgen, SerializerProvider provider) throws
                                                                                               IOException,
@@ -41,9 +44,9 @@ public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
     }
 
     if (histogram.getListData() != null) {
-      jgen.writeObjectField("graphics_list", histogram.getListData());
+      jgen.writeObjectField(GRAPHICS_LIST, histogram.getListData());
     } else {
-      jgen.writeObjectField("graphics_list", Arrays.asList(histogram.getData()));
+      jgen.writeObjectField(GRAPHICS_LIST, Arrays.asList(histogram.getData()));
     }
 
     jgen.writeObjectField("right_close", histogram.getRightClose());
@@ -51,7 +54,7 @@ public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
       jgen.writeObjectField("range_min", histogram.getRangeMin());
     if (histogram.getRangeMax() != null)
       jgen.writeObjectField("range_max", histogram.getRangeMax());
-    jgen.writeObjectField("bin_count", histogram.getBinCount());
+    jgen.writeObjectField(BIN_COUNT, histogram.getBinCount());
     jgen.writeObjectField("cumulative", histogram.getCumulative());
     jgen.writeObjectField("normed", histogram.getNormed());
     jgen.writeObjectField("log", histogram.getLog());
