@@ -25,6 +25,11 @@ import java.io.IOException;
 
 public abstract class ChartSerializer<T extends Chart> extends ObservableChartSerializer<T> {
 
+  public static final String CHART_TITLE = "chart_title";
+  public static final String LEGEND_POSITION = "legend_position";
+  public static final String SHOW_LEGEND = "show_legend";
+  public static final String USE_TOOL_TIP = "use_tool_tip";
+
   protected void serialize(T chart, JsonGenerator jgen) throws IOException {
 
     super.serialize(chart, jgen);
@@ -38,10 +43,10 @@ public abstract class ChartSerializer<T extends Chart> extends ObservableChartSe
 
     jgen.writeObjectField("init_width", chart.getInitWidth());
     jgen.writeObjectField("init_height", chart.getInitHeight());
-    jgen.writeObjectField("chart_title", chart.getTitle());
-    jgen.writeObjectField("show_legend", chart.getShowLegend());
-    jgen.writeObjectField("use_tool_tip", chart.getUseToolTip());
-    jgen.writeObjectField("legend_position", chart.getLegendPosition());
+    jgen.writeObjectField(CHART_TITLE, chart.getTitle());
+    jgen.writeObjectField(SHOW_LEGEND, chart.getShowLegend());
+    jgen.writeObjectField(USE_TOOL_TIP, chart.getUseToolTip());
+    jgen.writeObjectField(LEGEND_POSITION, chart.getLegendPosition());
     jgen.writeObjectField("legend_layout", chart.getLegendLayout());
     jgen.writeObjectField("custom_styles", chart.getCustomStyles());
     jgen.writeObjectField("element_styles", chart.getElementStyles());

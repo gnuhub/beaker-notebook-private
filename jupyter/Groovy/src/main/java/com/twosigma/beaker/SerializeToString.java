@@ -82,12 +82,13 @@ public class SerializeToString {
   private static int count = 0;
   private static ObjectMapper mapper;
   private static Map<Class<?>, JsonSerializer> serializerMap = new Hashtable<>();
-  private static Map<Class<?>, JsonSerializer> widgetMap = new Hashtable<>();
+  private static Map<Class<?>, Object> widgetMap = new Hashtable<>();
 
   static {
 
-    widgetMap.put(com.twosigma.beaker.widgets.table.TableDisplay.class, new TableDisplaySerializer());
-    widgetMap.put(com.twosigma.beaker.widgets.chart.categoryplot.CategoryPlot.class, new CategoryPlotSerializer());
+    widgetMap.put(com.twosigma.beaker.widgets.table.TableDisplay.class, new Object());
+    widgetMap.put(com.twosigma.beaker.widgets.chart.categoryplot.CategoryPlot.class, new Object());
+    widgetMap.put(com.twosigma.beaker.widgets.chart.heatmap.HeatMap.class, new Object());
 
     serializerMap.put(TableDisplay.class, new TableDisplaySerializer());
     serializerMap.put(Color.class, new ColorSerializer());
