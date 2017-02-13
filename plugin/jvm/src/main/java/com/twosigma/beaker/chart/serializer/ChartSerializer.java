@@ -29,6 +29,8 @@ public abstract class ChartSerializer<T extends Chart> extends ObservableChartSe
   public static final String LEGEND_POSITION = "legend_position";
   public static final String SHOW_LEGEND = "show_legend";
   public static final String USE_TOOL_TIP = "use_tool_tip";
+  public static final String INIT_WIDTH = "init_width";
+  public static final String INIT_HEIGHT = "init_height";
 
   protected void serialize(T chart, JsonGenerator jgen) throws IOException {
 
@@ -41,8 +43,8 @@ public abstract class ChartSerializer<T extends Chart> extends ObservableChartSe
       jgen.writeObjectField("type", type);
     }
 
-    jgen.writeObjectField("init_width", chart.getInitWidth());
-    jgen.writeObjectField("init_height", chart.getInitHeight());
+    jgen.writeObjectField(INIT_WIDTH, chart.getInitWidth());
+    jgen.writeObjectField(INIT_HEIGHT, chart.getInitHeight());
     jgen.writeObjectField(CHART_TITLE, chart.getTitle());
     jgen.writeObjectField(SHOW_LEGEND, chart.getShowLegend());
     jgen.writeObjectField(USE_TOOL_TIP, chart.getUseToolTip());
