@@ -28,6 +28,7 @@ public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
 
   public static final String GRAPHICS_LIST = "graphics_list";
   public static final String BIN_COUNT = "bin_count";
+  public static final String COLOR = "color";
 
   @Override
   public void serialize(Histogram histogram, JsonGenerator jgen, SerializerProvider provider) throws
@@ -40,7 +41,7 @@ public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
     if (histogram.getColors() != null) {
       jgen.writeObjectField("colors", histogram.getColors());
     } else {
-      jgen.writeObjectField("color", histogram.getColor());
+      jgen.writeObjectField(COLOR, histogram.getColor());
     }
 
     if (histogram.getListData() != null) {
