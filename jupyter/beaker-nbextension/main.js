@@ -66,6 +66,26 @@ define([
     });
 
     config.load();
+
+
+         events.on('kernel_connected.Kernel', function() {
+            console.log(' kernel_connected');
+                kernel.comm_manager.register_target('beaker.kernel.info.chanel',
+                  function(comm, msg) {
+                    comm.on_msg(function(msg) {
+
+                     console.log('nessage =');
+                     console.log(msg');
+                    });
+                  });
+
+                  Jupyter.notebook.kernel.comm_manager.comms["eee"].then(function(o){o.send("hello")});
+         });
+
+
+
+
+
   }
 
   return {
