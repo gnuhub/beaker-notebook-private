@@ -26,12 +26,15 @@ import java.io.IOException;
 public abstract class AbstractChartSerializer<T extends AbstractChart> extends ChartSerializer<T> {
 
 
+  public static final String DOMAIN_AXIS_LABEL = "domain_axis_label";
+  public static final String Y_LABEL = "y_label";
+
   protected void serialize(T chart, JsonGenerator jgen) throws IOException {
 
     super.serialize(chart, jgen);
 
-    jgen.writeObjectField("domain_axis_label", chart.getXLabel());
-    jgen.writeObjectField("y_label", chart.getYLabel());
+    jgen.writeObjectField(DOMAIN_AXIS_LABEL, chart.getXLabel());
+    jgen.writeObjectField(Y_LABEL, chart.getYLabel());
     jgen.writeObjectField("rangeAxes", chart.getYAxes());
     jgen.writeObjectField("x_lower_margin", chart.getXLowerMargin());
     jgen.writeObjectField("x_upper_margin", chart.getXUpperMargin());

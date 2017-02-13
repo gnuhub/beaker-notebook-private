@@ -24,6 +24,9 @@ import java.io.IOException;
 
 public class HeatMapSerializer extends AbstractChartSerializer<HeatMap> {
 
+  public static final String GRAPHICS_LIST = "graphics_list";
+  public static final String COLOR = "color";
+
   @Override
   public void serialize(HeatMap heatmap, JsonGenerator jgen, SerializerProvider sp)
     throws IOException, JsonProcessingException {
@@ -32,8 +35,8 @@ public class HeatMapSerializer extends AbstractChartSerializer<HeatMap> {
 
     serialize(heatmap, jgen);
 
-    jgen.writeObjectField("graphics_list", heatmap.getData());
-    jgen.writeObjectField("color", heatmap.getColor());
+    jgen.writeObjectField(GRAPHICS_LIST, heatmap.getData());
+    jgen.writeObjectField(COLOR, heatmap.getColor());
 
     jgen.writeEndObject();
   }
