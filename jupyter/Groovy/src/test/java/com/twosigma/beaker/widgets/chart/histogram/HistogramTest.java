@@ -34,6 +34,7 @@ import static com.twosigma.beaker.chart.serializer.ChartSerializer.CHART_TITLE;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.RESULT_JSON_JOINER;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsgInternalWidgets;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class HistogramTest {
@@ -64,7 +65,7 @@ public class HistogramTest {
   public void shouldSendCommMsgWhenDataChange() throws Exception {
     //given
     Histogram histogram = histogram();
-    List<Number> data = Arrays.asList(new Number[]{1, 2, 34, 5, 6});
+    List<Number> data = asList(new Number[]{1, 2, 34, 5, 6});
     //when
     histogram.setData(data);
     //then
@@ -131,6 +132,17 @@ public class HistogramTest {
   }
 
   @Test
+  public void shouldSendCommMsgWhenColorsChange() throws Exception {
+    //given
+    Histogram histogram = histogram();
+    //when
+    histogram.setColor(Arrays.asList(new Color(0, 154, 166),new Color(1, 155, 167)));
+    //then
+    String valueForProperty = getValueForProperty(groovyKernel, HistogramSerializer.COLORS, String.class);
+    assertThat(valueForProperty).contains(HistogramSerializer.COLORS);
+  }
+
+  @Test
   public void shouldSendCommMsgWhenInitWidthChange() throws Exception {
     //given
     Histogram histogram = histogram();
@@ -150,6 +162,62 @@ public class HistogramTest {
     //then
     String valueForProperty = getValueForProperty(groovyKernel, HistogramSerializer.INIT_HEIGHT, String.class);
     assertThat(valueForProperty).contains(HistogramSerializer.INIT_HEIGHT + RESULT_JSON_JOINER + 321);
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenNamesChange() throws Exception {
+    //given
+    Histogram histogram = histogram();
+    //when
+    histogram.setNames(asList("name1", "name2"));
+    //then
+    String valueForProperty = getValueForProperty(groovyKernel, HistogramSerializer.NAMES, String.class);
+    assertThat(valueForProperty).contains(HistogramSerializer.NAMES + RESULT_JSON_JOINER + "[" + "\"name1\",\"name2\"" + "]");
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenDisplayModeChange() throws Exception {
+    //given
+    Histogram histogram = histogram();
+    //when
+    histogram.setDisplayMode(Histogram.DisplayMode.STACK);
+    //then
+    String valueForProperty = getValueForProperty(groovyKernel, HistogramSerializer.DISPLAY_MODE, String.class);
+    assertThat(valueForProperty).contains(HistogramSerializer.DISPLAY_MODE + RESULT_JSON_JOINER + "\"" + Histogram.DisplayMode.STACK.name());
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenCumulativeChange() throws Exception {
+    //given
+    Histogram histogram = histogram();
+    //when
+    histogram.setCumulative(true);
+    //then
+    String valueForProperty = getValueForProperty(groovyKernel, HistogramSerializer.CUMULATIVE, String.class);
+    assertThat(valueForProperty).contains(HistogramSerializer.CUMULATIVE + RESULT_JSON_JOINER + true);
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenNormedChange() throws Exception {
+    //given
+    Histogram histogram = histogram();
+    //when
+    histogram.setNormed(true);
+    //then
+    String valueForProperty = getValueForProperty(groovyKernel, HistogramSerializer.NORMED, String.class);
+    assertThat(valueForProperty).contains(HistogramSerializer.NORMED + RESULT_JSON_JOINER + true);
+  }
+
+
+  @Test
+  public void shouldSendCommMsgWhenLogChange() throws Exception {
+    //given
+    Histogram histogram = histogram();
+    //when
+    histogram.setLog(true);
+    //then
+    String valueForProperty = getValueForProperty(groovyKernel, HistogramSerializer.LOG, String.class);
+    assertThat(valueForProperty).contains(HistogramSerializer.LOG + RESULT_JSON_JOINER + true);
   }
 
   private Histogram histogram() throws NoSuchAlgorithmException {
