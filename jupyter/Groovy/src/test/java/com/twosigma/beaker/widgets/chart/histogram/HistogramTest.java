@@ -31,9 +31,9 @@ import java.util.List;
 import static com.twosigma.beaker.chart.serializer.AbstractChartSerializer.DOMAIN_AXIS_LABEL;
 import static com.twosigma.beaker.chart.serializer.AbstractChartSerializer.Y_LABEL;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.CHART_TITLE;
+import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.RESULT_JSON_JOINER;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsgInternalWidgets;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -136,7 +136,7 @@ public class HistogramTest {
     //given
     Histogram histogram = histogram();
     //when
-    histogram.setColor(Arrays.asList(new Color(0, 154, 166),new Color(1, 155, 167)));
+    histogram.setColor(Arrays.asList(new Color(0, 154, 166), new Color(1, 155, 167)));
     //then
     String valueForProperty = getValueForProperty(groovyKernel, HistogramSerializer.COLORS, String.class);
     assertThat(valueForProperty).contains(HistogramSerializer.COLORS);

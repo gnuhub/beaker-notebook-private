@@ -18,6 +18,7 @@ package com.twosigma.beaker.widgets.chart.categoryplot;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
+import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
@@ -29,10 +30,7 @@ import java.util.HashMap;
 
 import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
 
-public class CategoryPlot extends com.twosigma.beaker.chart.categoryplot.CategoryPlot implements CommFunctionality, InternalWidget {
-
-  public static final String VIEW_NAME_VALUE = "CategoryPlotView";
-  public static final String MODEL_NAME_VALUE = "CategoryPlotModel";
+public class CategoryPlot extends com.twosigma.beaker.chart.categoryplot.CategoryPlot implements CommFunctionality, InternalWidget, InternalPlot {
 
   private Comm comm;
 

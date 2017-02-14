@@ -31,9 +31,9 @@ import static com.twosigma.beaker.chart.serializer.AbstractChartSerializer.Y_LAB
 import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.*;
 import static com.twosigma.beaker.chart.serializer.HeatMapSerializer.COLOR;
+import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.RESULT_JSON_JOINER;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsgInternalWidgets;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class HeatMapTest {
