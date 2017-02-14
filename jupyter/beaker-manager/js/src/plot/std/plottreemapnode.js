@@ -1,6 +1,6 @@
 define([
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/bower_components/d3/d3.min'
+  './../plotUtils',
+  './../../../bower_components/d3/d3.min'
 ], function(
   plotUtils,
   d3

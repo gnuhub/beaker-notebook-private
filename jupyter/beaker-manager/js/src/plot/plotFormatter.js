@@ -1,9 +1,9 @@
 define([
-  'nbextensions/beaker/plot/plotConverter',
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/plot/plotFactory',
-  'nbextensions/beaker/plot/std/plotaxis',
-  'nbextensions/beaker/plot/heatmapconverter'
+  './plotConverter',
+  './plotUtils',
+  './plotFactory',
+  './std/plotaxis',
+  './heatmapconverter'
 ],function(
   plotConverter,
   plotUtils,

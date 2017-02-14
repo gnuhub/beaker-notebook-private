@@ -1,13 +1,11 @@
 var widgets = require('jupyter-js-widgets');
 var _ = require('underscore');
+var d3 = require('./../bower_components/d3/d3.min');
 
+var plotScope = require('./plot/plotScope');
 
-// Custom Model. Custom widgets models must at least provide default values
-// for model attributes, including `_model_name`, `_view_name`, `_model_module`
-// and `_view_module` when different from the base class.
-//
-// When serialiazing entire widget state for embedding, only values different from the
-// defaults will be specified.
+window.d3 = d3;
+
 var PlotModel = widgets.DOMWidgetModel.extend({
   defaults: _.extend({}, widgets.DOMWidgetModel.prototype.defaults, {
     _model_name : 'PlotModel',
@@ -21,12 +19,28 @@ var PlotModel = widgets.DOMWidgetModel.extend({
 // Custom View. Renders the widget model.
 var PlotView = widgets.DOMWidgetView.extend({
   render: function() {
-    this.value_changed();
-    this.model.on('change:value', this.value_changed, this);
+    console.log('render', this);
+    console.log('json??', this.model.get('json'));
+
+    var plotModel = JSON.parse(this.model.get('json'));
+    this.initStandardPlot(plotModel);
+
+    // this.value_changed();
+    // this.model.on('change:value', this.value_changed, this);
   },
 
-  value_changed: function() {
-    this.el.textContent = this.model.get('value');
+  // value_changed: function() {
+  //   this.el.textContent = this.model.get('value');
+  // },
+
+  initStandardPlot: function (data) {
+    var currentScope = new PlotScope('wrap_'+this.id),
+      tmpl = currentScope.buildTemplate();
+
+    // $('div#'+'wrap_'+this.id).append(tmpl);
+    //
+    // currentScope.setModelData(data);
+    // currentScope.init();
   }
 });
 

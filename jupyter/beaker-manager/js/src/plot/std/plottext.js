@@ -1,6 +1,6 @@
 define([
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/plot/plotTip'
+  './../plotUtils',
+  './../plotTip'
 ], function(
   plotUtils,
   plotTip
