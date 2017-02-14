@@ -26,6 +26,16 @@ import java.util.Arrays;
 
 public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
 
+  public static final String GRAPHICS_LIST = "graphics_list";
+  public static final String BIN_COUNT = "bin_count";
+  public static final String COLOR = "color";
+  public static final String COLORS = "colors";
+  public static final String NAMES = "names";
+  public static final String DISPLAY_MODE = "displayMode";
+  public static final String CUMULATIVE = "cumulative";
+  public static final String NORMED = "normed";
+  public static final String LOG = "log";
+
   @Override
   public void serialize(Histogram histogram, JsonGenerator jgen, SerializerProvider provider) throws
                                                                                               IOException,
@@ -35,15 +45,15 @@ public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
     serialize(histogram, jgen);
 
     if (histogram.getColors() != null) {
-      jgen.writeObjectField("colors", histogram.getColors());
+      jgen.writeObjectField(COLORS, histogram.getColors());
     } else {
-      jgen.writeObjectField("color", histogram.getColor());
+      jgen.writeObjectField(COLOR, histogram.getColor());
     }
 
     if (histogram.getListData() != null) {
-      jgen.writeObjectField("graphics_list", histogram.getListData());
+      jgen.writeObjectField(GRAPHICS_LIST, histogram.getListData());
     } else {
-      jgen.writeObjectField("graphics_list", Arrays.asList(histogram.getData()));
+      jgen.writeObjectField(GRAPHICS_LIST, Arrays.asList(histogram.getData()));
     }
 
     jgen.writeObjectField("right_close", histogram.getRightClose());
@@ -51,12 +61,12 @@ public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
       jgen.writeObjectField("range_min", histogram.getRangeMin());
     if (histogram.getRangeMax() != null)
       jgen.writeObjectField("range_max", histogram.getRangeMax());
-    jgen.writeObjectField("bin_count", histogram.getBinCount());
-    jgen.writeObjectField("cumulative", histogram.getCumulative());
-    jgen.writeObjectField("normed", histogram.getNormed());
-    jgen.writeObjectField("log", histogram.getLog());
-    jgen.writeObjectField("displayMode", histogram.getDisplayMode());
-    jgen.writeObjectField("names", histogram.getNames());
+    jgen.writeObjectField(BIN_COUNT, histogram.getBinCount());
+    jgen.writeObjectField(CUMULATIVE, histogram.getCumulative());
+    jgen.writeObjectField(NORMED, histogram.getNormed());
+    jgen.writeObjectField(LOG, histogram.getLog());
+    jgen.writeObjectField(DISPLAY_MODE, histogram.getDisplayMode());
+    jgen.writeObjectField(NAMES, histogram.getNames());
 
     jgen.writeEndObject();
 

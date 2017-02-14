@@ -31,6 +31,7 @@ import static com.twosigma.beaker.chart.serializer.AbstractChartSerializer.Y_LAB
 import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.*;
 import static com.twosigma.beaker.chart.serializer.HeatMapSerializer.COLOR;
+import static com.twosigma.beaker.widgets.TestWidgetUtils.RESULT_JSON_JOINER;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsgInternalWidgets;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -127,7 +128,7 @@ public class HeatMapTest {
     heatmap.setShowLegend(true);
     //then
     String valueForProperty = getValueForProperty(groovyKernel, SHOW_LEGEND, String.class);
-    assertThat(valueForProperty).contains(SHOW_LEGEND+"\":"+true);
+    assertThat(valueForProperty).contains(SHOW_LEGEND + RESULT_JSON_JOINER + true);
   }
 
   @Test
@@ -149,7 +150,7 @@ public class HeatMapTest {
     heatmap.setUseToolTip(true);
     //then
     String valueForProperty = getValueForProperty(groovyKernel, USE_TOOL_TIP, String.class);
-    assertThat(valueForProperty).contains(USE_TOOL_TIP+"\":"+true);
+    assertThat(valueForProperty).contains(USE_TOOL_TIP + RESULT_JSON_JOINER + true);
   }
 
   private HeatMap heatmap() throws NoSuchAlgorithmException {
