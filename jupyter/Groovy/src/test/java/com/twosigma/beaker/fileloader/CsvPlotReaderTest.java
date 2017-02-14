@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CsvPlotReaderTest {
 
-  private static final boolean IS_WINDOWS = System.getProperty( "os.name" ).contains( "indow" );
+  private static final boolean IS_WINDOWS = System.getProperty("os.name").contains("indow");
 
   @Test
   public void shouldReturnDataForPlot() throws Exception {
