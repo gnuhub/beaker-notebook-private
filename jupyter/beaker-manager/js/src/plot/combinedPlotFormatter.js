@@ -1,7 +1,7 @@
 define([
-  'nbextensions/beaker/plot/plotConverter',
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/plot/plotFormatter'
+  './plotConverter',
+  './plotUtils',
+  './plotFormatter'
 ],function(
   plotConverter,
   plotUtils,

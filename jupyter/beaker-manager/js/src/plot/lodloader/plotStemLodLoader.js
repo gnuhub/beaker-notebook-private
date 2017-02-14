@@ -1,11 +1,11 @@
 define([
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/plot/std/plotstem',
-  'nbextensions/beaker/plot/plotSampler',
-  'nbextensions/beaker/plot/lod/plotLodBox',
-  'nbextensions/beaker/plot/lod/plotLodStem',
-  'nbextensions/beaker/plot/auxes/plotAuxBox',
-  'nbextensions/beaker/plot/auxes/plotAuxStem'
+  './../plotUtils',
+  './../std/plotstem',
+  './../plotSampler',
+  './../lod/plotLodBox',
+  './../lod/plotLodStem',
+  './../auxes/plotAuxBox',
+  './../auxes/plotAuxStem'
 ], function(
   plotUtils,
   PlotStem,

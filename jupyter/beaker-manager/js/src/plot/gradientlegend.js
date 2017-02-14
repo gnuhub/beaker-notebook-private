@@ -1,5 +1,5 @@
 define([
-  'nbextensions/beaker/bower_components/d3/d3.min'
+  './../../bower_components/d3/d3.min'
 ], function(
   d3
 ) {

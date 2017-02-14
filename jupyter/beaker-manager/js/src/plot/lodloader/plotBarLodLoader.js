@@ -1,9 +1,9 @@
 define([
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/plot/std/plotbar',
-  'nbextensions/beaker/plot/plotSampler',
-  'nbextensions/beaker/plot/lod/plotLodBox',
-  'nbextensions/beaker/plot/auxes/plotAuxBox'
+  './../plotUtils',
+  './../std/plotbar',
+  './../plotSampler',
+  './../lod/plotLodBox',
+  './../auxes/plotAuxBox'
 ], function(
   plotUtils,
   PlotBar,

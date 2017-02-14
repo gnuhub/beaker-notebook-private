@@ -1,15 +1,15 @@
 define([
-  'nbextensions/beaker/bower_components/d3/d3.min',
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/plot/plotTip',
-  'nbextensions/beaker/plot/plotConverter',
-  'nbextensions/beaker/plot/plotFormatter',
-  'nbextensions/beaker/plot/plotFactory',
-  'nbextensions/beaker/shared/bkUtils',
-  'nbextensions/beaker/shared/bkHelper',
-  'nbextensions/beaker/plot/gradientlegend',
-  'nbextensions/beaker/plot/chartExtender',
-  'nbextensions/beaker/bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min'
+  './../../bower_components/d3/d3.min',
+  './plotUtils',
+  './plotTip',
+  './plotConverter',
+  './plotFormatter',
+  './plotFactory',
+  './../shared/bkUtils',
+  './../shared/bkHelper',
+  './gradientlegend',
+  './chartExtender',
+  './../../bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min'
 ], function(
   d3,
   plotUtils,

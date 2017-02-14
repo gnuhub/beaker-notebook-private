@@ -1,5 +1,5 @@
 define([
-  'nbextensions/beaker/shared/bkUtils'
+  './bkUtils'
 ], function(
   bkUtils
 ) {

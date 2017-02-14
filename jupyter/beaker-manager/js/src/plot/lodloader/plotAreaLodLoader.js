@@ -1,8 +1,8 @@
 define([
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/plot/std/plotarea',
-  'nbextensions/beaker/plot/plotSampler',
-  'nbextensions/beaker/plot/lod/plotLodRiver'
+  './../plotUtils',
+  './../std/plotarea',
+  './../plotSampler',
+  './../lod/plotLodRiver'
 ], function(
   plotUtils,
   PlotArea,

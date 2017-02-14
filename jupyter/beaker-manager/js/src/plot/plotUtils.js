@@ -1,8 +1,8 @@
 define([
-  'nbextensions/beaker/bower_components/big.js/big.min',
-  'nbextensions/beaker/shared/bkHelper',
-  'nbextensions/beaker/shared/bkUtils',
-  'nbextensions/beaker/bower_components/d3/d3.min'
+  './../../bower_components/big.js/big.min',
+  './../shared/bkHelper',
+  './../shared/bkUtils',
+  './../../bower_components/d3/d3.min'
 ], function(
   Big,
   bkHelper,
@@ -809,13 +809,13 @@ define([
       var elementStyles = this.getElementStyles(element);
       elementStyles += this.getFontToInject({
         fontFamily: 'pt-sans',
-        urlformats: {'/nbextensions/beaker/plot/fonts/regular/pts55f-webfont.woff' : 'woff'},
+        urlformats: {'/./fonts/regular/pts55f-webfont.woff' : 'woff'},
         fontWeight: 'normal',
         fontStyle: 'normal'
       });
       elementStyles += this.getFontToInject({
         fontFamily: 'pt-sans',
-        urlformats: {'/nbextensions/beaker/plot/fonts/bold/pts75f-webfont.woff' : 'woff'},
+        urlformats: {'/./fonts/bold/pts75f-webfont.woff' : 'woff'},
         fontWeight: 'bold',
         fontStyle: 'normal'
       });

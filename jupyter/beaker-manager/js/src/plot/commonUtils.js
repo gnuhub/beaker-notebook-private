@@ -1,5 +1,5 @@
 define([
-  'nbextensions/beaker/bower_components/moment-timezone/builds/moment-timezone-with-data.min'
+  './../../bower_components/moment-timezone/builds/moment-timezone-with-data.min'
 ], function(moment) {
   return {
     applyTimezone: function(timestamp, tz) {
@@ -15,6 +15,6 @@ define([
     },
     formatTimestamp: function(timestamp, tz, format) {
       return this.applyTimezone(timestamp, tz).format(format);
-    },
+    }
   };
 });

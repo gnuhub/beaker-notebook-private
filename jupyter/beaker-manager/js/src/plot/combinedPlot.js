@@ -1,11 +1,11 @@
 define([
-  'nbextensions/beaker/bower_components/d3/d3.min',
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/plot/combinedPlotFormatter',
+  './../../bower_components/d3/d3.min',
+  './plotUtils',
+  './combinedPlotFormatter',
   'nbextensions/beaker/shared/bkUtils',
-  'nbextensions/beaker/plot/chartExtender',
+  './chartExtender',
   'nbextensions/beaker/bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min',
-  'nbextensions/beaker/plot/plot'
+  './plot'
 ], function(
   d3,
   plotUtils,

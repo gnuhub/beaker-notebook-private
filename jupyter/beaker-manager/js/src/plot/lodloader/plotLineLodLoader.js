@@ -1,10 +1,10 @@
 define([
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/plot/std/plotline',
-  'nbextensions/beaker/plot/plotSampler',
-  'nbextensions/beaker/plot/lod/plotLodLine',
-  'nbextensions/beaker/plot/lod/plotLodBox',
-  'nbextensions/beaker/plot/lod/plotLodRiver',
+  './../plotUtils',
+  './../std/plotline',
+  './../plotSampler',
+  './../lod/plotLodLine',
+  './../lod/plotLodBox',
+  './../lod/plotLodRiver',
 ], function(
   plotUtils,
   PlotLine,
