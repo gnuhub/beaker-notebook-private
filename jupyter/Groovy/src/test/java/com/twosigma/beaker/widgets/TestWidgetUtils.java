@@ -66,16 +66,4 @@ public class TestWidgetUtils {
     return clazz.cast(o);
   }
 
-  public static void verifyOpenCommMsgInternalWidgets(List<Message> messages, String modelNameValue, String viewNameValue) {
-    assertThat(messages.size()).isEqualTo(1);
-    Message widget = messages.get(0);
-
-    assertThat(widget.getHeader().getType()).isEqualTo(COMM_OPEN.getName());
-    Map data = getData(widget);
-    assertThat(data.get(Widget.MODEL_MODULE)).isEqualTo(Widget.MODEL_MODULE_VALUE);
-    assertThat(data.get(Widget.VIEW_MODULE)).isEqualTo(Widget.VIEW_MODULE_VALUE);
-    assertThat(data.get(Widget.MODEL_NAME)).isEqualTo(modelNameValue);
-    assertThat(data.get(Widget.VIEW_NAME)).isEqualTo(viewNameValue);
-  }
-
 }

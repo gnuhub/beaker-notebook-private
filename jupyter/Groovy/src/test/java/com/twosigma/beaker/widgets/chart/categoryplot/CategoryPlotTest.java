@@ -25,8 +25,8 @@ import org.junit.Test;
 import java.security.NoSuchAlgorithmException;
 
 import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
+import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsgInternalWidgets;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryPlotTest {

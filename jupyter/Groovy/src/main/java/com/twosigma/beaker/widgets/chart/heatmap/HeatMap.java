@@ -22,6 +22,7 @@ import com.twosigma.beaker.chart.legend.LegendPosition;
 import com.twosigma.beaker.chart.serializer.HeatMapSerializer;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
+import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
@@ -34,10 +35,7 @@ import java.util.HashMap;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.SHOW_LEGEND;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.USE_TOOL_TIP;
 
-public class HeatMap extends com.twosigma.beaker.chart.heatmap.HeatMap implements CommFunctionality, InternalWidget {
-
-  public static final String VIEW_NAME_VALUE = "HeatMapView";
-  public static final String MODEL_NAME_VALUE = "HeatMapPlotModel";
+public class HeatMap extends com.twosigma.beaker.chart.heatmap.HeatMap implements CommFunctionality, InternalWidget, InternalPlot {
 
   private Comm comm;
 

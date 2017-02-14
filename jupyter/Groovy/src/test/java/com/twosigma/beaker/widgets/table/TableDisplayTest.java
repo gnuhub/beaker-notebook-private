@@ -23,7 +23,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyOpenCommMsgInternalWidgets;
+import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
+
 
 public class TableDisplayTest {
 

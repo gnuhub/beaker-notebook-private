@@ -21,6 +21,7 @@ import com.twosigma.beaker.chart.Color;
 import com.twosigma.beaker.chart.serializer.HistogramSerializer;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
+import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
@@ -31,10 +32,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 
-public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram implements CommFunctionality, InternalWidget {
-
-  public static final String VIEW_NAME_VALUE = "HistogramView";
-  public static final String MODEL_NAME_VALUE = "HistogramModel";
+public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram implements CommFunctionality, InternalWidget, InternalPlot {
 
   private Comm comm;
 
