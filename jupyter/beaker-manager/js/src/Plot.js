@@ -11,16 +11,15 @@ var _ = require('underscore');
 var PlotModel = widgets.DOMWidgetModel.extend({
   defaults: _.extend({}, widgets.DOMWidgetModel.prototype.defaults, {
     _model_name : 'PlotModel',
-    _view_name : 'Plot',
-    _model_module : 'beaker-widget',
-    _view_module : 'beaker-widget',
-    value : 'Hello World'
+    _view_name : 'PlotView',
+    _model_module : 'beakermanager',
+    _view_module : 'beakermanager'
   })
 });
 
 
 // Custom View. Renders the widget model.
-var Plot = widgets.DOMWidgetView.extend({
+var PlotView = widgets.DOMWidgetView.extend({
   render: function() {
     this.value_changed();
     this.model.on('change:value', this.value_changed, this);
@@ -34,5 +33,5 @@ var Plot = widgets.DOMWidgetView.extend({
 
 module.exports = {
   PlotModel: PlotModel,
-  Plot: Plot
+  PlotView: PlotView
 };

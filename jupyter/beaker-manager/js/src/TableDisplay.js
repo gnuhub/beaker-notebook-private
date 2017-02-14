@@ -12,8 +12,8 @@ var TableDisplayModel = widgets.DOMWidgetModel.extend({
   defaults: _.extend({}, widgets.DOMWidgetModel.prototype.defaults, {
     _model_name : 'TableDisplayModel',
     _view_name : 'TableDisplayView',
-    _model_module : 'beaker-widget',
-    _view_module : 'beaker-widget'
+    _model_module : 'beakermanager',
+    _view_module : 'beakermanager'
   })
 });
 
