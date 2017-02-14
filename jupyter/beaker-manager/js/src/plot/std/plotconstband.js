@@ -1,5 +1,5 @@
 define([
-  'nbextensions/beaker/plot/plotUtils'
+  './../plotUtils'
 ], function(
   plotUtils
 ) {

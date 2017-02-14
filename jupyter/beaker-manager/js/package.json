@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "jupyter-js-widgets": "^1.1.1",
+    "moment": "^2.17.1",
     "underscore": "^1.8.3"
   }
 }

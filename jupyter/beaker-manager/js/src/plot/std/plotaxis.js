@@ -1,7 +1,7 @@
 define([
-  'nbextensions/beaker/bower_components/big.js/big.min',
-  'nbextensions/beaker/plot/plotUtils',
-  'nbextensions/beaker/shared/bkUtils'
+  './../../../bower_components/big.js/big.min',
+  './../plotUtils',
+  './../../shared/bkUtils'
 ], function(
   Big,
   plotUtils,

@@ -1,7 +1,7 @@
 define([
-  'nbextensions/beaker/shared/bkGlobals',
-  'nbextensions/beaker/shared/bkCoreManager',
-  'nbextensions/beaker/shared/bkUtils',
+  './bkGlobals',
+  './bkCoreManager',
+  './bkUtils',
 ], function(
   bkGlobals,
   bkCoreManager,

@@ -1,5 +1,5 @@
 define([
-  'nbextensions/beaker/plot/commonUtils'
+  './../plot/commonUtils'
 ], function(commonUtils) {
   var bkUtils = {
     generateId: function(a) {

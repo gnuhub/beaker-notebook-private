@@ -22,6 +22,7 @@ var TableDisplayModel = widgets.DOMWidgetModel.extend({
 var TableDisplayView = widgets.DOMWidgetView.extend({
   render: function() {
     console.log('render', this);
+    console.log('json??', this.model.get('json'));
 
     this.value_changed();
     this.model.on('change:value', this.value_changed, this);
