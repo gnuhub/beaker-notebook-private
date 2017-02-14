@@ -17,6 +17,7 @@ package com.twosigma.beaker.widgets.chart.histogram;
 
 import com.twosigma.beaker.chart.AbstractChart;
 import com.twosigma.beaker.chart.Chart;
+import com.twosigma.beaker.chart.Color;
 import com.twosigma.beaker.chart.serializer.HistogramSerializer;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
@@ -28,6 +29,7 @@ import com.twosigma.beaker.widgets.internal.SerializeToString;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 
 public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram implements CommFunctionality, InternalWidget {
 
@@ -92,7 +94,7 @@ public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram imp
   @Override
   public void setColor(Object color) {
     super.setColor(color);
-    sendUpdate(HistogramSerializer.COLOR, SerializeToString.toJson(this));
+    sendUpdate((color instanceof Color) ? HistogramSerializer.COLOR : HistogramSerializer.COLORS, SerializeToString.toJson(this));
   }
 
   @Override
@@ -107,6 +109,36 @@ public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram imp
     Chart chart = super.setInitHeight(h);
     sendUpdate(HistogramSerializer.INIT_HEIGHT, SerializeToString.toJson(this));
     return chart;
+  }
+
+  @Override
+  public void setNames(List<String> names) {
+    super.setNames(names);
+    sendUpdate(HistogramSerializer.NAMES, SerializeToString.toJson(this));
+  }
+
+  @Override
+  public void setDisplayMode(DisplayMode displayMode) {
+    super.setDisplayMode(displayMode);
+    sendUpdate(HistogramSerializer.DISPLAY_MODE, SerializeToString.toJson(this));
+  }
+
+  @Override
+  public void setCumulative(boolean cumulative) {
+    super.setCumulative(cumulative);
+    sendUpdate(HistogramSerializer.CUMULATIVE, SerializeToString.toJson(this));
+  }
+
+  @Override
+  public void setNormed(boolean normed) {
+    super.setNormed(normed);
+    sendUpdate(HistogramSerializer.NORMED, SerializeToString.toJson(this));
+  }
+
+  @Override
+  public void setLog(boolean log) {
+    super.setLog(log);
+    sendUpdate(HistogramSerializer.LOG, SerializeToString.toJson(this));
   }
 
   private void sendUpdate(final String propertyName, final Object value) {
