@@ -30,6 +30,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  */
 public class CombinedPlotSerializer extends ObservableChartSerializer<CombinedPlot> {
 
+  public static final String X_LABEL = "x_label";
+
   @Override
   public void serialize(CombinedPlot plot, JsonGenerator jgen, SerializerProvider sp)
       throws IOException, JsonProcessingException
@@ -40,7 +42,7 @@ public class CombinedPlotSerializer extends ObservableChartSerializer<CombinedPl
     jgen.writeObjectField("init_width", plot.getInitWidth());
     jgen.writeObjectField("init_height", plot.getInitHeight());
     jgen.writeObjectField("title", plot.getTitle());
-    jgen.writeObjectField("x_label", plot.getXLabel());
+    jgen.writeObjectField(X_LABEL, plot.getXLabel());
     List<XYChart> subplots = plot.getSubplots();
     if (!subplots.isEmpty()) {
 
