@@ -27,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.CHART_TITLE;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.SHOW_LEGEND;
 import static com.twosigma.beaker.chart.serializer.XYChartSerializer.GRAPHICS_LIST;
+import static com.twosigma.beaker.chart.serializer.XYChartSerializer.LOD_THRESHOLD;
 import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.RESULT_JSON_JOINER;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
@@ -88,6 +89,17 @@ public class TimePlotTest {
     //then
     String valueForProperty = getValueForProperty(groovyKernel, SHOW_LEGEND, String.class);
     assertThat(valueForProperty).contains(SHOW_LEGEND + RESULT_JSON_JOINER + true);
+  }
+
+  @Test
+  public void shouldSendCommMsgWhenLodThresholdChange() throws Exception {
+    //given
+    TimePlot timePlot = timePlot();
+    //when
+    timePlot.setLodThreshold(111);
+    //then
+    String valueForProperty = getValueForProperty(groovyKernel, LOD_THRESHOLD, String.class);
+    assertThat(valueForProperty).contains(LOD_THRESHOLD + RESULT_JSON_JOINER + 111);
   }
 
   private TimePlot timePlot() throws NoSuchAlgorithmException {
