@@ -28,6 +28,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  */
 public class XYChartSerializer extends AbstractChartSerializer<XYChart> {
 
+  public static final String GRAPHICS_LIST = "graphics_list";
+  public static final String LOD_THRESHOLD = "lodThreshold";
+
   @Override
   public void serialize(XYChart xychart, JsonGenerator jgen, SerializerProvider sp)
     throws IOException, JsonProcessingException {
@@ -36,7 +39,7 @@ public class XYChartSerializer extends AbstractChartSerializer<XYChart> {
 
     serialize(xychart, jgen);
 
-    jgen.writeObjectField("graphics_list", xychart.getGraphics());
+    jgen.writeObjectField(GRAPHICS_LIST, xychart.getGraphics());
     jgen.writeObjectField("constant_lines", xychart.getConstantLines());
     jgen.writeObjectField("constant_bands", xychart.getConstantBands());
     jgen.writeObjectField("texts", xychart.getTexts());
@@ -46,7 +49,7 @@ public class XYChartSerializer extends AbstractChartSerializer<XYChart> {
     jgen.writeObjectField("log_x", xychart.getLogX());
     jgen.writeObjectField("x_log_base", xychart.getXLogBase());
     if (xychart.getLodThreshold() != null) {
-      jgen.writeObjectField("lodThreshold", xychart.getLodThreshold());
+      jgen.writeObjectField(LOD_THRESHOLD, xychart.getLodThreshold());
     }
     jgen.writeObjectField("x_tickLabels_visible", xychart.isxTickLabelsVisible());
     jgen.writeObjectField("y_tickLabels_visible", xychart.isyTickLabelsVisible());
