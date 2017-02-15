@@ -33,6 +33,7 @@ public class GroovyKernelJupyterTest extends GroovyKernel {
     private List<Message> publishMessages = new ArrayList<>();
     private List<Message> sendMessages = new ArrayList<>();
     private SimpleEvaluationObject simpleEvaluationObject;
+    private Boolean groovyEvaluatorManagerExit;
 
     @Override
     public void publish(Message message) throws NoSuchAlgorithmException {
@@ -61,10 +62,18 @@ public class GroovyKernelJupyterTest extends GroovyKernel {
         return simpleEvaluationObject;
     }
 
-    public void evaluatorManagerExecuteCode(String code, Message message, int executionCount){
+    public void groovyEvaluatorManagerExecuteCode(String code, Message message, int executionCount){
         simpleEvaluationObject = new SimpleEvaluationObject(code);
         simpleEvaluationObject.setJupyterMessage(message);
         simpleEvaluationObject.setExecutionCount(executionCount);
+    }
+
+    public void groovyEvaluatorManagerExit(){
+        groovyEvaluatorManagerExit = Boolean.TRUE;
+    }
+
+    public Boolean getGroovyEvaluatorManagerExit() {
+        return groovyEvaluatorManagerExit;
     }
 
     private Message copyMessage(Message origin){
