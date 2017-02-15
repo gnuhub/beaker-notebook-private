@@ -68,21 +68,40 @@ define([
     config.load();
 
 
-         events.on('kernel_connected.Kernel', function() {
-            console.log(' kernel_connected');
-                kernel.comm_manager.register_target('beaker.kernel.info.chanel',
-                  function(comm, msg) {
-                    comm.on_msg(function(msg) {
-
-                     console.log('nessage =');
-                     console.log(msg');
-                    });
-                  });
-
-                  Jupyter.notebook.kernel.comm_manager.comms["eee"].then(function(o){o.send("hello")});
-         });
+    //events.on('kernel_connected.Kernel',function(kernel){console.log('dddddddddddddddddddddd');});
 
 
+    events.on('kernel_connected.Kernel',function(kernel){
+
+      console.log('kernel_connected = ' + kernel);
+
+      var kernel_control_data = {};
+      kernel_control_data.data = {};
+      kernel_control_data.data.imports = "abc";
+
+      var kernel_control_target_name = "kernel.control.chanel";
+      var comm = null;
+
+      for(var property in Jupyter.notebook.kernel.comm_manager.comms){
+        if(object.hasOwnProperty(property)){
+          Jupyter.notebook.kernel.comm_manager.comms['"' + property +'"'].then(function(s){
+            if(kernel_control_target_name === s.target_name){
+              comm = s;
+            }
+          })
+        }
+      }
+
+      if(comm == null){
+        console.log('kernel.control.chanel comm open');
+        Jupyter.notebook.kernel.comm_manager.new_comm(kernel_control_target_name,kernel_control_data,null,null,utils.uuid());
+      }else{
+       console.log('kernel.control.chanel comm send');
+      //  comm.then(function(o){o.send(kernel_control_target_name)});
+        //Jupyter.notebook.kernel.comm_manager.comms["eee"].then(function(o){o.send("hello")});
+      }
+
+   });
 
 
 

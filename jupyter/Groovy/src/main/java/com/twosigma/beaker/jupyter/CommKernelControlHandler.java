@@ -15,78 +15,71 @@
  */
 package com.twosigma.beaker.jupyter;
 
-import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
-import static com.twosigma.beaker.jupyter.Comm.DATA;
-import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
-
-import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
+import static com.twosigma.beaker.jupyter.Comm.DATA;
+import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
+
 /**
- * TODO remove : it is a test
  * @author konst
  */
-@Deprecated
-public class CommCallbacTest implements IHandler<Message>{
+public class CommKernelControlHandler implements IHandler<Message>{
 
-  private static final Logger logger = LoggerFactory.getLogger(GroovyKernel.class);
+  public static final String IMPORTS = "imports";
+  public static final String CLASS_PATH = "class_path";
+  public static final String OUT_DIR = "out_dir";
+
+  public static final String KERNEL_CONTROL_RESPONSE = "kernel_control_response";
+  public static final String RESPONSE_OK = "OK";
+  public static final String RESPONSE_ERROR = "ERROR";
+
+  private static final Logger logger = LoggerFactory.getLogger(CommKernelControlHandler.class);
   
   @Override
   public void handle(Message message) throws NoSuchAlgorithmException {
     Map<String, Serializable> commMap = message.getContent();
     HashMap<?, ?> messageData = (HashMap<?, ?>)commMap.get(DATA);
     if (messageData != null) {
-      hangleData(messageData);
+      handleData((Map<String, String>)messageData);
     } else {
       logger.info("Comm message contend is null");
     }
-    GroovyKernelManager.get().publish(createReplayMessage(message));
-    //message handler in here:
-    //static/notebook/js/services/kernels/kernel.js
+    GroovyKernelManager.get().publish(createReplayMessage(message, true));
   }
 
   // TODO read and handle comm message
-  public void hangleData(Object data) {
-    logger.info("Handing comm messahe content:");
-    if (data instanceof Map<?, ?>) {
-      logger.info("Comm content is map, key list:");
-      for (Object key : ((Map<?, ?>) data).keySet()) {
-        logger.info(key.toString());
-      }
-    } else if (data instanceof Collection<?>) {
-      System.out.println("Comm content is Collection, content is:");
-      for (Object value : ((Collection<?>) data)) {
-        logger.info(value.toString());
-      }
-    } else {
-      logger.info("Comm mesage content Class is:");
-      logger.info(data.getClass().getName());
-      logger.info("Comm mesage content value toString():");
-      logger.info(data.toString());
-    }
-    logger.info("Handing comm messahe content END");
+  public void handleData(Map<String, String> data) {
+    logger.info("Handing comm messahe content");
+
+    String imports = data.get(IMPORTS);
+    String classPath = data.get(CLASS_PATH);
+    String outDir = data.get(OUT_DIR);
+
+    //TODO finish
+    logger.info("IMPORTS = " + imports);
+
   }
   
-  private Message createReplayMessage(Message message) {
+  private Message createReplayMessage(Message message, boolean ok) {
     Message ret = null;
     if (message != null) {
       ret = new Message();
       Map<String, Serializable> commMap = message.getContent();
       ret.setHeader(new Header(COMM_MSG, message.getHeader().getSession()));
-      HashMap<String, Serializable> map = new HashMap<>(6);
+      HashMap<String, Serializable> map = new HashMap<>();
       map.put(COMM_ID, getString(commMap, COMM_ID));
       HashMap<String, String> data = new HashMap<>();
-      data.put("abc", "HELL0!!!");
+      data.put(KERNEL_CONTROL_RESPONSE, ok ? RESPONSE_OK : RESPONSE_ERROR);
       map.put(DATA, data);
       ret.setContent(map);
     }
@@ -100,4 +93,5 @@ public class CommCallbacTest implements IHandler<Message>{
     }
     return ret;
   }
+
 }
