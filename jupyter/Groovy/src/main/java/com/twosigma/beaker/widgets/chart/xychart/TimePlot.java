@@ -33,6 +33,7 @@ import java.util.HashMap;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.CHART_TITLE;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.SHOW_LEGEND;
 import static com.twosigma.beaker.chart.serializer.XYChartSerializer.GRAPHICS_LIST;
+import static com.twosigma.beaker.chart.serializer.XYChartSerializer.LOD_THRESHOLD;
 
 
 public class TimePlot extends com.twosigma.beaker.chart.xychart.TimePlot implements CommFunctionality, InternalWidget, InternalPlot {
@@ -73,6 +74,12 @@ public class TimePlot extends com.twosigma.beaker.chart.xychart.TimePlot impleme
     Chart chart = super.setShowLegend(showLegend);
     sendUpdate(SHOW_LEGEND, SerializeToString.toJson(this));
     return chart;
+  }
+
+  @Override
+  public void setLodThreshold(Integer lodThreshold) {
+    super.setLodThreshold(lodThreshold);
+    sendUpdate(LOD_THRESHOLD, SerializeToString.toJson(this));
   }
 
   private void sendUpdate(final String propertyName, final Object value) {
