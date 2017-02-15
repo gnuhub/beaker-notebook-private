@@ -33,6 +33,8 @@ import java.util.List;
  */
 public class XYGraphicsSerializer<T extends XYGraphics> extends GraphicsSerializer<T> {
 
+  public static final String DISPLAY_NAME = "display_name";
+
   @Override
   public void serialize(T xyGraphics, JsonGenerator jgen, SerializerProvider sp)
     throws IOException, JsonProcessingException {
@@ -42,7 +44,7 @@ public class XYGraphicsSerializer<T extends XYGraphics> extends GraphicsSerializ
     boolean isNanoPlot = NanoPlot.class.equals(xyGraphics.getPlotType());
     jgen.writeObjectField("x", isNanoPlot ? processLargeNumbers(xyGraphics.getX()) : xyGraphics.getX());
     jgen.writeObjectField("y", xyGraphics.getY());
-    jgen.writeObjectField("display_name", xyGraphics.getDisplayName());
+    jgen.writeObjectField(DISPLAY_NAME, xyGraphics.getDisplayName());
     if (xyGraphics.getLodFilter() != null){
       jgen.writeObjectField("lod_filter", xyGraphics.getLodFilter().getText());
     }
