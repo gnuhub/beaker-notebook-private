@@ -47,6 +47,7 @@ public class CommKernelControlHandler implements IHandler<Message>{
   
   @Override
   public void handle(Message message) throws NoSuchAlgorithmException {
+    logger.info("Handing comm messahe content");
     Map<String, Serializable> commMap = message.getContent();
     HashMap<?, ?> messageData = (HashMap<?, ?>)commMap.get(DATA);
     if (messageData != null) {
@@ -59,7 +60,6 @@ public class CommKernelControlHandler implements IHandler<Message>{
 
   // TODO read and handle comm message
   public void handleData(Map<String, String> data) {
-    logger.info("Handing comm messahe content");
 
     String imports = data.get(IMPORTS);
     String classPath = data.get(CLASS_PATH);
@@ -67,6 +67,8 @@ public class CommKernelControlHandler implements IHandler<Message>{
 
     //TODO finish
     logger.info("IMPORTS = " + imports);
+    logger.info("CLASS_PATH = " + classPath);
+    logger.info("OUT_DIR = " + outDir);
 
   }
   

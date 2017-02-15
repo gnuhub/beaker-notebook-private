@@ -33,6 +33,7 @@ define([
           window.beaker[msg.content.data.name] = JSON.parse(msg.content.data.value);
         });
       });
+      sendNotebookMetadataToKernel();
   });
 
   var load_ipython_extension = function() {
@@ -66,46 +67,50 @@ define([
     });
 
     config.load();
-
-
-    //events.on('kernel_connected.Kernel',function(kernel){console.log('dddddddddddddddddddddd');});
-
-
-    events.on('kernel_connected.Kernel',function(kernel){
-
-      console.log('kernel_connected = ' + kernel);
-
-      var kernel_control_data = {};
-      kernel_control_data.data = {};
-      kernel_control_data.data.imports = "abc";
-
-      var kernel_control_target_name = "kernel.control.chanel";
-      var comm = null;
-
-      for(var property in Jupyter.notebook.kernel.comm_manager.comms){
-        if(object.hasOwnProperty(property)){
-          Jupyter.notebook.kernel.comm_manager.comms['"' + property +'"'].then(function(s){
-            if(kernel_control_target_name === s.target_name){
-              comm = s;
-            }
-          })
-        }
-      }
-
-      if(comm == null){
-        console.log('kernel.control.chanel comm open');
-        Jupyter.notebook.kernel.comm_manager.new_comm(kernel_control_target_name,kernel_control_data,null,null,utils.uuid());
-      }else{
-       console.log('kernel.control.chanel comm send');
-      //  comm.then(function(o){o.send(kernel_control_target_name)});
-        //Jupyter.notebook.kernel.comm_manager.comms["eee"].then(function(o){o.send("hello")});
-      }
-
-   });
-
-
-
   }
+
+    function sendNotebookMetadataToKernel() {
+        var data = {};
+
+        if(Jupyter.notebook && Jupyter.notebook.metadata){
+          data.imports = Jupyter.notebook.metadata.imports;
+          data.class_path = Jupyter.notebook.metadata.class_path;
+          data.out_dir = Jupyter.notebook.metadata.out_dir;
+        }
+
+        //TODO REMOVE !!!!
+        data.imports = "test imports";
+        data.class_path = "test class_path";
+        data.out_dir = "test out_dir";
+
+        var kernel_control_target_name = "kernel.control.chanel";
+        var comm = null;
+
+        for(var property in Jupyter.notebook.kernel.comm_manager.comms){
+          if(Jupyter.notebook.kernel.comm_manager.comms.hasOwnProperty(property)){
+            comm = Jupyter.notebook.kernel.comm_manager.comms[property].then(function(s){
+              console.log(s.target_name);
+              if(kernel_control_target_name === s.target_name){
+                return s;
+              }
+            })
+            if(comm != null){
+              break;
+            }
+          }
+        }
+
+        if(comm != null){
+          console.log('kernel.control.chanel comm send');
+          //comm.then(function(o){o.send(data)});
+          comm.then(function(o){console.log(o)});
+        }else{
+          console.log('kernel.control.chanel comm open');
+          comm = Jupyter.notebook.kernel.comm_manager.new_comm(kernel_control_target_name,null,null,null,utils.uuid());
+          comm.send(data);
+        }
+
+    }
 
   return {
     load_ipython_extension : load_ipython_extension
