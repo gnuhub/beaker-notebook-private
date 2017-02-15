@@ -28,6 +28,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  */
 public class XYChartSerializer extends AbstractChartSerializer<XYChart> {
 
+  public static final String GRAPHICS_LIST = "graphics_list";
+
   @Override
   public void serialize(XYChart xychart, JsonGenerator jgen, SerializerProvider sp)
     throws IOException, JsonProcessingException {
@@ -36,7 +38,7 @@ public class XYChartSerializer extends AbstractChartSerializer<XYChart> {
 
     serialize(xychart, jgen);
 
-    jgen.writeObjectField("graphics_list", xychart.getGraphics());
+    jgen.writeObjectField(GRAPHICS_LIST, xychart.getGraphics());
     jgen.writeObjectField("constant_lines", xychart.getConstantLines());
     jgen.writeObjectField("constant_bands", xychart.getConstantBands());
     jgen.writeObjectField("texts", xychart.getTexts());
