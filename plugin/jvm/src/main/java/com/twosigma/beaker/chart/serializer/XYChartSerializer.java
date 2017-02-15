@@ -29,6 +29,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class XYChartSerializer extends AbstractChartSerializer<XYChart> {
 
   public static final String GRAPHICS_LIST = "graphics_list";
+  public static final String LOD_THRESHOLD = "lodThreshold";
 
   @Override
   public void serialize(XYChart xychart, JsonGenerator jgen, SerializerProvider sp)
@@ -48,7 +49,7 @@ public class XYChartSerializer extends AbstractChartSerializer<XYChart> {
     jgen.writeObjectField("log_x", xychart.getLogX());
     jgen.writeObjectField("x_log_base", xychart.getXLogBase());
     if (xychart.getLodThreshold() != null) {
-      jgen.writeObjectField("lodThreshold", xychart.getLodThreshold());
+      jgen.writeObjectField(LOD_THRESHOLD, xychart.getLodThreshold());
     }
     jgen.writeObjectField("x_tickLabels_visible", xychart.isxTickLabelsVisible());
     jgen.writeObjectField("y_tickLabels_visible", xychart.isyTickLabelsVisible());
