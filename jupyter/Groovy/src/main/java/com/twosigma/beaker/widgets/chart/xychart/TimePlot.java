@@ -13,9 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.chart.categoryplot;
+package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
+import com.twosigma.beaker.chart.Chart;
+import com.twosigma.beaker.chart.xychart.XYChart;
+import com.twosigma.beaker.chart.xychart.plotitem.XYGraphics;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
@@ -28,13 +30,16 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
+import static com.twosigma.beaker.chart.serializer.ChartSerializer.CHART_TITLE;
+import static com.twosigma.beaker.chart.serializer.ChartSerializer.SHOW_LEGEND;
+import static com.twosigma.beaker.chart.serializer.XYChartSerializer.GRAPHICS_LIST;
 
-public class CategoryPlot extends com.twosigma.beaker.chart.categoryplot.CategoryPlot implements CommFunctionality, InternalWidget, InternalPlot {
+
+public class TimePlot extends com.twosigma.beaker.chart.xychart.TimePlot implements CommFunctionality, InternalWidget, InternalPlot {
 
   private Comm comm;
 
-  public CategoryPlot() throws NoSuchAlgorithmException {
+  public TimePlot() throws NoSuchAlgorithmException {
     this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
       @Override
       public void addContent(HashMap<String, Serializable> content) {
@@ -45,15 +50,29 @@ public class CategoryPlot extends com.twosigma.beaker.chart.categoryplot.Categor
   }
 
   @Override
-  public com.twosigma.beaker.chart.categoryplot.CategoryPlot leftShift(CategoryGraphics graphics) {
-    com.twosigma.beaker.chart.categoryplot.CategoryPlot categoryPlot = super.leftShift(graphics);
-    sendUpdate(GRAPHICS_LIST, SerializeToString.toJson(categoryPlot));
-    return categoryPlot;
+  public Comm getComm() {
+    return this.comm;
   }
 
   @Override
-  public Comm getComm() {
-    return this.comm;
+  public XYChart leftShift(XYGraphics graphics) {
+    XYChart xyChart = super.leftShift(graphics);
+    sendUpdate(GRAPHICS_LIST, SerializeToString.toJson(xyChart));
+    return xyChart;
+  }
+
+  @Override
+  public Chart setTitle(String title) {
+    Chart chart = super.setTitle(title);
+    sendUpdate(CHART_TITLE, SerializeToString.toJson(chart));
+    return chart;
+  }
+
+  @Override
+  public Chart setShowLegend(Boolean showLegend) {
+    Chart chart = super.setShowLegend(showLegend);
+    sendUpdate(SHOW_LEGEND, SerializeToString.toJson(this));
+    return chart;
   }
 
   private void sendUpdate(final String propertyName, final Object value) {
@@ -61,4 +80,5 @@ public class CategoryPlot extends com.twosigma.beaker.chart.categoryplot.Categor
       this.comm.sendUpdate(propertyName, value);
     }
   }
+
 }
