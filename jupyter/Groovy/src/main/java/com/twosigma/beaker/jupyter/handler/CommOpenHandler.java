@@ -30,7 +30,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.twosigma.beaker.jupyter.Comm.*;
+import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
+import static com.twosigma.beaker.jupyter.Comm.DATA;
+import static com.twosigma.beaker.jupyter.Comm.TARGET_MODULE;
+import static com.twosigma.beaker.jupyter.Comm.TARGET_NAME;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_CLOSE;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
 
@@ -68,7 +71,7 @@ public class CommOpenHandler extends AbstractHandler<Message> {
 
     if(newComm != null){
       logger.info("Comm opened, target name = " + newComm.getTargetName());
-      if(CommNamesEnum.KERNEL_CONTROL_CHANEL.getTargetName().equalsIgnoreCase(newComm.getTargetName())){
+      if(CommNamesEnum.KERNEL_CONTROL_CHANNEL.getTargetName().equalsIgnoreCase(newComm.getTargetName())){
         CommKernelControlHandler h = new CommKernelControlHandler(kernel);
         newComm.addMsgCallbackList(h);
         if(newComm.getData() != null && newComm.getData() instanceof Map){

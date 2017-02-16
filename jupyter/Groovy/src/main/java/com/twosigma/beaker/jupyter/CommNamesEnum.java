@@ -20,7 +20,7 @@ public enum CommNamesEnum {
   BEAKER_AUTOTRANSLATION("beaker.autotranslation"),
   JUPYTER_WIDGET("jupyter.widget"),
   JUPYTER_WIDGET_VERSION("jupyter.widget.version"),
-  KERNEL_CONTROL_CHANEL("kernel.control.chanel");
+  KERNEL_CONTROL_CHANNEL("kernel.control.channel");
 
   private String targetName;
 

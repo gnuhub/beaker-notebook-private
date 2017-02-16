@@ -76,7 +76,7 @@ define([
       data.class_path = Jupyter.notebook.metadata.class_path;
       data.out_dir = Jupyter.notebook.metadata.out_dir;
     }
-    var kernel_control_target_name = "kernel.control.chanel";
+    var kernel_control_target_name = "kernel.control.channel";
     var comm = Jupyter.notebook.kernel.comm_manager.new_comm(kernel_control_target_name, null, null, null, utils.uuid());
     comm.send(data)
     comm.close();
