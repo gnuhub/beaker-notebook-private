@@ -69,73 +69,18 @@ define([
     config.load();
   }
 
-
-    function sendNotebookMetadataToKernel() {
-      var data = {};
-      if(Jupyter.notebook && Jupyter.notebook.metadata){
-        data.imports = Jupyter.notebook.metadata.imports;
-        data.class_path = Jupyter.notebook.metadata.class_path;
-        data.out_dir = Jupyter.notebook.metadata.out_dir;
-      }
-      var kernel_control_target_name = "kernel.control.chanel";
-      var comm = Jupyter.notebook.kernel.comm_manager.new_comm(kernel_control_target_name, null, null, null, utils.uuid());
-      comm.send(data)
-      comm.close();
+  function sendNotebookMetadataToKernel() {
+    var data = {};
+    if(Jupyter.notebook && Jupyter.notebook.metadata){
+      data.imports = Jupyter.notebook.metadata.imports;
+      data.class_path = Jupyter.notebook.metadata.class_path;
+      data.out_dir = Jupyter.notebook.metadata.out_dir;
     }
-
-
-    function sendNotebookMetadataToKernel_OLD() {
-
-      var data = {};
-
-      if(Jupyter.notebook && Jupyter.notebook.metadata){
-        data.imports = Jupyter.notebook.metadata.imports;
-        data.class_path = Jupyter.notebook.metadata.class_path;
-        data.out_dir = Jupyter.notebook.metadata.out_dir;
-      }
-
-        //TODO REMOVE !!!!
-        data.imports = "test imports";
-        data.class_path = "test class_path";
-        data.out_dir = "test out_dir";
-
-        var kernel_control_target_name = "kernel.control.chanel";
-
-        var promise = new Promise(function(resolve, reject) {
-
-          var resolved = false;
-
-          for(var property in Jupyter.notebook.kernel.comm_manager.comms){
-            if(Jupyter.notebook.kernel.comm_manager.comms.hasOwnProperty(property)){
-              Jupyter.notebook.kernel.comm_manager.comms[property].then(function(s){
-                console.log('Comm target_name = ' + s.target_name);
-                if(kernel_control_target_name === s.target_name){
-                  console.log('Find opened comm');
-                  resolve(s);
-                  resolved = true;
-                  return;
-                }
-              })
-            }
-          }
-          if(!resolved){
-           console.log('Comm not found');
-           reject("Comm not found");
-          }
-        });
-
-        promise.then(
-          function(c){
-            console.log('kernel.control.chanel comm send');
-            c.then(function(o){o.send(data)});
-          }, function(err) {
-            console.log('kernel.control.chanel comm open');
-            var comm = Jupyter.notebook.kernel.comm_manager.new_comm(kernel_control_target_name,null,null,null,utils.uuid());
-            comm.send(data)
-           }
-         );
-
-    }
+    var kernel_control_target_name = "kernel.control.chanel";
+    var comm = Jupyter.notebook.kernel.comm_manager.new_comm(kernel_control_target_name, null, null, null, utils.uuid());
+    comm.send(data)
+    comm.close();
+  }
 
   return {
     load_ipython_extension : load_ipython_extension
