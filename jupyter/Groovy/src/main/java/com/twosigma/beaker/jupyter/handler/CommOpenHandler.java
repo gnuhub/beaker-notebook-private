@@ -69,7 +69,7 @@ public class CommOpenHandler extends AbstractHandler<Message> {
     if(newComm != null){
       logger.info("Comm opened, target name = " + newComm.getTargetName());
       if(CommNamesEnum.KERNEL_CONTROL_CHANEL.getTargetName().equalsIgnoreCase(newComm.getTargetName())){
-        CommKernelControlHandler h = new CommKernelControlHandler();
+        CommKernelControlHandler h = new CommKernelControlHandler(kernel);
         newComm.addMsgCallbackList(h);
         if(newComm.getData() != null && newComm.getData() instanceof Map){
           Map data = newComm.getData();

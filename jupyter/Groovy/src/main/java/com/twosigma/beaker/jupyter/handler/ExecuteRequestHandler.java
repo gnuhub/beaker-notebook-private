@@ -15,21 +15,20 @@
  */
 package com.twosigma.beaker.jupyter.handler;
 
-import static com.twosigma.beaker.jupyter.msg.JupyterMessages.EXECUTE_INPUT;
-import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
-
-import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.slf4j.LoggerFactory;
 
-import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.twosigma.beaker.jupyter.msg.JupyterMessages.EXECUTE_INPUT;
+import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
 
 /**
  * Does the actual work of executing user code.
@@ -41,10 +40,10 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
   protected int executionCount;
   protected GroovyEvaluatorManager evaluatorManager;
 
-  public ExecuteRequestHandler(GroovyKernel kernel) {
+  public ExecuteRequestHandler(GroovyKernel kernel, GroovyEvaluatorManager evaluatorManager) {
     super(kernel);
     logger = LoggerFactory.getLogger(this.getClass());
-    evaluatorManager = new GroovyEvaluatorManager(kernel);
+    this.evaluatorManager = evaluatorManager;
     executionCount = 0;
   }
 

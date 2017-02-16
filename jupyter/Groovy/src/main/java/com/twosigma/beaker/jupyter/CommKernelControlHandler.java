@@ -15,6 +15,7 @@
  */
 package com.twosigma.beaker.jupyter;
 
+import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
@@ -43,33 +44,34 @@ public class CommKernelControlHandler implements IHandler<Message>{
   public static final String RESPONSE_OK = "OK";
   public static final String RESPONSE_ERROR = "ERROR";
 
+  protected GroovyKernel kernel;
+
   private static final Logger logger = LoggerFactory.getLogger(CommKernelControlHandler.class);
-  
+
+  public CommKernelControlHandler(GroovyKernel kernel) {
+    this.kernel = kernel;
+  }
+
   @Override
   public void handle(Message message) throws NoSuchAlgorithmException {
-    logger.info("Handing comm messahe content");
-    Map<String, Serializable> commMap = message.getContent();
-    HashMap<?, ?> messageData = (HashMap<?, ?>)commMap.get(DATA);
-    if (messageData != null) {
-      handleData((Map<String, String>)messageData);
+    logger.info("Handing comm message content");
+    if(message != null){
+      Map<String, Serializable> commMap = message.getContent();
+      HashMap<?, ?> messageData = (HashMap<?, ?>)commMap.get(DATA);
+      if (messageData != null) {
+        handleData((Map<String, String>)messageData);
+      }
     } else {
       logger.info("Comm message contend is null");
     }
     GroovyKernelManager.get().publish(createReplayMessage(message, true));
   }
 
-  // TODO read and handle comm message
   public void handleData(Map<String, String> data) {
-
     String imports = data.get(IMPORTS);
     String classPath = data.get(CLASS_PATH);
     String outDir = data.get(OUT_DIR);
-
-    //TODO finish
-    logger.info("IMPORTS = " + imports);
-    logger.info("CLASS_PATH = " + classPath);
-    logger.info("OUT_DIR = " + outDir);
-
+    kernel.setShellOptions(classPath, imports, outDir);
   }
   
   private Message createReplayMessage(Message message, boolean ok) {
