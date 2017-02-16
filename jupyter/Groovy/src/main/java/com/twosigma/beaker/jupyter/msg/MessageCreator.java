@@ -100,7 +100,7 @@ public class MessageCreator {
         }break;
   
         case ERROR:{
-          logger.error("Execution result ERROR: " + seo.getPayload());
+          logger.info("Execution result ERROR: " + seo.getPayload());
           Message reply = new Message();
           reply.setParentHeader(message.getHeader());
           reply.setIdentities(message.getIdentities());
