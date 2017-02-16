@@ -22,6 +22,7 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STREAM;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -55,6 +56,47 @@ public class MessageCreator {
   
   public MessageCreator(GroovyKernel kernel){
     this.kernel = kernel;
+  }
+
+  private Message buildReply(Message message, int executionCount, List<MessageHolder> ret){
+    Message reply = createIdleMessage(message);
+    ret.add(new MessageHolder(SocketEnum.IOPUB_SOCKET, reply));
+
+    // Send the REPLY to the original message. This is NOT the result of
+    // executing the cell. This is the equivalent of 'exit 0' or 'exit 1'
+    // at the end of a shell script.
+    reply = new Message();
+    reply.setParentHeader(message.getHeader());
+    reply.setIdentities(message.getIdentities());
+    reply.setHeader(new Header(EXECUTE_REPLY, message.getHeader().getSession()));
+    Hashtable<String, Serializable> map6 = new Hashtable<String, Serializable>(3);
+    map6.put("dependencies_met", true);
+    map6.put("engine", kernel.getId());
+    map6.put("started", timestamp());
+    reply.setMetadata(map6);
+    Hashtable<String, Serializable> map7 = new Hashtable<String, Serializable>(1);
+    map7.put("execution_count", executionCount);
+    reply.setContent(map7);
+
+    return reply;
+  }
+
+  public synchronized void createMessageJS(String code, int executionCount, Message message) throws NoSuchAlgorithmException {
+    List<MessageHolder> ret = new ArrayList<>();
+    Message reply = new Message();
+    reply.setParentHeader(message.getHeader());
+    reply.setIdentities(message.getIdentities());
+    reply.setHeader(new Header(EXECUTE_RESULT, message.getHeader().getSession()));
+    String resultString = "<html><script>" + code.replace("%%javascript","") + "</script></html>";
+    reply.setContent(new HashMap<String, Serializable>());
+    reply.getContent().put("execution_count", executionCount);
+    HashMap<String, String> map3 = new HashMap<>();
+    map3.put("text/html", resultString);
+    reply.getContent().put("data", map3);
+    reply.getContent().put("metadata", new HashMap<>());
+    logger.info("Execution result is: " + (resultString == null ? "null" : "") + "HTML");
+    kernel.publish(reply);
+    kernel.publish(buildReply(message, executionCount,ret));
   }
   
   public synchronized List<MessageHolder> createMessage(SimpleEvaluationObject seo){
@@ -116,25 +158,7 @@ public class MessageCreator {
         }break;
         
       }
-
-      Message reply = createIdleMessage(message);
-      ret.add(new MessageHolder(SocketEnum.IOPUB_SOCKET, reply));
-    
-      // Send the REPLY to the original message. This is NOT the result of
-      // executing the cell. This is the equivalent of 'exit 0' or 'exit 1'
-      // at the end of a shell script.
-      reply = new Message();
-      reply.setParentHeader(message.getHeader());
-      reply.setIdentities(message.getIdentities());
-      reply.setHeader(new Header(EXECUTE_REPLY, message.getHeader().getSession()));
-      Hashtable<String, Serializable> map6 = new Hashtable<String, Serializable>(3);
-      map6.put("dependencies_met", true);
-      map6.put("engine", kernel.getId());
-      map6.put("started", timestamp());
-      reply.setMetadata(map6);
-      Hashtable<String, Serializable> map7 = new Hashtable<String, Serializable>(1);
-      map7.put("execution_count", seo.getExecutionCount());
-      reply.setContent(map7);
+      Message reply = buildReply(message, seo.getExecutionCount(),ret);
       if (EvaluationStatus.ERROR == seo.getStatus()) {
         reply.getMetadata().put("status", "error");
         reply.getContent().put("status", "error");
@@ -145,7 +169,7 @@ public class MessageCreator {
         reply.getContent().put("status", "ok");
         reply.getContent().put("user_expressions", new HashMap<>());
       }
-  
+
       ret.add(new MessageHolder(SocketEnum.SHELL_SOCKET, reply));
     }
     return ret;
