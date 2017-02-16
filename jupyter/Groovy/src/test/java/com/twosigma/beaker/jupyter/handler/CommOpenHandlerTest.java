@@ -53,6 +53,32 @@ public class CommOpenHandlerTest {
         Assertions.assertThat(groovyKernel.getSendMessages()).isNotEmpty();
     }
 
+    @Test
+    public void handleMessageWithoutCommId_shouldSendCloseCommMessage() throws Exception {
+        //given
+        Message message = initMessage();
+        message.getContent().remove(COMM_ID);
+        //when
+        commOpenHandler.handle(message);
+        //then
+        Assertions.assertThat(groovyKernel.getSendMessages()).isNotEmpty();
+        Message sendMessage = groovyKernel.getSendMessages().get(0);
+        Assertions.assertThat(sendMessage.getHeader().getType()).isEqualTo(JupyterMessages.COMM_CLOSE.getName());
+    }
+
+    @Test
+    public void handleMessageWithoutTargetId_shouldSendCloseCommMessage() throws Exception {
+        //given
+        Message message = initMessage();
+        message.getContent().remove(TARGET_NAME);
+        //when
+        commOpenHandler.handle(message);
+        //then
+        Assertions.assertThat(groovyKernel.getSendMessages()).isNotEmpty();
+        Message sendMessage = groovyKernel.getSendMessages().get(0);
+        Assertions.assertThat(sendMessage.getHeader().getType()).isEqualTo(JupyterMessages.COMM_CLOSE.getName());
+    }
+
     private Message initMessage(){
         Header header = new Header();
         header.setId("messageId");
