@@ -40,8 +40,7 @@ public class ExecuteRequestHandlerTest {
     @Before
     public void setUp(){
         groovyKernel = new GroovyKernelJupyterTest();
-        executeRequestHandler = new ExecuteRequestHandler(groovyKernel);
-        executeRequestHandler.evaluatorManager = new GroovyEvaluatorManager(groovyKernel){
+        GroovyEvaluatorManager evaluatorManager = new GroovyEvaluatorManager(groovyKernel){
             @Override
             public void executeCode(String code, Message message, int executionCount) {
                 groovyKernel.groovyEvaluatorManagerExecuteCode(code, message, executionCount);
@@ -52,6 +51,7 @@ public class ExecuteRequestHandlerTest {
                 groovyKernel.groovyEvaluatorManagerExit();
             }
         };
+        executeRequestHandler = new ExecuteRequestHandler(groovyKernel, evaluatorManager);
     }
 
     @Test
