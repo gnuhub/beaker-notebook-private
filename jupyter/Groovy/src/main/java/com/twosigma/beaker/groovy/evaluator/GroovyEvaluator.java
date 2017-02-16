@@ -482,6 +482,8 @@ public void evaluate(SimpleEvaluationObject seo, String code) {
 
           if (e instanceof InterruptedException || e instanceof InvocationTargetException || e instanceof ThreadDeath) {
             theOutput.error("... cancelled!");
+          } else if(e instanceof ArithmeticException){
+            theOutput.error(e.toString());
           } else {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
