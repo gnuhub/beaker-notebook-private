@@ -136,7 +136,7 @@ public class SerializeToString {
         count++;
         s = "<html><div id='beakerChart" + count + 
           "'></div><script>var j = " + s + 
-          "; console.log('plot this:'); console.log(j); window.initPlotd(j,'beakerChart" + count +
+          "; window.initPlotd(j,'beakerChart" + count +
           "');</script></html>";
         return s;
       } catch (Exception e) {
