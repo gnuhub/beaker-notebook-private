@@ -21,35 +21,23 @@ import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
-import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
-
-import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
-import static com.twosigma.beaker.jupyter.Comm.DATA;
-import static com.twosigma.beaker.jupyter.Comm.TARGET_MODULE;
-import static com.twosigma.beaker.jupyter.Comm.TARGET_NAME;
-
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class CommCloseHandlerTest {
 
     private GroovyKernelJupyterTest groovyKernel;
     private CommCloseHandler commCloseHandler;
+    private Message message;
 
     @Before
     public void setUp(){
         groovyKernel = new GroovyKernelJupyterTest();
         commCloseHandler = new CommCloseHandler(groovyKernel);
+        message = JupyterHandlerTest.initCloseMessage();
     }
 
     @Test
     public void handleMessage_shouldSendShellSocketMessage() throws Exception {
-        //given
-        Message message = initMessage();
         //when
         commCloseHandler.handle(message);
         //then
@@ -58,8 +46,6 @@ public class CommCloseHandlerTest {
 
     @Test
     public void handleMessage_sentMessageHasTypeIsCommClose() throws Exception {
-        //given
-        Message message = initMessage();
         //when
         commCloseHandler.handle(message);
         //then
@@ -71,67 +57,37 @@ public class CommCloseHandlerTest {
     @Test
     public void handleMessage_sentMessageHasSessionId() throws Exception {
         //given
-        Message message = initMessage();
+        String expectedSessionId = message.getHeader().getSession();
         //when
         commCloseHandler.handle(message);
         //then
         Assertions.assertThat(groovyKernel.getSendMessages()).isNotEmpty();
         Message sendMessage = groovyKernel.getSendMessages().get(0);
-        Assertions.assertThat(sendMessage.getHeader().getSession()).isEqualTo("sessionId");
+        Assertions.assertThat(sendMessage.getHeader().getSession()).isEqualTo(expectedSessionId);
     }
 
     @Test
     public void handleMessage_sentMessageHasParentHeader() throws Exception {
         //given
-        Message message = initMessage();
+        String expectedHeader = message.getHeader().asJson();
         //when
         commCloseHandler.handle(message);
         //then
         Assertions.assertThat(groovyKernel.getSendMessages()).isNotEmpty();
         Message sendMessage = groovyKernel.getSendMessages().get(0);
-        Assertions.assertThat(sendMessage.getParentHeader().asJson()).isEqualTo(message.getHeader().asJson());
+        Assertions.assertThat(sendMessage.getParentHeader().asJson()).isEqualTo(expectedHeader);
     }
 
     @Test
     public void handleMessage_sentMessageHasIdentities() throws Exception {
         //given
-        Message message = initMessage();
+        String expectedIdentities = new String(message.getIdentities().get(0));
         //when
         commCloseHandler.handle(message);
         //then
         Assertions.assertThat(groovyKernel.getSendMessages()).isNotEmpty();
         Message sendMessage = groovyKernel.getSendMessages().get(0);
-        Assertions.assertThat(new String(sendMessage.getIdentities().get(0))).isEqualTo("identities");
+        Assertions.assertThat(new String(sendMessage.getIdentities().get(0))).isEqualTo(expectedIdentities);
     }
 
-    @Test
-    public void handleMessage_shouldRemoveCommMessage() throws Exception {
-        //given
-        Message message = initMessage();
-        //when
-        commCloseHandler.handle(message);
-        //then
-        Assertions.assertThat(groovyKernel.getRemoveComm()).isTrue();
-    }
-
-    private Message initMessage(){
-        Header header = new Header();
-        header.setId("messageId");
-        header.setUsername("username");
-        header.setSession("sessionId");
-        header.setType(JupyterMessages.COMM_CLOSE.getName());
-        header.setVersion("5.0");
-
-        Map<String, Serializable> content = new LinkedHashMap<>();
-        content.put(DATA, new HashMap<>());
-        content.put(COMM_ID, "commId");
-        content.put(TARGET_NAME, "targetName");
-        content.put(TARGET_MODULE, "targetModule");
-
-        Message message = new Message();
-        message.setIdentities(Arrays.asList("identities".getBytes()));
-        message.setHeader(header);
-        message.setContent(content);
-        return message;
-    }
 }
