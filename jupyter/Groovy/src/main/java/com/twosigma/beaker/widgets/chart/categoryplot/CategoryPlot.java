@@ -61,4 +61,9 @@ public class CategoryPlot extends com.twosigma.beaker.chart.categoryplot.Categor
       this.comm.sendUpdate(propertyName, value);
     }
   }
+
+  @Override
+  public void sendModel() {
+    sendUpdate(MODEL, SerializeToString.toJson(this));
+  }
 }

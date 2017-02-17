@@ -33,7 +33,7 @@ import java.util.HashMap;
 import static com.twosigma.beaker.chart.serializer.ChartSerializer.CHART_TITLE;
 import static com.twosigma.beaker.chart.serializer.XYChartSerializer.GRAPHICS_LIST;
 
-public class Plot extends com.twosigma.beaker.chart.xychart.Plot  implements CommFunctionality, InternalWidget, InternalPlot {
+public class Plot extends com.twosigma.beaker.chart.xychart.Plot implements CommFunctionality, InternalWidget, InternalPlot {
 
   private Comm comm;
 
@@ -70,5 +70,10 @@ public class Plot extends com.twosigma.beaker.chart.xychart.Plot  implements Com
     if (this.comm != null) {
       this.comm.sendUpdate(propertyName, value);
     }
+  }
+
+  @Override
+  public void sendModel() {
+    sendUpdate(MODEL, SerializeToString.toJson(this));
   }
 }

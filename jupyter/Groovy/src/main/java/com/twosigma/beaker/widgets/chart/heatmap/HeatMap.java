@@ -124,4 +124,8 @@ public class HeatMap extends com.twosigma.beaker.chart.heatmap.HeatMap implement
     }
   }
 
+  @Override
+  public void sendModel() {
+    sendUpdate(MODEL, SerializeToString.toJson(this));
+  }
 }
