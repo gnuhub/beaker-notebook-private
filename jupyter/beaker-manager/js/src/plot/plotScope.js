@@ -10,8 +10,8 @@ define([
   './../shared/bkUtils',
   './../shared/bkHelper',
   './gradientlegend',
-  './chartExtender'
-  // './../../bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min'
+  './chartExtender',
+  './../../bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min'
 ], function(
   $,
   jqui,
@@ -24,14 +24,9 @@ define([
   bkUtils,
   bkHelper,
   GradientLegend,
-  bkoChartExtender
-  // contextMenu
+  bkoChartExtender,
+  contextMenu
 ) {
-
-  var aaaa= require('./../../bower_components/jQuery-contextMenu/dist/jquery.contextMenu');
-
-  console.log('aaaa', aaaa);
-  console.log('contextMenu', $);
 
   function PlotScope(wrapperId) {
     this.wrapperId = wrapperId;
