@@ -35,18 +35,21 @@ import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
 import static com.twosigma.beaker.jupyter.Comm.TARGET_NAME;
 import static com.twosigma.beaker.jupyter.Comm.DATA;
 import static com.twosigma.beaker.jupyter.Comm.TARGET_MODULE;
+import static com.twosigma.beaker.jupyter.Comm.COMMS;
 
 public class JupyterHandlerTest {
 
     private GroovyKernelJupyterTest groovyKernel;
     private CommOpenHandler commOpenHandler;
     private CommCloseHandler commCloseHandler;
+    private CommInfoHandler commInfoHandler;
 
     @Before
     public void setUp(){
         groovyKernel = new GroovyKernelJupyterTest();
         commOpenHandler = new CommOpenHandler(groovyKernel);
         commCloseHandler = new CommCloseHandler(groovyKernel);
+        commInfoHandler = new CommInfoHandler(groovyKernel);
     }
 
     @Test
@@ -85,14 +88,22 @@ public class JupyterHandlerTest {
         Assertions.assertThat(groovyKernel.isCommPresent(commId)).isFalse();
     }
 
-    public static Message initCloseMessage(){
-        Header header = new Header();
-        header.setId("messageId");
-        header.setUsername("username");
-        header.setSession("sessionId");
-        header.setType(JupyterMessages.COMM_CLOSE.getName());
-        header.setVersion("5.0");
+    @Test
+    public void handleInfoCommMessages_replyCommMessageHasCommsInfoContent() throws Exception {
+        //given
+        Message openMessage = initOpenMessage();
+        String commId = (String) openMessage.getContent().get(COMM_ID);
+        String targetName = (String) openMessage.getContent().get(TARGET_NAME);
+        groovyKernel.addComm(commId, new Comm(commId, targetName));
+        //when
+        commInfoHandler.handle(initInfoMessage());
+        //then
+        Assertions.assertThat(groovyKernel.getSendMessages()).isNotEmpty();
+        Message sendMessage = groovyKernel.getSendMessages().get(0);
+        Assertions.assertThat((Map)sendMessage.getContent().get(COMMS)).isNotEmpty();
+    }
 
+    public static Message initCloseMessage(){
         Map<String, Serializable> content = new LinkedHashMap<>();
         content.put(DATA, new HashMap<>());
         content.put(COMM_ID, "commId");
@@ -101,19 +112,12 @@ public class JupyterHandlerTest {
 
         Message message = new Message();
         message.setIdentities(Arrays.asList("identities".getBytes()));
-        message.setHeader(header);
+        message.setHeader(initHeader(JupyterMessages.COMM_CLOSE));
         message.setContent(content);
         return message;
     }
 
     public static Message initOpenMessage(){
-        Header header = new Header();
-        header.setId("messageId");
-        header.setUsername("username");
-        header.setSession("sessionId");
-        header.setType(JupyterMessages.COMM_OPEN.getName());
-        header.setVersion("5.0");
-
         Map<String, Serializable> content = new LinkedHashMap<>();
         content.put(DATA, new HashMap<>());
         content.put(COMM_ID, "commId");
@@ -122,19 +126,12 @@ public class JupyterHandlerTest {
 
         Message message = new Message();
         message.setIdentities(Arrays.asList("identities".getBytes()));
-        message.setHeader(header);
+        message.setHeader(initHeader(JupyterMessages.COMM_OPEN));
         message.setContent(content);
         return message;
     }
 
     public static Message initExecuteRequestMessage(){
-        Header header = new Header();
-        header.setId("messageId");
-        header.setUsername("username");
-        header.setSession("sessionId");
-        header.setType(JupyterMessages.EXECUTE_REQUEST.getName());
-        header.setVersion("5.0");
-
         Map<String, Serializable> content = new  LinkedHashMap<>();
         content.put("allow_stdin", Boolean.TRUE);
         content.put("code", "new Plot() << new Line(x: (0..5), y: [0, 1, 6, 5, 2, 8])");
@@ -145,11 +142,28 @@ public class JupyterHandlerTest {
 
         Message message = new Message();
         message.setIdentities(Arrays.asList("identities".getBytes()));
-        message.setHeader(header);
+        message.setHeader(initHeader(JupyterMessages.EXECUTE_REQUEST));
         message.setParentHeader(null);
         message.setMetadata(new LinkedHashMap<>());
         message.setContent(content);
         return message;
+    }
+
+    public static Message initInfoMessage(){
+        Message message = new Message();
+        message.setIdentities(Arrays.asList("identities".getBytes()));
+        message.setHeader(initHeader(JupyterMessages.COMM_INFO_REQUEST));
+        return message;
+    }
+
+    private static Header initHeader(JupyterMessages jupyterMessages){
+        Header header = new Header();
+        header.setId("messageId");
+        header.setUsername("username");
+        header.setSession("sessionId");
+        header.setType(jupyterMessages.getName());
+        header.setVersion("5.0");
+        return header;
     }
 
 }
