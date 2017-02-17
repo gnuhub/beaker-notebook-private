@@ -66,10 +66,7 @@ public class JupyterHandlerTest {
     @Test
     public void handleCloseCommMessage_shouldRemoveCommMessageFromStorageMap() throws Exception {
         //given
-        Message openMessage = initOpenMessage();
-        String commId = (String) openMessage.getContent().get(COMM_ID);
-        String targetName = (String) openMessage.getContent().get(TARGET_NAME);
-        groovyKernel.addComm(commId, new Comm(commId, targetName));
+        String commId = initKernelCommMapWithOneComm(groovyKernel);
         //when
         commCloseHandler.handle(initCloseMessage());
         //then
@@ -91,10 +88,7 @@ public class JupyterHandlerTest {
     @Test
     public void handleInfoCommMessages_replyCommMessageHasCommsInfoContent() throws Exception {
         //given
-        Message openMessage = initOpenMessage();
-        String commId = (String) openMessage.getContent().get(COMM_ID);
-        String targetName = (String) openMessage.getContent().get(TARGET_NAME);
-        groovyKernel.addComm(commId, new Comm(commId, targetName));
+        initKernelCommMapWithOneComm(groovyKernel);
         //when
         commInfoHandler.handle(initInfoMessage());
         //then
@@ -131,6 +125,20 @@ public class JupyterHandlerTest {
         return message;
     }
 
+    public static Message initCommMessage(){
+        Map<String, Serializable> content = new LinkedHashMap<>();
+        content.put(DATA, new HashMap<>());
+        content.put(COMM_ID, "commId");
+        content.put(TARGET_NAME, "targetName");
+        content.put(TARGET_MODULE, "targetModule");
+
+        Message message = new Message();
+        message.setIdentities(Arrays.asList("identities".getBytes()));
+        message.setHeader(initHeader(JupyterMessages.COMM_MSG));
+        message.setContent(content);
+        return message;
+    }
+
     public static Message initExecuteRequestMessage(){
         Map<String, Serializable> content = new  LinkedHashMap<>();
         content.put("allow_stdin", Boolean.TRUE);
@@ -160,10 +168,18 @@ public class JupyterHandlerTest {
         Header header = new Header();
         header.setId("messageId");
         header.setUsername("username");
-        header.setSession("sessionId");
+        header.setSession("sessionId" + jupyterMessages.getName());
         header.setType(jupyterMessages.getName());
         header.setVersion("5.0");
         return header;
+    }
+
+    public static String initKernelCommMapWithOneComm(GroovyKernelJupyterTest groovyKernelJupyterTest){
+        Message openMessage = initOpenMessage();
+        String commId = (String) openMessage.getContent().get(COMM_ID);
+        String targetName = (String) openMessage.getContent().get(TARGET_NAME);
+        groovyKernelJupyterTest.addComm(commId, new Comm(commId, targetName));
+        return commId;
     }
 
 }
