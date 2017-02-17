@@ -3,6 +3,7 @@ var _ = require('underscore');
 var d3 = require('./../bower_components/d3/d3.min');
 
 var PlotScope = require('./plot/plotScope');
+var CombinedPlotScope = require('./plot/combinedPlotScope');
 
 window.d3 = d3;
 
@@ -28,19 +29,41 @@ var PlotView = widgets.DOMWidgetView.extend({
     this.displayed.then(function() {
       var plotModel = JSON.parse(that.model.get('model'));
       console.log('init this', that.model.get('model'));
-      that.initStandardPlot(plotModel);
+
+      var type = plotModel.type || 'Text';
+
+      switch (type) {
+        case 'CombinedPlot':
+          that.initCombinedPlot(plotModel);
+          break;
+        default:
+          that.initStandardPlot(plotModel);
+          break;
+      }
     });
   },
 
   initStandardPlot: function (data) {
-    var currentScope = new PlotScope('wrap_'+this.id),
-      tmpl = currentScope.buildTemplate(),
-      tmplElement = $(tmpl);
+    var currentScope = new PlotScope('wrap_'+this.id);
+    var tmpl = currentScope.buildTemplate();
+    var tmplElement = $(tmpl);
 
     tmplElement.appendTo(this.$el);
 
     currentScope.setModelData(data);
     currentScope.setElement(tmplElement.children('.dtcontainer'));
+    currentScope.init();
+  },
+
+  initCombinedPlot: function(data) {
+    var currentScope = new CombinedPlotScope('wrap_'+this.id);
+    var tmpl = currentScope.buildTemplate();
+    var tmplElement = $(tmpl);
+
+    tmplElement.appendTo(this.$el);
+
+    currentScope.setModelData(data);
+    currentScope.setElement(tmplElement);
     currentScope.init();
   }
 });
