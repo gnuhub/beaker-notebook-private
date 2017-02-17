@@ -88,4 +88,9 @@ public class TimePlot extends com.twosigma.beaker.chart.xychart.TimePlot impleme
     }
   }
 
+  @Override
+  public void sendModel() {
+    sendUpdate(MODEL, SerializeToString.toJson(this));
+  }
+
 }

@@ -64,4 +64,9 @@ public class CombinedPlot extends com.twosigma.beaker.chart.xychart.CombinedPlot
       this.comm.sendUpdate(propertyName, value);
     }
   }
+
+  @Override
+  public void sendModel() {
+    sendUpdate(MODEL, SerializeToString.toJson(this));
+  }
 }

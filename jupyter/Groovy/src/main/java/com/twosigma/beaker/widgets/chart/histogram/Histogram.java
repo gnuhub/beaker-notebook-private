@@ -144,4 +144,9 @@ public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram imp
       this.comm.sendUpdate(propertyName, value);
     }
   }
+
+  @Override
+  public void sendModel() {
+    sendUpdate(MODEL, SerializeToString.toJson(this));
+  }
 }

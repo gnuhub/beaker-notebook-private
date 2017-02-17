@@ -78,4 +78,9 @@ public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTime
       this.comm.sendUpdate(propertyName, value);
     }
   }
+
+  @Override
+  public void sendModel() {
+    sendUpdate(MODEL, SerializeToString.toJson(this));
+  }
 }
