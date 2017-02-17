@@ -8,6 +8,7 @@ window.d3 = d3;
 
 require('./plot/bko-combinedplot.css');
 require('./plot/bko-plot.css');
+require('./../bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
 
 var PlotModel = widgets.DOMWidgetModel.extend({
   defaults: _.extend({}, widgets.DOMWidgetModel.prototype.defaults, {
@@ -26,6 +27,7 @@ var PlotView = widgets.DOMWidgetView.extend({
 
     this.displayed.then(function() {
       var plotModel = JSON.parse(that.model.get('model'));
+      console.log('init this', that.model.get('model'));
       that.initStandardPlot(plotModel);
     });
   },

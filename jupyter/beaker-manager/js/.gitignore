@@ -84,3 +84,13 @@ bower_components/moment-timezone/changelog.md
 bower_components/moment-timezone/composer.json
 bower_components/moment-timezone/LICENSE
 bower_components/moment-timezone/README.md
+
+bower_components/jquery-ui/themes
+bower_components/jquery-ui/ui
+bower_components/jquery-ui/.bower.json
+bower_components/jquery-ui/bower.json
+bower_components/jquery-ui/.gitignore
+bower_components/jquery-ui/component.json
+bower_components/jquery-ui/composer.json
+bower_components/jquery-ui/package.json
+bower_components/jquery-ui/README.md

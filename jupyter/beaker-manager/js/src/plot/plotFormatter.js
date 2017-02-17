@@ -569,8 +569,6 @@ define([
 
       var xAxis = new PlotAxis(model.xAxis.type);
 
-      console.log('mode', model);
-
       if (xAxis.axisType === "category") {
         xAxis.setRange(vrange.xl, vrange.xr, model.xAxis.base);
         xAxis.setCategoryNames(model.categoryNames, model.labelsxs);

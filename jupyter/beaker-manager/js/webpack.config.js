@@ -5,7 +5,7 @@ var version = require('./package.json').version;
 var loaders = [
     { test: /\.json$/, loader: 'json-loader' },
     { test: /\.css$/, loader: "style-loader!css-loader" },
-    { test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/, loader: "file-loader" }
+    { test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.eot\?3lfph$|\.eot\?3lfph#iefix$|\.woff2\?3lfph$|\.woff\?3lfph$|\.ttf$|\.ttf\?3lfph$|\.wav$|\.mp3$/, loader: "file-loader" }
 ];
 
 
