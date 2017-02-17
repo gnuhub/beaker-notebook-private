@@ -15,7 +15,9 @@
  */
 package com.twosigma.beaker.jupyter.handler;
 
+
 import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
+import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
@@ -39,11 +41,13 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
 
   protected int executionCount;
   protected GroovyEvaluatorManager evaluatorManager;
+  private MessageCreator messageCreator;
 
   public ExecuteRequestHandler(GroovyKernel kernel, GroovyEvaluatorManager evaluatorManager) {
     super(kernel);
     logger = LoggerFactory.getLogger(this.getClass());
     this.evaluatorManager = evaluatorManager;
+    messageCreator = new MessageCreator(kernel);
     executionCount = 0;
   }
 
@@ -71,8 +75,12 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
     publish(reply);
 
     ++executionCount;
-    evaluatorManager.executeCode(code, message, executionCount);
-    // execution response in ExecuteResultHandler
+    if (!code.startsWith("%%javascript")) {
+      evaluatorManager.executeCode(code, message, executionCount);
+      // execution response in ExecuteResultHandler
+    } else {
+      messageCreator.createMessageJS(code, executionCount,message);
+    }
   }
 
   @Override
