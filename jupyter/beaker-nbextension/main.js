@@ -36,6 +36,7 @@ define([
       sendNotebookMetadataToKernel();
   });
 
+
   var load_ipython_extension = function() {
     load_css('bower_components/datatables/media/css/jquery.dataTables.min.css');
     load_css('bower_components/datatables.net-colreorder-dt/css/colReorder.dataTables.min.css');
@@ -69,16 +70,48 @@ define([
   }
 
   function sendNotebookMetadataToKernel() {
-    var data = {};
-    if(Jupyter.notebook && Jupyter.notebook.metadata){
-      data.imports = Jupyter.notebook.metadata.imports;
-      data.class_path = Jupyter.notebook.metadata.class_path;
-      data.out_dir = Jupyter.notebook.metadata.out_dir;
-    }
+
     var kernel_control_target_name = "kernel.control.channel";
     var comm = Jupyter.notebook.kernel.comm_manager.new_comm(kernel_control_target_name, null, null, null, utils.uuid());
-    comm.send(data)
-    comm.close();
+
+    var newNotebook = undefined == Jupyter.notebook.metadata.imports || undefined == Jupyter.notebook.metadata.class_path || undefined == Jupyter.notebook.metadata.out_dir;
+
+    if(newNotebook){
+      comm.on_msg(function(resp){
+        if(undefined != resp.content.data.kernel_control_response){
+          if("OK" === resp.content.data.kernel_control_response){
+          }else if(undefined != resp.content.data.kernel_control_response.imports &&
+              undefined != resp.content.data.kernel_control_response.class_path &&
+              undefined != resp.content.data.kernel_control_response.out_dir){
+            Jupyter.notebook.metadata.imports = resp.content.data.kernel_control_response.imports;
+            Jupyter.notebook.metadata.class_path = resp.content.data.kernel_control_response.class_path;
+            Jupyter.notebook.metadata.out_dir = resp.content.data.kernel_control_response.out_dir;
+
+            var theData = {};
+            if(Jupyter.notebook && Jupyter.notebook.metadata){
+              theData.imports = Jupyter.notebook.metadata.imports;
+              theData.class_path = Jupyter.notebook.metadata.class_path;
+              theData.out_dir = Jupyter.notebook.metadata.out_dir;
+            }
+            comm.send(theData);
+            comm.close();
+          }
+        }
+      });
+
+      var data = {};
+      data.get_default_shell = true;
+      comm.send(data);
+    }else{
+      var data = {};
+      if(Jupyter.notebook && Jupyter.notebook.metadata){
+        data.imports = Jupyter.notebook.metadata.imports;
+        data.class_path = Jupyter.notebook.metadata.class_path;
+        data.out_dir = Jupyter.notebook.metadata.out_dir;
+      }
+      comm.send(data);
+      comm.close();
+    }
   }
 
   return {

@@ -17,7 +17,8 @@
 package com.twosigma.beaker.jupyter.handler;
 
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.jupyter.CommKernelControlHandler;
+import com.twosigma.beaker.jupyter.CommKernelControlGetDefaultShellHandler;
+import com.twosigma.beaker.jupyter.CommKernelControlSetShellHandler;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
@@ -72,16 +73,8 @@ public class CommOpenHandler extends AbstractHandler<Message> {
     if(newComm != null){
       logger.info("Comm opened, target name = " + newComm.getTargetName());
       if(CommNamesEnum.KERNEL_CONTROL_CHANNEL.getTargetName().equalsIgnoreCase(newComm.getTargetName())){
-        CommKernelControlHandler h = new CommKernelControlHandler(kernel);
-        newComm.addMsgCallbackList(h);
-        if(newComm.getData() != null && newComm.getData() instanceof Map){
-          Map data = newComm.getData();
-          if(data.containsKey("data")){
-            h.handleData((HashMap<String,String>) data.get("data"));
-          }
-
-        }
-
+        newComm.addMsgCallbackList(new CommKernelControlSetShellHandler(kernel));
+        newComm.addMsgCallbackList(new CommKernelControlGetDefaultShellHandler(kernel));
       }
       kernel.addComm(newComm.getCommId(), newComm);
     }

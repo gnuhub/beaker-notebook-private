@@ -15,8 +15,9 @@
  */
 package com.twosigma.beaker.jupyter;
 
+import com.twosigma.beaker.groovy.GroovyDefaultVariables;
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
-import org.lappsgrid.jupyter.groovy.handler.IHandler;
+import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.slf4j.Logger;
@@ -34,22 +35,20 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
 /**
  * @author konst
  */
-public class CommKernelControlHandler implements IHandler<Message>{
+public class CommKernelControlGetDefaultShellHandler extends AbstractHandler<Message> {
 
   public static final String IMPORTS = "imports";
   public static final String CLASS_PATH = "class_path";
   public static final String OUT_DIR = "out_dir";
-
+  public static final String UNDEFINED_REQUEST = "undefined_request";
+  public static final String GET_DEFAULT_SHELL = "get_default_shell";
   public static final String KERNEL_CONTROL_RESPONSE = "kernel_control_response";
-  public static final String RESPONSE_OK = "OK";
-  public static final String RESPONSE_ERROR = "ERROR";
+  public static final String TRUE = "true";
 
-  protected GroovyKernel kernel;
+  private static final Logger logger = LoggerFactory.getLogger(CommKernelControlGetDefaultShellHandler.class);
 
-  private static final Logger logger = LoggerFactory.getLogger(CommKernelControlHandler.class);
-
-  public CommKernelControlHandler(GroovyKernel kernel) {
-    this.kernel = kernel;
+  public CommKernelControlGetDefaultShellHandler(GroovyKernel kernel) {
+    super(kernel);
   }
 
   @Override
@@ -57,21 +56,15 @@ public class CommKernelControlHandler implements IHandler<Message>{
     logger.info("Handing comm message content");
     if(message != null){
       Map<String, Serializable> commMap = message.getContent();
-      HashMap<?, ?> messageData = (HashMap<?, ?>)commMap.get(DATA);
-      if (messageData != null) {
-        handleData((Map<String, String>)messageData);
+      HashMap<String, Boolean> messageData = (HashMap<String, Boolean>)commMap.get(DATA);
+      Object okObject = messageData != null ? messageData.get(GET_DEFAULT_SHELL) : null;
+      if(okObject != null && okObject instanceof Boolean && ((Boolean)okObject).booleanValue()){
+        Message replay = createReplayMessage(message, true);
+        publish(replay);
       }
     } else {
       logger.info("Comm message contend is null");
     }
-    GroovyKernelManager.get().publish(createReplayMessage(message, true));
-  }
-
-  public void handleData(Map<String, String> data) {
-    String imports = data.get(IMPORTS);
-    String classPath = data.get(CLASS_PATH);
-    String outDir = data.get(OUT_DIR);
-    kernel.setShellOptions(classPath, imports, outDir);
   }
   
   private Message createReplayMessage(Message message, boolean ok) {
@@ -82,8 +75,18 @@ public class CommKernelControlHandler implements IHandler<Message>{
       ret.setHeader(new Header(COMM_MSG, message.getHeader().getSession()));
       HashMap<String, Serializable> map = new HashMap<>();
       map.put(COMM_ID, getString(commMap, COMM_ID));
-      HashMap<String, String> data = new HashMap<>();
-      data.put(KERNEL_CONTROL_RESPONSE, ok ? RESPONSE_OK : RESPONSE_ERROR);
+      HashMap<String, Serializable> data = new HashMap<>();
+      if(ok){
+        HashMap<String, String> shell = new HashMap<>();
+        shell.put(IMPORTS, GroovyDefaultVariables.IMPORTS);
+        shell.put(CLASS_PATH,GroovyDefaultVariables.CLASS_PATH);
+        shell.put(OUT_DIR,GroovyDefaultVariables.OUT_DIR);
+        data.put(KERNEL_CONTROL_RESPONSE, shell);
+        logger.info("Response OK");
+      }else{
+        data.put(KERNEL_CONTROL_RESPONSE, UNDEFINED_REQUEST);
+        logger.info("Response " + UNDEFINED_REQUEST);
+      }
       map.put(DATA, data);
       ret.setContent(map);
     }

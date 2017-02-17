@@ -43,9 +43,10 @@ public class CommMsgHandler extends AbstractHandler<Message> {
 
     Map<String, Serializable> commMap = message.getContent();
     Comm comm = kernel.getComm(getString(commMap, COMM_ID));
-    logger.info("Comm message handling, target name: " + comm.getTargetName());
-    comm.handleMsg(message);
-
+    logger.info("Comm message handling, target name: " + (comm != null ? comm.getTargetName() : "undefined"));
+    if(comm != null){
+      comm.handleMsg(message);
+    }
     publish(this.messageCreator.createIdleMessage(message));
   }
 
