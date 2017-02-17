@@ -1,4 +1,6 @@
 define([
+  'jquery',
+  'jquery-ui',
   './../../bower_components/d3/d3.min',
   './plotUtils',
   './plotTip',
@@ -8,9 +10,11 @@ define([
   './../shared/bkUtils',
   './../shared/bkHelper',
   './gradientlegend',
-  './chartExtender',
-  './../../bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min'
+  './chartExtender'
+  // './../../bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min'
 ], function(
+  $,
+  jqui,
   d3,
   plotUtils,
   plotTip,
@@ -20,9 +24,14 @@ define([
   bkUtils,
   bkHelper,
   GradientLegend,
-  bkoChartExtender,
-  contextMenu
+  bkoChartExtender
+  // contextMenu
 ) {
+
+  var aaaa= require('./../../bower_components/jQuery-contextMenu/dist/jquery.contextMenu');
+
+  console.log('aaaa', aaaa);
+  console.log('contextMenu', $);
 
   function PlotScope(wrapperId) {
     this.wrapperId = wrapperId;

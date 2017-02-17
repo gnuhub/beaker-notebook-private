@@ -17,6 +17,7 @@ define([
   // -----
 
   function init(data, wrapId) {
+    return;
     currentWrapperId = wrapId;
 
     console.log('manager init', data);
