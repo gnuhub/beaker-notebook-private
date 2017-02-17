@@ -111,8 +111,6 @@ define([
 
       svg.selectAll(".plot-tooltip-line").remove();
 
-      console.log(scope.tips);
-
       _.each(scope.tips, function (d, key) {
         if (scope.tips.hasOwnProperty(key)) {
 
