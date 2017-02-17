@@ -226,7 +226,6 @@ define([
         if (margin.top == null) { margin.top = .05; }
         if (margin.left == null) { margin.left = .05; }
         if (margin.right == null) { margin.right = .05; }
-
         if (newmodel.vrange == null) {
           // visible range initially is 10x larger than data range by default
           var getModelRange = function(r, logx, logy){
@@ -275,6 +274,7 @@ define([
 
         this.remapModel(newmodel);
       }
+
       newmodel.version = "complete";
       return newmodel;
     },
@@ -568,6 +568,8 @@ define([
       var xAxisLabel = model.xAxis.label;
 
       var xAxis = new PlotAxis(model.xAxis.type);
+
+      console.log('mode', model);
 
       if (xAxis.axisType === "category") {
         xAxis.setRange(vrange.xl, vrange.xr, model.xAxis.base);

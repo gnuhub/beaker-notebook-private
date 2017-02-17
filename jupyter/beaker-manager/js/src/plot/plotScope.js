@@ -1885,6 +1885,7 @@ define([
 
     // first standardize data
     self.standardizeData();
+    // debugger;
     // init flags
     self.initFlags();
 
@@ -2269,15 +2270,20 @@ define([
       self.model.model = data;
     }
 
-    self.element = $('div#'+self.wrapperId+' .dtcontainer');
+    // self.element = $('div#'+self.wrapperId+' .dtcontainer');
 
     if (self.model.getCellModel().type === "TreeMap"){
       bkoChartExtender.extend(self, self.element);
     }
   };
 
+  PlotScope.prototype.setElement = function(el) {
+    this.element = el;
+  };
+
   PlotScope.prototype.buildTemplate = function() {
-    var tmpl = '<div class="dtcontainer">' +
+    var tmpl = '<div id="'+this.wrapperId+'">' +
+               '<div class="dtcontainer">' +
                '<canvas></canvas>'+
                '<div id="plotTitle" class="plot-title"></div>'+
                '<div id="plotLegendContainer" class="plot-plotlegendcontainer" oncontextmenu="return false;">'+
@@ -2288,6 +2294,7 @@ define([
                '<g id="maing"></g>'+
                '<g id="labelg"></g>'+
                '</svg>'+
+               '</div>'+
                '</div>'+
                '</div>'+
                '</div>';
