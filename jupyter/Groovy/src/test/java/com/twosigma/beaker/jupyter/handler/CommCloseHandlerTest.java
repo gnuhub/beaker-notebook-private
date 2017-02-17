@@ -16,6 +16,7 @@
 
 package com.twosigma.beaker.jupyter.handler;
 
+import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.GroovyKernelJupyterTest;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import org.assertj.core.api.Assertions;
@@ -44,6 +45,11 @@ public class CommCloseHandlerTest {
     public void setUp(){
         groovyKernel = new GroovyKernelJupyterTest();
         commCloseHandler = new CommCloseHandler(groovyKernel);
+        Message openMessage = initMessage();
+        openMessage.getHeader().setType(JupyterMessages.COMM_OPEN.getName());
+        String commId = (String) openMessage.getContent().get(COMM_ID);
+        String targetName = (String) openMessage.getContent().get(TARGET_NAME);
+        groovyKernel.addComm(commId, new Comm(commId, targetName));
     }
 
     @Test
