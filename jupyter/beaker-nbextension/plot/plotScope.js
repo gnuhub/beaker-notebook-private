@@ -2277,7 +2277,8 @@ define([
   };
 
   PlotScope.prototype.buildTemplate = function() {
-    var tmpl = '<div class="dtcontainer">' +
+    var tmpl = '<div id="'+this.wrapperId+'">' +
+               '<div class="dtcontainer">' +
                '<canvas></canvas>'+
                '<div id="plotTitle" class="plot-title"></div>'+
                '<div id="plotLegendContainer" class="plot-plotlegendcontainer" oncontextmenu="return false;">'+
@@ -2288,6 +2289,7 @@ define([
                '<g id="maing"></g>'+
                '<g id="labelg"></g>'+
                '</svg>'+
+               '</div>'+
                '</div>'+
                '</div>'+
                '</div>';

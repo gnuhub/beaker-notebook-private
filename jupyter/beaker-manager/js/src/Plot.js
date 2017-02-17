@@ -2,9 +2,12 @@ var widgets = require('jupyter-js-widgets');
 var _ = require('underscore');
 var d3 = require('./../bower_components/d3/d3.min');
 
-var plotScope = require('./plot/plotScope');
+var PlotScope = require('./plot/plotScope');
 
 window.d3 = d3;
+
+require('./plot/bko-combinedplot.css');
+require('./plot/bko-plot.css');
 
 var PlotModel = widgets.DOMWidgetModel.extend({
   defaults: _.extend({}, widgets.DOMWidgetModel.prototype.defaults, {
@@ -19,28 +22,24 @@ var PlotModel = widgets.DOMWidgetModel.extend({
 // Custom View. Renders the widget model.
 var PlotView = widgets.DOMWidgetView.extend({
   render: function() {
-    console.log('render', this);
-    console.log('json??', this.model.get('json'));
+    var that = this;
 
-    var plotModel = JSON.parse(this.model.get('json'));
-    this.initStandardPlot(plotModel);
-
-    // this.value_changed();
-    // this.model.on('change:value', this.value_changed, this);
+    this.displayed.then(function() {
+      var plotModel = JSON.parse(that.model.get('model'));
+      that.initStandardPlot(plotModel);
+    });
   },
-
-  // value_changed: function() {
-  //   this.el.textContent = this.model.get('value');
-  // },
 
   initStandardPlot: function (data) {
     var currentScope = new PlotScope('wrap_'+this.id),
-      tmpl = currentScope.buildTemplate();
+      tmpl = currentScope.buildTemplate(),
+      tmplElement = $(tmpl);
 
-    // $('div#'+'wrap_'+this.id).append(tmpl);
-    //
-    // currentScope.setModelData(data);
-    // currentScope.init();
+    tmplElement.appendTo(this.$el);
+
+    currentScope.setModelData(data);
+    currentScope.setElement(tmplElement.children('.dtcontainer'));
+    currentScope.init();
   }
 });
 
