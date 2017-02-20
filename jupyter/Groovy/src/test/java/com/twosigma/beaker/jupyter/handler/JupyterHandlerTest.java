@@ -166,4 +166,12 @@ public class JupyterHandlerTest {
         return header;
     }
 
+    public static String initKernelCommMapWithOneComm(GroovyKernelJupyterTest groovyKernelJupyterTest){
+        Message openMessage = initOpenMessage();
+        String commId = (String) openMessage.getContent().get(COMM_ID);
+        String targetName = (String) openMessage.getContent().get(TARGET_NAME);
+        groovyKernelJupyterTest.addComm(commId, new Comm(commId, targetName));
+        return commId;
+    }
+
 }
