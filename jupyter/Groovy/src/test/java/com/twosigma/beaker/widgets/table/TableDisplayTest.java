@@ -15,39 +15,30 @@
  */
 package com.twosigma.beaker.widgets.table;
 
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
+import static com.twosigma.beaker.widgets.table.TableDisplay.MODEL_NAME_VALUE;
+import static com.twosigma.beaker.widgets.table.TableDisplay.VIEW_NAME_VALUE;
 
 
-public class TableDisplayTest {
+public class TableDisplayTest extends InternalWidgetTest {
 
-  private GroovyKernelTest groovyKernel;
-
-  @Before
-  public void setUp() throws Exception {
-    groovyKernel = new GroovyKernelTest();
-    GroovyKernelManager.register(groovyKernel);
+  @Override
+  public InternalWidget create() throws NoSuchAlgorithmException {
+    return new TableDisplay(new ArrayList<>());
   }
 
-  @After
-  public void tearDown() throws Exception {
-    GroovyKernelManager.register(null);
+  @Override
+  public String getModelNameValue() {
+    return MODEL_NAME_VALUE;
   }
 
-  @Test
-  public void shouldSendCommOpenWhenCreate() throws Exception {
-    //given
-    //when
-    new TableDisplay(new ArrayList<>());
-    //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), TableDisplay.MODEL_NAME_VALUE, TableDisplay.VIEW_NAME_VALUE);
+  @Override
+  public String getViewNameValue() {
+    return VIEW_NAME_VALUE;
   }
-
 }

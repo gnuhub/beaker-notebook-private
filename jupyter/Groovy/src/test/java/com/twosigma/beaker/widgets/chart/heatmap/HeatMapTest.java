@@ -15,36 +15,26 @@
  */
 package com.twosigma.beaker.widgets.chart.heatmap;
 
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
-import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
+import java.security.NoSuchAlgorithmException;
 
-public class HeatMapTest {
+public class HeatMapTest extends InternalWidgetTest {
 
-  private GroovyKernelTest groovyKernel;
-
-  @Before
-  public void setUp() throws Exception {
-    groovyKernel = new GroovyKernelTest();
-    GroovyKernelManager.register(groovyKernel);
+  @Override
+  public InternalWidget create() throws NoSuchAlgorithmException {
+    return new HeatMap();
   }
 
-  @After
-  public void tearDown() throws Exception {
-    GroovyKernelManager.register(null);
+  @Override
+  public String getModelNameValue() {
+    return HeatMap.MODEL_NAME_VALUE;
   }
 
-  @Test
-  public void shouldSendCommOpenWhenCreate() throws Exception {
-    //given
-    //when
-    new HeatMap();
-    //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), HeatMap.MODEL_NAME_VALUE, HeatMap.VIEW_NAME_VALUE);
+  @Override
+  public String getViewNameValue() {
+    return HeatMap.VIEW_NAME_VALUE;
   }
 
 }
