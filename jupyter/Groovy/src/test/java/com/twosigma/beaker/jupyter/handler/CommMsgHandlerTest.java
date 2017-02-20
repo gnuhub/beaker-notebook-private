@@ -48,6 +48,14 @@ public class CommMsgHandlerTest {
     }
 
     @Test
+    public void handleMessage_commShouldHandleMessages() throws Exception {
+        //when
+        commMsgHandler.handle(message);
+        //then
+        Assertions.assertThat(groovyKernel.getCommHandleMessage()).isTrue();
+    }
+
+    @Test
     public void handleMessage_firstSentMessageHasExecutionStateIsBusy() throws Exception {
         //when
         commMsgHandler.handle(message);

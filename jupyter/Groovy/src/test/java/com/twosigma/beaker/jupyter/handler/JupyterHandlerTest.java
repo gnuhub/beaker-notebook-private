@@ -26,6 +26,7 @@ import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -178,7 +179,13 @@ public class JupyterHandlerTest {
         Message openMessage = initOpenMessage();
         String commId = (String) openMessage.getContent().get(COMM_ID);
         String targetName = (String) openMessage.getContent().get(TARGET_NAME);
-        groovyKernelJupyterTest.addComm(commId, new Comm(commId, targetName));
+        Comm comm = new Comm(commId, targetName){
+            @Override
+            public void handleMsg(Message parentMessage) throws NoSuchAlgorithmException {
+                groovyKernelJupyterTest.commHandleMessage();
+            }
+        };
+        groovyKernelJupyterTest.addComm(commId, comm);
         return commId;
     }
 
