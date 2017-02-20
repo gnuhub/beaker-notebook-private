@@ -21,7 +21,6 @@ import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
-import com.twosigma.beaker.widgets.internal.SerializeToString;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -46,14 +45,4 @@ public class CombinedPlot extends com.twosigma.beaker.chart.xychart.CombinedPlot
     return this.comm;
   }
 
-  private void sendUpdate(final String propertyName, final Object value) {
-    if (this.comm != null) {
-      this.comm.sendUpdate(propertyName, value);
-    }
-  }
-
-  @Override
-  public void sendModel() {
-    sendUpdate(MODEL, SerializeToString.toJson(this));
-  }
 }
