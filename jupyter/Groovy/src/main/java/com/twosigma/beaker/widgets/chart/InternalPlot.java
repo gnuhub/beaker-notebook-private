@@ -19,8 +19,5 @@ public interface InternalPlot {
 
   String VIEW_NAME_VALUE = "PlotView";
   String MODEL_NAME_VALUE = "PlotModel";
-  String MODEL = "model";
-
-  void sendModel();
 
 }

@@ -16,18 +16,16 @@
 package com.twosigma.beaker.widgets.chart.heatmap;
 
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
-import com.twosigma.beaker.widgets.internal.SerializeToString;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class HeatMap extends com.twosigma.beaker.chart.heatmap.HeatMap implements CommFunctionality, InternalWidget, InternalPlot {
+public class HeatMap extends com.twosigma.beaker.chart.heatmap.HeatMap implements InternalWidget, InternalPlot {
 
   private Comm comm;
 
@@ -44,16 +42,5 @@ public class HeatMap extends com.twosigma.beaker.chart.heatmap.HeatMap implement
   @Override
   public Comm getComm() {
     return this.comm;
-  }
-
-  private void sendUpdate(final String propertyName, final Object value) {
-    if (this.comm != null) {
-      this.comm.sendUpdate(propertyName, value);
-    }
-  }
-
-  @Override
-  public void sendModel() {
-    sendUpdate(MODEL, SerializeToString.toJson(this));
   }
 }
