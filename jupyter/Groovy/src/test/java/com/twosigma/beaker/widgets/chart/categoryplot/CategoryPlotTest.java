@@ -15,19 +15,13 @@
  */
 package com.twosigma.beaker.widgets.chart.categoryplot;
 
-import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryBars;
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.security.NoSuchAlgorithmException;
-
-import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
 import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryPlotTest {
 
@@ -51,24 +45,6 @@ public class CategoryPlotTest {
     new CategoryPlot();
     //then
     verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), CategoryPlot.MODEL_NAME_VALUE, CategoryPlot.VIEW_NAME_VALUE);
-  }
-
-  @Test
-  public void shouldSendCommMsgWhenCategoryGraphicsChange() throws Exception {
-    //given
-    CategoryPlot categoryPlot = categoryPlot();
-    //when
-    categoryPlot.leftShift(new CategoryBars());
-    //then
-    String valueForProperty = getValueForProperty(groovyKernel, GRAPHICS_LIST, String.class);
-    assertThat(valueForProperty).isNotNull();
-    assertThat(valueForProperty).contains(GRAPHICS_LIST);
-  }
-
-  private CategoryPlot categoryPlot() throws NoSuchAlgorithmException {
-    CategoryPlot categoryPlot = new CategoryPlot();
-    groovyKernel.clearMessages();
-    return categoryPlot;
   }
 
 }

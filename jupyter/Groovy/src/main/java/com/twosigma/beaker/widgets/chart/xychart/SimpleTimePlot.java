@@ -15,9 +15,6 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.chart.AbstractChart;
-import com.twosigma.beaker.chart.serializer.HeatMapSerializer;
-import com.twosigma.beaker.chart.serializer.XYGraphicsSerializer;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
@@ -53,24 +50,6 @@ public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTime
   @Override
   public Comm getComm() {
     return this.comm;
-  }
-
-  @Override
-  public AbstractChart setxLabel(String xLabel) {
-    return setXLabel(xLabel);
-  }
-
-  @Override
-  public AbstractChart setYLabel(String yLabel) {
-    AbstractChart abstractChart = super.setYLabel(yLabel);
-    sendUpdate(HeatMapSerializer.Y_LABEL, SerializeToString.toJson(this));
-    return abstractChart;
-  }
-
-  @Override
-  public void setDisplayNames(List<String> displayNames) {
-    super.setDisplayNames(displayNames);
-    sendUpdate(XYGraphicsSerializer.DISPLAY_NAME, SerializeToString.toJson(this));
   }
 
   private void sendUpdate(final String propertyName, final Object value) {

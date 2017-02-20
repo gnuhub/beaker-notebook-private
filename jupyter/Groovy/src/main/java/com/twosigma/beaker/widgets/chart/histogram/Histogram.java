@@ -15,10 +15,6 @@
  */
 package com.twosigma.beaker.widgets.chart.histogram;
 
-import com.twosigma.beaker.chart.AbstractChart;
-import com.twosigma.beaker.chart.Chart;
-import com.twosigma.beaker.chart.Color;
-import com.twosigma.beaker.chart.serializer.HistogramSerializer;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
@@ -30,7 +26,6 @@ import com.twosigma.beaker.widgets.internal.SerializeToString;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 
 public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram implements CommFunctionality, InternalWidget, InternalPlot {
 
@@ -49,94 +44,6 @@ public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram imp
   @Override
   public Comm getComm() {
     return this.comm;
-  }
-
-  @Override
-  public void setData(Object data) {
-    super.setData(data);
-    sendUpdate(HistogramSerializer.GRAPHICS_LIST, SerializeToString.toJson(this));
-  }
-
-  @Override
-  public void setBinCount(int binCount) {
-    super.setBinCount(binCount);
-    sendUpdate(HistogramSerializer.BIN_COUNT, SerializeToString.toJson(this));
-  }
-
-  @Override
-  public Chart setTitle(String title) {
-    Chart chart = super.setTitle(title);
-    sendUpdate(HistogramSerializer.CHART_TITLE, SerializeToString.toJson(this));
-    return chart;
-  }
-
-  @Override
-  public AbstractChart setXLabel(String xLabel) {
-    AbstractChart abstractChart = super.setXLabel(xLabel);
-    sendUpdate(HistogramSerializer.DOMAIN_AXIS_LABEL, SerializeToString.toJson(this));
-    return abstractChart;
-  }
-
-  @Override
-  public AbstractChart setxLabel(String xLabel) {
-    return setXLabel(xLabel);
-  }
-
-  @Override
-  public AbstractChart setYLabel(String yLabel) {
-    AbstractChart abstractChart = super.setYLabel(yLabel);
-    sendUpdate(HistogramSerializer.Y_LABEL, SerializeToString.toJson(this));
-    return abstractChart;
-  }
-
-  @Override
-  public void setColor(Object color) {
-    super.setColor(color);
-    sendUpdate((color instanceof Color) ? HistogramSerializer.COLOR : HistogramSerializer.COLORS, SerializeToString.toJson(this));
-  }
-
-  @Override
-  public Chart setInitWidth(int w) {
-    Chart chart = super.setInitWidth(w);
-    sendUpdate(HistogramSerializer.INIT_WIDTH, SerializeToString.toJson(this));
-    return chart;
-  }
-
-  @Override
-  public Chart setInitHeight(int h) {
-    Chart chart = super.setInitHeight(h);
-    sendUpdate(HistogramSerializer.INIT_HEIGHT, SerializeToString.toJson(this));
-    return chart;
-  }
-
-  @Override
-  public void setNames(List<String> names) {
-    super.setNames(names);
-    sendUpdate(HistogramSerializer.NAMES, SerializeToString.toJson(this));
-  }
-
-  @Override
-  public void setDisplayMode(DisplayMode displayMode) {
-    super.setDisplayMode(displayMode);
-    sendUpdate(HistogramSerializer.DISPLAY_MODE, SerializeToString.toJson(this));
-  }
-
-  @Override
-  public void setCumulative(boolean cumulative) {
-    super.setCumulative(cumulative);
-    sendUpdate(HistogramSerializer.CUMULATIVE, SerializeToString.toJson(this));
-  }
-
-  @Override
-  public void setNormed(boolean normed) {
-    super.setNormed(normed);
-    sendUpdate(HistogramSerializer.NORMED, SerializeToString.toJson(this));
-  }
-
-  @Override
-  public void setLog(boolean log) {
-    super.setLog(log);
-    sendUpdate(HistogramSerializer.LOG, SerializeToString.toJson(this));
   }
 
   private void sendUpdate(final String propertyName, final Object value) {

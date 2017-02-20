@@ -53,20 +53,4 @@ public class CombinedPlotTest {
     verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), CombinedPlot.MODEL_NAME_VALUE, CombinedPlot.VIEW_NAME_VALUE);
   }
 
-  @Test
-  public void shouldSendCommMsgWhenXLabelChange() throws Exception {
-    //given
-    CombinedPlot plot = plot();
-    //when
-    plot.setXLabel("X label 1");
-    //then
-    String valueForProperty = getValueForProperty(groovyKernel, CombinedPlotSerializer.X_LABEL, String.class);
-    assertThat(valueForProperty).contains(CombinedPlotSerializer.X_LABEL+RESULT_JSON_JOINER+"\"X label 1");
-  }
-
-  private CombinedPlot plot() throws NoSuchAlgorithmException {
-    CombinedPlot widget = new CombinedPlot();
-    groovyKernel.clearMessages();
-    return widget;
-  }
 }
