@@ -15,6 +15,8 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
+import com.twosigma.beaker.chart.xychart.XYChart;
+import com.twosigma.beaker.chart.xychart.plotitem.XYGraphics;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
@@ -39,6 +41,13 @@ public class NanoPlot extends com.twosigma.beaker.chart.xychart.NanoPlot impleme
         content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
       }
     });
+  }
+
+  @Override
+  public XYChart add(XYGraphics graphics) {
+    super.add(graphics);
+    graphics.setPlotType(com.twosigma.beaker.chart.xychart.NanoPlot.class);
+    return this;
   }
 
   @Override
