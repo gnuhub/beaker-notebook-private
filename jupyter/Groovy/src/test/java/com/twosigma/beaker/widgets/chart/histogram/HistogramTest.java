@@ -16,36 +16,26 @@
  */
 package com.twosigma.beaker.widgets.chart.histogram;
 
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
-import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
+import java.security.NoSuchAlgorithmException;
 
-public class HistogramTest {
+public class HistogramTest extends InternalWidgetTest {
 
-  private GroovyKernelTest groovyKernel;
-
-  @Before
-  public void setUp() throws Exception {
-    groovyKernel = new GroovyKernelTest();
-    GroovyKernelManager.register(groovyKernel);
+  @Override
+  public InternalWidget create() throws NoSuchAlgorithmException {
+    return  new Histogram();
   }
 
-  @After
-  public void tearDown() throws Exception {
-    GroovyKernelManager.register(null);
+  @Override
+  public String getModelNameValue() {
+    return Histogram.MODEL_NAME_VALUE;
   }
 
-  @Test
-  public void shouldSendCommOpenWhenCreate() throws Exception {
-    //given
-    //when
-    new Histogram();
-    //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), Histogram.MODEL_NAME_VALUE, Histogram.VIEW_NAME_VALUE);
+  @Override
+  public String getViewNameValue() {
+    return Histogram.VIEW_NAME_VALUE;
   }
 
 }

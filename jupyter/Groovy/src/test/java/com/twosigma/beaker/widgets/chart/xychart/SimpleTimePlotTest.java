@@ -16,41 +16,31 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
+public class SimpleTimePlotTest extends InternalWidgetTest {
 
-public class SimpleTimePlotTest {
-
-  private GroovyKernelTest groovyKernel;
-
-  @Before
-  public void setUp() throws Exception {
-    groovyKernel = new GroovyKernelTest();
-    GroovyKernelManager.register(groovyKernel);
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    GroovyKernelManager.register(null);
-  }
-
-  @Test
-  public void shouldSendCommOpenWhenCreate() throws Exception {
-    //given
+  @Override
+  public InternalWidget create() throws NoSuchAlgorithmException {
     List<Map<String, Object>> data = new ArrayList<>();
     List<String> columns = new ArrayList<>();
     //when
-    new SimpleTimePlot(data, columns);
-    //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), SimpleTimePlot.MODEL_NAME_VALUE, SimpleTimePlot.VIEW_NAME_VALUE);
+    return new SimpleTimePlot(data, columns);
+  }
+
+  @Override
+  public String getModelNameValue() {
+    return SimpleTimePlot.MODEL_NAME_VALUE;
+  }
+
+  @Override
+  public String getViewNameValue() {
+    return SimpleTimePlot.VIEW_NAME_VALUE;
   }
 }

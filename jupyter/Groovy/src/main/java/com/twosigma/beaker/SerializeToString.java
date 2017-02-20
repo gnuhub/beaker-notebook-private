@@ -158,8 +158,9 @@ public class SerializeToString {
 
   public static String doit(Object result) {
     if (isBeakerWidget(result) && result instanceof InternalWidget) {
-      ((InternalWidget) result).sendModel();
-      DisplayWidget.display((InternalWidget) result);
+      InternalWidget widget = (InternalWidget) result;
+      widget.sendModel();
+      DisplayWidget.display(widget);
       return "";
     }
 	  if (mapper != null && isBeakerChart(result)) {
