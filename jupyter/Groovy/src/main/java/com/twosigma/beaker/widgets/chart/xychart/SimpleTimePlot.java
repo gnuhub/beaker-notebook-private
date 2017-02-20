@@ -15,23 +15,18 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.chart.AbstractChart;
-import com.twosigma.beaker.chart.serializer.HeatMapSerializer;
-import com.twosigma.beaker.chart.serializer.XYGraphicsSerializer;
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
-import com.twosigma.beaker.widgets.internal.SerializeToString;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTimePlot  implements CommFunctionality, InternalWidget, InternalPlot {
+public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTimePlot  implements InternalWidget, InternalPlot {
 
   private Comm comm;
 
@@ -55,32 +50,4 @@ public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTime
     return this.comm;
   }
 
-  @Override
-  public AbstractChart setxLabel(String xLabel) {
-    return setXLabel(xLabel);
-  }
-
-  @Override
-  public AbstractChart setYLabel(String yLabel) {
-    AbstractChart abstractChart = super.setYLabel(yLabel);
-    sendUpdate(HeatMapSerializer.Y_LABEL, SerializeToString.toJson(this));
-    return abstractChart;
-  }
-
-  @Override
-  public void setDisplayNames(List<String> displayNames) {
-    super.setDisplayNames(displayNames);
-    sendUpdate(XYGraphicsSerializer.DISPLAY_NAME, SerializeToString.toJson(this));
-  }
-
-  private void sendUpdate(final String propertyName, final Object value) {
-    if (this.comm != null) {
-      this.comm.sendUpdate(propertyName, value);
-    }
-  }
-
-  @Override
-  public void sendModel() {
-    sendUpdate(MODEL, SerializeToString.toJson(this));
-  }
 }

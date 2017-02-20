@@ -15,58 +15,26 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.chart.serializer.CombinedPlotSerializer;
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
 import java.security.NoSuchAlgorithmException;
 
-import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.RESULT_JSON_JOINER;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
-import static org.assertj.core.api.Assertions.assertThat;
+public class CombinedPlotTest extends InternalWidgetTest {
 
-public class CombinedPlotTest {
-
-  private GroovyKernelTest groovyKernel;
-
-  @Before
-  public void setUp() throws Exception {
-    groovyKernel = new GroovyKernelTest();
-    GroovyKernelManager.register(groovyKernel);
+  @Override
+  public InternalWidget create() throws NoSuchAlgorithmException {
+    return new CombinedPlot();
   }
 
-  @After
-  public void tearDown() throws Exception {
-    GroovyKernelManager.register(null);
+  @Override
+  public String getModelNameValue() {
+    return CombinedPlot.MODEL_NAME_VALUE;
   }
 
-  @Test
-  public void shouldSendCommOpenWhenCreate() throws Exception {
-    //given
-    //when
-    new CombinedPlot();
-    //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), CombinedPlot.MODEL_NAME_VALUE, CombinedPlot.VIEW_NAME_VALUE);
+  @Override
+  public String getViewNameValue() {
+    return CombinedPlot.VIEW_NAME_VALUE;
   }
 
-  @Test
-  public void shouldSendCommMsgWhenXLabelChange() throws Exception {
-    //given
-    CombinedPlot plot = plot();
-    //when
-    plot.setXLabel("X label 1");
-    //then
-    String valueForProperty = getValueForProperty(groovyKernel, CombinedPlotSerializer.X_LABEL, String.class);
-    assertThat(valueForProperty).contains(CombinedPlotSerializer.X_LABEL+RESULT_JSON_JOINER+"\"X label 1");
-  }
-
-  private CombinedPlot plot() throws NoSuchAlgorithmException {
-    CombinedPlot widget = new CombinedPlot();
-    groovyKernel.clearMessages();
-    return widget;
-  }
 }

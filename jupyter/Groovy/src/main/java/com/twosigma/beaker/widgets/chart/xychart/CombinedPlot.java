@@ -15,14 +15,12 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.chart.serializer.CombinedPlotSerializer;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
-import com.twosigma.beaker.widgets.internal.SerializeToString;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -47,26 +45,4 @@ public class CombinedPlot extends com.twosigma.beaker.chart.xychart.CombinedPlot
     return this.comm;
   }
 
-  @Override
-  public com.twosigma.beaker.chart.xychart.CombinedPlot setXLabel(String xLabel) {
-    com.twosigma.beaker.chart.xychart.CombinedPlot combinedPlot = super.setXLabel(xLabel);
-    sendUpdate(CombinedPlotSerializer.X_LABEL, SerializeToString.toJson(this));
-    return combinedPlot;
-  }
-
-  @Override
-  public com.twosigma.beaker.chart.xychart.CombinedPlot setxLabel(String xLabel) {
-    return setXLabel(xLabel);
-  }
-
-  private void sendUpdate(final String propertyName, final Object value) {
-    if (this.comm != null) {
-      this.comm.sendUpdate(propertyName, value);
-    }
-  }
-
-  @Override
-  public void sendModel() {
-    sendUpdate(MODEL, SerializeToString.toJson(this));
-  }
 }

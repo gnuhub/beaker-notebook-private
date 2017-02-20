@@ -15,35 +15,26 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
-import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
+import java.security.NoSuchAlgorithmException;
 
-public class NanoPlotTest {
+public class NanoPlotTest extends InternalWidgetTest {
 
-  private GroovyKernelTest groovyKernel;
-
-  @Before
-  public void setUp() throws Exception {
-    groovyKernel = new GroovyKernelTest();
-    GroovyKernelManager.register(groovyKernel);
+  @Override
+  public InternalWidget create() throws NoSuchAlgorithmException {
+    return new NanoPlot();
   }
 
-  @After
-  public void tearDown() throws Exception {
-    GroovyKernelManager.register(null);
+  @Override
+  public String getModelNameValue() {
+    return NanoPlot.MODEL_NAME_VALUE;
   }
 
-  @Test
-  public void shouldSendCommOpenWhenCreate() throws Exception {
-    //given
-    //when
-    new NanoPlot();
-    //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), NanoPlot.MODEL_NAME_VALUE, NanoPlot.VIEW_NAME_VALUE);
+  @Override
+  public String getViewNameValue() {
+    return NanoPlot.VIEW_NAME_VALUE;
   }
+
 }

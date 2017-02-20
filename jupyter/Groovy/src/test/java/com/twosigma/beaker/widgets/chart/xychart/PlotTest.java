@@ -15,85 +15,25 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.chart.xychart.plotitem.Line;
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
 import java.security.NoSuchAlgorithmException;
 
-import static com.twosigma.beaker.chart.serializer.ChartSerializer.CHART_TITLE;
-import static com.twosigma.beaker.chart.serializer.XYChartSerializer.GRAPHICS_LIST;
-import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.RESULT_JSON_JOINER;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
-import static org.assertj.core.api.Assertions.assertThat;
+public class PlotTest extends InternalWidgetTest {
 
-public class PlotTest {
-
-  private GroovyKernelTest groovyKernel;
-
-  @Before
-  public void setUp() throws Exception {
-    groovyKernel = new GroovyKernelTest();
-    GroovyKernelManager.register(groovyKernel);
+  @Override
+  public InternalWidget create() throws NoSuchAlgorithmException {
+    return new Plot();
   }
 
-  @After
-  public void tearDown() throws Exception {
-    GroovyKernelManager.register(null);
+  @Override
+  public String getModelNameValue() {
+    return Plot.MODEL_NAME_VALUE;
   }
 
-  @Test
-  public void shouldSendCommOpenWhenCreate() throws Exception {
-    //given
-    //when
-    new Plot();
-    //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), Plot.MODEL_NAME_VALUE, Plot.VIEW_NAME_VALUE);
+  @Override
+  public String getViewNameValue() {
+    return Plot.VIEW_NAME_VALUE;
   }
-
-  @Test
-  public void shouldSendCommMsgWhenCategoryGraphicsChangeByLeftShiftMethod() throws Exception {
-    //given
-    Plot plot = plot();
-    //when
-    plot.leftShift(new Line());
-    //then
-    String valueForProperty = getValueForProperty(groovyKernel, GRAPHICS_LIST, String.class);
-    assertThat(valueForProperty).isNotNull();
-    assertThat(valueForProperty).contains(GRAPHICS_LIST);
-  }
-
-  @Test
-  public void shouldSendCommMsgWhenCategoryGraphicsChangeByAddMethod() throws Exception {
-    //given
-    Plot plot = plot();
-    //when
-    plot.add(new Line());
-    //then
-    String valueForProperty = getValueForProperty(groovyKernel, GRAPHICS_LIST, String.class);
-    assertThat(valueForProperty).isNotNull();
-    assertThat(valueForProperty).contains(GRAPHICS_LIST);
-  }
-
-  @Test
-  public void shouldSendCommMsgWhenTitleChange() throws Exception {
-    //given
-    Plot plot = plot();
-    //Histogram
-    plot.setTitle("Title 1");
-    //then
-    String valueForProperty = getValueForProperty(groovyKernel, CHART_TITLE, String.class);
-    assertThat(valueForProperty).contains(CHART_TITLE+RESULT_JSON_JOINER+"\"Title 1");
-  }
-
-  private Plot plot() throws NoSuchAlgorithmException {
-    Plot widget = new Plot();
-    groovyKernel.clearMessages();
-    return widget;
-  }
-
 }

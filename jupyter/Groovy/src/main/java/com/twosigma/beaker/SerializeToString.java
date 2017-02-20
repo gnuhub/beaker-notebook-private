@@ -73,9 +73,8 @@ import com.twosigma.beaker.chart.xychart.plotitem.Points;
 import com.twosigma.beaker.chart.xychart.plotitem.Stems;
 import com.twosigma.beaker.chart.xychart.plotitem.Text;
 import com.twosigma.beaker.chart.xychart.plotitem.YAxis;
-import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.DisplayWidget;
-import com.twosigma.beaker.widgets.chart.InternalPlot;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
 
 
 public class SerializeToString {
@@ -158,9 +157,10 @@ public class SerializeToString {
   }
 
   public static String doit(Object result) {
-    if (isBeakerWidget(result) && result instanceof CommFunctionality && result instanceof InternalPlot) {
-      ((InternalPlot)result).sendModel();
-      DisplayWidget.display((CommFunctionality) result);
+    if (isBeakerWidget(result) && result instanceof InternalWidget) {
+      InternalWidget widget = (InternalWidget) result;
+      widget.sendModel();
+      DisplayWidget.display(widget);
       return "";
     }
 	  if (mapper != null && isBeakerChart(result)) {

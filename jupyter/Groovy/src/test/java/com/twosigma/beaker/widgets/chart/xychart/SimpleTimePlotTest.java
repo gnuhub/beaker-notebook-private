@@ -16,85 +16,31 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.chart.serializer.XYGraphicsSerializer;
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
-import org.apache.commons.collections.map.HashedMap;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import static com.twosigma.beaker.chart.serializer.AbstractChartSerializer.Y_LABEL;
-import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.RESULT_JSON_JOINER;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
-import static org.assertj.core.api.Assertions.assertThat;
+public class SimpleTimePlotTest extends InternalWidgetTest {
 
-public class SimpleTimePlotTest {
-
-  private GroovyKernelTest groovyKernel;
-
-  @Before
-  public void setUp() throws Exception {
-    groovyKernel = new GroovyKernelTest();
-    GroovyKernelManager.register(groovyKernel);
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    GroovyKernelManager.register(null);
-  }
-
-  @Test
-  public void shouldSendCommOpenWhenCreate() throws Exception {
-    //given
+  @Override
+  public InternalWidget create() throws NoSuchAlgorithmException {
     List<Map<String, Object>> data = new ArrayList<>();
     List<String> columns = new ArrayList<>();
     //when
-    new SimpleTimePlot(data, columns);
-    //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), SimpleTimePlot.MODEL_NAME_VALUE, SimpleTimePlot.VIEW_NAME_VALUE);
+    return new SimpleTimePlot(data, columns);
   }
 
-  @Test
-  public void shouldSendCommMsgWhenYLabelChange() throws Exception {
-    //given
-    SimpleTimePlot plot = simpleTimePlot();
-    //when
-    plot.setYLabel("Y label 1");
-    //then
-    String valueForProperty = getValueForProperty(groovyKernel, Y_LABEL, String.class);
-    assertThat(valueForProperty).contains(Y_LABEL);
-    assertThat(valueForProperty).contains("Y label 1");
+  @Override
+  public String getModelNameValue() {
+    return SimpleTimePlot.MODEL_NAME_VALUE;
   }
 
-  @Test
-  public void shouldSendCommMsgWhenDisplayNamesChange() throws Exception {
-    //given
-    SimpleTimePlot widget = simpleTimePlot();
-    //when
-    widget.setDisplayNames(Arrays.asList("All","DN1", "DN2"));
-    //then
-    String valueForProperty = getValueForProperty(groovyKernel, XYGraphicsSerializer.DISPLAY_NAME, String.class);
-    assertThat(valueForProperty).contains(XYGraphicsSerializer.DISPLAY_NAME + RESULT_JSON_JOINER + "\"DN1\"");
-    assertThat(valueForProperty).contains(XYGraphicsSerializer.DISPLAY_NAME + RESULT_JSON_JOINER + "\"DN1\"");
+  @Override
+  public String getViewNameValue() {
+    return SimpleTimePlot.VIEW_NAME_VALUE;
   }
-
-
-  private SimpleTimePlot simpleTimePlot() throws NoSuchAlgorithmException {
-    List<Map<String, Object>> data = new ArrayList<>();
-    data.add(new HashedMap(){{
-      put("c1",1);
-      put("c2",2);
-      put("time",new Date());
-    }});
-    List<String> columns = Arrays.asList("c1", "c2");
-    SimpleTimePlot widget = new SimpleTimePlot(data, columns);
-    groovyKernel.clearMessages();
-    return widget;
-  }
-
 }

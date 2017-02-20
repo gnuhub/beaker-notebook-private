@@ -16,7 +16,6 @@
 package com.twosigma.beaker.widgets.table;
 
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
@@ -27,7 +26,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TableDisplay extends com.twosigma.beaker.table.TableDisplay implements CommFunctionality, InternalWidget {
+public class TableDisplay extends com.twosigma.beaker.table.TableDisplay implements InternalWidget {
 
   public static final String VIEW_NAME_VALUE = "TableDisplayView";
   public static final String MODEL_NAME_VALUE = "TableDisplayModel";

@@ -15,60 +15,26 @@
  */
 package com.twosigma.beaker.widgets.chart.categoryplot;
 
-import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryBars;
-import com.twosigma.beaker.jupyter.GroovyKernelManager;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
 import java.security.NoSuchAlgorithmException;
 
-import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
-import static com.twosigma.beaker.widgets.InternalWidgetsTestUtils.verifyOpenCommMsgInternalWidgets;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.getValueForProperty;
-import static org.assertj.core.api.Assertions.assertThat;
+public class CategoryPlotTest extends InternalWidgetTest {
 
-public class CategoryPlotTest {
-
-  private GroovyKernelTest groovyKernel;
-
-  @Before
-  public void setUp() throws Exception {
-    groovyKernel = new GroovyKernelTest();
-    GroovyKernelManager.register(groovyKernel);
+  @Override
+  public InternalWidget create() throws NoSuchAlgorithmException {
+    return new CategoryPlot();
   }
 
-  @After
-  public void tearDown() throws Exception {
-    GroovyKernelManager.register(null);
+  @Override
+  public String getModelNameValue() {
+    return CategoryPlot.MODEL_NAME_VALUE;
   }
 
-  @Test
-  public void shouldSendCommOpenWhenCreate() throws Exception {
-    //given
-    //when
-    new CategoryPlot();
-    //then
-    verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), CategoryPlot.MODEL_NAME_VALUE, CategoryPlot.VIEW_NAME_VALUE);
-  }
-
-  @Test
-  public void shouldSendCommMsgWhenCategoryGraphicsChange() throws Exception {
-    //given
-    CategoryPlot categoryPlot = categoryPlot();
-    //when
-    categoryPlot.leftShift(new CategoryBars());
-    //then
-    String valueForProperty = getValueForProperty(groovyKernel, GRAPHICS_LIST, String.class);
-    assertThat(valueForProperty).isNotNull();
-    assertThat(valueForProperty).contains(GRAPHICS_LIST);
-  }
-
-  private CategoryPlot categoryPlot() throws NoSuchAlgorithmException {
-    CategoryPlot categoryPlot = new CategoryPlot();
-    groovyKernel.clearMessages();
-    return categoryPlot;
+  @Override
+  public String getViewNameValue() {
+    return CategoryPlot.VIEW_NAME_VALUE;
   }
 
 }
