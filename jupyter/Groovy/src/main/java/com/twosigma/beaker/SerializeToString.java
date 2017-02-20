@@ -82,19 +82,19 @@ public class SerializeToString {
   private static int count = 0;
   private static ObjectMapper mapper;
   private static Map<Class<?>, JsonSerializer> serializerMap = new Hashtable<>();
-  private static Map<Class<?>, Object> widgetMap = new Hashtable<>();
+  private static Map<Class<?>, Object> internalWidgetMap = new Hashtable<>();
 
   static {
 
-    widgetMap.put(com.twosigma.beaker.widgets.table.TableDisplay.class, new Object());
-    widgetMap.put(com.twosigma.beaker.widgets.chart.categoryplot.CategoryPlot.class, new Object());
-    widgetMap.put(com.twosigma.beaker.widgets.chart.heatmap.HeatMap.class, new Object());
-    widgetMap.put(com.twosigma.beaker.widgets.chart.histogram.Histogram.class, new Object());
-    widgetMap.put(com.twosigma.beaker.widgets.chart.xychart.TimePlot.class, new Object());
-    widgetMap.put(com.twosigma.beaker.widgets.chart.xychart.Plot.class, new Object());
-    widgetMap.put(com.twosigma.beaker.widgets.chart.xychart.SimpleTimePlot.class, new Object());
-    widgetMap.put(com.twosigma.beaker.widgets.chart.xychart.CombinedPlot.class, new Object());
-    widgetMap.put(com.twosigma.beaker.widgets.chart.xychart.NanoPlot.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.widgets.table.TableDisplay.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.categoryplot.CategoryPlot.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.heatmap.HeatMap.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.histogram.Histogram.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.TimePlot.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.Plot.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.SimpleTimePlot.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.CombinedPlot.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.NanoPlot.class, new Object());
 
 
     serializerMap.put(TableDisplay.class, new TableDisplaySerializer());
@@ -130,10 +130,10 @@ public class SerializeToString {
     mapper.registerModule(module);
   }
 
-  protected static boolean isBeakerWidget(Object result){
+  protected static boolean isInternalWidget(Object result){
     boolean ret = false;
-    if(result != null){
-      for (Class<?> clazz : widgetMap.keySet()) {
+    if(result != null && result instanceof InternalWidget ){
+      for (Class<?> clazz : internalWidgetMap.keySet()) {
         ret = clazz.isAssignableFrom(result.getClass());
         if(ret){
           break;
@@ -157,10 +157,8 @@ public class SerializeToString {
   }
 
   public static String doit(Object result) {
-    if (isBeakerWidget(result) && result instanceof InternalWidget) {
-      InternalWidget widget = (InternalWidget) result;
-      widget.sendModel();
-      DisplayWidget.display(widget);
+    if (isInternalWidget(result)) {
+      showInternalWidget(result);
       return "";
     }
 	  if (mapper != null && isBeakerChart(result)) {
@@ -173,14 +171,31 @@ public class SerializeToString {
 	            "');</script></html>";
 	        return s;
 	      } catch (Exception e) {
-	        StringWriter w = new StringWriter();
-	        PrintWriter printWriter = new PrintWriter( w );
-	        e.printStackTrace( printWriter );
-	        printWriter.flush();
-	        return w.toString();
+          return exceptionToString(e);
 	      }
 	  }
 	  return result != null ? result.toString() : null;
   }
 
+  private static void showInternalWidget(Object result) {
+    InternalWidget widget = (InternalWidget) result;
+    widget.sendModel();
+    DisplayWidget.display(widget);
+  }
+
+  protected static String exceptionToString(Exception e) {
+    StringWriter w = new StringWriter();
+    PrintWriter printWriter = new PrintWriter( w );
+    e.printStackTrace( printWriter );
+    printWriter.flush();
+    return w.toString();
+  }
+
+  protected static Map<Class<?>, JsonSerializer> getSerializerMap() {
+    return serializerMap;
+  }
+
+  protected static ObjectMapper getMapper() {
+    return mapper;
+  }
 }

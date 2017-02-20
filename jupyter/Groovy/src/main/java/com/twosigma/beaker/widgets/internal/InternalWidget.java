@@ -23,7 +23,7 @@ public interface InternalWidget extends CommFunctionality {
 
   default void sendModel() {
     if (this.getComm() != null) {
-      this.getComm().sendUpdate(MODEL, SerializeToString.toJson(this));
+      this.getComm().sendUpdate(MODEL, SerializeToJson.toJson(this));
     }
   }
 

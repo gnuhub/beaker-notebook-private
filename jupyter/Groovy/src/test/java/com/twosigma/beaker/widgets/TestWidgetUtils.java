@@ -60,7 +60,12 @@ public class TestWidgetUtils {
 
   public static <T> T getValueForProperty(GroovyKernelTest groovyKernel, String propertyName, Class<T> clazz) {
     assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Map data = TestWidgetUtils.getData(groovyKernel.getMessages().get(0));
+    Message message = groovyKernel.getMessages().get(0);
+    return getValueForProperty(message, propertyName, clazz);
+  }
+
+  public static <T> T getValueForProperty(Message message, String propertyName, Class<T> clazz) {
+    Map data = TestWidgetUtils.getData(message);
     assertThat(data.get(Comm.METHOD)).isEqualTo(Comm.UPDATE);
     Object o = ((Map) data.get(Comm.STATE)).get(propertyName);
     return clazz.cast(o);
