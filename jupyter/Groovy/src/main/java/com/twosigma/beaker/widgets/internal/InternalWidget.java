@@ -15,6 +15,16 @@
  */
 package com.twosigma.beaker.widgets.internal;
 
-public interface InternalWidget {
+import com.twosigma.beaker.widgets.CommFunctionality;
+
+public interface InternalWidget extends CommFunctionality {
+
+  String MODEL = "model";
+
+  default void sendModel() {
+    if (this.getComm() != null) {
+      this.getComm().sendUpdate(MODEL, SerializeToString.toJson(this));
+    }
+  }
 
 }

@@ -16,18 +16,16 @@
 package com.twosigma.beaker.widgets.chart.xychart;
 
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
-import com.twosigma.beaker.widgets.internal.SerializeToString;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class Plot extends com.twosigma.beaker.chart.xychart.Plot implements CommFunctionality, InternalWidget, InternalPlot {
+public class Plot extends com.twosigma.beaker.chart.xychart.Plot implements InternalWidget, InternalPlot {
 
   private Comm comm;
 
@@ -46,14 +44,4 @@ public class Plot extends com.twosigma.beaker.chart.xychart.Plot implements Comm
     return this.comm;
   }
 
-  private void sendUpdate(final String propertyName, final Object value) {
-    if (this.comm != null) {
-      this.comm.sendUpdate(propertyName, value);
-    }
-  }
-
-  @Override
-  public void sendModel() {
-    sendUpdate(MODEL, SerializeToString.toJson(this));
-  }
 }
