@@ -25,8 +25,10 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static com.twosigma.beaker.groovy.GroovyDefaultVariables.getUsString;
 import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
 import static com.twosigma.beaker.jupyter.Comm.DATA;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
@@ -56,18 +58,23 @@ public class CommKernelControlSetShellHandler extends AbstractHandler<Message> {
       Map<String, Serializable> commMap = message.getContent();
       HashMap<?, ?> messageData = (HashMap<?, ?>)commMap.get(DATA);
       if (messageData != null) {
-        handleData((Map<String, String>)messageData);
-        publish(createReplayMessage(message, true));
+        boolean ok = handleData((Map<String, List<String>>)messageData);
+        publish(createReplayMessage(message, ok));
       }
     } else {
       logger.info("Comm message contend is null");
     }
   }
 
-  public void handleData(Map<String, String> data) {
-    String imports = data.get(IMPORTS);
-    String classPath = data.get(CLASSPATH);
-    kernel.setShellOptions(classPath, imports, null);
+  public boolean handleData(Map<String, List<String>> data) {
+    boolean ret = false;
+    if(data.containsKey(IMPORTS) &&data.containsKey(CLASSPATH)){
+      List<String> imports = data.get(IMPORTS);
+      List<String> classPath = data.get(CLASSPATH);
+      kernel.setShellOptions(getUsString(classPath), getUsString(imports), null);
+     ret = true;
+    }
+    return ret;
   }
   
   private Message createReplayMessage(Message message, boolean ok) {

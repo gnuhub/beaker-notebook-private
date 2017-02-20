@@ -76,7 +76,7 @@ public class CommKernelControlGetDefaultShellHandler extends AbstractHandler<Mes
       map.put(COMM_ID, getString(commMap, COMM_ID));
       HashMap<String, Serializable> data = new HashMap<>();
       if (ok) {
-        HashMap<String, String> shell = new HashMap<>();
+        HashMap<String, String[]> shell = new HashMap<>();
         shell.put(IMPORTS, GroovyDefaultVariables.IMPORTS);
         shell.put(CLASSPATH, GroovyDefaultVariables.CLASS_PATH);
         data.put(KERNEL_CONTROL_RESPONSE, shell);
