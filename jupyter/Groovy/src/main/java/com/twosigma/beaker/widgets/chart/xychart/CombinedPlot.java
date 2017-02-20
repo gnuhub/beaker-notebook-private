@@ -15,7 +15,6 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
-import com.twosigma.beaker.chart.serializer.CombinedPlotSerializer;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
@@ -45,18 +44,6 @@ public class CombinedPlot extends com.twosigma.beaker.chart.xychart.CombinedPlot
   @Override
   public Comm getComm() {
     return this.comm;
-  }
-
-  @Override
-  public com.twosigma.beaker.chart.xychart.CombinedPlot setXLabel(String xLabel) {
-    com.twosigma.beaker.chart.xychart.CombinedPlot combinedPlot = super.setXLabel(xLabel);
-    sendUpdate(CombinedPlotSerializer.X_LABEL, SerializeToString.toJson(this));
-    return combinedPlot;
-  }
-
-  @Override
-  public com.twosigma.beaker.chart.xychart.CombinedPlot setxLabel(String xLabel) {
-    return setXLabel(xLabel);
   }
 
   private void sendUpdate(final String propertyName, final Object value) {
