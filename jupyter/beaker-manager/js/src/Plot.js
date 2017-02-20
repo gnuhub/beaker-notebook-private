@@ -28,7 +28,6 @@ var PlotView = widgets.DOMWidgetView.extend({
 
     this.displayed.then(function() {
       var plotModel = JSON.parse(that.model.get('model'));
-      console.log('init this', that.model.get('model'));
 
       var type = plotModel.type || 'Text';
 
