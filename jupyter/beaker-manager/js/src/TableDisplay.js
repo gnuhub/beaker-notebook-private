@@ -1,13 +1,15 @@
 var widgets = require('jupyter-js-widgets');
 var _ = require('underscore');
 
+var TableScope = require('./tableDisplay/tableScope');
 
-// Custom Model. Custom widgets models must at least provide default values
-// for model attributes, including `_model_name`, `_view_name`, `_model_module`
-// and `_view_module` when different from the base class.
-//
-// When serialiazing entire widget state for embedding, only values different from the
-// defaults will be specified.
+require('./../bower_components/datatables.net-dt/css/jquery.dataTables.min.css');
+require('./../bower_components/datatables.net-colreorder-dt/css/colReorder.dataTables.min.css');
+require('./../bower_components/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.min.css');
+require('./../bower_components/datatables.net-keytable-dt/css/keyTable.dataTables.min.css');
+require('./../bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
+require('./tableDisplay/css/datatables.css');
+
 var TableDisplayModel = widgets.DOMWidgetModel.extend({
   defaults: _.extend({}, widgets.DOMWidgetModel.prototype.defaults, {
     _model_name : 'TableDisplayModel',
@@ -21,15 +23,24 @@ var TableDisplayModel = widgets.DOMWidgetModel.extend({
 // Custom View. Renders the widget model.
 var TableDisplayView = widgets.DOMWidgetView.extend({
   render: function() {
-    console.log('render', this);
-    console.log('json??', this.model.get('json'));
+    var that = this;
 
-    this.value_changed();
-    this.model.on('change:value', this.value_changed, this);
+    this.displayed.then(function() {
+      var tableModel = JSON.parse(that.model.get('model'));
+      that.initTableDisplay(tableModel);
+    });
   },
 
-  value_changed: function() {
-    this.el.textContent = this.model.get('value');
+  initTableDisplay: function(data) {
+    var currentScope = new TableScope('wrap_'+this.id);
+    var tmpl = currentScope.buildTemplate();
+    var tmplElement = $(tmpl);
+
+    tmplElement.appendTo(this.$el);
+
+    currentScope.setModelData(data);
+    currentScope.setElement(tmplElement.children('.dtcontainer'));
+    currentScope.run();
   }
 });
 
