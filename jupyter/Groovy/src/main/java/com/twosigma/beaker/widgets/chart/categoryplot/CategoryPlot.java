@@ -15,7 +15,6 @@
  */
 package com.twosigma.beaker.widgets.chart.categoryplot;
 
-import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
@@ -27,8 +26,6 @@ import com.twosigma.beaker.widgets.internal.SerializeToString;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-
-import static com.twosigma.beaker.chart.serializer.CategoryPlotSerializer.GRAPHICS_LIST;
 
 public class CategoryPlot extends com.twosigma.beaker.chart.categoryplot.CategoryPlot implements CommFunctionality, InternalWidget, InternalPlot {
 
@@ -42,13 +39,6 @@ public class CategoryPlot extends com.twosigma.beaker.chart.categoryplot.Categor
         content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
       }
     });
-  }
-
-  @Override
-  public com.twosigma.beaker.chart.categoryplot.CategoryPlot leftShift(CategoryGraphics graphics) {
-    com.twosigma.beaker.chart.categoryplot.CategoryPlot categoryPlot = super.leftShift(graphics);
-    sendUpdate(GRAPHICS_LIST, SerializeToString.toJson(categoryPlot));
-    return categoryPlot;
   }
 
   @Override
