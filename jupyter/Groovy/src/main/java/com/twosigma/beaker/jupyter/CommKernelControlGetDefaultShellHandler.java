@@ -30,6 +30,8 @@ import java.util.Map;
 
 import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
 import static com.twosigma.beaker.jupyter.Comm.DATA;
+import static com.twosigma.beaker.jupyter.CommKernelControlSetShellHandler.CLASSPATH;
+import static com.twosigma.beaker.jupyter.CommKernelControlSetShellHandler.IMPORTS;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
 
 /**
@@ -37,9 +39,6 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
  */
 public class CommKernelControlGetDefaultShellHandler extends AbstractHandler<Message> {
 
-  public static final String IMPORTS = "imports";
-  public static final String CLASS_PATH = "class_path";
-  public static final String OUT_DIR = "out_dir";
   public static final String UNDEFINED_REQUEST = "undefined_request";
   public static final String GET_DEFAULT_SHELL = "get_default_shell";
   public static final String KERNEL_CONTROL_RESPONSE = "kernel_control_response";
@@ -54,20 +53,20 @@ public class CommKernelControlGetDefaultShellHandler extends AbstractHandler<Mes
   @Override
   public void handle(Message message) throws NoSuchAlgorithmException {
     logger.info("Handing comm message content");
-    if(message != null){
+    if (message != null) {
       Map<String, Serializable> commMap = message.getContent();
-      HashMap<String, Boolean> messageData = (HashMap<String, Boolean>)commMap.get(DATA);
+      HashMap<String, Boolean> messageData = (HashMap<String, Boolean>) commMap.get(DATA);
       Object okObject = messageData != null ? messageData.get(GET_DEFAULT_SHELL) : null;
-      if(okObject != null && okObject instanceof Boolean && ((Boolean)okObject).booleanValue()){
-        Message replay = createReplayMessage(message, true);
+      if (okObject != null && okObject instanceof Boolean && ((Boolean) okObject).booleanValue()) {
+        Message replay = createReplyMessage(message, true);
         publish(replay);
       }
     } else {
       logger.info("Comm message contend is null");
     }
   }
-  
-  private Message createReplayMessage(Message message, boolean ok) {
+
+  private Message createReplyMessage(Message message, boolean ok) {
     Message ret = null;
     if (message != null) {
       ret = new Message();
@@ -76,14 +75,13 @@ public class CommKernelControlGetDefaultShellHandler extends AbstractHandler<Mes
       HashMap<String, Serializable> map = new HashMap<>();
       map.put(COMM_ID, getString(commMap, COMM_ID));
       HashMap<String, Serializable> data = new HashMap<>();
-      if(ok){
+      if (ok) {
         HashMap<String, String> shell = new HashMap<>();
         shell.put(IMPORTS, GroovyDefaultVariables.IMPORTS);
-        shell.put(CLASS_PATH,GroovyDefaultVariables.CLASS_PATH);
-        shell.put(OUT_DIR,GroovyDefaultVariables.OUT_DIR);
+        shell.put(CLASSPATH, GroovyDefaultVariables.CLASS_PATH);
         data.put(KERNEL_CONTROL_RESPONSE, shell);
         logger.info("Response OK");
-      }else{
+      } else {
         data.put(KERNEL_CONTROL_RESPONSE, UNDEFINED_REQUEST);
         logger.info("Response " + UNDEFINED_REQUEST);
       }
@@ -92,7 +90,7 @@ public class CommKernelControlGetDefaultShellHandler extends AbstractHandler<Mes
     }
     return ret;
   }
-  
+
   public static String getString(Map<String, Serializable> map, String name) {
     String ret = null;
     if (map != null && name != null && map.containsKey(name)) {

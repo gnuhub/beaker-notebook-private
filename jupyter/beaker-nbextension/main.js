@@ -74,24 +74,21 @@ define([
     var kernel_control_target_name = "kernel.control.channel";
     var comm = Jupyter.notebook.kernel.comm_manager.new_comm(kernel_control_target_name, null, null, null, utils.uuid());
 
-    var newNotebook = undefined == Jupyter.notebook.metadata.imports || undefined == Jupyter.notebook.metadata.class_path || undefined == Jupyter.notebook.metadata.out_dir;
+    var newNotebook = undefined == Jupyter.notebook.metadata.imports || undefined == Jupyter.notebook.metadata.classpath;
 
     if(newNotebook){
       comm.on_msg(function(resp){
         if(undefined != resp.content.data.kernel_control_response){
           if("OK" === resp.content.data.kernel_control_response){
           }else if(undefined != resp.content.data.kernel_control_response.imports &&
-              undefined != resp.content.data.kernel_control_response.class_path &&
-              undefined != resp.content.data.kernel_control_response.out_dir){
+              undefined != resp.content.data.kernel_control_response.classpath){
             Jupyter.notebook.metadata.imports = resp.content.data.kernel_control_response.imports;
-            Jupyter.notebook.metadata.class_path = resp.content.data.kernel_control_response.class_path;
-            Jupyter.notebook.metadata.out_dir = resp.content.data.kernel_control_response.out_dir;
+            Jupyter.notebook.metadata.classpath = resp.content.data.kernel_control_response.classpath;
 
             var theData = {};
             if(Jupyter.notebook && Jupyter.notebook.metadata){
               theData.imports = Jupyter.notebook.metadata.imports;
-              theData.class_path = Jupyter.notebook.metadata.class_path;
-              theData.out_dir = Jupyter.notebook.metadata.out_dir;
+              theData.classpath = Jupyter.notebook.metadata.classpath;
             }
             comm.send(theData);
             comm.close();
@@ -106,8 +103,7 @@ define([
       var data = {};
       if(Jupyter.notebook && Jupyter.notebook.metadata){
         data.imports = Jupyter.notebook.metadata.imports;
-        data.class_path = Jupyter.notebook.metadata.class_path;
-        data.out_dir = Jupyter.notebook.metadata.out_dir;
+        data.classpath = Jupyter.notebook.metadata.classpath;
       }
       comm.send(data);
       comm.close();

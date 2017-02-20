@@ -37,8 +37,7 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
 public class CommKernelControlSetShellHandler extends AbstractHandler<Message> {
 
   public static final String IMPORTS = "imports";
-  public static final String CLASS_PATH = "class_path";
-  public static final String OUT_DIR = "out_dir";
+  public static final String CLASSPATH = "classpath";
 
   public static final String KERNEL_CONTROL_RESPONSE = "kernel_control_response";
   public static final String RESPONSE_OK = "OK";
@@ -67,9 +66,8 @@ public class CommKernelControlSetShellHandler extends AbstractHandler<Message> {
 
   public void handleData(Map<String, String> data) {
     String imports = data.get(IMPORTS);
-    String classPath = data.get(CLASS_PATH);
-    String outDir = data.get(OUT_DIR);
-    kernel.setShellOptions(classPath, imports, outDir);
+    String classPath = data.get(CLASSPATH);
+    kernel.setShellOptions(classPath, imports, null);
   }
   
   private Message createReplayMessage(Message message, boolean ok) {
