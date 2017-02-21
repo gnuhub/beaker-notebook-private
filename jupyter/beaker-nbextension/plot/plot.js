@@ -586,7 +586,7 @@ define([
           var rpipeText = {
             "id": "label_y_" + i,
             "class": "plot-label plot-label-y",
-            "text": labels[i],
+            "text": scope.numberWithCommas(labels[i]),
             "x": x,
             "y": y,
             "text-anchor": "end",
@@ -611,7 +611,7 @@ define([
           scope.rpipeTexts.push({
             "id" : "label_yr_" + i,
             "class" : "plot-label",
-            "text" : labels[i],
+            "text" : scope.numberWithCommas(labels[i]),
             "x" : mapX(scope.focus.xr) + scope.labelPadding.x,
             "y" : mapY(y),
             "dominant-baseline" : "central"
@@ -2317,6 +2317,12 @@ define([
 
     scope.modelHasPlotSpecificMethods = function(model) {
       return model.getSvgToSave && model.saveAsSvg && model.saveAsPng && model.updateLegendPosition;
+    };
+
+    scope.numberWithCommas = function(x) {
+      var parts = x.toString().split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return parts.join(".");
     };
 
     scope.fillCellModelWithPlotMethods = function () {
