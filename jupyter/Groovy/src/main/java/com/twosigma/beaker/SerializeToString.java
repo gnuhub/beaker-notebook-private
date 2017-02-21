@@ -161,20 +161,20 @@ public class SerializeToString {
       showInternalWidget(result);
       return "";
     }
-	  if (mapper != null && isBeakerChart(result)) {
-		  try {
-	        String s = mapper.writeValueAsString(result);
-	        count++;
-	        s = "<html><div id='beakerChart" + count +
-	            "'></div><script>var j = " + s +
-	            "; console.log('plot this:'); console.log(j); window.initPlotd(j,'beakerChart" + count +
-	            "');</script></html>";
-	        return s;
-	      } catch (Exception e) {
-          return exceptionToString(e);
-	      }
-	  }
-	  return result != null ? result.toString() : null;
+    if (mapper != null && isBeakerChart(result)) {
+      try {
+        String s = mapper.writeValueAsString(result);
+        count++;
+        s = "<html><div id='beakerChart" + count +
+                "'></div><script>var j = " + s +
+                "; console.log('plot this:'); console.log(j); window.initPlotd(j,'beakerChart" + count +
+                "');</script></html>";
+        return s;
+      } catch (Exception e) {
+        return exceptionToString(e);
+      }
+    }
+    return result != null ? result.toString() : null;
   }
 
   private static void showInternalWidget(Object result) {
@@ -185,8 +185,8 @@ public class SerializeToString {
 
   protected static String exceptionToString(Exception e) {
     StringWriter w = new StringWriter();
-    PrintWriter printWriter = new PrintWriter( w );
-    e.printStackTrace( printWriter );
+    PrintWriter printWriter = new PrintWriter(w);
+    e.printStackTrace(printWriter);
     printWriter.flush();
     return w.toString();
   }
