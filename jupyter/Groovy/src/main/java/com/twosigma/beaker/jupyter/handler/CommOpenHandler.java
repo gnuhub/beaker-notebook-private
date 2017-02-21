@@ -38,6 +38,19 @@ import static com.twosigma.beaker.jupyter.Comm.TARGET_NAME;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_CLOSE;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
 
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
+import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
+import org.lappsgrid.jupyter.groovy.msg.Header;
+import org.lappsgrid.jupyter.groovy.msg.Message;
+import org.slf4j.LoggerFactory;
+
+import com.twosigma.beaker.jupyter.Comm;
+
 /**
  * 
  * @author konst
@@ -45,7 +58,7 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
  */
 public class CommOpenHandler extends AbstractHandler<Message> {
 
-  public CommOpenHandler(GroovyKernel kernel) {
+  public CommOpenHandler(GroovyKernelFunctionality kernel) {
     super(kernel);
     logger = LoggerFactory.getLogger(CommOpenHandler.class);
   }
