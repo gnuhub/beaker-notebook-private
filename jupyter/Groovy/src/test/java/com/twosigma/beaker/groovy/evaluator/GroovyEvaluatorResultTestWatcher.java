@@ -20,7 +20,7 @@ import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import static com.twosigma.beaker.jvm.object.SimpleEvaluationObject.EvaluationStatus.QUEUED;
 import static com.twosigma.beaker.jvm.object.SimpleEvaluationObject.EvaluationStatus.RUNNING;
 
-public class GroovyEvaluatorResultWatcher {
+public class GroovyEvaluatorResultTestWatcher {
   public static final int ATTEMPT = 20;
   public static final int SLEEP_IN_MILLIS = 100;
 
