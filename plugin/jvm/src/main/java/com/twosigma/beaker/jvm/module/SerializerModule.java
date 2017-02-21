@@ -123,7 +123,7 @@ public class SerializerModule extends AbstractModule {
     ObjectMapper mapper = new ObjectMapper();
     try {
       SimpleModule module =
-          new SimpleModule("MySerializer", new Version(1, 0, 0, null));
+          new SimpleModule("MySerializer", new Version(1, 0, 0, null,null,null));
 
       // this is the root object we deserialize when reading from notebook namespace
       module.addDeserializer(NamespaceBinding.class, injector.getInstance(NamespaceBindingDeserializer.class));

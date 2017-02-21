@@ -102,8 +102,8 @@ public class Comm {
     return msgCallbackList;
   }
 
-  public void addMsgCallbackList(IHandler<Message> ... handlers) {
-    this.msgCallbackList.addAll(Arrays.asList(handlers));
+  public void addMsgCallbackList(List<IHandler<Message>> handlers) {
+    this.msgCallbackList.addAll(handlers);
   }
   
   public void clearMsgCallbackList() {

@@ -38,7 +38,7 @@ import javax.ws.rs.core.MediaType;
 @Singleton
 public class JavashShellRest {
 
-  private final Map<String, JavaEvaluator> shells = new HashMap<>();
+  private final Map<String, JavaEvaluator> shells = new HashMap<String, JavaEvaluator>();
 
   public JavashShellRest() throws IOException {}
 

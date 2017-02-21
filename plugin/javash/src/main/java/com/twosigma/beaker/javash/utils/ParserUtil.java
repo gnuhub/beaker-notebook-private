@@ -51,7 +51,7 @@ public class ParserUtil {
    * Track the internal state of the parser, remembering the last characters observed.
    */
   static class ParserState {
-    private Deque prevTwoChars = new LinkedList<Character>();
+    private Deque<Character> prevTwoChars = new LinkedList<Character>();
 
     /**
      * Is the last character the one expected?

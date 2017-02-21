@@ -27,7 +27,7 @@ import com.twosigma.beaker.chart.legend.LegendPosition;
 public class Chart extends ObservableChart{
   protected int initWidth  = 640;
   protected int initHeight = 480;
-  protected List<String> customStyles = new ArrayList();
+  protected List<String> customStyles = new ArrayList<>();
   protected Map<String,String> elementStyles = new HashMap<>();
 
   protected String  title;

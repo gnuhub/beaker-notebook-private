@@ -24,6 +24,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Arrays.asList;
+
 public abstract class DOMWidget extends Widget {
 
   public static final String DATA = "data";
@@ -38,7 +40,7 @@ public abstract class DOMWidget extends Widget {
 
   @Override
   protected void addValueChangeMsgCallback(Comm comm) {
-    comm.addMsgCallbackList(new IHandler<Message>() {
+    IHandler<Message> iHandler = new IHandler<Message>() {
       @Override
       public void handle(Message msg) throws NoSuchAlgorithmException {
         if (msg != null && msg.getContent() != null && msg.getContent().containsKey(DATA)) {
@@ -54,7 +56,8 @@ public abstract class DOMWidget extends Widget {
           }
         }
       }
-    });
+    };
+    comm.addMsgCallbackList(asList(iHandler));
   }
 
   protected void updateValue(Object value) {

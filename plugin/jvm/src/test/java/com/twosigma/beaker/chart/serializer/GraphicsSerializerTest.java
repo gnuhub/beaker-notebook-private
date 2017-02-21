@@ -34,7 +34,7 @@ import java.io.StringWriter;
 public class GraphicsSerializerTest {
 
     static ObjectMapper mapper;
-    static GraphicsSerializer graphicsSerializer;
+    static GraphicsSerializer<Line> graphicsSerializer;
     JsonGenerator jgen;
     StringWriter sw;
 

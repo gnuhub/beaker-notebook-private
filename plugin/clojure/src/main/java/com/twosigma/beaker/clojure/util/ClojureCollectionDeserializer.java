@@ -46,7 +46,7 @@ public class ClojureCollectionDeserializer implements ObjectDeserializer {
 
   @Override
   public Object deserialize(JsonNode n, ObjectMapper mapper) {
-    List list = new ArrayList<>();
+    List<Object> list = new ArrayList<>();
     for (int i = 0; i < n.size(); i++) {
       try {
         list.add(parent.deserialize(n.get(i), mapper));

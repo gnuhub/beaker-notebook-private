@@ -37,7 +37,7 @@ import java.util.Arrays;
 public class XYGraphicsSerializerTest {
 
     static ObjectMapper mapper;
-    static XYGraphicsSerializer xyGraphicsSerializer;
+    static XYGraphicsSerializer<Line> xyGraphicsSerializer;
     JsonGenerator jgen;
     StringWriter sw;
     Line line;

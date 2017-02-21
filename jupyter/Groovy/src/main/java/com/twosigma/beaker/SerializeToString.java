@@ -108,9 +108,7 @@ public class SerializeToString {
     serializerMap.put(HeatMap.class, new HeatMapSerializer());
 
     SimpleModule module = new SimpleModule("MySerializer", new Version(1, 0, 0, null, null, null));
-    serializerMap.forEach((k, v) -> {
-      module.addSerializer(k, v);
-    });
+    serializerMap.forEach(module::addSerializer);
 
     mapper = new ObjectMapper();
     mapper.registerModule(module);
