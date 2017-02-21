@@ -17,8 +17,11 @@ package org.lappsgrid.jupyter.groovy;
 
 import com.twosigma.beaker.jupyter.Comm;
 import org.lappsgrid.jupyter.groovy.msg.Message;
+import org.zeromq.ZMQ;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Observer;
+import java.util.Set;
 
 public interface GroovyKernelFunctionality {
 
@@ -28,5 +31,17 @@ public interface GroovyKernelFunctionality {
 
   void removeComm(String commId);
 
-  Message getParentMessage();
+  String getId();
+
+  Observer getExecutionResultSender();
+
+  void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException;
+
+  void send(Message message) throws NoSuchAlgorithmException;
+
+  Comm getComm(String string);
+
+  boolean isCommPresent(String string);
+
+  Set<String> getCommHashSet();
 }

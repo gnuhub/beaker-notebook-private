@@ -26,7 +26,7 @@ import java.util.*;
 
 import com.twosigma.beaker.jvm.object.ConsoleOutput;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
+import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.slf4j.Logger;
@@ -47,9 +47,9 @@ public class MessageCreator {
   public static final String BUSY = "busy";
   public static final String IDLE = "idle";
   public static Logger logger = LoggerFactory.getLogger(MessageCreator.class);
-  protected GroovyKernel kernel;
+  protected GroovyKernelFunctionality kernel;
   
-  public MessageCreator(GroovyKernel kernel){
+  public MessageCreator(GroovyKernelFunctionality kernel){
     this.kernel = kernel;
   }
   

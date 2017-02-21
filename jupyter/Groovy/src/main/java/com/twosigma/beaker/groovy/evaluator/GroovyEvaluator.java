@@ -448,7 +448,9 @@ public void evaluate(SimpleEvaluationObject seo, String code) {
           }
 
           instance.setBinding(scriptBinding);
-          
+
+          InternalVariable.setValue(theOutput);
+
           result = instance.run();
 
           if(LOCAL_DEV) {

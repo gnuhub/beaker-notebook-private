@@ -23,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
+import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
@@ -38,10 +38,10 @@ import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
  */
 public class ExecuteRequestHandler extends AbstractHandler<Message> {
 
-  protected int executionCount;
-  protected GroovyEvaluatorManager evaluatorManager;
+  private int executionCount;
+  private GroovyEvaluatorManager evaluatorManager;
 
-  public ExecuteRequestHandler(GroovyKernel kernel) {
+  public ExecuteRequestHandler(GroovyKernelFunctionality kernel) {
     super(kernel);
     logger = LoggerFactory.getLogger(this.getClass());
     evaluatorManager = new GroovyEvaluatorManager(kernel);
@@ -51,25 +51,32 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
   @Override
   public void handle(Message message) throws NoSuchAlgorithmException {
     logger.info("Processing execute request");
-    Message reply = new Message();
+    handleMessage(message);
+  }
+
+  private synchronized void handleMessage(Message message) throws NoSuchAlgorithmException {
+    Message replyState = new Message();
     Map<String, Serializable> map = new HashMap<String, Serializable>(1);
     map.put("execution_state", "busy");
-    reply.setContent(map);
-    reply.setHeader(new Header(STATUS, message.getHeader().getSession()));
-    reply.setParentHeader(message.getHeader());
-    reply.setIdentities(message.getIdentities());
-    publish(reply);
+    replyState.setContent(map);
+    replyState.setHeader(new Header(STATUS, message.getHeader().getSession()));
+    replyState.setParentHeader(message.getHeader());
+    replyState.setIdentities(message.getIdentities());
+    publish(replyState);
 
     // Get the code to be executed from the message.
     String code = ((String) message.getContent().get("code")).trim();
 
     // Announce that we have the code.
-    reply.setHeader(new Header(EXECUTE_INPUT, message.getHeader().getSession()));
+    Message replyCount = new Message();
+    replyCount.setHeader(new Header(EXECUTE_INPUT, message.getHeader().getSession()));
+    replyCount.setParentHeader(message.getHeader());
+    replyCount.setIdentities(message.getIdentities());
     Map<String, Serializable> map1 = new HashMap<String, Serializable>(2);
     map1.put("execution_count", executionCount);
     map1.put("code", code);
-    reply.setContent(map1);
-    publish(reply);
+    replyCount.setContent(map1);
+    publish(replyCount);
 
     ++executionCount;
     evaluatorManager.executeCode(code, message, executionCount);

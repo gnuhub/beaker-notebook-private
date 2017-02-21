@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.twosigma.beaker.groovy.NamespaceClient;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.handler.CompleteHandler;
 import org.lappsgrid.jupyter.groovy.handler.HistoryHandler;
@@ -159,7 +158,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
    * 
    * @throws NoSuchAlgorithmException
    */
-  public void publish(Message message) throws NoSuchAlgorithmException {
+  public synchronized void publish(Message message) throws NoSuchAlgorithmException {
     send(iopubSocket, message);
   }
 
@@ -357,10 +356,6 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
   public ExecutionResultSender getExecutionResultSender() {
     return executionResultSender;
-  }
-
-  public Message getParentMessage(){
-    return NamespaceClient.getBeaker() != null && NamespaceClient.getBeaker().getOutputObj() != null ? (Message)NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
   }
 
 }

@@ -21,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
+import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class CommMsgHandler extends AbstractHandler<Message> {
 
   private MessageCreator messageCreator;
 
-  public CommMsgHandler(final GroovyKernel kernel, final MessageCreator messageCreator) {
+  public CommMsgHandler(final GroovyKernelFunctionality kernel, final MessageCreator messageCreator) {
     super(kernel);
     this.messageCreator = messageCreator;
     logger = LoggerFactory.getLogger(CommMsgHandler.class);

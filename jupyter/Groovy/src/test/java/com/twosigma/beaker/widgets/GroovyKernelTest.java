@@ -16,16 +16,29 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
 import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
+import org.zeromq.ZMQ;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
+import java.util.Set;
 
 public class GroovyKernelTest implements GroovyKernelFunctionality {
 
   private List<Message> messages = new ArrayList<>();
+  private String id;
+  private ExecutionResultSender executionResultSender = new ExecutionResultSender(this);
+
+  public GroovyKernelTest() {
+  }
+
+  public GroovyKernelTest(String id) {
+    this.id = id;
+  }
 
   @Override
   public void publish(Message message) throws NoSuchAlgorithmException {
@@ -43,14 +56,45 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   }
 
   @Override
-  public Message getParentMessage() {
+  public String getId() {
+    return this.id;
+  }
+
+  @Override
+  public Observer getExecutionResultSender() {
+    return this.executionResultSender;
+  }
+
+  @Override
+  public void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {
+
+  }
+
+  @Override
+  public void send(Message message) throws NoSuchAlgorithmException {
+
+  }
+
+  @Override
+  public Comm getComm(String string) {
+    return null;
+  }
+
+  @Override
+  public boolean isCommPresent(String string) {
+    return false;
+  }
+
+  @Override
+  public Set<String> getCommHashSet() {
     return null;
   }
 
   public List<Message> getMessages() {
     return messages;
   }
-  public void clearMessages(){
+
+  public void clearMessages() {
     this.messages = new ArrayList<>();
   }
 }
