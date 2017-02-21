@@ -16,21 +16,22 @@
 package com.twosigma.beaker.jupyter.handler;
 
 
-import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
+import static com.twosigma.beaker.jupyter.msg.JupyterMessages.EXECUTE_INPUT;
+import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
-import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
-import org.lappsgrid.jupyter.groovy.msg.Header;
-import org.lappsgrid.jupyter.groovy.msg.Message;
-import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.twosigma.beaker.jupyter.msg.JupyterMessages.EXECUTE_INPUT;
-import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
+import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
+import org.lappsgrid.jupyter.groovy.GroovyKernel;
+import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
+import org.lappsgrid.jupyter.groovy.msg.Header;
+import org.lappsgrid.jupyter.groovy.msg.Message;
+import org.slf4j.LoggerFactory;
 
 /**
  * Does the actual work of executing user code.
@@ -82,7 +83,13 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
       evaluatorManager.executeCode(code, message, executionCount);
       // execution response in ExecuteResultHandler
     } else {
-      messageCreator.createMagicMessage(code, executionCount,message);
+      try {
+        messageCreator.createMagicMessage(code, executionCount,message);
+      } catch (IOException e) {
+        e.printStackTrace();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 

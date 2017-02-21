@@ -21,6 +21,9 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.EXECUTE_RESULT;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STREAM;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -104,12 +107,40 @@ public class MessageCreator {
     return reply;
   }
 
-  public synchronized void createMagicMessage(String code, int executionCount, Message message) throws NoSuchAlgorithmException {
+  public synchronized void createMagicMessage(String code, int executionCount, Message message) throws NoSuchAlgorithmException, IOException, InterruptedException {
     List<MessageHolder> ret = new ArrayList<>();
-    code = code.startsWith("%%javascript") ? "<html><script>" + code.replace("%%javascript", "") + "</script></html>" : "<html>" + code.replace("%%html", "") + "</html>";
-    logger.info("Execution result is: " + (code == null ? "null" : "") + "HTML");
-    kernel.publish(buildMessage(message,code,executionCount));
-    kernel.publish(buildReply(message, executionCount,ret));
+    if (code.startsWith("%%javascript")) {
+      code = "<html><script>" + code.replace("%%javascript", "") + "</script></html>";
+      logger.info("Execution result is: " + (code == null ? "null" : "") + "HTML");
+      kernel.publish(buildMessage(message, code, executionCount));
+    } else if (code.startsWith("%%html")) {
+      code = "<html>" + code.replace("%%html", "") + "</html>";
+      logger.info("Execution result is: " + (code == null ? "null" : "") + "HTML");
+      kernel.publish(buildMessage(message, code, executionCount));
+    } else if (code.startsWith("%%bash")) {
+      String result = executeBashCode(code.replace("%%bash", ""));
+      Message reply = initMessage(STREAM, message);
+      reply.setContent(new HashMap<String, Serializable>());
+      reply.getContent().put("name", "stdout");
+      reply.getContent().put("text", result);
+      kernel.publish(reply);
+    }
+    kernel.publish(buildReply(message, executionCount, ret));
+  }
+
+  private String executeBashCode(String code) throws IOException, InterruptedException {
+    String[] cmd = {"/bin/bash", "-c",code};
+    Process process = new ProcessBuilder(cmd).start();
+    BufferedReader reader = new BufferedReader(new InputStreamReader(
+        process.getInputStream()));
+    process.waitFor();
+    String line;
+    StringBuffer output = new StringBuffer();
+    while ((line = reader.readLine()) != null) {
+      output.append(line + "\n");
+    }
+    process.destroy();
+    return output.toString();
   }
 
   public synchronized List<MessageHolder> createMessage(SimpleEvaluationObject seo){
