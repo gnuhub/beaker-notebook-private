@@ -16,28 +16,18 @@
 package com.twosigma.beaker.widgets.chart.xychart;
 
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
-import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 
-public class CombinedPlot extends com.twosigma.beaker.chart.xychart.CombinedPlot implements CommFunctionality, InternalWidget, InternalPlot {
+public class CombinedPlot extends com.twosigma.beaker.chart.xychart.CombinedPlot implements InternalWidget, InternalPlot {
 
   private Comm comm;
 
   public CombinedPlot() throws NoSuchAlgorithmException {
-    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
-      @Override
-      public void addContent(HashMap<String, Serializable> content) {
-        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
-        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
-      }
-    });
+    this.comm = InternalWidgetUtils.createComm(this);
   }
 
   @Override
@@ -45,4 +35,13 @@ public class CombinedPlot extends com.twosigma.beaker.chart.xychart.CombinedPlot
     return this.comm;
   }
 
+  @Override
+  public String getModelNameValue() {
+    return MODEL_NAME_VALUE;
+  }
+
+  @Override
+  public String getViewNameValue() {
+    return VIEW_NAME_VALUE;
+  }
 }

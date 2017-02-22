@@ -34,6 +34,11 @@ public class InternalWidgetUtils {
   public static final String MODEL_MODULE_VALUE = "beakermanager";
   public static final String VIEW_MODULE_VALUE = "beakermanager";
 
+  public static Comm createComm(final InternalWidget widget) {
+    return createComm(widget, content -> {
+    });
+  }
+
   public static Comm createComm(final InternalWidget widget, final InternalWidgetContent content) {
     Comm comm = new Comm(Utils.uuid(), CommNamesEnum.JUPYTER_WIDGET);
     comm.setData(createContent(widget, content));
@@ -49,6 +54,8 @@ public class InternalWidgetUtils {
     HashMap<String, Serializable> result = new HashMap<>();
     result.put(MODEL_MODULE, MODEL_MODULE_VALUE);
     result.put(VIEW_MODULE, VIEW_MODULE_VALUE);
+    result.put(InternalWidgetUtils.MODEL_NAME, widget.getModelNameValue());
+    result.put(InternalWidgetUtils.VIEW_NAME, widget.getViewNameValue());
     result.put("json", SerializeToJson.toJson(widget));
     content.addContent(result);
     return result;

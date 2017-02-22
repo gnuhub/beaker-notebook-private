@@ -27,8 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestWidgetUtils {
 
-  public static final String RESULT_JSON_JOINER = "\":";
-
   public static void verifyOpenCommMsg(List<Message> messages, String modelNameValue, String viewNameValue) {
     assertThat(messages.size()).isEqualTo(2);
     Message layout = messages.get(0);

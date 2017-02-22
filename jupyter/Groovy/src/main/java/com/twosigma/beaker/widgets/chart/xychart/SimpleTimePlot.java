@@ -18,17 +18,19 @@ package com.twosigma.beaker.widgets.chart.xychart;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
-import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 
-import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTimePlot  implements InternalWidget, InternalPlot {
+public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTimePlot implements InternalWidget, InternalPlot {
 
   private Comm comm;
+
+  public SimpleTimePlot() {
+    this(null, new ArrayList<Map<String, Object>>(), new ArrayList<String>());
+  }
 
   public SimpleTimePlot(List<Map<String, Object>> data, List<String> columns) {
     this(null, data, columns);
@@ -36,13 +38,7 @@ public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTime
 
   public SimpleTimePlot(Map<String, Object> parameters, List<Map<String, Object>> data, List<String> columns) {
     super(parameters, data, columns);
-    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
-      @Override
-      public void addContent(HashMap<String, Serializable> content) {
-        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
-        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
-      }
-    });
+    this.comm = InternalWidgetUtils.createComm(this);
   }
 
   @Override
@@ -50,4 +46,13 @@ public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTime
     return this.comm;
   }
 
+  @Override
+  public String getModelNameValue() {
+    return MODEL_NAME_VALUE;
+  }
+
+  @Override
+  public String getViewNameValue() {
+    return VIEW_NAME_VALUE;
+  }
 }

@@ -17,11 +17,7 @@ package com.twosigma.beaker.widgets.easyform;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
-import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
-
-import java.io.Serializable;
-import java.util.HashMap;
 
 public class EasyForm extends com.twosigma.beaker.easyform.EasyForm implements InternalWidget {
 
@@ -30,19 +26,27 @@ public class EasyForm extends com.twosigma.beaker.easyform.EasyForm implements I
 
   private Comm comm;
 
+  public EasyForm() {
+    this("");
+  }
+
   public EasyForm(String caption) {
     super(caption);
-    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
-      @Override
-      public void addContent(HashMap<String, Serializable> content) {
-        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
-        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
-      }
-    });
+    this.comm = InternalWidgetUtils.createComm(this);
   }
 
   @Override
   public Comm getComm() {
     return this.comm;
+  }
+
+  @Override
+  public String getModelNameValue() {
+    return MODEL_NAME_VALUE;
+  }
+
+  @Override
+  public String getViewNameValue() {
+    return VIEW_NAME_VALUE;
   }
 }

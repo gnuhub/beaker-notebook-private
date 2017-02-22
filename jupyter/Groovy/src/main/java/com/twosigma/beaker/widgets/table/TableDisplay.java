@@ -17,13 +17,11 @@ package com.twosigma.beaker.widgets.table;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
-import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
 import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 public class TableDisplay extends com.twosigma.beaker.table.TableDisplay implements InternalWidget {
@@ -33,15 +31,13 @@ public class TableDisplay extends com.twosigma.beaker.table.TableDisplay impleme
 
   private Comm comm;
 
+  public TableDisplay() throws NoSuchAlgorithmException {
+    this(new ArrayList<>());
+  }
+
   public TableDisplay(Collection<Map<?, ?>> v) throws NoSuchAlgorithmException {
     super(v);
-    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
-      @Override
-      public void addContent(HashMap<String, Serializable> content) {
-        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
-        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
-      }
-    });
+    this.comm = InternalWidgetUtils.createComm(this);
   }
 
   @Override
@@ -49,4 +45,13 @@ public class TableDisplay extends com.twosigma.beaker.table.TableDisplay impleme
     return this.comm;
   }
 
+  @Override
+  public String getModelNameValue() {
+    return MODEL_NAME_VALUE;
+  }
+
+  @Override
+  public String getViewNameValue() {
+    return VIEW_NAME_VALUE;
+  }
 }

@@ -21,6 +21,9 @@ public interface InternalWidget extends CommFunctionality {
 
   String MODEL = "model";
 
+  String getModelNameValue();
+  String getViewNameValue();
+
   default void sendModel() {
     if (this.getComm() != null) {
       this.getComm().sendUpdate(MODEL, SerializeToJson.toJson(this));
