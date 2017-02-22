@@ -38,15 +38,15 @@ define([
 
 
   var load_ipython_extension = function() {
-    load_css('bower_components/datatables.net-dt/css/jquery.dataTables.min.css');
-    load_css('bower_components/datatables.net-colreorder-dt/css/colReorder.dataTables.min.css');
-    load_css('bower_components/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.min.css');
-    load_css('bower_components/datatables.net-keytable-dt/css/keyTable.dataTables.min.css');
-    load_css('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
-    load_css('plot/bko-combinedplot.css');
-    load_css('plot/bko-plot.css');
-    load_css('tableDisplay/css/datatables.css');
-    start();
+    // load_css('bower_components/datatables.net-dt/css/jquery.dataTables.min.css');
+    // load_css('bower_components/datatables.net-colreorder-dt/css/colReorder.dataTables.min.css');
+    // load_css('bower_components/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.min.css');
+    // load_css('bower_components/datatables.net-keytable-dt/css/keyTable.dataTables.min.css');
+    // load_css('bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css');
+    // load_css('plot/bko-combinedplot.css');
+    // load_css('plot/bko-plot.css');
+    // load_css('tableDisplay/css/datatables.css');
+    // start();
   };
 
   function load_css(name) {
@@ -57,17 +57,17 @@ define([
     document.getElementsByTagName("head")[0].appendChild(link);
   }
 
-  function start() {
-    require(['nbextensions/beaker/reqConfig', 'require'], function(conf, require) {
-      require(['nbextensions/beaker/beakerManager'], function(beakerManager) {
-        window.initPlotd = function(data, wrapperId) {
-          beakerManager.init(data, wrapperId);
-        };
-      });
-    });
-
-    config.load();
-  }
+  // function start() {
+  //   require(['nbextensions/beaker/reqConfig', 'require'], function(conf, require) {
+  //     require(['nbextensions/beaker/beakerManager'], function(beakerManager) {
+  //       window.initPlotd = function(data, wrapperId) {
+  //         beakerManager.init(data, wrapperId);
+  //       };
+  //     });
+  //   });
+  //
+  //   config.load();
+  // }
 
   function sendNotebookMetadataToKernel() {
 
