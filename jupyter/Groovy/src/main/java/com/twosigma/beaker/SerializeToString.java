@@ -21,6 +21,9 @@ import java.io.StringWriter;
 import java.util.Hashtable;
 import java.util.Map;
 
+import com.twosigma.beaker.easyform.EasyForm;
+import com.twosigma.beaker.easyform.formitem.*;
+import com.twosigma.beaker.easyform.serializer.*;
 import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.table.serializer.TableDisplaySerializer;
 import com.fasterxml.jackson.core.Version;
@@ -95,7 +98,7 @@ public class SerializeToString {
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.SimpleTimePlot.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.CombinedPlot.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.NanoPlot.class, new Object());
-
+    internalWidgetMap.put(com.twosigma.beaker.widgets.easyform.EasyForm.class, new Object());
 
     serializerMap.put(TableDisplay.class, new TableDisplaySerializer());
     serializerMap.put(Color.class, new ColorSerializer());
@@ -120,6 +123,22 @@ public class SerializeToString {
     serializerMap.put(GradientColor.class, new GradientColorSerializer());
     serializerMap.put(Histogram.class, new HistogramSerializer());
     serializerMap.put(HeatMap.class, new HeatMapSerializer());
+
+    //easy forms
+    serializerMap.put(EasyForm.class, new EasyFormSerializer());
+    serializerMap.put(TextField.class, new TextFieldSerializer());
+    serializerMap.put(TextArea.class, new TextAreaSerializer());
+    serializerMap.put(CheckBox.class, new CheckBoxSerializer());
+    serializerMap.put(ComboBox.class, new ComboBoxSerializer());
+    serializerMap.put(ListComponent.class, new ListComponentSerializer());
+    serializerMap.put(RadioButtonComponent.class, new RadioButtonSerializer());
+    serializerMap.put(CheckBoxGroup.class, new CheckBoxGroupSerializer());
+    serializerMap.put(DatePickerComponent.class, new DatePickerComponentSerializer());
+    serializerMap.put(ButtonComponent.class, new ButtonComponentSerializer());
+    serializerMap.put(LoadValuesButton.class, new LoadValuesButtonSerializer());
+    serializerMap.put(SaveValuesButton.class, new SaveValuesButtonSerializer());
+    //
+
 
     SimpleModule module = new SimpleModule("MySerializer", new Version(1, 0, 0, null));
     serializerMap.forEach((k, v) -> {
