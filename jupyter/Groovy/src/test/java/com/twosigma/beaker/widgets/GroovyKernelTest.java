@@ -20,19 +20,19 @@ import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.zeromq.ZMQ;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 import java.util.Set;
 
 public class GroovyKernelTest implements GroovyKernelFunctionality {
 
-  private List<Message> messages = new ArrayList<>();
-
+  private List<Message> publishedMessages = new ArrayList<>();
+  private List<Message> sentMessages = new ArrayList<>();
   @Override
   public void publish(Message message) throws NoSuchAlgorithmException {
-    this.messages.add(message);
+    this.publishedMessages.add(message);
   }
 
   @Override
@@ -52,7 +52,7 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
 
   @Override
   public void send(Message message) throws NoSuchAlgorithmException {
-
+    this.sentMessages.add(message);
   }
 
   @Override
@@ -76,15 +76,33 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   }
 
   @Override
-  public Serializable getId() {
+  public String getId() {
     return "";
   }
 
-  public List<Message> getMessages() {
-    return messages;
+  @Override
+  public Observer getExecutionResultSender() {
+    return null;
   }
 
-  public void clearMessages(){
-    this.messages = new ArrayList<>();
+  @Override
+  public void setShellOptions(String usString, String usString1, String o) {
+
+  }
+
+  public List<Message> getPublishedMessages() {
+    return publishedMessages;
+  }
+
+  public List<Message> getSentMessages() {
+    return sentMessages;
+  }
+
+  public void clearPublishedMessages(){
+    this.publishedMessages = new ArrayList<>();
+  }
+
+  public void cleaSentMessages(){
+    this.sentMessages = new ArrayList<>();
   }
 }

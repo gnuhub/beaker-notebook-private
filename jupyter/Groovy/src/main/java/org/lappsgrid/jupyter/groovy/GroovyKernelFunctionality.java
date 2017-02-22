@@ -19,8 +19,8 @@ import com.twosigma.beaker.jupyter.Comm;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.zeromq.ZMQ;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.Observer;
 import java.util.Set;
 
 public interface GroovyKernelFunctionality {
@@ -43,5 +43,9 @@ public interface GroovyKernelFunctionality {
 
   Set<String> getCommHashSet();
 
-  Serializable getId();
+  String getId();
+
+  Observer getExecutionResultSender();
+
+  void setShellOptions(String usString, String usString1, String o);
 }

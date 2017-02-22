@@ -15,22 +15,23 @@
  */
 package com.twosigma.beaker.groovy.evaluator;
 
+import java.io.IOException;
+
+import com.twosigma.beaker.groovy.autocomplete.AutocompleteResult;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
+import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class GroovyEvaluatorManager {
   
   public static Logger logger = LoggerFactory.getLogger(GroovyEvaluatorManager.class);
   
   protected GroovyEvaluator groovyEvaluator = null;
-  protected GroovyKernel kernel;
+  protected GroovyKernelFunctionality kernel;
   
-  public GroovyEvaluatorManager(GroovyKernel kernel) {
+  public GroovyEvaluatorManager(GroovyKernelFunctionality kernel) {
     this.kernel = kernel;
     groovyEvaluator = new GroovyEvaluator(kernel.getId(), kernel.getId());
     groovyEvaluator.startWorker();
@@ -42,8 +43,13 @@ public class GroovyEvaluatorManager {
     } catch (IOException e) {
       logger.error("Error while setting Shell Options", e);
     }
+    groovyEvaluator.startWorker();
   }
-  
+
+  public AutocompleteResult autocomplete(String code, int caretPosition){
+    return groovyEvaluator.autocomplete(code,caretPosition);
+  }
+
   public synchronized void executeCode(String code, Message message, int executionCount){
     SimpleEvaluationObject seo = new SimpleEvaluationObject(code);
     seo.setJupyterMessage(message);

@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 import java.util.Set;
 
 public class GroovyKernelEvaluatorTest implements GroovyKernelFunctionality {
@@ -69,8 +70,18 @@ public class GroovyKernelEvaluatorTest implements GroovyKernelFunctionality {
   }
 
   @Override
-  public Serializable getId() {
+  public String getId() {
     return null;
+  }
+
+  @Override
+  public Observer getExecutionResultSender() {
+    return null;
+  }
+
+  @Override
+  public void setShellOptions(String usString, String usString1, String o) {
+
   }
 
   public List<Message> getMessages() {
