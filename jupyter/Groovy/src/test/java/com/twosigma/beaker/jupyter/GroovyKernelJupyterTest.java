@@ -35,6 +35,7 @@ public class GroovyKernelJupyterTest extends GroovyKernel {
     private SimpleEvaluationObject simpleEvaluationObject;
     private Boolean groovyEvaluatorManagerExit;
     private Boolean commHandleMessage;
+    private Boolean setShellOptions;
 
     @Override
     public void publish(Message message) throws NoSuchAlgorithmException {
@@ -57,6 +58,16 @@ public class GroovyKernelJupyterTest extends GroovyKernel {
 
     public List<Message> getSendMessages() {
         return sendMessages;
+    }
+
+    @Override
+    public synchronized void setShellOptions(String cp, String in, String od) {
+        setShellOptions = Boolean.TRUE;
+        super.setShellOptions(cp, in, od);
+    }
+
+    public Boolean isSetShellOptions() {
+        return setShellOptions;
     }
 
     public SimpleEvaluationObject getSimpleEvaluationObject() {

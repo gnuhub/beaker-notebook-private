@@ -33,7 +33,6 @@ public class CommTest {
     private GroovyKernelJupyterTest groovyKernel;
     private Comm comm;
 
-
     @Before
     public void setUp(){
         groovyKernel = new GroovyKernelJupyterTest();
