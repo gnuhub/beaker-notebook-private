@@ -7,6 +7,6 @@ class HelloWorld(widgets.DOMWidget):
     """"""
     _view_name = Unicode('HelloView').tag(sync=True)
     _model_name = Unicode('HelloModel').tag(sync=True)
-    _view_module = Unicode('beakermanager').tag(sync=True)
-    _model_module = Unicode('beakermanager').tag(sync=True)
+    _view_module = Unicode('beaker-nbextension').tag(sync=True)
+    _model_module = Unicode('beaker-nbextension').tag(sync=True)
     value = Unicode('Hello World!').tag(sync=True)

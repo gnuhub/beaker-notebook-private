@@ -12,8 +12,8 @@ var HelloModel = widgets.DOMWidgetModel.extend({
     defaults: _.extend({}, widgets.DOMWidgetModel.prototype.defaults, {
         _model_name : 'HelloModel',
         _view_name : 'HelloView',
-        _model_module : 'beakermanager',
-        _view_module : 'beakermanager',
+        _model_module : 'beaker-nbextension',
+        _view_module : 'beaker-nbextension',
         value : 'Hello World'
     })
 });

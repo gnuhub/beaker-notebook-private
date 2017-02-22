@@ -1,4 +1,4 @@
-- To release a new version of beakermanager on PyPI:
+- To release a new version of beaker-nbextension on PyPI:
 
 Update _version.py (set release version, remove 'dev')
 git add and git commit
@@ -10,7 +10,7 @@ git add and git commit
 git push
 git push --tags
 
-- To release a new version of beakermanager on NPM:
+- To release a new version of beaker-nbextension on NPM:
 
 # nuke the  `dist` and `node_modules`
 git clean -fdx

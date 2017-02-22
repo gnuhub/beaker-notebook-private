@@ -6,7 +6,7 @@ build/
 node_modules/
 
 # Compiled javascript
-beakermanager/static/
+beaker-nbextension/static/
 
 # OS X
 .DS_Store

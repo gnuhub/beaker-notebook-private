@@ -7,7 +7,7 @@ if (window.require) {
     window.require.config({
         map: {
             "*" : {
-                "beakermanager": "nbextensions/beakermanager/index",
+                "beaker-nbextension": "nbextensions/beaker-nbextension/index",
                 "jupyter-js-widgets": "nbextensions/jupyter-js-widgets/extension"
             }
         }

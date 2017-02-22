@@ -1,5 +1,5 @@
 {
-  "name": "beakermanager",
+  "name": "beaker-nbextension",
   "version": "0.0.1",
   "description": "A Custom Jupyter Widget Library",
   "author": "Beaker",

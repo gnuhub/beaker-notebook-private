@@ -15,8 +15,8 @@ var PlotModel = widgets.DOMWidgetModel.extend({
   defaults: _.extend({}, widgets.DOMWidgetModel.prototype.defaults, {
     _model_name : 'PlotModel',
     _view_name : 'PlotView',
-    _model_module : 'beakermanager',
-    _view_module : 'beakermanager'
+    _model_module : 'beaker-nbextension',
+    _view_module : 'beaker-nbextension'
   })
 });
 
