@@ -121,7 +121,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   }
 
   public synchronized void cancelExecution(){
-    groovyEvaluatorManager.cancelExecution();
+    groovyEvaluatorManager.killAllThreads();
   }
 
   public synchronized boolean isCommPresent(String hash){

@@ -44,8 +44,8 @@ public class GroovyEvaluatorManager {
     }
   }
 
-  public synchronized void cancelExecution(){
-    groovyEvaluator.cancelExecution();
+  public synchronized void killAllThreads(){
+    groovyEvaluator.killAllThreads();
   }
 
   public synchronized void executeCode(String code, Message message, int executionCount){
