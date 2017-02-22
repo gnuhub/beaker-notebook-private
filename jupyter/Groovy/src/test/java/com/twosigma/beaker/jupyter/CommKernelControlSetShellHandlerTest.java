@@ -29,59 +29,59 @@ import java.util.Map;
 
 public class CommKernelControlSetShellHandlerTest {
 
-    CommKernelControlSetShellHandler commHandler;
-    private GroovyKernelJupyterTest groovyKernel;
-    private Message message;
+  private CommKernelControlSetShellHandler commHandler;
+  private GroovyKernelJupyterTest groovyKernel;
+  private Message message;
 
-    @Before
-    public void setUp(){
-        groovyKernel = new GroovyKernelJupyterTest();
-        commHandler = new CommKernelControlSetShellHandler(groovyKernel);
-        message = new Message();
-    }
+  @Before
+  public void setUp() {
+    groovyKernel = new GroovyKernelJupyterTest();
+    commHandler = new CommKernelControlSetShellHandler(groovyKernel);
+    message = new Message();
+  }
 
-    @Test
-    public void handleMessage_shouldSendShellSocketMessage() throws Exception {
-        //given
-        initMessageData(message);
-        //when
-        commHandler.handle(message);
-        //then
-        Assertions.assertThat(groovyKernel.getPublishMessages()).isNotEmpty();
-    }
+  @Test
+  public void handleMessage_shouldSendShellSocketMessage() throws Exception {
+    //given
+    initMessageData(message);
+    //when
+    commHandler.handle(message);
+    //then
+    Assertions.assertThat(groovyKernel.getPublishMessages()).isNotEmpty();
+  }
 
-    @Test
-    public void handleMessageWithoutData_notSendShellSocketMessage() throws Exception {
-        //given
-        Map<String, Serializable> content = new HashMap<>();
-        content.put("comm_id", "commIdValue");
-        message.setContent(content);
-        //when
-        commHandler.handle(message);
-        //then
-        Assertions.assertThat(groovyKernel.getPublishMessages()).isEmpty();
-    }
+  @Test
+  public void handleMessageWithoutData_notSendShellSocketMessage() throws Exception {
+    //given
+    Map<String, Serializable> content = new HashMap<>();
+    content.put("comm_id", "commIdValue");
+    message.setContent(content);
+    //when
+    commHandler.handle(message);
+    //then
+    Assertions.assertThat(groovyKernel.getPublishMessages()).isEmpty();
+  }
 
-    @Test
-    public void handleMessage_setShellOptions() throws Exception {
-        //given
-        initMessageData(message);
-        //when
-        commHandler.handle(message);
-        //then
-        Assertions.assertThat(groovyKernel.isSetShellOptions()).isTrue();
-    }
+  @Test
+  public void handleMessage_setShellOptions() throws Exception {
+    //given
+    initMessageData(message);
+    //when
+    commHandler.handle(message);
+    //then
+    Assertions.assertThat(groovyKernel.isSetShellOptions()).isTrue();
+  }
 
-    private void initMessageData(Message message){
-        Map<String, List<String>> data = new HashMap<>();
-        List<String> imports = new ArrayList<>();
-        imports.add("com.twosigma.beaker.chart.Color");
-        data.put(CommKernelControlSetShellHandler.IMPORTS, imports);
-        data.put(CommKernelControlSetShellHandler.CLASSPATH, new ArrayList<>());
+  private void initMessageData(Message message) {
+    Map<String, List<String>> data = new HashMap<>();
+    List<String> imports = new ArrayList<>();
+    imports.add("com.twosigma.beaker.chart.Color");
+    data.put(CommKernelControlSetShellHandler.IMPORTS, imports);
+    data.put(CommKernelControlSetShellHandler.CLASSPATH, new ArrayList<>());
 
-        Map<String, Serializable> content = new HashMap<>();
-        content.put("comm_id", "commIdValue");
-        content.put(Comm.DATA, (Serializable) data);
-        message.setContent(content);
-    }
+    Map<String, Serializable> content = new HashMap<>();
+    content.put("comm_id", "commIdValue");
+    content.put(Comm.DATA, (Serializable) data);
+    message.setContent(content);
+  }
 }
