@@ -120,6 +120,10 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     groovyEvaluatorManager.setShellOptions(cp, in, od);
   }
 
+  public synchronized void cancelExecution(){
+    groovyEvaluatorManager.cancelExecution();
+  }
+
   public synchronized boolean isCommPresent(String hash){
     return commMap.containsKey(hash);
   }
