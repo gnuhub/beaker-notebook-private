@@ -124,18 +124,28 @@ public class MessageCreator {
       reply.getContent().put("name", "stdout");
       reply.getContent().put("text", result);
       kernel.publish(reply);
+    } else if(code.startsWith("%%cd")) {
+      code = code.replace("%%cd", "").isEmpty()? "pwd": code.replace("%%cd", "cd") + "; pwd";
+      String result = executeBashCode(code);
+      Message reply = initMessage(STREAM, message);
+      reply.setContent(new HashMap<String, Serializable>());
+      reply.getContent().put("name", "stdout");
+      reply.getContent().put("text", result);
+      kernel.publish(reply);
     }
     kernel.publish(buildReply(message, executionCount, ret));
   }
 
   private String executeBashCode(String code) throws IOException, InterruptedException {
     String[] cmd = {"/bin/bash", "-c",code};
-    Process process = new ProcessBuilder(cmd).start();
-    BufferedReader reader = new BufferedReader(new InputStreamReader(
-        process.getInputStream()));
+    ProcessBuilder pb = new ProcessBuilder(cmd);
+    pb.redirectErrorStream(true);
+    Process process = pb.start();
     process.waitFor();
     String line;
     StringBuffer output = new StringBuffer();
+    BufferedReader reader = new BufferedReader(new InputStreamReader(
+        process.getInputStream()));
     while ((line = reader.readLine()) != null) {
       output.append(line + "\n");
     }
