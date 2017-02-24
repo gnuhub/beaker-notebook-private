@@ -15,15 +15,10 @@
  */
 package com.twosigma.beaker.groovy.evaluator;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-
-import static com.twosigma.beaker.groovy.GroovyDefaultVariables.CLASS_PATH;
-import static com.twosigma.beaker.groovy.GroovyDefaultVariables.IMPORTS;
-import static com.twosigma.beaker.groovy.GroovyDefaultVariables.OUT_DIR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GroovyEvaluatorAutocompleteTest {
@@ -33,31 +28,27 @@ public class GroovyEvaluatorAutocompleteTest {
   @Before
   public void setUp() throws Exception {
     groovyEvaluator = new GroovyEvaluator("shellId1", "sessionId1");
-    groovyEvaluator.setShellOptions(CLASS_PATH, IMPORTS, OUT_DIR);
-    groovyEvaluator.newEvaluator();
   }
 
-  @Test
-  public void shouldReturnAutocompleteForPrintln1() throws Exception {
-    //given
-
-    //when
-    List<String> autocomplete = groovyEvaluator.autocomplete(
-            //"\n" +
-                    "System.out.printl",18);
-    //then
-    assertThat(autocomplete).isNotEmpty();
-  }
-
-
-  @Test
+  //@Test https://github.com/twosigma/beaker-notebook-private/issues/115
   public void shouldReturnAutocompleteForPrintln() throws Exception {
     //given
 
     //when
     List<String> autocomplete = groovyEvaluator.autocomplete(
-            "\n" +
-            "System.out.printl",18);
+                    "System.out.printl",17);
+    //then
+    assertThat(autocomplete).isNotEmpty();
+  }
+
+  @Test
+  public void shouldReturnAutocompleteForPrintlnWithComment() throws Exception {
+    //given
+
+    //when
+    List<String> autocomplete = groovyEvaluator.autocomplete(
+            "//comment\n" +
+            "System.out.printl",27);
     //then
     assertThat(autocomplete).isNotEmpty();
   }
