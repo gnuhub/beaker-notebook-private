@@ -549,7 +549,7 @@ define([
           var rpipeText = {
             "id": "label_x_" + i,
             "class": "plot-label plot-label-x",
-            "text": scope.formatTickLabel(labels[i]),
+            "text": labels[i],
             "x": x,
             "y": y,
             "text-anchor": "middle",
@@ -586,7 +586,7 @@ define([
           var rpipeText = {
             "id": "label_y_" + i,
             "class": "plot-label plot-label-y",
-            "text": scope.formatTickLabel(labels[i]),
+            "text": labels[i],
             "x": x,
             "y": y,
             "text-anchor": "end",
@@ -611,7 +611,7 @@ define([
           scope.rpipeTexts.push({
             "id" : "label_yr_" + i,
             "class" : "plot-label",
-            "text" : scope.formatTickLabel(labels[i]),
+            "text" : labels[i],
             "x" : mapX(scope.focus.xr) + scope.labelPadding.x,
             "y" : mapY(y),
             "dominant-baseline" : "central"
@@ -2282,7 +2282,6 @@ define([
     }
 
     scope.setModelData = function(data) {
-
       // TODO quick hack -> standardize all input data
       if (data.getCellModel) {
         scope.model = data;
@@ -2317,11 +2316,6 @@ define([
 
     scope.modelHasPlotSpecificMethods = function(model) {
       return model.getSvgToSave && model.saveAsSvg && model.saveAsPng && model.updateLegendPosition;
-    };
-
-    scope.formatTickLabel = function(val) {
-      var newVal = typeof val !== 'number' ? parseFloat(val) : val;
-      return isNaN(newVal) ? val : newVal.toLocaleString();
     };
 
     scope.fillCellModelWithPlotMethods = function () {
