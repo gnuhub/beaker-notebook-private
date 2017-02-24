@@ -298,8 +298,8 @@ define([
         model.margin.bottom,
         model.margin.top);
       if(model.yAxisR){
-        model.yAxisR.setGridlines(focus.yl,
-          focus.yr,
+        model.yAxisR.setGridlines(focus.yl_r,
+          focus.yr_r,
           scope.numIntervals.y,
           model.margin.bottom,
           model.margin.top)
@@ -308,6 +308,7 @@ define([
     scope.renderGridlines = function() {
       var focus = scope.focus, model = scope.stdmodel;
       var mapX = scope.data2scrX, mapY = scope.data2scrY;
+      var mapY_r = scope.data2scrY_r;
 
       if(model.showXGridlines){
         var xGridlines = model.xAxis.getGridlines();
@@ -351,14 +352,16 @@ define([
         "x2" : mapX(focus.xl),
         "y2" : mapY(focus.yr)
       });
-      scope.rpipeGridlines.push({
-        "id" : "gridline_yr_base",
-        "class" : "plot-gridline-base",
-        "x1" : mapX(focus.xr),
-        "y1" : mapY(focus.yl),
-        "x2" : mapX(focus.xr),
-        "y2" : mapY(focus.yr)
-      });
+      if (focus.yl_r !== undefined && focus.yr_r !== undefined) {
+        scope.rpipeGridlines.push({
+          "id" : "gridline_yr_base",
+          "class" : "plot-gridline-base",
+          "x1" : mapX(focus.xr),
+          "y1" : mapY_r(focus.yl_r),
+          "x2" : mapX(focus.xr),
+          "y2" : mapY_r(focus.yr_r)
+        });
+      }
     };
     scope.renderData = function() {
       var data = scope.stdmodel.data;
@@ -539,6 +542,7 @@ define([
         };
       };
       var mapX = scope.data2scrX, mapY = scope.data2scrY;
+      var mapY_r = scope.data2scrY_r;
       var model = scope.stdmodel;
       if (model.xAxis.showGridlineLabels !== false) {
         var lines = model.xAxis.getGridlines(),
@@ -613,7 +617,7 @@ define([
             "class" : "plot-label",
             "text" : labels[i],
             "x" : mapX(scope.focus.xr) + scope.labelPadding.x,
-            "y" : mapY(y),
+            "y" : mapY_r(y),
             "dominant-baseline" : "central"
           });
         }
@@ -1572,7 +1576,8 @@ define([
         scope.lastk = k;
 
         var tx = -dx / W * focus.xspan,
-          ty = dy / H * focus.yspan;
+          ty = dy / H * focus.yspan,
+          ty_r = dy / H * focus.yspan_r;
 
         if(kDiff === 0){
           // for translating, moving the graph
@@ -1601,6 +1606,22 @@ define([
               focus.yl = focus.yr - focus.yspan;
             }
           }
+
+          if (focus.yl_r !== undefined && focus.yr_r !== undefined) {
+            if (focus.yl_r + ty>=0 && focus.yr_r + ty_r<=1){
+              focus.yl_r += ty_r;
+              focus.yr_r += ty_r;
+            } else {
+              if (focus.yl_r + ty_r<0){
+                focus.yl_r = 0;
+                focus.yr_r = focus.yl_r + focus.yspan_r;
+              } else if (focus.yr_r + ty_r>1){
+                focus.yr_r = 1;
+                focus.yl_r = focus.yr_r - focus.yspan_r;
+              }
+            }
+          }
+
           scope.jqsvg.css("cursor", "move");
         }else{
           // scale only
@@ -1622,6 +1643,24 @@ define([
                 focus.yr = focus.yl + level.minSpanY;
               }
               focus.yspan = focus.yr - focus.yl;
+            }
+
+            // scale y right
+            var ym_r = focus.yl_r + scope.scr2dataYp_r(my) * focus.yspan_r;
+            var nyl_r = ym_r - kNew * (ym_r - focus.yl_r),
+              nyr_r = ym_r + kNew * (focus.yr_r - ym_r),
+              nyspan_r = nyr_r - nyl_r;
+            if (nyspan_r >= level.minSpanY && nyspan_r <= level.maxScaleY) {
+              focus.yl_r = nyl_r;
+              focus.yr_r = nyr_r;
+              focus.yspan_r = nyspan_r;
+            } else {
+              if (nyspan_r > level.maxScaleY) {
+                focus.yr_r = focus.yl_r + level.maxScaleY;
+              } else if (nyspan_r < level.minSpanY) {
+                focus.yr_r = focus.yl_r + level.minSpanY;
+              }
+              focus.yspan_r = focus.yr_r - focus.yl_r;
             }
           }
           if (mx >= scope.layout.leftLayoutMargin) {
@@ -1669,10 +1708,13 @@ define([
       focus.xr = focus.xr > 1 ? 1 : focus.xr;
       focus.yl = focus.yl < 0 ? 0 : focus.yl;
       focus.yr = focus.yr > 1 ? 1 : focus.yr;
+      focus.yl_r = focus.yl_r < 0 ? 0 : focus.yl_r;
+      focus.yr_r = focus.yr_r > 1 ? 1 : focus.yr_r;
       focus.xspan = focus.xr - focus.xl;
       focus.yspan = focus.yr - focus.yl;
+      focus.yspan_r = focus.yr_r - focus.yl_r;
 
-      if (focus.xl > focus.xr || focus.yl > focus.yr) {
+      if (focus.xl > focus.xr || focus.yl > focus.yr || focus.yl_r > focus.yr_r) {
         console.error("visible range specified does not match data range, " +
                       "enforcing visible range");
         _.extend(focus, scope.defaultFocus);
@@ -1722,8 +1764,11 @@ define([
       focus.xr = ofocus.xl + ofocus.xspan * p2.x;
       focus.yl = ofocus.yl + ofocus.yspan * p2.y;
       focus.yr = ofocus.yl + ofocus.yspan * p1.y;
+      focus.yl_r = ofocus.yl_r + ofocus.yspan_r * p2.y;
+      focus.yr_r = ofocus.yl_r + ofocus.yspan_r * p1.y;
       focus.xspan = focus.xr - focus.xl;
       focus.yspan = focus.yr - focus.yl;
+      focus.yspan_r = focus.yr_r - focus.yl_r;
       scope.calcMapping(true);
       scope.emitZoomLevelChange();
     };
@@ -1781,6 +1826,8 @@ define([
           "xr" : focus.xr
         });
       }
+      console.log('calc', focus);
+
       scope.data2scrY =
         d3.scaleLinear().domain([focus.yl, focus.yr]).range([H - bMargin, tMargin]);
       scope.data2scrYp =
@@ -1798,12 +1845,28 @@ define([
       scope.scr2dataXp =
         d3.scaleLinear().domain([lMargin, W-rMargin]).range([0, 1]);
 
+      if (focus.yr_r !== undefined && focus.yl_r !== undefined) {
+        scope.data2scrY_r =
+          d3.scaleLinear().domain([focus.yl_r, focus.yr_r]).range([H - bMargin, tMargin]);
+        scope.data2scrYp_r =
+          d3.scaleLinear().domain([focus.yl_r, focus.yr_r]).range([1, 0]);
+        scope.scr2dataY_r =
+          d3.scaleLinear().domain([tMargin, H - bMargin]).range([focus.yr_r, focus.yl_r]);
+        scope.scr2dataYp_r =
+          d3.scaleLinear().domain([tMargin, H - bMargin]).range([1, 0]);
+      }
+
       scope.data2scrXi = function(val) {
         return Number(scope.data2scrX(val).toFixed(scope.renderFixed));
       };
       scope.data2scrYi = function(val) {
         return Number(scope.data2scrY(val).toFixed(scope.renderFixed));
       };
+      if (scope.data2scrY_r !== undefined) {
+        scope.data2scrYi_r = function(val) {
+          return Number(scope.data2scrY_r(val).toFixed(scope.renderFixed));
+        };
+      }
     };
 
     scope.standardizeData = function() {

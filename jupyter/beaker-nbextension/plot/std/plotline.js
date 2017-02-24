@@ -81,6 +81,7 @@ define([
   PlotLine.prototype.applyAxis = function(xAxis, yAxis) {
     this.xAxis = xAxis;
     this.yAxis = yAxis;
+
     for (var i = 0; i < this.elements.length; i++) {
       var ele = this.elements[i];
       ele.x = xAxis.getPercent(ele.x);
@@ -100,6 +101,7 @@ define([
     var l = plotUtils.upper_bound(eles, "x", scope.focus.xl),
       r = plotUtils.upper_bound(eles, "x", scope.focus.xr) + 1;
 
+
     l = Math.max(l, 0);
     r = Math.min(r, eles.length - 1);
 
@@ -108,9 +110,18 @@ define([
       l = 0;
       r = -1;
     }
+
     this.vindexL = l;
     this.vindexR = r;
     this.vlength = r - l + 1;
+  };
+
+  PlotLine.prototype.getYMapper = function(scope) {
+    if (this.index === 1 && scope.data2scrYi_r) {
+      return scope.data2scrYi_r;
+    } else {
+      return scope.data2scrYi;
+    }
   };
 
   PlotLine.prototype.prepare = function(scope) {
@@ -120,7 +131,7 @@ define([
       elelabels = this.elementLabels,
       tipids = this.tipIds;
     var mapX = scope.data2scrXi,
-      mapY = scope.data2scrYi;
+      mapY = this.getYMapper(scope);
     var pstr = "";
 
     eleprops.length = 0;

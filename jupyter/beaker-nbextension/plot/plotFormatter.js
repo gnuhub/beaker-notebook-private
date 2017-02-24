@@ -534,6 +534,12 @@ define([
         if (focus.yr != null) {
           focus.yr = Math.log(focus.yr) / Math.log(logyb);
         }
+        if (focus.yl_r != null) {
+          focus.yl_r = Math.log(focus.yl_r) / Math.log(logyb);
+        }
+        if (focus.yr_r != null) {
+          focus.yr_r = Math.log(focus.yr_r) / Math.log(logyb);
+        }
       }
     },
     sortModel: function(model) {
@@ -617,7 +623,8 @@ define([
         // map coordinates using percentage
         // tooltips are possibly generated at the same time
         if(plotUtils.useYAxisR(model, item)){
-          item.applyAxis(xAxis, model.yAxisR);
+          item.applyAxis(xAxis, model.yAxis, model.yAxisR);
+          // item.applyAxis(xAxis, model.yAxisR);
         }else{
           item.applyAxis(xAxis, model.yAxis);
         }
@@ -628,6 +635,8 @@ define([
       if (focus.xr != null) { focus.xr = model.xAxis.getPercent(focus.xr); }
       if (focus.yl != null) { focus.yl = model.yAxis.getPercent(focus.yl); }
       if (focus.yr != null) { focus.yr = model.yAxis.getPercent(focus.yr); }
+      if (focus.yl_r != null) { focus.yl_r = model.yAxisR.getPercent(focus.yl_r); }
+      if (focus.yr_r != null) { focus.yr_r = model.yAxisR.getPercent(focus.yr_r); }
     },
     formatTreeMapModel: function (newmodel) {
       if (newmodel.data == null) {

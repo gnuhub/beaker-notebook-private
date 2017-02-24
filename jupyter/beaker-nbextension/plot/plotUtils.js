@@ -260,7 +260,9 @@ define([
         xl : model.userFocus.xl,
         xr : model.userFocus.xr,
         yl : model.userFocus.yl,
-        yr : model.userFocus.yr
+        yr : model.userFocus.yr,
+        yl_r : model.userFocus.yl_r,
+        yr_r : model.userFocus.yr_r
       };
 
       if (focus.xl == null) {
@@ -291,6 +293,7 @@ define([
       }
       focus.xspan = focus.xr - focus.xl;
       focus.yspan = focus.yr - focus.yl;
+      focus.yspan_r = focus.yr_r - focus.yl_r;
       var result = {};
       result.defaultFocus = focus;
       _.extend(result, _.omit(ret, "datarange"));
