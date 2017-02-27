@@ -21,7 +21,6 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +34,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import com.twosigma.beaker.NamespaceClient;
 import com.twosigma.beaker.jvm.object.OutputContainer;
-import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.TableDisplayBase;
 
 public class QueryExecutor {
 
@@ -156,7 +155,7 @@ public class QueryExecutor {
       resultsForNamspace.put(queryLine.selectIntoVar, new ArrayList<>());
     }
     if (queryResult.getValues().size() > 1) {
-      TableDisplay tableDisplay = new TableDisplay(queryResult.getValues(), queryResult.getColumns(), queryResult.getTypes());
+      TableDisplayBase tableDisplay = new TableDisplayBase(queryResult.getValues(), queryResult.getColumns(), queryResult.getTypes());
       if (!queryLine.isSelectInto()) {
         resultsForOutputCell.add(tableDisplay);
       } else {

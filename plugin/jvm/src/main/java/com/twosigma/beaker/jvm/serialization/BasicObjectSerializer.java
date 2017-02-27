@@ -27,7 +27,7 @@ import com.twosigma.beaker.jvm.object.GridOutputContainerLayoutManager;
 import com.twosigma.beaker.jvm.object.OutputContainer;
 import com.twosigma.beaker.jvm.object.OutputContainerCell;
 import com.twosigma.beaker.jvm.object.TabbedOutputContainerLayoutManager;
-import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.TableDisplayBase;
 import com.twosigma.beaker.jvm.object.UpdatableEvaluationResult;
 import com.twosigma.beaker.jvm.object.DashboardLayoutManager;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -179,7 +179,7 @@ public class BasicObjectSerializer implements BeakerObjectConverter {
 
       if (obj == null) {
         jgen.writeNull();
-      } else if ((obj instanceof TableDisplay) ||
+      } else if ((obj instanceof TableDisplayBase) ||
         (obj instanceof EvaluationResult) ||
         (obj instanceof UpdatableEvaluationResult) ||
         (obj instanceof BeakerCodeCell) ||
@@ -378,7 +378,7 @@ public class BasicObjectSerializer implements BeakerObjectConverter {
         // convert this 'on the fly' to a datatable
         @SuppressWarnings("unchecked")
         Collection<Map<?, ?>> co = (Collection<Map<?, ?>>) obj;
-        TableDisplay t = new TableDisplay(co,parent);
+        TableDisplayBase t = new TableDisplayBase(co,parent);
         jgen.writeObject(t);
         return true;
       } catch(Exception e) {
@@ -423,7 +423,7 @@ public class BasicObjectSerializer implements BeakerObjectConverter {
       jgen.writeObjectField("type", "TableDisplay");
       jgen.writeObjectField("columnNames", columns);
       jgen.writeObjectField("values", values);
-      jgen.writeObjectField("subtype", TableDisplay.MATRIX_SUBTYPE);
+      jgen.writeObjectField("subtype", TableDisplayBase.MATRIX_SUBTYPE);
       jgen.writeEndObject();
       return true;
     }
@@ -461,7 +461,7 @@ public class BasicObjectSerializer implements BeakerObjectConverter {
       jgen.writeObjectField("type", "TableDisplay");
       jgen.writeObjectField("columnNames", columns);
       jgen.writeObjectField("values", values);
-      jgen.writeObjectField("subtype", TableDisplay.DICTIONARY_SUBTYPE);
+      jgen.writeObjectField("subtype", TableDisplayBase.DICTIONARY_SUBTYPE);
       jgen.writeEndObject();
       return true;
     }

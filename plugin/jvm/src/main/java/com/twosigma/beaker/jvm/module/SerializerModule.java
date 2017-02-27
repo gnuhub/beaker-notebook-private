@@ -50,7 +50,7 @@ import com.twosigma.beaker.jvm.object.*;
 import com.twosigma.beaker.jvm.serialization.*;
 import com.twosigma.beaker.shared.NamespaceBinding;
 import com.twosigma.beaker.shared.json.serializer.StringObject;
-import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.TableDisplayBase;
 import com.twosigma.beaker.table.TableDisplayAlignmentProvider;
 import com.twosigma.beaker.table.format.DecimalStringFormat;
 import com.twosigma.beaker.table.format.TimeStringFormat;
@@ -136,7 +136,7 @@ public class SerializerModule extends AbstractModule {
       module.addSerializer(BeakerProgressUpdate.class, injector.getInstance(BeakerProgressUpdate.Serializer.class));
       module.addSerializer(BeakerCodeCell.class, injector.getInstance(BeakerCodeCell.Serializer.class));
 
-      module.addSerializer(TableDisplay.class, injector.getInstance(TableDisplaySerializer.class));
+      module.addSerializer(TableDisplayBase.class, injector.getInstance(TableDisplaySerializer.class));
       module.addSerializer(DecimalStringFormat.class, injector.getInstance(DecimalStringFormatSerializer.class));
       module.addSerializer(TimeStringFormat.class, injector.getInstance(TimeStringFormatSerializer.class));
       module.addSerializer(ValueStringFormat.class, injector.getInstance(ValueStringFormatSerializer.class));

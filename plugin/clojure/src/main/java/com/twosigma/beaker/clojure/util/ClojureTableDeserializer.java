@@ -16,7 +16,7 @@
 
 package com.twosigma.beaker.clojure.util;
 
-import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.TableDisplayBase;
 import com.twosigma.beaker.jvm.serialization.BeakerObjectConverter;
 import com.twosigma.beaker.jvm.serialization.ObjectDeserializer;
 
@@ -50,16 +50,16 @@ public class ClojureTableDeserializer implements ObjectDeserializer {
 
     org.apache.commons.lang3.tuple.Pair<String, Object> deserializeObject = TableDisplayDeSerializer.getDeserializeObject(parent, n, mapper);
     String subtype = deserializeObject.getLeft();
-    if (subtype != null && subtype.equals(TableDisplay.DICTIONARY_SUBTYPE)) {
+    if (subtype != null && subtype.equals(TableDisplayBase.DICTIONARY_SUBTYPE)) {
       return PersistentArrayMap.create((Map) deserializeObject.getRight());
-    } else if (subtype != null && subtype.equals(TableDisplay.LIST_OF_MAPS_SUBTYPE)) {
+    } else if (subtype != null && subtype.equals(TableDisplayBase.LIST_OF_MAPS_SUBTYPE)) {
       List<Map<String, Object>> rows = (List<Map<String, Object>>) deserializeObject.getRight();
       List<Object> oo = new ArrayList<Object>();
       for (Map<String, Object> row : rows) {
         oo.add(PersistentArrayMap.create(row));
       }
       return PersistentVector.create(oo);
-    } else if (subtype != null && subtype.equals(TableDisplay.MATRIX_SUBTYPE)) {
+    } else if (subtype != null && subtype.equals(TableDisplayBase.MATRIX_SUBTYPE)) {
       List<List<?>> matrix = (List<List<?>>) deserializeObject.getRight();
       return PersistentVector.create(matrix);
     }

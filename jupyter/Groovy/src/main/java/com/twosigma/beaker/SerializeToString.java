@@ -26,6 +26,7 @@ import com.twosigma.beaker.chart.heatmap.HeatMap;
 import com.twosigma.beaker.chart.histogram.Histogram;
 import com.twosigma.beaker.chart.xychart.*;
 import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.TableDisplayBase;
 import com.twosigma.beaker.table.serializer.TableDisplaySerializer;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,7 +89,7 @@ public class SerializeToString {
 
   static {
 
-    internalWidgetMap.put(com.twosigma.beaker.widgets.table.TableDisplay.class, new Object());
+    internalWidgetMap.put(TableDisplay.class, new Object());
     internalWidgetMap.put(CategoryPlot.class, new Object());
     internalWidgetMap.put(HeatMap.class, new Object());
     internalWidgetMap.put(Histogram.class, new Object());
@@ -99,7 +100,7 @@ public class SerializeToString {
     internalWidgetMap.put(NanoPlot.class, new Object());
 
 
-    serializerMap.put(TableDisplay.class, new TableDisplaySerializer());
+    serializerMap.put(TableDisplayBase.class, new TableDisplaySerializer());
     serializerMap.put(Color.class, new ColorSerializer());
     serializerMap.put(XYChart.class, new XYChartSerializer());
     serializerMap.put(CombinedPlotBase.class, new CombinedPlotSerializer());

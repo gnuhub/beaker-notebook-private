@@ -52,7 +52,7 @@ import com.google.inject.Provider;
 import com.twosigma.beaker.NamespaceClient;
 import com.twosigma.beaker.jvm.classloader.DynamicClassLoaderSimple;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.TableDisplayBase;
 import com.twosigma.beaker.jvm.serialization.BeakerObjectConverter;
 import com.twosigma.beaker.jvm.serialization.ObjectDeserializer;
 import com.twosigma.beaker.jvm.serialization.ObjectSerializer;
@@ -479,7 +479,7 @@ public class ScalaEvaluator {
         Map<?, ?> row = scala.collection.JavaConversions.mapAsJavaMap((scala.collection.Map<?, ?>) o);
         tab.add(row);
       }
-      TableDisplay t = new TableDisplay(tab,parent);
+      TableDisplayBase t = new TableDisplayBase(tab,parent);
       jgen.writeObject(t);
       return true;
     }
@@ -546,7 +546,7 @@ public class ScalaEvaluator {
       jgen.writeObjectField("type", "TableDisplay");
       jgen.writeObjectField("columnNames", columns);
       jgen.writeObjectField("values", values);
-      jgen.writeObjectField("subtype", TableDisplay.MATRIX_SUBTYPE);
+      jgen.writeObjectField("subtype", TableDisplayBase.MATRIX_SUBTYPE);
       jgen.writeEndObject();
       return true;
     }
@@ -603,7 +603,7 @@ public class ScalaEvaluator {
       jgen.writeObjectField("type", "TableDisplay");
       jgen.writeObjectField("columnNames", columns);
       jgen.writeObjectField("values", values);
-      jgen.writeObjectField("subtype", TableDisplay.DICTIONARY_SUBTYPE);
+      jgen.writeObjectField("subtype", TableDisplayBase.DICTIONARY_SUBTYPE);
       jgen.writeEndObject();
       return true;
     }
@@ -688,16 +688,16 @@ public class ScalaEvaluator {
     public Object deserialize(JsonNode n, ObjectMapper mapper) {
       org.apache.commons.lang3.tuple.Pair<String, Object> deserializeObject = TableDisplayDeSerializer.getDeserializeObject(parent, n, mapper);
       String subtype  = deserializeObject.getLeft();
-      if (subtype != null && subtype.equals(TableDisplay.DICTIONARY_SUBTYPE)) {
+      if (subtype != null && subtype.equals(TableDisplayBase.DICTIONARY_SUBTYPE)) {
         return scala.collection.JavaConverters.mapAsScalaMapConverter((Map<String, Object>) deserializeObject.getRight()).asScala().toMap(Predef.<Tuple2<String, Object>>conforms());
-      } else if (subtype != null && subtype.equals(TableDisplay.LIST_OF_MAPS_SUBTYPE)) {
+      } else if (subtype != null && subtype.equals(TableDisplayBase.LIST_OF_MAPS_SUBTYPE)) {
         List<Map<String, Object>> rows = (List<Map<String, Object>>) deserializeObject.getRight();
         List<Object> oo = new ArrayList<Object>();
         for (Map<String, Object> row : rows) {
           oo.add(JavaConverters.mapAsScalaMapConverter(row).asScala().toMap(Predef.<Tuple2<String, Object>>conforms()));
         }
         return scala.collection.JavaConversions.collectionAsScalaIterable(oo);
-      } else if (subtype != null && subtype.equals(TableDisplay.MATRIX_SUBTYPE)) {
+      } else if (subtype != null && subtype.equals(TableDisplayBase.MATRIX_SUBTYPE)) {
         List<List<?>> matrix = (List<List<?>>) deserializeObject.getRight();
         ArrayList<Object> ll = new ArrayList<Object>();
         for (List<?> ob : matrix) {

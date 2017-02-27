@@ -18,7 +18,7 @@ package com.twosigma.beaker.table.serializer;
 import com.twosigma.beaker.jvm.serialization.BasicObjectSerializer;
 import com.twosigma.beaker.jvm.serialization.BeakerObjectConverter;
 import com.twosigma.beaker.jvm.serialization.ObjectDeserializer;
-import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.TableDisplayBase;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -44,17 +44,17 @@ public class TableDisplayDeSerializer implements ObjectDeserializer {
   public static List<Map<String, Object>> getValuesAsRows(BeakerObjectConverter parent, JsonNode n, ObjectMapper mapper) throws IOException {
     List<List<?>> values = TableDisplayDeSerializer.getValues(parent, n, mapper);
     List<String> columns = TableDisplayDeSerializer.getColumns(n, mapper);
-    return TableDisplay.getValuesAsRows(values, columns);
+    return TableDisplayBase.getValuesAsRows(values, columns);
   }
 
   public static List<List<?>> getValuesAsMatrix(BeakerObjectConverter parent, JsonNode n, ObjectMapper mapper) throws IOException {
     List<List<?>> values = TableDisplayDeSerializer.getValues(parent, n, mapper);
-    return TableDisplay.getValuesAsMatrix(values);
+    return TableDisplayBase.getValuesAsMatrix(values);
   }
 
   public static Map<String, Object> getValuesAsDictionary(BeakerObjectConverter parent, JsonNode n, ObjectMapper mapper) throws IOException {
     List<List<?>> values = TableDisplayDeSerializer.getValues(parent, n, mapper);
-    return TableDisplay.getValuesAsDictionary(values);
+    return TableDisplayBase.getValuesAsDictionary(values);
   }
 
   @SuppressWarnings("unchecked")
@@ -121,11 +121,11 @@ public class TableDisplayDeSerializer implements ObjectDeserializer {
       if (n.has("subtype"))
         subtype = mapper.readValue(n.get("subtype").asText(), String.class);
 
-      if (subtype != null && subtype.equals(TableDisplay.DICTIONARY_SUBTYPE)) {
+      if (subtype != null && subtype.equals(TableDisplayBase.DICTIONARY_SUBTYPE)) {
         o = getValuesAsDictionary(parent, n, mapper);
-      } else if (subtype != null && subtype.equals(TableDisplay.LIST_OF_MAPS_SUBTYPE) && columns != null && values != null) {
+      } else if (subtype != null && subtype.equals(TableDisplayBase.LIST_OF_MAPS_SUBTYPE) && columns != null && values != null) {
         o = getValuesAsRows(parent, n, mapper);
-      } else if (subtype != null && subtype.equals(TableDisplay.MATRIX_SUBTYPE)) {
+      } else if (subtype != null && subtype.equals(TableDisplayBase.MATRIX_SUBTYPE)) {
         o = getValuesAsMatrix(parent, n, mapper);
       }
       if (o == null) {
@@ -136,9 +136,9 @@ public class TableDisplayDeSerializer implements ObjectDeserializer {
           for (List<?> v : values) {
             v.remove(0);
           }
-          o = new TableDisplay(values, columns, classes);
+          o = new TableDisplayBase(values, columns, classes);
         } else {
-          o = new TableDisplay(values, columns, classes);
+          o = new TableDisplayBase(values, columns, classes);
         }
       }
     } catch (Exception e) {

@@ -15,17 +15,17 @@
  */
 package com.twosigma.beaker.table.serializer;
 
-import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.TableDisplayBase;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 import java.io.IOException;
 
-public class TableDisplaySerializer extends ObservableTableDisplaySerializer<TableDisplay> {
+public class TableDisplaySerializer extends ObservableTableDisplaySerializer<TableDisplayBase> {
 
   @Override
-  public void serialize(TableDisplay value,
+  public void serialize(TableDisplayBase value,
                         JsonGenerator jgen,
                         SerializerProvider provider)
     throws IOException, JsonProcessingException {

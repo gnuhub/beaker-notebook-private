@@ -36,12 +36,12 @@ import com.twosigma.beaker.table.renderer.TableDisplayCellRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TableDisplay extends ObservableTableDisplay {
+public class TableDisplayBase extends ObservableTableDisplay {
   public static final String TABLE_DISPLAY_SUBTYPE = "TableDisplay";
   public static final String LIST_OF_MAPS_SUBTYPE = "ListOfMaps";
   public static final String MATRIX_SUBTYPE = "Matrix";
   public static final String DICTIONARY_SUBTYPE = "Dictionary";
-  private final static Logger logger = LoggerFactory.getLogger(TableDisplay.class.getName());
+  private final static Logger logger = LoggerFactory.getLogger(TableDisplayBase.class.getName());
   private final List<List<?>> values;
   private final List<String> columns;
   private final List<String> classes;
@@ -66,18 +66,18 @@ public class TableDisplay extends ObservableTableDisplay {
   private List<List<?>> filteredValues;
   private boolean headersVertical;
 
-  public TableDisplay(List<List<?>> v, List<String> co, List<String> cl) {
+  public TableDisplayBase(List<List<?>> v, List<String> co, List<String> cl) {
     values = v;
     columns = co;
     classes = cl;
     subtype = TABLE_DISPLAY_SUBTYPE;
   }
 
-  public TableDisplay(Collection<Map<?,?>> v) {
+  public TableDisplayBase(Collection<Map<?,?>> v) {
     this(v, new BasicObjectSerializer());
   }
 
-  public TableDisplay(Collection<Map<?,?>> v, BeakerObjectConverter serializer) {
+  public TableDisplayBase(Collection<Map<?,?>> v, BeakerObjectConverter serializer) {
     values = new ArrayList<List<?>>();
     columns = new ArrayList<String>();
     classes = new ArrayList<String>();

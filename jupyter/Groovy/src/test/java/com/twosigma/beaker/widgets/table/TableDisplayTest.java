@@ -15,14 +15,15 @@
  */
 package com.twosigma.beaker.widgets.table;
 
+import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import static com.twosigma.beaker.widgets.table.TableDisplay.MODEL_NAME_VALUE;
-import static com.twosigma.beaker.widgets.table.TableDisplay.VIEW_NAME_VALUE;
+import static com.twosigma.beaker.table.TableDisplay.MODEL_NAME_VALUE;
+import static com.twosigma.beaker.table.TableDisplay.VIEW_NAME_VALUE;
 
 
 public class TableDisplayTest extends InternalWidgetTest {

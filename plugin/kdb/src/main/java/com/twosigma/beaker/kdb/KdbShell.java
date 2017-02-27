@@ -17,7 +17,7 @@ package com.twosigma.beaker.kdb;
 
 
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.table.TableDisplayBase;
 import com.twosigma.beaker.jvm.serialization.BasicObjectSerializer;
 import com.twosigma.beaker.jvm.serialization.BeakerObjectConverter;
 import kx.c;
@@ -194,7 +194,7 @@ public class KdbShell {
           values.add(rowValues);
         }
 
-        return new TableDisplay(values, columns, classes);
+        return new TableDisplayBase(values, columns, classes);
       }
 
     // Convert Dicts to maps.

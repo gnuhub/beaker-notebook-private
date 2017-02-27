@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.table;
+package com.twosigma.beaker.table;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
@@ -26,7 +26,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TableDisplay extends com.twosigma.beaker.table.TableDisplay implements InternalWidget {
+public class TableDisplay extends TableDisplayBase implements InternalWidget {
 
   public static final String VIEW_NAME_VALUE = "TableDisplayView";
   public static final String MODEL_NAME_VALUE = "TableDisplayModel";
