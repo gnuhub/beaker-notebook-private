@@ -15,6 +15,7 @@
  */
 package com.twosigma.beaker.widgets.chart.heatmap;
 
+import com.twosigma.beaker.chart.heatmap.HeatMap;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 

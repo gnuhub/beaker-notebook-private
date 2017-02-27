@@ -20,10 +20,26 @@ import com.twosigma.beaker.chart.AbstractChart;
 import com.twosigma.beaker.chart.GradientColor;
 import com.twosigma.beaker.chart.legend.LegendLayout;
 import com.twosigma.beaker.chart.legend.LegendPosition;
+import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.widgets.chart.InternalPlot;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
+import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 
-public class HeatMap extends AbstractChart {
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+
+public class HeatMap extends AbstractChart implements InternalWidget, InternalPlot {
   private Number[][] data;
   private GradientColor color = GradientColor.BROWN_RED_YELLOW;
+
+  private Comm comm;
+
+  @Override
+  public Comm getComm() {
+    return this.comm;
+  }
 
   public HeatMap() {
     setXLowerMargin(0);
@@ -32,6 +48,13 @@ public class HeatMap extends AbstractChart {
     setYUpperMargin(0);
     setLegendLayout(LegendLayout.HORIZONTAL);
     setLegendPosition(LegendPosition.BOTTOM_RIGHT);
+    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
+      @Override
+      public void addContent(HashMap<String, Serializable> content) {
+        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
+        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
+      }
+    });
   }
 
   public void setColor(GradientColor color) {

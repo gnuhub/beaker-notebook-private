@@ -16,11 +16,18 @@
 
 package com.twosigma.beaker.chart.heatmap;
 
-import com.twosigma.beaker.chart.heatmap.HeatMap;
+import com.twosigma.beaker.jupyter.GroovyKernelManager;
+import com.twosigma.beaker.widgets.GroovyKernelTest;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 
 public class HeatMapTest {
+
+  @Before
+  public void setUp() throws Exception {
+    GroovyKernelManager.register(new GroovyKernelTest());
+  }
 
   @Test
   public void createHeatMapByEmptyConstructor_hasLegendPositionAndLayoutAreNotNulls() {
