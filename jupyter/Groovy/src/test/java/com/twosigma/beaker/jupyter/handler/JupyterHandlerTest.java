@@ -18,6 +18,8 @@ package com.twosigma.beaker.jupyter.handler;
 
 import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
 import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.jupyter.CommKernelControlGetDefaultShellHandler;
+import com.twosigma.beaker.jupyter.CommKernelControlSetShellHandler;
 import com.twosigma.beaker.jupyter.GroovyKernelJupyterTest;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
@@ -238,5 +240,25 @@ public class JupyterHandlerTest {
     Message message = new Message();
     //when
     executeRequestHandler.handle(message);
+  }
+
+  @Test
+  public void defaultShellHandlerHandleEmptyMessage_dontThrowNullPointerException()
+      throws Exception {
+    //given
+    Message message = new Message();
+    //when
+    CommKernelControlGetDefaultShellHandler handler =
+        new CommKernelControlGetDefaultShellHandler(groovyKernel);
+    handler.handle(message);
+  }
+
+  @Test
+  public void setShellHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
+    //given
+    Message message = new Message();
+    //when
+    CommKernelControlSetShellHandler handler = new CommKernelControlSetShellHandler(groovyKernel);
+    handler.handle(message);
   }
 }
