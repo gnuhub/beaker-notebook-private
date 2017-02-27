@@ -16,6 +16,7 @@
 
 package com.twosigma.beaker.chart.heatmap;
 
+import com.twosigma.beaker.chart.heatmap.HeatMap;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 

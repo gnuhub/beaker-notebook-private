@@ -16,6 +16,7 @@
 
 package com.twosigma.beaker.chart.categoryplot;
 
+import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryBars;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryLines;
