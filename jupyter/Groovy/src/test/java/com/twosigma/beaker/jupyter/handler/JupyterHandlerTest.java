@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
+import org.lappsgrid.jupyter.groovy.msg.MessageTest;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -205,6 +206,7 @@ public class JupyterHandlerTest {
   public void commInfoHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
     //given
     Message message = new Message();
+    MessageTest.initMessage(message);
     //when
     commInfoHandler.handle(message);
   }
@@ -213,6 +215,7 @@ public class JupyterHandlerTest {
   public void commOpenHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
     //given
     Message message = new Message();
+    MessageTest.initMessage(message);
     //wnen
     commOpenHandler.handle(message);
   }
@@ -221,6 +224,7 @@ public class JupyterHandlerTest {
   public void commMsgHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
     //given
     Message message = new Message();
+    MessageTest.initMessage(message);
     //when
     commMsgHandler.handle(message);
   }
@@ -229,6 +233,7 @@ public class JupyterHandlerTest {
   public void commCloseHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
     //given
     Message message = new Message();
+    MessageTest.initMessage(message);
     //when
     commCloseHandler.handle(message);
   }
@@ -238,6 +243,7 @@ public class JupyterHandlerTest {
       throws Exception {
     //given
     Message message = new Message();
+    MessageTest.initMessage(message);
     //when
     executeRequestHandler.handle(message);
   }
@@ -247,6 +253,7 @@ public class JupyterHandlerTest {
       throws Exception {
     //given
     Message message = new Message();
+    MessageTest.initMessage(message);
     //when
     CommKernelControlGetDefaultShellHandler handler =
         new CommKernelControlGetDefaultShellHandler(groovyKernel);
@@ -257,6 +264,7 @@ public class JupyterHandlerTest {
   public void setShellHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
     //given
     Message message = new Message();
+    MessageTest.initMessage(message);
     //when
     CommKernelControlSetShellHandler handler = new CommKernelControlSetShellHandler(groovyKernel);
     handler.handle(message);
