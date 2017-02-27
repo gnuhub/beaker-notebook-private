@@ -28,7 +28,7 @@ public class MagicCommand {
 
   public void processUnknownCommand(String command, Message message, int executionCount) throws InterruptedException, NoSuchAlgorithmException, IOException {
     String result = "Cell magic " + command + " not found";
-    messageCreator.createMagicMessage(messageCreator.buildOutputMessage(message,result,false),executionCount,message);
+    messageCreator.createMagicMessage(messageCreator.buildOutputMessage(message,result,true),executionCount,message);
   }
 
   private void buildCommands() {

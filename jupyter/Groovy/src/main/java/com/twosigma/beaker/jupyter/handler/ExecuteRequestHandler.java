@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
@@ -83,7 +84,7 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
       evaluatorManager.executeCode(code, message, executionCount);
       // execution response in ExecuteResultHandler
     } else {
-      String command = code.substring(0, code.indexOf('\n'));
+      String command = new Scanner(code).next();
       try {
         if(magicCommand.commands.containsKey(command)){
           magicCommand.commands.get(command).process(code, message, executionCount);
