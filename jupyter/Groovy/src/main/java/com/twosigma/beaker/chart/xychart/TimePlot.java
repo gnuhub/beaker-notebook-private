@@ -16,11 +16,37 @@
 
 package com.twosigma.beaker.chart.xychart;
 
+import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.widgets.chart.InternalPlot;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
+import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
+
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-public class TimePlot extends XYChart {
+public class TimePlot extends XYChart implements InternalWidget, InternalPlot {
+
+  private Comm comm;
+
+  public TimePlot() {
+    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
+      @Override
+      public void addContent(HashMap<String, Serializable> content) {
+        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
+        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
+      }
+    });
+  }
+
+  @Override
+  public Comm getComm() {
+    return this.comm;
+  }
 
   public XYChart setXBound(Date lower, Date upper) {
     setXBound((double) lower.getTime(), (double) upper.getTime());

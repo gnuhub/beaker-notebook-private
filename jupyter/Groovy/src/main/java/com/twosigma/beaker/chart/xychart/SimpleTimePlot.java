@@ -31,7 +31,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class SimpleTimePlot extends TimePlot  implements InternalWidget, InternalPlot {
+public class SimpleTimePlot extends TimePlot{
 
   private List<Map<String, Object>> data;
   private String timeColumn = "time";
@@ -41,14 +41,6 @@ public class SimpleTimePlot extends TimePlot  implements InternalWidget, Interna
   private boolean displayLines  = true;
   private boolean displayPoints = false;
 
-
-  private Comm comm;
-
-  @Override
-  public Comm getComm() {
-    return this.comm;
-  }
-
   public SimpleTimePlot(List<Map<String, Object>> data, List<String> columns) {
     this(null, data, columns);
   }
@@ -56,15 +48,6 @@ public class SimpleTimePlot extends TimePlot  implements InternalWidget, Interna
   public SimpleTimePlot(Map<String, Object> parameters,
                         List<Map<String, Object>> data,
                         List<String> columns) {
-
-    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
-      @Override
-      public void addContent(HashMap<String, Serializable> content) {
-        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
-        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
-      }
-    });
-
     this.data = data;
     this.columns = columns;
 

@@ -18,6 +18,8 @@ package com.twosigma.beaker.chart.xychart;
 
 import com.twosigma.beaker.chart.xychart.plotitem.Line;
 import com.twosigma.beaker.chart.xychart.plotitem.Points;
+import com.twosigma.beaker.jupyter.GroovyKernelManager;
+import com.twosigma.beaker.widgets.GroovyKernelTest;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +41,7 @@ public class NanoPlotTest {
     line = new Line();
     line.setX(Arrays.asList(val1, val1));
     line.setY(Arrays.asList(2, 3));
+    GroovyKernelManager.register(new GroovyKernelTest());
   }
 
   @Test

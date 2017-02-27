@@ -16,31 +16,9 @@
 
 package com.twosigma.beaker.chart.xychart;
 
-import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
-import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
-import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
-
-import java.io.Serializable;
-import java.util.HashMap;
 
 public class NanoPlot extends TimePlot implements InternalWidget, InternalPlot {
 
-  private Comm comm;
-
-  public NanoPlot(){
-    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
-      @Override
-      public void addContent(HashMap<String, Serializable> content) {
-        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
-        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
-      }
-    });
-  }
-
-  @Override
-  public Comm getComm() {
-    return this.comm;
-  }
 }
