@@ -19,7 +19,7 @@ import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
 import com.twosigma.beaker.widgets.TestWidgetUtils;
-import com.twosigma.beaker.widgets.chart.xychart.Plot;
+import com.twosigma.beaker.chart.xychart.Plot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import org.junit.After;
 import org.junit.Before;

@@ -13,8 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.chart.xychart;
+package com.twosigma.beaker.chart.xychart;
 
+import com.twosigma.beaker.chart.xychart.PlotBase;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
@@ -25,7 +26,7 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class Plot extends com.twosigma.beaker.chart.xychart.Plot implements InternalWidget, InternalPlot {
+public class Plot extends PlotBase implements InternalWidget, InternalPlot {
 
   private Comm comm;
 

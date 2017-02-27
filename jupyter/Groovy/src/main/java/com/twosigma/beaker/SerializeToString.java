@@ -24,7 +24,7 @@ import java.util.Map;
 import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
 import com.twosigma.beaker.chart.heatmap.HeatMap;
 import com.twosigma.beaker.chart.histogram.Histogram;
-import com.twosigma.beaker.chart.xychart.CombinedPlot;
+import com.twosigma.beaker.chart.xychart.*;
 import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.table.serializer.TableDisplaySerializer;
 import com.fasterxml.jackson.core.Version;
@@ -65,8 +65,6 @@ import com.twosigma.beaker.chart.serializer.StemsSerializer;
 import com.twosigma.beaker.chart.serializer.TextSerializer;
 import com.twosigma.beaker.chart.serializer.XYChartSerializer;
 import com.twosigma.beaker.chart.serializer.YAxisSerializer;
-import com.twosigma.beaker.chart.xychart.CombinedPlotBase;
-import com.twosigma.beaker.chart.xychart.XYChart;
 import com.twosigma.beaker.chart.xychart.plotitem.Area;
 import com.twosigma.beaker.chart.xychart.plotitem.Bars;
 import com.twosigma.beaker.chart.xychart.plotitem.ConstantBand;
@@ -95,10 +93,10 @@ public class SerializeToString {
     internalWidgetMap.put(HeatMap.class, new Object());
     internalWidgetMap.put(Histogram.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.TimePlot.class, new Object());
-    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.Plot.class, new Object());
+    internalWidgetMap.put(Plot.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.SimpleTimePlot.class, new Object());
     internalWidgetMap.put(CombinedPlot.class, new Object());
-    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.NanoPlot.class, new Object());
+    internalWidgetMap.put(NanoPlot.class, new Object());
 
 
     serializerMap.put(TableDisplay.class, new TableDisplaySerializer());

@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.chart.xychart;
+package com.twosigma.beaker.chart.xychart;
 
 import com.twosigma.beaker.chart.xychart.NanoPlotBase;
 import com.twosigma.beaker.chart.xychart.XYChart;

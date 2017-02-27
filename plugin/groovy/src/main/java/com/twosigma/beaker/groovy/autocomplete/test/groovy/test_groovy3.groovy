@@ -1,6 +1,6 @@
 import com.twosigma.beaker.chart.xychart.*
 import com.twosigma.beaker.chart.xychart.plotitem.Points
-def plot = new Plot(title: "Changing Point Size, Color, Shape")
+def plot = new PlotBase(title: "Changing Point Size, Color, Shape")
 def y1 = [6, 7, 12, 11, 8, 14]
 def y2 = y1.collect { it - 2 }
 def y3 = y2.collect { it - 2 }

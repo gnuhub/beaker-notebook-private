@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.twosigma.beaker.chart.xychart.CombinedPlotBase;
-import com.twosigma.beaker.chart.xychart.Plot;
+import com.twosigma.beaker.chart.xychart.PlotBase;
 import com.twosigma.beaker.chart.xychart.SimpleTimePlot;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -123,8 +123,8 @@ public class CombinedPlotSerializerTest {
   public void serializePlotTypeOfCombinedPlot_resultJsonHasPlotType() throws IOException {
     //when
     CombinedPlotBase combinedPlot = new CombinedPlotBase();
-    combinedPlot.add(new Plot());
-    combinedPlot.add(new Plot());
+    combinedPlot.add(new PlotBase());
+    combinedPlot.add(new PlotBase());
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then
@@ -151,8 +151,8 @@ public class CombinedPlotSerializerTest {
   public void serializePlotsOfCombinedPlot_resultJsonHasPlots() throws IOException {
     //when
     CombinedPlotBase combinedPlot = new CombinedPlotBase();
-    combinedPlot.add(new Plot());
-    combinedPlot.add(new Plot());
+    combinedPlot.add(new PlotBase());
+    combinedPlot.add(new PlotBase());
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then
@@ -165,8 +165,8 @@ public class CombinedPlotSerializerTest {
   public void serializeWeightsOfCombinedPlot_resultJsonHasWeights() throws IOException {
     //when
     CombinedPlotBase combinedPlot = new CombinedPlotBase();
-    combinedPlot.add(new Plot(), 3);
-    combinedPlot.add(new Plot(), 3);
+    combinedPlot.add(new PlotBase(), 3);
+    combinedPlot.add(new PlotBase(), 3);
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then

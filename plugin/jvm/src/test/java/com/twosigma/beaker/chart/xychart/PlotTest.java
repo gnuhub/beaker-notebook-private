@@ -42,14 +42,14 @@ public class PlotTest {
   @Test
   public void createPlotByEmptyConstructor_plotHasGraphicsListIsEmpty() {
     //when
-    Plot plot = new Plot();
+    PlotBase plot = new PlotBase();
     //then
     Assertions.assertThat(plot.getGraphics().size()).isEqualTo(0);
   }
 
   @Test
   public void addLineToPlot_plotHasGraphicsListSizeIsOne() {
-    Plot plot = new Plot();
+    PlotBase plot = new PlotBase();
     //when
     plot.add(line);
     //then
@@ -58,7 +58,7 @@ public class PlotTest {
 
   @Test
   public void addAreaToPlot_plotHasGraphicsListSizeIsOne() {
-    Plot plot = new Plot();
+    PlotBase plot = new PlotBase();
     //when
     plot.add(area);
     //then
@@ -67,7 +67,7 @@ public class PlotTest {
 
   @Test
   public void addLineAndAreaToPlot_plotHasGraphicsListSizeIsTwo() {
-    Plot plot = new Plot();
+    PlotBase plot = new PlotBase();
     //when
     plot.add(line);
     plot.add(area);

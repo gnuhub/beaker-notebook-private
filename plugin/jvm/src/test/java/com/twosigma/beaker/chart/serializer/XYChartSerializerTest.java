@@ -20,7 +20,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
-import com.twosigma.beaker.chart.xychart.Plot;
+import com.twosigma.beaker.chart.xychart.PlotBase;
 import com.twosigma.beaker.chart.xychart.plotitem.ConstantBand;
 import com.twosigma.beaker.chart.xychart.plotitem.ConstantLine;
 import com.twosigma.beaker.chart.xychart.plotitem.Line;
@@ -40,7 +40,7 @@ public class XYChartSerializerTest {
   static XYChartSerializer xyChartSerializer;
   JsonGenerator jgen;
   StringWriter sw;
-  Plot plot;
+  PlotBase plot;
 
   @BeforeClass
   public static void initClassStubData() {
@@ -52,7 +52,7 @@ public class XYChartSerializerTest {
   public void initTestStubData() throws IOException {
     sw = new StringWriter();
     jgen = mapper.getJsonFactory().createJsonGenerator(sw);
-    plot = new Plot();
+    plot = new PlotBase();
   }
 
   @Test

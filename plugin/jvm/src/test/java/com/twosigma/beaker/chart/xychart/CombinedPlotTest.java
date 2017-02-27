@@ -25,8 +25,8 @@ public class CombinedPlotTest {
   public void addTwoPlotsToCombinedPlot_hasSubplotsSizeIsTwoAndWeightListSizeIsTwo() {
     //when
     CombinedPlotBase combinedPlot = new CombinedPlotBase();
-    combinedPlot.add(new Plot());
-    combinedPlot.add(new Plot());
+    combinedPlot.add(new PlotBase());
+    combinedPlot.add(new PlotBase());
     //then
     Assertions.assertThat(combinedPlot.getSubplots().size()).isEqualTo(2);
     Assertions.assertThat(combinedPlot.getWeights().size()).isEqualTo(2);
@@ -36,8 +36,8 @@ public class CombinedPlotTest {
   public void addTwoPlotsAndWeightsToCombinedPlot_hasSubplotsSizeIsTwoAndWeightListSizeIsTwo() {
     //when
     CombinedPlotBase combinedPlot = new CombinedPlotBase();
-    combinedPlot.add(new Plot(), 3);
-    combinedPlot.add(new Plot(), 3);
+    combinedPlot.add(new PlotBase(), 3);
+    combinedPlot.add(new PlotBase(), 3);
     //then
     Assertions.assertThat(combinedPlot.getSubplots().size()).isEqualTo(2);
     Assertions.assertThat(combinedPlot.getWeights().size()).isEqualTo(2);
