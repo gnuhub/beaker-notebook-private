@@ -15,10 +15,10 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
+import com.twosigma.beaker.chart.xychart.NanoPlotBase;
 import com.twosigma.beaker.chart.xychart.XYChart;
 import com.twosigma.beaker.chart.xychart.plotitem.XYGraphics;
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
@@ -28,7 +28,7 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class NanoPlot extends com.twosigma.beaker.chart.xychart.NanoPlot implements InternalWidget, InternalPlot {
+public class NanoPlot extends NanoPlotBase implements InternalWidget, InternalPlot {
 
   private Comm comm;
 
@@ -45,7 +45,7 @@ public class NanoPlot extends com.twosigma.beaker.chart.xychart.NanoPlot impleme
   @Override
   public XYChart add(XYGraphics graphics) {
     super.add(graphics);
-    graphics.setPlotType(com.twosigma.beaker.chart.xychart.NanoPlot.class);
+    graphics.setPlotType(NanoPlotBase.class);
     return this;
   }
 

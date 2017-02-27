@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.twosigma.beaker.chart.Color;
-import com.twosigma.beaker.chart.histogram.Histogram;
+import com.twosigma.beaker.chart.histogram.HistogramBase;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -38,7 +38,7 @@ public class HistogramSerializerTest {
   static HistogramSerializer histogramSerializer;
   JsonGenerator jgen;
   StringWriter sw;
-  Histogram histogram;
+  HistogramBase histogram;
 
   @BeforeClass
   public static void initClassStubData() {
@@ -50,7 +50,7 @@ public class HistogramSerializerTest {
   public void initTestStubData() throws IOException {
     sw = new StringWriter();
     jgen = mapper.getJsonFactory().createJsonGenerator(sw);
-    histogram = new Histogram();
+    histogram = new HistogramBase();
   }
 
   @Test
@@ -189,7 +189,7 @@ public class HistogramSerializerTest {
   @Test
   public void serializeDisplayModeOfHistogram_resultJsonHasDisplayMode() throws IOException {
     //when
-    histogram.setDisplayMode(Histogram.DisplayMode.STACK);
+    histogram.setDisplayMode(HistogramBase.DisplayMode.STACK);
     histogramSerializer.serialize(histogram, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then

@@ -24,7 +24,7 @@ public class CombinedPlotTest {
   @Test
   public void addTwoPlotsToCombinedPlot_hasSubplotsSizeIsTwoAndWeightListSizeIsTwo() {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.add(new Plot());
     combinedPlot.add(new Plot());
     //then
@@ -35,7 +35,7 @@ public class CombinedPlotTest {
   @Test
   public void addTwoPlotsAndWeightsToCombinedPlot_hasSubplotsSizeIsTwoAndWeightListSizeIsTwo() {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.add(new Plot(), 3);
     combinedPlot.add(new Plot(), 3);
     //then

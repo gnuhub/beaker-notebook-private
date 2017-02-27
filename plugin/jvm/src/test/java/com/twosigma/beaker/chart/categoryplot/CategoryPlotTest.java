@@ -51,7 +51,7 @@ public class CategoryPlotTest {
   @Test
   public void createCategoryPlotByEmptyConstructor_hasVerticalOrientation() {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     //then
     Assertions.assertThat(categoryPlot.getOrientation()).isEqualTo(PlotOrientationType.VERTICAL);
   }
@@ -59,7 +59,7 @@ public class CategoryPlotTest {
   @Test
   public void addWithListOfCategoryBarsPointsAndStemsParam_hasCategoryGraphicsListSizeIsThree() {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     categoryPlot.add(Arrays.asList(categoryBars, categoryPoints, categoryStems));
     //then
     Assertions.assertThat(categoryPlot.getGraphics().size()).isEqualTo(3);
@@ -68,7 +68,7 @@ public class CategoryPlotTest {
   @Test
   public void addWithCategoryLinesParam_hasCategoryGraphicsListSizeIsOne() {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     categoryPlot.add(categoryLines);
     //then
     Assertions.assertThat(categoryPlot.getGraphics().size()).isEqualTo(1);
@@ -78,7 +78,7 @@ public class CategoryPlotTest {
   public void
       threeCallsLeftShiftWithCategoryBarsPointsAndStemsParam_hasCategoryGraphicsListSizeIsThree() {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     categoryPlot.leftShift(categoryBars).leftShift(categoryPoints).leftShift(categoryStems);
     //then
     Assertions.assertThat(categoryPlot.getGraphics().size()).isEqualTo(3);
@@ -87,7 +87,7 @@ public class CategoryPlotTest {
   @Test
   public void leftShiftWithCategoryLinesParam_hasCategoryGraphicsListSizeIsOne() {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     categoryPlot.leftShift(categoryLines);
     //then
     Assertions.assertThat(categoryPlot.getGraphics().size()).isEqualTo(1);

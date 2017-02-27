@@ -16,11 +16,10 @@
 
 package com.twosigma.beaker.chart.serializer;
 
-import com.twosigma.beaker.chart.xychart.NanoPlot;
+import com.twosigma.beaker.chart.xychart.NanoPlotBase;
 import com.twosigma.beaker.chart.xychart.plotitem.XYGraphics;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 
@@ -41,7 +40,7 @@ public class XYGraphicsSerializer<T extends XYGraphics> extends GraphicsSerializ
 
     super.serialize(xyGraphics, jgen, sp);
 
-    boolean isNanoPlot = NanoPlot.class.equals(xyGraphics.getPlotType());
+    boolean isNanoPlot = NanoPlotBase.class.equals(xyGraphics.getPlotType());
     jgen.writeObjectField("x", isNanoPlot ? processLargeNumbers(xyGraphics.getX()) : xyGraphics.getX());
     jgen.writeObjectField("y", xyGraphics.getY());
     jgen.writeObjectField(DISPLAY_NAME, xyGraphics.getDisplayName());

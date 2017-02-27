@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
-import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
+import com.twosigma.beaker.chart.categoryplot.CategoryPlotBase;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryBars;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryPoints;
 import com.twosigma.beaker.chart.xychart.plotitem.PlotOrientationType;
@@ -56,7 +56,7 @@ public class CategoryPlotSerializerTest {
   @Test
   public void serializeCategoryNamesOfCategoryPlot_resultJsonHasCategoryNames() throws IOException {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     categoryPlot.setCategoryNames(Arrays.asList("name1", "name2"));
     categoryPlotSerializer.serialize(categoryPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
@@ -70,7 +70,7 @@ public class CategoryPlotSerializerTest {
   @Test
   public void serializeGraphicsListCategoryPlot_resultJsonHasGraphicsList() throws IOException {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     categoryPlot.add(Arrays.asList(new CategoryBars(), new CategoryPoints()));
     categoryPlotSerializer.serialize(categoryPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
@@ -84,7 +84,7 @@ public class CategoryPlotSerializerTest {
   @Test
   public void serializeOrientationCategoryPlot_resultJsonHasOrientation() throws IOException {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     categoryPlot.setOrientation(PlotOrientationType.VERTICAL);
     categoryPlotSerializer.serialize(categoryPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
@@ -98,7 +98,7 @@ public class CategoryPlotSerializerTest {
   public void serializeCategoryMarginOfCategoryPlot_resultJsonHasCategoryMargin()
       throws IOException {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     categoryPlot.setCategoryMargin(0.5);
     categoryPlotSerializer.serialize(categoryPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
@@ -112,7 +112,7 @@ public class CategoryPlotSerializerTest {
   public void serializeCategoryNamesLabelAngleOfCategoryPlot_resultJsonHasCategoryNamesLabelAngle()
       throws IOException {
     //when
-    CategoryPlot categoryPlot = new CategoryPlot();
+    CategoryPlotBase categoryPlot = new CategoryPlotBase();
     categoryPlot.setCategoryNamesLabelAngle(0.5);
     categoryPlotSerializer.serialize(categoryPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();

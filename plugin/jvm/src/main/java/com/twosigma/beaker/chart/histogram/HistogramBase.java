@@ -22,7 +22,7 @@ import com.twosigma.beaker.chart.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class HistogramBase extends AbstractChart {
+public class HistogramBase extends AbstractChart {
 
   public enum DisplayMode {
     OVERLAP,

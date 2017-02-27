@@ -37,7 +37,7 @@ public class HistogramTest {
   @Test
   public void createHistogramByEmptyConstructor_hasDisplayModeIsNotNull() {
     //when
-    Histogram histogram = new Histogram();
+    HistogramBase histogram = new HistogramBase();
     //then
     Assertions.assertThat(histogram.getDisplayMode()).isNotNull();
   }
@@ -45,7 +45,7 @@ public class HistogramTest {
   @Test
   public void setDataWithListOfIntegerListsParam_hasListDataIsNotEmpty() {
     //when
-    Histogram histogram = new Histogram();
+    HistogramBase histogram = new HistogramBase();
     histogram.setData(Arrays.asList(list1, list2));
     //then
     Assertions.assertThat(histogram.getListData()).isNotEmpty();
@@ -54,7 +54,7 @@ public class HistogramTest {
   @Test
   public void setDataWithIntegerListParam_hasDataIsNotEmpty() {
     //when
-    Histogram histogram = new Histogram();
+    HistogramBase histogram = new HistogramBase();
     histogram.setData(list1);
     //then
     Assertions.assertThat(histogram.getData()).isNotEmpty();
@@ -63,7 +63,7 @@ public class HistogramTest {
   @Test
   public void setColorWithAwtColorParam_colorHasBeakerColorType() {
     //when
-    Histogram histogram = new Histogram();
+    HistogramBase histogram = new HistogramBase();
     histogram.setColor(java.awt.Color.GREEN);
     //then
     Assertions.assertThat(histogram.getColor() instanceof Color).isTrue();
@@ -72,7 +72,7 @@ public class HistogramTest {
   @Test
   public void setColorWithAwtColorListParam_hasBeakerColorsIsNotEmpty() {
     //when
-    Histogram histogram = new Histogram();
+    HistogramBase histogram = new HistogramBase();
     histogram.setColor(Arrays.asList(java.awt.Color.GREEN, java.awt.Color.BLUE));
     //then
     Assertions.assertThat(histogram.getColors()).isNotEmpty();

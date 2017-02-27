@@ -44,14 +44,14 @@ public class NanoPlotTest {
   @Test
   public void createNanoPlotByEmptyConstructor_nanoPlotHasGraphicsListIsEmpty() {
     //when
-    NanoPlot nanoPlot = new NanoPlot();
+    NanoPlotBase nanoPlot = new NanoPlotBase();
     //then
     Assertions.assertThat(nanoPlot.getGraphics().size()).isEqualTo(0);
   }
 
   @Test
   public void addPointsToNanoPlot_nanoPlotHasGraphicsListSizeIsOne() {
-    NanoPlot nanoPlot = new NanoPlot();
+    NanoPlotBase nanoPlot = new NanoPlotBase();
     //when
     nanoPlot.add(points);
     //then
@@ -60,7 +60,7 @@ public class NanoPlotTest {
 
   @Test
   public void addLineToNanoPlot_nanoPlotHasGraphicsListSizeIsOne() {
-    NanoPlot nanoPlot = new NanoPlot();
+    NanoPlotBase nanoPlot = new NanoPlotBase();
     //when
     nanoPlot.add(line);
     //then
@@ -69,7 +69,7 @@ public class NanoPlotTest {
 
   @Test
   public void addPointsAndLineToNanoPlot_nanoPlotHasGraphicsListSizeIsTwo() {
-    NanoPlot nanoPlot = new NanoPlot();
+    NanoPlotBase nanoPlot = new NanoPlotBase();
     //when
     nanoPlot.add(points);
     nanoPlot.add(line);

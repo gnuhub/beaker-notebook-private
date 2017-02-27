@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.twosigma.beaker.chart.Color;
-import com.twosigma.beaker.chart.xychart.NanoPlot;
+import com.twosigma.beaker.chart.xychart.NanoPlotBase;
 import com.twosigma.beaker.chart.xychart.plotitem.ConstantLine;
 import com.twosigma.beaker.chart.xychart.plotitem.StrokeType;
 import org.assertj.core.api.Assertions;
@@ -82,7 +82,7 @@ public class ConstantLineSerializerTest {
     //when
     ConstantLine constantLine = new ConstantLine();
     constantLine.setX(new BigInteger("12345678901234567891000"));
-    constantLine.setPlotType(NanoPlot.class);
+    constantLine.setPlotType(NanoPlotBase.class);
     constantLineSerializer.serialize(constantLine, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then

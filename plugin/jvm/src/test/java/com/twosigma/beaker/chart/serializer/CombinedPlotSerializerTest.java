@@ -20,7 +20,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
-import com.twosigma.beaker.chart.xychart.CombinedPlot;
+import com.twosigma.beaker.chart.xychart.CombinedPlotBase;
 import com.twosigma.beaker.chart.xychart.Plot;
 import com.twosigma.beaker.chart.xychart.SimpleTimePlot;
 import org.assertj.core.api.Assertions;
@@ -58,7 +58,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializeCombinedPlot_resultJsonHasType() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then
@@ -70,7 +70,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializeInitWidthOfCombinedPlot_resultJsonHasInitWidth() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.setInitWidth(600);
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
@@ -83,7 +83,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializeInitHeightOfCombinedPlot_resultJsonHasInitHeight() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.setInitHeight(300);
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
@@ -96,7 +96,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializeTitleOfCombinedPlot_resultJsonHasTitle() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.setTitle("Some title");
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
@@ -109,7 +109,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializeXLabelNameOfCombinedPlot_resultJsonHasXLabelName() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.setXLabel("X label name");
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
@@ -122,7 +122,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializePlotTypeOfCombinedPlot_resultJsonHasPlotType() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.add(new Plot());
     combinedPlot.add(new Plot());
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
@@ -136,7 +136,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializeTimePlotTypeOfCombinedPlot_resultJsonHasTimePlotType() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.add(
         new SimpleTimePlot(createDataForSimpleTimePlot(), Arrays.asList("m3", "time")));
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
@@ -150,7 +150,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializePlotsOfCombinedPlot_resultJsonHasPlots() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.add(new Plot());
     combinedPlot.add(new Plot());
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
@@ -164,7 +164,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializeWeightsOfCombinedPlot_resultJsonHasWeights() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.add(new Plot(), 3);
     combinedPlot.add(new Plot(), 3);
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
@@ -178,7 +178,7 @@ public class CombinedPlotSerializerTest {
   @Test
   public void serializeCombinedPlot_resultJsonHasVersion() throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then
@@ -191,7 +191,7 @@ public class CombinedPlotSerializerTest {
   public void serializeXTickLabelsVisibleOfCombinedPlot_resultJsonHasXTickLabelsVisible()
       throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.setxTickLabelsVisible(true);
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
@@ -205,7 +205,7 @@ public class CombinedPlotSerializerTest {
   public void serializeYTickLabelsVisibleOfCombinedPlot_resultJsonHasYTickLabelsVisible()
       throws IOException {
     //when
-    CombinedPlot combinedPlot = new CombinedPlot();
+    CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.setyTickLabelsVisible(true);
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.twosigma.beaker.chart.Color;
-import com.twosigma.beaker.chart.xychart.NanoPlot;
+import com.twosigma.beaker.chart.xychart.NanoPlotBase;
 import com.twosigma.beaker.chart.xychart.plotitem.Text;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -80,7 +80,7 @@ public class TextSerializerTest {
   public void serializeBigIntXWithNanoPlotType_resultJsonHasStringX() throws IOException {
     //when
     text.setX(new BigInteger("12345678901234567891000"));
-    text.setPlotType(NanoPlot.class);
+    text.setPlotType(NanoPlotBase.class);
     textSerializer.serialize(text, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then

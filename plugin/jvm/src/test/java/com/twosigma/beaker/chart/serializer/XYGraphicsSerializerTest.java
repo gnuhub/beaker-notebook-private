@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.twosigma.beaker.chart.Filter;
-import com.twosigma.beaker.chart.xychart.NanoPlot;
+import com.twosigma.beaker.chart.xychart.NanoPlotBase;
 import com.twosigma.beaker.chart.xychart.plotitem.Line;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -73,7 +73,7 @@ public class XYGraphicsSerializerTest {
     line.setX(
         Arrays.asList(
             new BigInteger("12345678901234567891000"), new BigInteger("12345678901234567891000")));
-    line.setPlotType(NanoPlot.class);
+    line.setPlotType(NanoPlotBase.class);
     xyGraphicsSerializer.serialize(line, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then

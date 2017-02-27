@@ -25,7 +25,7 @@ import java.util.List;
  * CombinedPlot
  *
  */
-public abstract class CombinedPlotBase extends ObservableChart{
+public class CombinedPlotBase extends ObservableChart{
   private int initWidth = 640;
   private int initHeight = 480;
   private String title;

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.twosigma.beaker.chart.Color;
 import com.twosigma.beaker.chart.GradientColor;
-import com.twosigma.beaker.chart.heatmap.HeatMap;
+import com.twosigma.beaker.chart.heatmap.HeatMapBase;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -54,7 +54,7 @@ public class HeatMapSerializerTest {
   @Test
   public void serializeDataOfHeatMap_resultJsonHasGraphicsList() throws IOException {
     //when
-    HeatMap heatMap = new HeatMap();
+    HeatMapBase heatMap = new HeatMapBase();
     heatMap.setData(
         new Integer[][] {
           new Integer[] {new Integer(1), new Integer(2)},
@@ -71,7 +71,7 @@ public class HeatMapSerializerTest {
   @Test
   public void serializeColorOfHeatMap_resultJsonHasColor() throws IOException {
     //when
-    HeatMap heatMap = new HeatMap();
+    HeatMapBase heatMap = new HeatMapBase();
     heatMap.setColor(new GradientColor(Arrays.asList(Color.GREEN, Color.BLUE)));
     heatMapSerializer.serialize(heatMap, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();

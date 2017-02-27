@@ -24,7 +24,7 @@ public class HeatMapTest {
   @Test
   public void createHeatMapByEmptyConstructor_hasLegendPositionAndLayoutAreNotNulls() {
     //when
-    HeatMap heatMap = new HeatMap();
+    HeatMapBase heatMap = new HeatMapBase();
     //then
     Assertions.assertThat(heatMap.getLegendPosition()).isNotNull();
     Assertions.assertThat(heatMap.getLegendLayout()).isNotNull();
@@ -33,7 +33,7 @@ public class HeatMapTest {
   @Test
   public void setDataWith2DIntegerArrayParam_hasDataIsNotEmpty() {
     //when
-    HeatMap heatMap = new HeatMap();
+    HeatMapBase heatMap = new HeatMapBase();
     heatMap.setData(
         new Integer[][] {
           new Integer[] {new Integer(1), new Integer(2)},

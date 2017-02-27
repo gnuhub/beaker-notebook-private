@@ -16,7 +16,7 @@
 
 package com.twosigma.beaker.chart.serializer;
 
-import com.twosigma.beaker.chart.xychart.NanoPlot;
+import com.twosigma.beaker.chart.xychart.NanoPlotBase;
 import com.twosigma.beaker.chart.xychart.plotitem.Text;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -34,7 +34,7 @@ public class TextSerializer extends JsonSerializer<Text> {
   public void serialize(Text text, JsonGenerator jgen, SerializerProvider sp)
     throws IOException, JsonProcessingException {
 
-    boolean isNanoPlot = NanoPlot.class.equals(text.getPlotType());
+    boolean isNanoPlot = NanoPlotBase.class.equals(text.getPlotType());
     jgen.writeStartObject();
     jgen.writeObjectField("type", text.getClass().getSimpleName());
     jgen.writeObjectField("x", isNanoPlot ? processLargeNumber(text.getX()) : text.getX());
