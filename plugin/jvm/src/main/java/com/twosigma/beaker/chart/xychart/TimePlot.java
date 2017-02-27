@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class TimePlot extends XYChart {
+public abstract class TimePlot extends XYChart {
 
   public XYChart setXBound(Date lower, Date upper) {
     setXBound((double) lower.getTime(), (double) upper.getTime());

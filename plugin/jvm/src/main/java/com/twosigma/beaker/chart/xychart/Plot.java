@@ -16,7 +16,7 @@
 
 package com.twosigma.beaker.chart.xychart;
 
-public class Plot extends XYChart {
+public abstract class Plot extends XYChart {
 
   @Override
   public XYChart setLogX(boolean logX) {

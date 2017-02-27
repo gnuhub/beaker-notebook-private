@@ -23,7 +23,7 @@ import com.twosigma.beaker.chart.xychart.plotitem.PlotOrientationType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryPlot extends AbstractChart {
+public abstract class CategoryPlot extends AbstractChart {
   private final List<CategoryGraphics> categoryGraphics        = new ArrayList<>();
   private       List<String>           categoryNames           = new ArrayList<>();
   private       PlotOrientationType    orientation             = PlotOrientationType.VERTICAL;

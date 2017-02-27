@@ -36,7 +36,7 @@ import com.twosigma.beaker.table.renderer.TableDisplayCellRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TableDisplay extends ObservableTableDisplay {
+public abstract class TableDisplay extends ObservableTableDisplay {
   public static final String TABLE_DISPLAY_SUBTYPE = "TableDisplay";
   public static final String LIST_OF_MAPS_SUBTYPE = "ListOfMaps";
   public static final String MATRIX_SUBTYPE = "Matrix";

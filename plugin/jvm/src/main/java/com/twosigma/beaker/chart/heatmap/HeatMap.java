@@ -21,7 +21,7 @@ import com.twosigma.beaker.chart.GradientColor;
 import com.twosigma.beaker.chart.legend.LegendLayout;
 import com.twosigma.beaker.chart.legend.LegendPosition;
 
-public class HeatMap extends AbstractChart {
+public abstract class HeatMap extends AbstractChart {
   private Number[][] data;
   private GradientColor color = GradientColor.BROWN_RED_YELLOW;
 

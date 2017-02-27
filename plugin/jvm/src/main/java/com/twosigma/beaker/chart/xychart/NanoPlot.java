@@ -16,5 +16,5 @@
 
 package com.twosigma.beaker.chart.xychart;
 
-public class NanoPlot extends TimePlot{
+public abstract class NanoPlot extends TimePlot{
 }
