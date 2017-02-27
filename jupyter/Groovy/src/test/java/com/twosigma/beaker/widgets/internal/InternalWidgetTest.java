@@ -32,7 +32,7 @@ public class InternalWidgetTest {
       //when
       InternalWidget widget = clazz.newInstance();
       //then
-      verifyOpenCommMsgInternalWidgets(groovyKernel.getMessages(), widget.getModelNameValue(), widget.getViewNameValue());
+      verifyOpenCommMsgInternalWidgets(groovyKernel.getPublishedMessages(), widget.getModelNameValue(), widget.getViewNameValue());
     });
   }
 
@@ -43,7 +43,7 @@ public class InternalWidgetTest {
       //when
       widget.sendModel();
       //then
-      String valueForProperty = getValueForProperty(groovyKernel.getMessages().get(1), MODEL, String.class);
+      String valueForProperty = getValueForProperty(groovyKernel.getPublishedMessages().get(1), MODEL, String.class);
       assertThat(valueForProperty).isNotNull();
     });
   }

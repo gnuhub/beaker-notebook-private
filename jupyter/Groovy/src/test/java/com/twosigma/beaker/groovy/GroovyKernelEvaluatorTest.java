@@ -21,10 +21,10 @@ import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.zeromq.ZMQ;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 import java.util.Set;
 
 public class GroovyKernelEvaluatorTest implements GroovyKernelFunctionality {
@@ -77,7 +77,12 @@ public class GroovyKernelEvaluatorTest implements GroovyKernelFunctionality {
     }
 
     @Override
-    public Serializable getId() {
+    public String getId() {
+        return null;
+    }
+
+    @Override
+    public Observer getExecutionResultSender() {
         return null;
     }
 

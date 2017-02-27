@@ -40,10 +40,10 @@ public class SerializeToStringInternalWidgetsTest {
       //when
       SerializeToString.doit(internalWidget);
       //then
-      assertThat(groovyKernel.getMessages().size()).isEqualTo(3);
-      verifyOpenMsg(groovyKernel.getMessages().get(0));
-      verifyModelMsg(groovyKernel.getMessages().get(1));
-      verifyDisplayMsg(groovyKernel.getMessages().get(2));
+      assertThat(groovyKernel.getPublishedMessages().size()).isEqualTo(3);
+      verifyOpenMsg(groovyKernel.getPublishedMessages().get(0));
+      verifyModelMsg(groovyKernel.getPublishedMessages().get(1));
+      verifyDisplayMsg(groovyKernel.getPublishedMessages().get(2));
     });
   }
 
