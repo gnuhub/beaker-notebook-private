@@ -94,7 +94,7 @@ public class SerializeToString {
     internalWidgetMap.put(Histogram.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.TimePlot.class, new Object());
     internalWidgetMap.put(Plot.class, new Object());
-    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.SimpleTimePlot.class, new Object());
+    internalWidgetMap.put(SimpleTimePlot.class, new Object());
     internalWidgetMap.put(CombinedPlot.class, new Object());
     internalWidgetMap.put(NanoPlot.class, new Object());
 

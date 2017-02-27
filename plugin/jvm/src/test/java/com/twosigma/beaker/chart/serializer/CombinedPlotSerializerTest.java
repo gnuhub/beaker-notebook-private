@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.twosigma.beaker.chart.xychart.CombinedPlotBase;
 import com.twosigma.beaker.chart.xychart.PlotBase;
-import com.twosigma.beaker.chart.xychart.SimpleTimePlot;
+import com.twosigma.beaker.chart.xychart.SimpleTimePlotBase;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -138,7 +138,7 @@ public class CombinedPlotSerializerTest {
     //when
     CombinedPlotBase combinedPlot = new CombinedPlotBase();
     combinedPlot.add(
-        new SimpleTimePlot(createDataForSimpleTimePlot(), Arrays.asList("m3", "time")));
+        new SimpleTimePlotBase(createDataForSimpleTimePlot(), Arrays.asList("m3", "time")));
     combinedPlotSerializer.serialize(combinedPlot, jgen, new DefaultSerializerProvider.Impl());
     jgen.flush();
     //then

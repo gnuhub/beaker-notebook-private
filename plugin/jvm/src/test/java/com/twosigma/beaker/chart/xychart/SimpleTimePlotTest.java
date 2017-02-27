@@ -40,7 +40,7 @@ public class SimpleTimePlotTest {
   @Test
   public void callConstructorWithDataAndColumns_shouldCreateSimpleTimePlot() {
     //when
-    SimpleTimePlot simpleTimePlot = new SimpleTimePlot(rates, Arrays.asList("m3", "time", "num"));
+    SimpleTimePlotBase simpleTimePlot = new SimpleTimePlotBase(rates, Arrays.asList("m3", "time", "num"));
     //then
     Assertions.assertThat(simpleTimePlot).isNotNull();
   }
@@ -48,15 +48,15 @@ public class SimpleTimePlotTest {
   @Test
   public void callConstructorWithParamsAndDataAndColumns_shouldCreateSimpleTimePlot() {
     //when
-    SimpleTimePlot simpleTimePlot =
-        new SimpleTimePlot(parameters, rates, Arrays.asList("m3", "time", "num"));
+    SimpleTimePlotBase simpleTimePlot =
+        new SimpleTimePlotBase(parameters, rates, Arrays.asList("m3", "time", "num"));
     //then
     Assertions.assertThat(simpleTimePlot).isNotNull();
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void createInstanceWithStringValues_throwIllegalArgumentException() {
-    new SimpleTimePlot(rates, Arrays.asList("m3", "str", "time", "num"));
+    new SimpleTimePlotBase(rates, Arrays.asList("m3", "str", "time", "num"));
   }
 
   private void createDataForSimpleTimePlot() {

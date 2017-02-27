@@ -25,7 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class SimpleTimePlot extends TimePlot {
+public class SimpleTimePlotBase extends TimePlot {
 
   private List<Map<String, Object>> data;
   private String timeColumn = "time";
@@ -36,13 +36,13 @@ public class SimpleTimePlot extends TimePlot {
   private boolean displayPoints = false;
 
 
-  public SimpleTimePlot(List<Map<String, Object>> data, List<String> columns) {
+  public SimpleTimePlotBase(List<Map<String, Object>> data, List<String> columns) {
     this(null, data, columns);
   }
 
-  public SimpleTimePlot(Map<String, Object> parameters,
-                        List<Map<String, Object>> data,
-                        List<String> columns) {
+  public SimpleTimePlotBase(Map<String, Object> parameters,
+                            List<Map<String, Object>> data,
+                            List<String> columns) {
 
     this.data = data;
     this.columns = columns;

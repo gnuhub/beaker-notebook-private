@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.chart.xychart;
+package com.twosigma.beaker.chart.xychart;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimpleTimePlot extends com.twosigma.beaker.chart.xychart.SimpleTimePlot  implements InternalWidget, InternalPlot {
+public class SimpleTimePlot extends SimpleTimePlotBase implements InternalWidget, InternalPlot {
 
   private Comm comm;
 
