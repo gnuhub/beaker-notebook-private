@@ -18,11 +18,19 @@ package com.twosigma.beaker.chart.histogram;
 
 import com.twosigma.beaker.chart.AbstractChart;
 import com.twosigma.beaker.chart.Color;
+import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.widgets.chart.InternalPlot;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
+import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class Histogram extends AbstractChart {
+public class Histogram extends AbstractChart implements InternalWidget, InternalPlot {
 
   public enum DisplayMode {
     OVERLAP,
@@ -45,6 +53,23 @@ public class Histogram extends AbstractChart {
 
   private DisplayMode displayMode = DisplayMode.OVERLAP;
 
+
+  private Comm comm;
+
+  public Histogram() {
+    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
+      @Override
+      public void addContent(HashMap<String, Serializable> content) {
+        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
+        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
+      }
+    });
+  }
+
+  @Override
+  public Comm getComm() {
+    return this.comm;
+  }
 
   public Integer getRangeMin() {
     return rangeMin;
