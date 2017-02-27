@@ -15,20 +15,20 @@
  */
 package com.twosigma.beaker.chart.serializer;
 
-import com.twosigma.beaker.chart.heatmap.HeatMap;
+import com.twosigma.beaker.chart.heatmap.HeatMapBase;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.IOException;
 
-public class HeatMapSerializer extends AbstractChartSerializer<HeatMap> {
+public class HeatMapSerializer extends AbstractChartSerializer<HeatMapBase> {
 
   public static final String GRAPHICS_LIST = "graphics_list";
   public static final String COLOR = "color";
 
   @Override
-  public void serialize(HeatMap heatmap, JsonGenerator jgen, SerializerProvider sp)
+  public void serialize(HeatMapBase heatmap, JsonGenerator jgen, SerializerProvider sp)
     throws IOException, JsonProcessingException {
 
     jgen.writeStartObject();

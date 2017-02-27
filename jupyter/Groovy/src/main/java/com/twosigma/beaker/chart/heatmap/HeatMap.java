@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.chart.heatmap;
+package com.twosigma.beaker.chart.heatmap;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class HeatMap extends com.twosigma.beaker.chart.heatmap.HeatMap implements InternalWidget, InternalPlot {
+public class HeatMap extends HeatMapBase implements InternalWidget, InternalPlot {
 
   private Comm comm;
 
