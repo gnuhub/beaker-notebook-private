@@ -16,7 +16,7 @@
 
 package com.twosigma.beaker.chart.serializer;
 
-import com.twosigma.beaker.chart.xychart.CombinedPlot;
+import com.twosigma.beaker.chart.xychart.CombinedPlotBase;
 import com.twosigma.beaker.chart.xychart.XYChart;
 import java.io.IOException;
 import java.util.List;
@@ -28,12 +28,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  * XYCombinedChartSerializer
  *
  */
-public class CombinedPlotSerializer extends ObservableChartSerializer<CombinedPlot> {
+public class CombinedPlotSerializer extends ObservableChartSerializer<CombinedPlotBase> {
 
   public static final String X_LABEL = "x_label";
 
   @Override
-  public void serialize(CombinedPlot plot, JsonGenerator jgen, SerializerProvider sp)
+  public void serialize(CombinedPlotBase plot, JsonGenerator jgen, SerializerProvider sp)
       throws IOException, JsonProcessingException
   {
     jgen.writeStartObject();

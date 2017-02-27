@@ -39,7 +39,7 @@ import com.twosigma.beaker.chart.histogram.HistogramBase;
 import com.twosigma.beaker.chart.legend.LegendPosition;
 import com.twosigma.beaker.chart.serializer.*;
 import com.twosigma.beaker.chart.treemap.TreeMap;
-import com.twosigma.beaker.chart.xychart.CombinedPlot;
+import com.twosigma.beaker.chart.xychart.CombinedPlotBase;
 import com.twosigma.beaker.chart.xychart.XYChart;
 import com.twosigma.beaker.chart.xychart.plotitem.*;
 import com.twosigma.beaker.easyform.EasyForm;
@@ -164,7 +164,7 @@ public class SerializerModule extends AbstractModule {
       module.addSerializer(Color.class, injector.getInstance(ColorSerializer.class));
       module.addSerializer(GradientColor.class, injector.getInstance(GradientColorSerializer.class));
       module.addSerializer(XYChart.class, injector.getInstance(XYChartSerializer.class));
-      module.addSerializer(CombinedPlot.class, injector.getInstance(CombinedPlotSerializer.class));
+      module.addSerializer(CombinedPlotBase.class, injector.getInstance(CombinedPlotSerializer.class));
       module.addSerializer(Line.class, injector.getInstance(LineSerializer.class));
       module.addSerializer(Points.class, injector.getInstance(PointsSerializer.class));
       module.addSerializer(Bars.class, injector.getInstance(BarsSerializer.class));

@@ -25,7 +25,7 @@ import java.util.List;
  * CombinedPlot
  *
  */
-public abstract class CombinedPlot extends ObservableChart{
+public abstract class CombinedPlotBase extends ObservableChart{
   private int initWidth = 640;
   private int initHeight = 480;
   private String title;
@@ -35,7 +35,7 @@ public abstract class CombinedPlot extends ObservableChart{
   private boolean xTickLabelsVisible = true;
   private boolean yTickLabelsVisible = true;
 
-  public CombinedPlot setInitWidth(int w) {
+  public CombinedPlotBase setInitWidth(int w) {
     this.initWidth = w;
     return this;
   }
@@ -44,7 +44,7 @@ public abstract class CombinedPlot extends ObservableChart{
     return this.initWidth;
   }
 
-  public CombinedPlot setInitHeight(int h) {
+  public CombinedPlotBase setInitHeight(int h) {
     this.initHeight = h;
     return this;
   }
@@ -53,7 +53,7 @@ public abstract class CombinedPlot extends ObservableChart{
     return this.initHeight;
   }
 
-  public CombinedPlot setTitle(String title) {
+  public CombinedPlotBase setTitle(String title) {
     this.title = title;
     return this;
   }
@@ -62,12 +62,12 @@ public abstract class CombinedPlot extends ObservableChart{
     return this.title;
   }
 
-  public CombinedPlot setXLabel(String xLabel) {
+  public CombinedPlotBase setXLabel(String xLabel) {
     this.xLabel = xLabel;
     return this;
   }
 
-  public CombinedPlot setxLabel(String xLabel) {
+  public CombinedPlotBase setxLabel(String xLabel) {
     this.xLabel = xLabel;
     return this;
   }
@@ -76,19 +76,19 @@ public abstract class CombinedPlot extends ObservableChart{
     return this.xLabel;
   }
 
-  public CombinedPlot add(XYChart plot, int weight) {
+  public CombinedPlotBase add(XYChart plot, int weight) {
     this.subplots.add(plot);
     this.weights.add(weight);
     return this;
   }
 
-  public CombinedPlot add(XYChart plot) {
+  public CombinedPlotBase add(XYChart plot) {
     this.subplots.add(plot);
     this.weights.add(1);
     return this;
   }
 
-  public CombinedPlot leftShift(Object obj) {
+  public CombinedPlotBase leftShift(Object obj) {
     if (obj instanceof XYChart) {
       this.add((XYChart) obj, 1);
     } else if (obj instanceof List && ((List) obj).size() == 2) {

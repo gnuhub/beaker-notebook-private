@@ -20,7 +20,7 @@ import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
 import com.twosigma.beaker.chart.histogram.HistogramBase;
 import com.twosigma.beaker.chart.treemap.TreeMap;
 import com.twosigma.beaker.chart.heatmap.HeatMapBase;
-import com.twosigma.beaker.chart.xychart.CombinedPlot;
+import com.twosigma.beaker.chart.xychart.CombinedPlotBase;
 import com.twosigma.beaker.chart.xychart.Plot;
 import com.twosigma.beaker.chart.xychart.XYChart;
 import com.twosigma.beaker.chart.xychart.plotitem.XYGraphics;
@@ -56,8 +56,8 @@ public class PlotObjectSerializer extends BasicObjectSerializer {
         jgen.writeObject((TreeMap) obj);
       } else if (expand && obj instanceof TreeMapNode) {
         jgen.writeObject((TreeMapNode) obj);
-      } else if (expand && obj instanceof CombinedPlot) {
-        jgen.writeObject((CombinedPlot) obj);
+      } else if (expand && obj instanceof CombinedPlotBase) {
+        jgen.writeObject((CombinedPlotBase) obj);
       }else if (expand && obj instanceof HeatMapBase) {
         jgen.writeObject((HeatMapBase) obj);
       } else {

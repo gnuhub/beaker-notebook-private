@@ -24,7 +24,7 @@ import com.twosigma.beaker.chart.actions.CombinedPlotActionObject;
 import com.twosigma.beaker.chart.actions.GraphicsActionObject;
 import com.twosigma.beaker.chart.actions.GraphicsKeyActionObject;
 import com.twosigma.beaker.chart.categoryplot.CategoryPlotBase;
-import com.twosigma.beaker.chart.xychart.CombinedPlot;
+import com.twosigma.beaker.chart.xychart.CombinedPlotBase;
 import com.twosigma.beaker.chart.xychart.XYChart;
 import org.apache.commons.lang3.StringUtils;
 
@@ -95,8 +95,8 @@ public class ChartRest {
       graphics = ((XYChart)chart).getGraphics();
     } else if (chart instanceof CategoryPlotBase) {
       graphics = ((CategoryPlotBase)chart).getGraphics();
-    } else if (chart instanceof CombinedPlot){
-      XYChart subplot = ((CombinedPlot) chart).getSubplots().get(((CombinedPlotActionObject)info).getSubplotIndex());
+    } else if (chart instanceof CombinedPlotBase){
+      XYChart subplot = ((CombinedPlotBase) chart).getSubplots().get(((CombinedPlotActionObject)info).getSubplotIndex());
       graphics = subplot.getGraphics();
     }
     return graphics;
