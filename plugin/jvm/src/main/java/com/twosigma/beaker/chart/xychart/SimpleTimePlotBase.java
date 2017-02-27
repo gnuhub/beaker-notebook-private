@@ -25,7 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class SimpleTimePlotBase extends TimePlot {
+public class SimpleTimePlotBase extends TimePlotBase {
 
   private List<Map<String, Object>> data;
   private String timeColumn = "time";

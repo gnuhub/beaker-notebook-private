@@ -13,8 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.chart.xychart;
+package com.twosigma.beaker.chart.xychart;
 
+import com.twosigma.beaker.chart.xychart.TimePlotBase;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
@@ -26,7 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 
-public class TimePlot extends com.twosigma.beaker.chart.xychart.TimePlot implements InternalWidget, InternalPlot {
+public class TimePlot extends TimePlotBase implements InternalWidget, InternalPlot {
 
   private Comm comm;
 

@@ -39,7 +39,7 @@ public class TimePlotTest {
   @Test
   public void setXBoundWithTwoDatesParams_shouldSetXBoundParams() {
     //when
-    TimePlot timePlot = new TimePlot();
+    TimePlotBase timePlot = new TimePlotBase();
     timePlot.setXBound(lowerBound, upperBound);
     //then
     Assertions.assertThat(timePlot.getXLowerBound()).isGreaterThan(0);
@@ -50,7 +50,7 @@ public class TimePlotTest {
   @Test
   public void setXBoundWithListParam_shouldSetXBoundParams() {
     //when
-    TimePlot timePlot = new TimePlot();
+    TimePlotBase timePlot = new TimePlotBase();
     timePlot.setXBound(Arrays.asList(lowerBound, upperBound));
     //then
     Assertions.assertThat(timePlot.getXLowerBound()).isGreaterThan(0);
