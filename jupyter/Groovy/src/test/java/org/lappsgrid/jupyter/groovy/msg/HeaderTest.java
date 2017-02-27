@@ -23,13 +23,13 @@ import org.lappsgrid.jupyter.groovy.json.Serializer;
 public class HeaderTest {
 
   private static String srcJson =
-      "{" +
-          "\"version\":\"5.0\"," +
-          "\"msg_type\":\"execute_request\"," +
-          "\"msg_id\":\"9CEE9EE3351643CD83A6C2A29401A942\"," +
-          "\"username\":\"username\"," +
-          "\"session\":\"605DC3793F6F402698418908DBC7C572\"" +
-          "}";
+      "{"
+          + "\"version\":\"5.0\","
+          + "\"msg_type\":\"execute_request\","
+          + "\"msg_id\":\"9CEE9EE3351643CD83A6C2A29401A942\","
+          + "\"username\":\"username\","
+          + "\"session\":\"605DC3793F6F402698418908DBC7C572\""
+          + "}";
 
   @Test
   public void serializeConfig_createConfigWithProperties() {

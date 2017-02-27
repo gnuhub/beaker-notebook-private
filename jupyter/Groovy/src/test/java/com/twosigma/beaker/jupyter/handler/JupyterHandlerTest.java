@@ -16,9 +16,11 @@
 
 package com.twosigma.beaker.jupyter.handler;
 
+import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.GroovyKernelJupyterTest;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
+import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +46,8 @@ public class JupyterHandlerTest {
   private CommOpenHandler commOpenHandler;
   private CommCloseHandler commCloseHandler;
   private CommInfoHandler commInfoHandler;
+  private CommMsgHandler commMsgHandler;
+  private ExecuteRequestHandler executeRequestHandler;
 
   public static Message initCloseMessage() {
     Map<String, Serializable> content = new LinkedHashMap<>();
@@ -144,6 +148,9 @@ public class JupyterHandlerTest {
     commOpenHandler = new CommOpenHandler(groovyKernel);
     commCloseHandler = new CommCloseHandler(groovyKernel);
     commInfoHandler = new CommInfoHandler(groovyKernel);
+    commMsgHandler = new CommMsgHandler(groovyKernel, new MessageCreator(groovyKernel));
+    executeRequestHandler =
+        new ExecuteRequestHandler(groovyKernel, new GroovyEvaluatorManager(groovyKernel));
   }
 
   @Test
@@ -190,5 +197,46 @@ public class JupyterHandlerTest {
     Assertions.assertThat(groovyKernel.getSendMessages()).isNotEmpty();
     Message sendMessage = groovyKernel.getSendMessages().get(0);
     Assertions.assertThat((Map) sendMessage.getContent().get(COMMS)).isNotEmpty();
+  }
+
+  @Test
+  public void commInfoHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
+    //given
+    Message message = new Message();
+    //when
+    commInfoHandler.handle(message);
+  }
+
+  @Test
+  public void commOpenHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
+    //given
+    Message message = new Message();
+    //wnen
+    commOpenHandler.handle(message);
+  }
+
+  @Test
+  public void commMsgHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
+    //given
+    Message message = new Message();
+    //when
+    commMsgHandler.handle(message);
+  }
+
+  @Test
+  public void commCloseHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
+    //given
+    Message message = new Message();
+    //when
+    commCloseHandler.handle(message);
+  }
+
+  @Test
+  public void executeRequestHandlerHandleEmptyMessage_dontThrowNullPointerException()
+      throws Exception {
+    //given
+    Message message = new Message();
+    //when
+    executeRequestHandler.handle(message);
   }
 }
