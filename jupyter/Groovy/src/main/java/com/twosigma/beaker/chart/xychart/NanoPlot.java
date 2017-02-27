@@ -16,7 +16,6 @@
 
 package com.twosigma.beaker.chart.xychart;
 
-import com.twosigma.beaker.chart.xychart.plotitem.XYGraphics;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;

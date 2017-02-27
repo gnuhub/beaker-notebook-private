@@ -91,7 +91,7 @@ public class SerializeToString {
     internalWidgetMap.put(com.twosigma.beaker.chart.heatmap.HeatMap.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.chart.histogram.Histogram.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.TimePlot.class, new Object());
-    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.Plot.class, new Object());
+    internalWidgetMap.put(com.twosigma.beaker.chart.xychart.Plot.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.SimpleTimePlot.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.chart.xychart.CombinedPlot.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.chart.xychart.NanoPlot.class, new Object());
