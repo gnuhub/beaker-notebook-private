@@ -15,6 +15,8 @@
  */
 package com.twosigma.beaker.table;
 
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.Set;
 
 import com.twosigma.beaker.chart.Color;
+import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jvm.serialization.BasicObjectSerializer;
 
 import com.twosigma.beaker.jvm.serialization.BeakerObjectConverter;
@@ -33,10 +36,18 @@ import com.twosigma.beaker.table.format.ValueStringFormat;
 import com.twosigma.beaker.table.highlight.TableDisplayCellHighlighter;
 import com.twosigma.beaker.table.highlight.ValueHighlighter;
 import com.twosigma.beaker.table.renderer.TableDisplayCellRenderer;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
+import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TableDisplay extends ObservableTableDisplay {
+public class TableDisplay extends ObservableTableDisplay implements InternalWidget {
+
+
+  public static final String VIEW_NAME_VALUE = "TableDisplayView";
+  public static final String MODEL_NAME_VALUE = "TableDisplayModel";
+
   public static final String TABLE_DISPLAY_SUBTYPE = "TableDisplay";
   public static final String LIST_OF_MAPS_SUBTYPE = "ListOfMaps";
   public static final String MATRIX_SUBTYPE = "Matrix";
@@ -66,6 +77,15 @@ public class TableDisplay extends ObservableTableDisplay {
   private List<List<?>> filteredValues;
   private boolean headersVertical;
 
+  private Comm comm;
+
+
+  @Override
+  public Comm getComm() {
+    return this.comm;
+  }
+
+
   public TableDisplay(List<List<?>> v, List<String> co, List<String> cl) {
     values = v;
     columns = co;
@@ -75,6 +95,13 @@ public class TableDisplay extends ObservableTableDisplay {
 
   public TableDisplay(Collection<Map<?,?>> v) {
     this(v, new BasicObjectSerializer());
+    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
+      @Override
+      public void addContent(HashMap<String, Serializable> content) {
+        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
+        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
+      }
+    });
   }
 
   public TableDisplay(Collection<Map<?,?>> v, BeakerObjectConverter serializer) {
