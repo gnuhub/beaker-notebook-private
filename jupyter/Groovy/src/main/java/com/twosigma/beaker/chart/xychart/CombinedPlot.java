@@ -17,15 +17,24 @@
 package com.twosigma.beaker.chart.xychart;
 
 import com.twosigma.beaker.chart.ObservableChart;
+import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.widgets.CommFunctionality;
+import com.twosigma.beaker.widgets.chart.InternalPlot;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
+import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * CombinedPlot
  *
  */
-public class CombinedPlot extends ObservableChart{
+public class CombinedPlot extends ObservableChart implements InternalWidget, InternalPlot {
   private int initWidth = 640;
   private int initHeight = 480;
   private String title;
@@ -34,6 +43,24 @@ public class CombinedPlot extends ObservableChart{
   private List<Integer> weights = new ArrayList<>();
   private boolean xTickLabelsVisible = true;
   private boolean yTickLabelsVisible = true;
+
+  private Comm comm;
+
+  public CombinedPlot(){
+    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
+      @Override
+      public void addContent(HashMap<String, Serializable> content) {
+        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
+        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
+      }
+    });
+  }
+
+  @Override
+  public Comm getComm() {
+    return this.comm;
+  }
+
 
   public CombinedPlot setInitWidth(int w) {
     this.initWidth = w;
