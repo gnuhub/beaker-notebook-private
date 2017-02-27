@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.widgets.chart.histogram;
+package com.twosigma.beaker.chart.histogram;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.widgets.chart.InternalPlot;
@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-public class Histogram extends com.twosigma.beaker.chart.histogram.Histogram implements InternalWidget, InternalPlot {
+public class Histogram extends HistogramBase implements InternalWidget, InternalPlot {
 
   private Comm comm;
 

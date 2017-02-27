@@ -35,7 +35,7 @@ import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryLines;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryPoints;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryStems;
 import com.twosigma.beaker.chart.heatmap.HeatMapBase;
-import com.twosigma.beaker.chart.histogram.Histogram;
+import com.twosigma.beaker.chart.histogram.HistogramBase;
 import com.twosigma.beaker.chart.legend.LegendPosition;
 import com.twosigma.beaker.chart.serializer.*;
 import com.twosigma.beaker.chart.treemap.TreeMap;
@@ -199,7 +199,7 @@ public class SerializerModule extends AbstractModule {
       module.addSerializer(TreeMap.class, injector.getInstance(TreeMapSerializer.class));
       module.addSerializer(TreeMapNode.class, injector.getInstance(TreeMapNodeSerializer.class));
 
-      module.addSerializer(Histogram.class, injector.getInstance(HistogramSerializer.class));
+      module.addSerializer(HistogramBase.class, injector.getInstance(HistogramSerializer.class));
 
       module.addSerializer(HeatMapBase.class, injector.getInstance(HeatMapSerializer.class));
 

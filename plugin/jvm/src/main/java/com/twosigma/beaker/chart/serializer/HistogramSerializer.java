@@ -16,7 +16,7 @@
 
 package com.twosigma.beaker.chart.serializer;
 
-import com.twosigma.beaker.chart.histogram.Histogram;
+import com.twosigma.beaker.chart.histogram.HistogramBase;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,7 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
+public class HistogramSerializer extends AbstractChartSerializer<HistogramBase> {
 
   public static final String GRAPHICS_LIST = "graphics_list";
   public static final String BIN_COUNT = "bin_count";
@@ -37,7 +37,7 @@ public class HistogramSerializer extends AbstractChartSerializer<Histogram> {
   public static final String LOG = "log";
 
   @Override
-  public void serialize(Histogram histogram, JsonGenerator jgen, SerializerProvider provider) throws
+  public void serialize(HistogramBase histogram, JsonGenerator jgen, SerializerProvider provider) throws
                                                                                               IOException,
                                                                                               JsonProcessingException {
     jgen.writeStartObject();

@@ -23,6 +23,7 @@ import java.util.Map;
 
 import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
 import com.twosigma.beaker.chart.heatmap.HeatMap;
+import com.twosigma.beaker.chart.histogram.Histogram;
 import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.table.serializer.TableDisplaySerializer;
 import com.fasterxml.jackson.core.Version;
@@ -39,7 +40,7 @@ import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryLines;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryPoints;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryStems;
 import com.twosigma.beaker.chart.heatmap.HeatMapBase;
-import com.twosigma.beaker.chart.histogram.Histogram;
+import com.twosigma.beaker.chart.histogram.HistogramBase;
 import com.twosigma.beaker.chart.legend.LegendPosition;
 import com.twosigma.beaker.chart.serializer.AreaSerializer;
 import com.twosigma.beaker.chart.serializer.BarsSerializer;
@@ -91,7 +92,7 @@ public class SerializeToString {
     internalWidgetMap.put(com.twosigma.beaker.widgets.table.TableDisplay.class, new Object());
     internalWidgetMap.put(CategoryPlot.class, new Object());
     internalWidgetMap.put(HeatMap.class, new Object());
-    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.histogram.Histogram.class, new Object());
+    internalWidgetMap.put(Histogram.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.TimePlot.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.Plot.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.SimpleTimePlot.class, new Object());
@@ -120,7 +121,7 @@ public class SerializeToString {
     serializerMap.put(CategoryLines.class, new CategoryLinesSerializer());
     serializerMap.put(CategoryPlotBase.class, new CategoryPlotSerializer());
     serializerMap.put(GradientColor.class, new GradientColorSerializer());
-    serializerMap.put(Histogram.class, new HistogramSerializer());
+    serializerMap.put(HistogramBase.class, new HistogramSerializer());
     serializerMap.put(HeatMapBase.class, new HeatMapSerializer());
 
     SimpleModule module = new SimpleModule("MySerializer", new Version(1, 0, 0, null));
