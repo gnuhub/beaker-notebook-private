@@ -19,17 +19,42 @@ package com.twosigma.beaker.chart.categoryplot;
 import com.twosigma.beaker.chart.AbstractChart;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
 import com.twosigma.beaker.chart.xychart.plotitem.PlotOrientationType;
+import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.widgets.chart.InternalPlot;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetContent;
+import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class CategoryPlot extends AbstractChart {
+public class CategoryPlot extends AbstractChart implements InternalWidget, InternalPlot {
   private final List<CategoryGraphics> categoryGraphics        = new ArrayList<>();
   private       List<String>           categoryNames           = new ArrayList<>();
   private       PlotOrientationType    orientation             = PlotOrientationType.VERTICAL;
   private       double                 categoryMargin          = 0.2;
   private       double                 categoryNamesLabelAngle = 0;
 
+
+  private Comm comm;
+
+  public CategoryPlot() {
+    this.comm = InternalWidgetUtils.createComm(this, new InternalWidgetContent() {
+      @Override
+      public void addContent(HashMap<String, Serializable> content) {
+        content.put(InternalWidgetUtils.MODEL_NAME, MODEL_NAME_VALUE);
+        content.put(InternalWidgetUtils.VIEW_NAME, VIEW_NAME_VALUE);
+      }
+    });
+  }
+
+  @Override
+  public Comm getComm() {
+    return this.comm;
+  }
 
   public CategoryPlot leftShift(CategoryGraphics graphics) {
     return add(graphics);

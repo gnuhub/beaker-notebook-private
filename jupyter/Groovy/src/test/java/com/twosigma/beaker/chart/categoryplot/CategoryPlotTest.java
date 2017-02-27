@@ -16,13 +16,14 @@
 
 package com.twosigma.beaker.chart.categoryplot;
 
-import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryBars;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryLines;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryPoints;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryStems;
 import com.twosigma.beaker.chart.xychart.plotitem.PlotOrientationType;
+import com.twosigma.beaker.jupyter.GroovyKernelManager;
+import com.twosigma.beaker.widgets.GroovyKernelTest;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +48,7 @@ public class CategoryPlotTest {
     categoryPoints.setValue(new List[] {Arrays.asList(array1), Arrays.asList(array2)});
     categoryStems = new CategoryStems();
     categoryStems.setValue(new List[] {Arrays.asList(array1), Arrays.asList(array2)});
+    GroovyKernelManager.register(new GroovyKernelTest());
   }
 
   @Test
