@@ -18,7 +18,7 @@ package com.twosigma.beaker.jupyter.handler;
 
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.EXECUTE_INPUT;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
-import com.twosigma.beaker.jupyter.msg.MessageCreator;
+import com.twosigma.beaker.jupyter.commands.MagicCommand;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -42,13 +42,13 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
 
   protected int executionCount;
   protected GroovyEvaluatorManager evaluatorManager;
-  private MessageCreator messageCreator;
+  private MagicCommand magicCommand;
 
   public ExecuteRequestHandler(GroovyKernel kernel, GroovyEvaluatorManager evaluatorManager) {
     super(kernel);
     logger = LoggerFactory.getLogger(this.getClass());
     this.evaluatorManager = evaluatorManager;
-    messageCreator = new MessageCreator(kernel);
+    magicCommand = new MagicCommand(kernel);
     executionCount = 0;
   }
 
@@ -83,11 +83,14 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
       evaluatorManager.executeCode(code, message, executionCount);
       // execution response in ExecuteResultHandler
     } else {
+      String command = code.substring(0, code.indexOf('\n'));
       try {
-        messageCreator.createMagicMessage(code, executionCount,message);
-      } catch (IOException e) {
-        e.printStackTrace();
-      } catch (InterruptedException e) {
+        if(magicCommand.commands.containsKey(command)){
+          magicCommand.commands.get(command).process(code, message, executionCount);
+        }else{
+          magicCommand.processUnknownCommand(command, message, executionCount);
+        }
+      } catch (IOException | InterruptedException e) {
         e.printStackTrace();
       }
     }

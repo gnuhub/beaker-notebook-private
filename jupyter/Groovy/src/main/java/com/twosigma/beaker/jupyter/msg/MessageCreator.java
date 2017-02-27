@@ -21,9 +21,7 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.EXECUTE_RESULT;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STREAM;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -72,7 +70,7 @@ public class MessageCreator {
     return reply;
   }
 
-  private Message buildMessage(Message message, String code, int executionCount) {
+  public Message buildMessage(Message message, String code, int executionCount) {
     Message reply = initMessage(EXECUTE_RESULT,message);
     reply.setContent(new HashMap<String, Serializable>());
     reply.getContent().put("execution_count", executionCount);
@@ -107,50 +105,21 @@ public class MessageCreator {
     return reply;
   }
 
-  public synchronized void createMagicMessage(String code, int executionCount, Message message) throws NoSuchAlgorithmException, IOException, InterruptedException {
-    List<MessageHolder> ret = new ArrayList<>();
-    if (code.startsWith("%%javascript")) {
-      code = "<html><script>" + code.replace("%%javascript", "") + "</script></html>";
-      logger.info("Execution result is: " + (code == null ? "null" : "") + "HTML");
-      kernel.publish(buildMessage(message, code, executionCount));
-    } else if (code.startsWith("%%html")) {
-      code = "<html>" + code.replace("%%html", "") + "</html>";
-      logger.info("Execution result is: " + (code == null ? "null" : "") + "HTML");
-      kernel.publish(buildMessage(message, code, executionCount));
-    } else if (code.startsWith("%%bash")) {
-      String result = executeBashCode(code.replace("%%bash", ""));
-      Message reply = initMessage(STREAM, message);
-      reply.setContent(new HashMap<String, Serializable>());
-      reply.getContent().put("name", "stdout");
-      reply.getContent().put("text", result);
-      kernel.publish(reply);
-    } else if(code.startsWith("%%cd")) {
-      code = code.replace("%%cd", "").isEmpty()? "pwd": code.replace("%%cd", "cd") + "; pwd";
-      String result = executeBashCode(code);
-      Message reply = initMessage(STREAM, message);
-      reply.setContent(new HashMap<String, Serializable>());
-      reply.getContent().put("name", "stdout");
-      reply.getContent().put("text", result);
-      kernel.publish(reply);
-    }
-    kernel.publish(buildReply(message, executionCount, ret));
+  public Message buildOutputMessage(Message message, String text, boolean hasError) {
+    Message reply = initMessage(STREAM, message);
+    reply.setContent(new HashMap<String, Serializable>());
+    reply.getContent().put("name", hasError ? "stderr" : "stdout");
+    reply.getContent().put("text", text);
+    logger.info("Console output:", "Error: " + hasError, text);
+    return reply;
   }
 
-  private String executeBashCode(String code) throws IOException, InterruptedException {
-    String[] cmd = {"/bin/bash", "-c",code};
-    ProcessBuilder pb = new ProcessBuilder(cmd);
-    pb.redirectErrorStream(true);
-    Process process = pb.start();
-    process.waitFor();
-    String line;
-    StringBuffer output = new StringBuffer();
-    BufferedReader reader = new BufferedReader(new InputStreamReader(
-        process.getInputStream()));
-    while ((line = reader.readLine()) != null) {
-      output.append(line + "\n");
-    }
-    process.destroy();
-    return output.toString();
+  public synchronized void createMagicMessage(Message reply, int executionCount, Message message) throws NoSuchAlgorithmException, IOException, InterruptedException {
+    List<MessageHolder> ret = new ArrayList<>();
+    //execution_result
+    kernel.publish(reply);
+    //execution_reply
+    kernel.publish(buildReply(message, executionCount, ret));
   }
 
   public synchronized List<MessageHolder> createMessage(SimpleEvaluationObject seo){
@@ -161,12 +130,7 @@ public class MessageCreator {
     if(seo.getConsoleOutput() != null && !seo.getConsoleOutput().isEmpty()){
       while(!seo.getConsoleOutput().isEmpty()){
         ConsoleOutput co = seo.getConsoleOutput().poll(); //FIFO : peek to see, poll -- removes the data
-        Message reply = initMessage(STREAM, message);
-        reply.setContent(new HashMap<String, Serializable>());
-        reply.getContent().put("name", co.isError() ? "stderr" : "stdout");
-        reply.getContent().put("text", co.getText());
-        logger.info("Console output:", "Error: " + co.isError(), co.getText());
-        ret.add(new MessageHolder(SocketEnum.IOPUB_SOCKET, reply));
+        ret.add(new MessageHolder(SocketEnum.IOPUB_SOCKET, buildOutputMessage(message,co.getText(),co.isError())));
       }
     }else if(EvaluationStatus.FINISHED == seo.getStatus() || EvaluationStatus.ERROR == seo.getStatus()){
 
