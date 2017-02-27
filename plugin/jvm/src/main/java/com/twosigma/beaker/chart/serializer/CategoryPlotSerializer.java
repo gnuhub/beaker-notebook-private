@@ -16,7 +16,7 @@
 
 package com.twosigma.beaker.chart.serializer;
 
-import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
+import com.twosigma.beaker.chart.categoryplot.CategoryPlotBase;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -25,12 +25,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.util.List;
 
-public class CategoryPlotSerializer extends AbstractChartSerializer<CategoryPlot> {
+public class CategoryPlotSerializer extends AbstractChartSerializer<CategoryPlotBase> {
 
   public static final String GRAPHICS_LIST = "graphics_list";
 
   @Override
-  public void serialize(CategoryPlot categoryPlot, JsonGenerator jgen, SerializerProvider provider) throws
+  public void serialize(CategoryPlotBase categoryPlot, JsonGenerator jgen, SerializerProvider provider) throws
                                                                                              IOException,
                                                                                              JsonProcessingException {
     jgen.writeStartObject();

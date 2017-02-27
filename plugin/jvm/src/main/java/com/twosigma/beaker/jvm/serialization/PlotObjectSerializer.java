@@ -15,7 +15,7 @@
  */
 package com.twosigma.beaker.jvm.serialization;
 
-import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
+import com.twosigma.beaker.chart.categoryplot.CategoryPlotBase;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryGraphics;
 import com.twosigma.beaker.chart.histogram.Histogram;
 import com.twosigma.beaker.chart.treemap.TreeMap;
@@ -46,10 +46,10 @@ public class PlotObjectSerializer extends BasicObjectSerializer {
         jgen.writeObject((XYChart) obj);
       } else if (expand && obj instanceof XYGraphics) {
         jgen.writeObject(new Plot().add((XYGraphics) obj));
-      } else if (expand && obj instanceof CategoryPlot) {
-        jgen.writeObject((CategoryPlot) obj);
+      } else if (expand && obj instanceof CategoryPlotBase) {
+        jgen.writeObject((CategoryPlotBase) obj);
       } else if (expand && obj instanceof CategoryGraphics) {
-        jgen.writeObject(new CategoryPlot().add((CategoryGraphics) obj));
+        jgen.writeObject(new CategoryPlotBase().add((CategoryGraphics) obj));
       } else if (expand && obj instanceof Histogram) {
         jgen.writeObject((Histogram) obj);
       } else if (expand && obj instanceof TreeMap) {

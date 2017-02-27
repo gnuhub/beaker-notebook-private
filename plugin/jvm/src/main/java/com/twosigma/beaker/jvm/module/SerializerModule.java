@@ -29,7 +29,7 @@ import com.twosigma.beaker.BeakerCodeCell;
 import com.twosigma.beaker.BeakerProgressUpdate;
 import com.twosigma.beaker.chart.Color;
 import com.twosigma.beaker.chart.GradientColor;
-import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
+import com.twosigma.beaker.chart.categoryplot.CategoryPlotBase;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryBars;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryLines;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryPoints;
@@ -194,7 +194,7 @@ public class SerializerModule extends AbstractModule {
       module.addSerializer(CategoryStems.class, injector.getInstance(CategoryStemsSerializer.class));
       module.addSerializer(CategoryPoints.class, injector.getInstance(CategoryPointsSerializer.class));
       module.addSerializer(CategoryLines.class, injector.getInstance(CategoryLinesSerializer.class));
-      module.addSerializer(CategoryPlot.class, injector.getInstance(CategoryPlotSerializer.class));
+      module.addSerializer(CategoryPlotBase.class, injector.getInstance(CategoryPlotSerializer.class));
 
       module.addSerializer(TreeMap.class, injector.getInstance(TreeMapSerializer.class));
       module.addSerializer(TreeMapNode.class, injector.getInstance(TreeMapNodeSerializer.class));

@@ -21,6 +21,7 @@ import java.io.StringWriter;
 import java.util.Hashtable;
 import java.util.Map;
 
+import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
 import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.table.serializer.TableDisplaySerializer;
 import com.fasterxml.jackson.core.Version;
@@ -31,7 +32,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 
 import com.twosigma.beaker.chart.Color;
 import com.twosigma.beaker.chart.GradientColor;
-import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
+import com.twosigma.beaker.chart.categoryplot.CategoryPlotBase;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryBars;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryLines;
 import com.twosigma.beaker.chart.categoryplot.plotitem.CategoryPoints;
@@ -87,7 +88,7 @@ public class SerializeToString {
   static {
 
     internalWidgetMap.put(com.twosigma.beaker.widgets.table.TableDisplay.class, new Object());
-    internalWidgetMap.put(com.twosigma.beaker.widgets.chart.categoryplot.CategoryPlot.class, new Object());
+    internalWidgetMap.put(CategoryPlot.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.heatmap.HeatMap.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.histogram.Histogram.class, new Object());
     internalWidgetMap.put(com.twosigma.beaker.widgets.chart.xychart.TimePlot.class, new Object());
@@ -116,7 +117,7 @@ public class SerializeToString {
     serializerMap.put(CategoryStems.class, new CategoryStemsSerializer());
     serializerMap.put(CategoryPoints.class, new CategoryPointsSerializer());
     serializerMap.put(CategoryLines.class, new CategoryLinesSerializer());
-    serializerMap.put(CategoryPlot.class, new CategoryPlotSerializer());
+    serializerMap.put(CategoryPlotBase.class, new CategoryPlotSerializer());
     serializerMap.put(GradientColor.class, new GradientColorSerializer());
     serializerMap.put(Histogram.class, new HistogramSerializer());
     serializerMap.put(HeatMap.class, new HeatMapSerializer());

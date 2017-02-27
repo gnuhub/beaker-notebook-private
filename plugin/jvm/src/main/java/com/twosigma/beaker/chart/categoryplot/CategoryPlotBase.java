@@ -23,7 +23,7 @@ import com.twosigma.beaker.chart.xychart.plotitem.PlotOrientationType;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CategoryPlot extends AbstractChart {
+public class CategoryPlotBase extends AbstractChart {
   private final List<CategoryGraphics> categoryGraphics        = new ArrayList<>();
   private       List<String>           categoryNames           = new ArrayList<>();
   private       PlotOrientationType    orientation             = PlotOrientationType.VERTICAL;
@@ -31,7 +31,7 @@ public abstract class CategoryPlot extends AbstractChart {
   private       double                 categoryNamesLabelAngle = 0;
 
 
-  public CategoryPlot leftShift(CategoryGraphics graphics) {
+  public CategoryPlotBase leftShift(CategoryGraphics graphics) {
     return add(graphics);
   }
 
@@ -39,12 +39,12 @@ public abstract class CategoryPlot extends AbstractChart {
     return this.categoryGraphics;
   }
 
-  public CategoryPlot add(CategoryGraphics graphics) {
+  public CategoryPlotBase add(CategoryGraphics graphics) {
     this.categoryGraphics.add(graphics);
     return this;
   }
 
-  public CategoryPlot add(List items) {
+  public CategoryPlotBase add(List items) {
     for (Object o : items) {
       if (o instanceof CategoryGraphics) {
         add((CategoryGraphics) o);
@@ -59,7 +59,7 @@ public abstract class CategoryPlot extends AbstractChart {
     return categoryNames;
   }
 
-  public CategoryPlot setCategoryNames(List<String> categoryNames) {
+  public CategoryPlotBase setCategoryNames(List<String> categoryNames) {
     this.categoryNames = categoryNames;
     return this;
   }

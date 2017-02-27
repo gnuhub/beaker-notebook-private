@@ -20,11 +20,10 @@ package com.twosigma.beaker.chart.categoryplot.plotitem;
 import com.twosigma.beaker.chart.ChartUtils;
 import com.twosigma.beaker.chart.Color;
 import com.twosigma.beaker.chart.Graphics;
-import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
+import com.twosigma.beaker.chart.categoryplot.CategoryPlotBase;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public abstract class CategoryGraphics extends Graphics {
     return null;
   }
 
-  public void createItemLabels(CategoryPlot plot) {
+  public void createItemLabels(CategoryPlotBase plot) {
     if (itemLabelBuilder == null || value == null) {
       this.itemLabels = null;
       return;
