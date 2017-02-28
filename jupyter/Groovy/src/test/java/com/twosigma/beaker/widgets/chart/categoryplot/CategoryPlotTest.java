@@ -15,6 +15,7 @@
  */
 package com.twosigma.beaker.widgets.chart.categoryplot;
 
+import com.twosigma.beaker.chart.categoryplot.CategoryPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 

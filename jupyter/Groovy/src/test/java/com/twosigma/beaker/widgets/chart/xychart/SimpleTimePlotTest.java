@@ -16,6 +16,7 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
+import com.twosigma.beaker.chart.xychart.SimpleTimePlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
