@@ -19,3 +19,5 @@ For a development installation (requires npm),
     $ pip install -e .
     $ jupyter nbextension install --py --symlink --sys-prefix beaker-nbextension
     $ jupyter nbextension enable --py --sys-prefix beaker-nbextension
+    $ cd js
+    $ npm i
