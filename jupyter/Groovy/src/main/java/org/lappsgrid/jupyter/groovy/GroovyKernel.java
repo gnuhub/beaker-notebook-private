@@ -367,6 +367,8 @@ public class GroovyKernel implements GroovyKernelFunctionality{
       }
     };
     Signal.handle(new Signal("SIGINT"), handler);
+    Signal.handle(new Signal("INT"), handler);
+    Signal.handle(new Signal("TERM"), handler);
   }
 
   public String getId() {
