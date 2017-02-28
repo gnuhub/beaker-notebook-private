@@ -1,0 +1,8 @@
+
+task install() {
+  doLast {
+    exec {
+      commandLine "npm", "i"
+    }
+  }
+}
