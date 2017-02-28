@@ -16,6 +16,7 @@
  */
 package com.twosigma.beaker.widgets.chart.histogram;
 
+import com.twosigma.beaker.chart.histogram.Histogram;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 

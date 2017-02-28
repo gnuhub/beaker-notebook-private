@@ -15,6 +15,7 @@
  */
 package com.twosigma.beaker.widgets.chart.xychart;
 
+import com.twosigma.beaker.chart.xychart.NanoPlot;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidgetTest;
 
