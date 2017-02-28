@@ -14,13 +14,13 @@ def winOrUnix(Object... args) {
 task install() {
   doLast {
     exec {
-      commandLine 'pip', "install", "-e", "."
+      commandLine(*(winOrUnix('pip', "install", "-e", ".")))
     }
     exec {
-      commandLine "jupyter", "nbextension", "install", "--py", "--symlink", "--sys-prefix", "beaker-nbextension"
+      commandLine(*(winOrUnix("jupyter", "nbextension", "install", "--py", "--symlink", "--sys-prefix", "beaker-nbextension")))
     }
     exec {
-      commandLine "jupyter", "nbextension", "enable", "--py", "--sys-prefix", "beaker-nbextension"
+      commandLine(*(winOrUnix("jupyter", "nbextension", "enable", "--py", "--sys-prefix", "beaker-nbextension")))
     }
     project('js').tasks.install.execute()
   }

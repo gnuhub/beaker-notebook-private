@@ -1,8 +1,7 @@
-
 task install() {
   doLast {
     exec {
-      commandLine "npm", "i"
+      commandLine(*(winOrUnix("npm", "i")))
     }
   }
 }
