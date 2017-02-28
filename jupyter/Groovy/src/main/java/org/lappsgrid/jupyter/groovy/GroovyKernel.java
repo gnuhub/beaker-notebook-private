@@ -360,7 +360,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     GroovyKernel kernel = new GroovyKernel();
     GroovyKernelManager.register(kernel);
     kernel.connectionFile = config;
-    kernel.run();
+
     SignalHandler handler = new SignalHandler () {
       public void handle(Signal sig) {
         logger.info("Ignoring KILL signal, will handle it another way");
@@ -369,6 +369,8 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     Signal.handle(new Signal("SIGINT"), handler);
     Signal.handle(new Signal("INT"), handler);
     Signal.handle(new Signal("TERM"), handler);
+
+    kernel.run();
   }
 
   public String getId() {
