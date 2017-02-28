@@ -18,9 +18,12 @@ package com.twosigma.beaker.groovy.evaluator;
 
 import com.twosigma.beaker.groovy.GroovyKernelEvaluatorTest;
 import com.twosigma.beaker.groovy.NamespaceClient;
+import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.Script;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 import java.io.IOException;
@@ -42,6 +45,13 @@ public class GroovyEvaluatorTest {
     groovyClassLoader = groovyEvaluator.newEvaluator();
     scriptBinding = new Binding();
     scriptBinding.setVariable("beaker", NamespaceClient.getBeaker("345"));
+    groovyKernel = new GroovyKernelEvaluatorTest();
+    GroovyKernelManager.register(groovyKernel);
+  }
+
+  @AfterClass
+  public static void tearDown() throws Exception {
+    GroovyKernelManager.register(null);
   }
 
   public Object parseClassFromScript(String script) {
