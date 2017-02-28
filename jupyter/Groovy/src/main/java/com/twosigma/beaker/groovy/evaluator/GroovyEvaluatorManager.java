@@ -20,8 +20,8 @@ import static com.twosigma.beaker.groovy.GroovyDefaultVariables.IMPORTS;
 import static com.twosigma.beaker.groovy.GroovyDefaultVariables.OUT_DIR;
 
 import java.io.IOException;
-import java.util.List;
 
+import com.twosigma.beaker.groovy.autocomplete.AutocompleteResult;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
@@ -46,7 +46,7 @@ public class GroovyEvaluatorManager {
     groovyEvaluator.startWorker();
   }
 
-  public List<String> autocomplete(String code, int caretPosition){
+  public AutocompleteResult autocomplete(String code, int caretPosition){
     return groovyEvaluator.autocomplete(code,caretPosition);
   }
 

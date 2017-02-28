@@ -5,9 +5,9 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMPLETE_REPLY;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import com.twosigma.beaker.groovy.autocomplete.AutocompleteResult;
 import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
 import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Header;
@@ -44,7 +44,7 @@ public class CompleteHandler extends AbstractHandler<Message> {
     String code = ((String) message.getContent().get(CODE)).trim();
     int cursorPos = ((int) message.getContent().get(CURSOR_POS));
 
-    List<String> autocomplete = evaluatorManager.autocomplete(code, cursorPos);
+    AutocompleteResult autocomplete = evaluatorManager.autocomplete(code, cursorPos);
 
     Message reply = new Message();
     reply.setHeader(new Header(COMPLETE_REPLY, message.getHeader().getSession()));
@@ -52,17 +52,11 @@ public class CompleteHandler extends AbstractHandler<Message> {
     reply.setParentHeader(message.getHeader());
     Map<String, Serializable> content = new HashMap<String, Serializable>();
     content.put(STATUS, "ok");
-    content.put(MATCHES, autocomplete.toArray());
+    content.put(MATCHES, autocomplete.getMatches().toArray());
     content.put(CURSOR_END, cursorPos);
-    content.put(CURSOR_START, calculateCursorStart(code, cursorPos));
+    content.put(CURSOR_START, autocomplete.getStartIndex());
 
     reply.setContent(content);
     send(reply);
-  }
-
-  private int calculateCursorStart(String code, int cursorPos) {
-    String codeToCursorPos = code.substring(0, cursorPos);
-    String codeToTheLastDot = codeToCursorPos.substring(0, codeToCursorPos.lastIndexOf("."));
-    return codeToTheLastDot.length()+1;
   }
 }

@@ -34,6 +34,7 @@ import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.twosigma.beaker.groovy.autocomplete.AutocompleteResult;
 import com.twosigma.beaker.groovy.autocomplete.GroovyAutocomplete;
 import com.twosigma.beaker.groovy.autocomplete.GroovyClasspathScanner;
 import com.twosigma.beaker.jvm.classloader.DynamicClassLoaderSimple;
@@ -330,7 +331,7 @@ public void evaluate(SimpleEvaluationObject seo, String code) {
     syncObject.release();
   }
 
-  public List<String> autocomplete(String code, int caretPosition) {
+  public AutocompleteResult autocomplete(String code, int caretPosition) {
      return gac.doAutocomplete(code, caretPosition, loader);
   }
 

@@ -49,7 +49,7 @@ public class CompleteHandlerTest {
     completeHandler.handle(message);
     //then
     assertThat(kernel.getSentMessages().size()).isEqualTo(1);
-    verifyReplyMsg(kernel.getSentMessages().get(0));
+    verifyAutocompleteMsg(kernel.getSentMessages().get(0),38,44);
   }
 
   @Test
@@ -61,26 +61,15 @@ public class CompleteHandlerTest {
      completeHandler.handle(message);
     //then
     assertThat(kernel.getSentMessages().size()).isEqualTo(1);
+    verifyAutocompleteMsg(kernel.getSentMessages().get(0),27,comment.length()+2);
   }
 
-  private void verifyReplyMsg(final Message reply) {
+  private void verifyAutocompleteMsg(Message reply, int expectedCursorStart, int expectedCursorEnd) {
     Map<String, Serializable> content = reply.getContent();
-    verifyMatches(content);
-    verifyCursorEnd(content);
-    verifyCursorStart(content);
-  }
-
-  private void verifyCursorStart(Map<String, Serializable> content) {
     int cursorStart = (int) content.get(CURSOR_START);
-    assertThat(cursorStart).isEqualTo(38);
-  }
-
-  private void verifyCursorEnd(Map<String, Serializable> content) {
-    int cursorStart = (int) content.get(CURSOR_END);
-    assertThat(cursorStart).isEqualTo(44);
-  }
-
-  private void verifyMatches(Map<String, Serializable> content) {
+    assertThat(cursorStart).isEqualTo(expectedCursorStart);
+    int cursorEnd = (int) content.get(CURSOR_END);
+    assertThat(cursorEnd).isEqualTo(expectedCursorEnd);
     Object[] matches = (Object[]) content.get(MATCHES);
     assertThat(matches).isNotEmpty();
   }
