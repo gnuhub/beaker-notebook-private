@@ -61,7 +61,7 @@ public class MagicCommand {
       messageCreator.createMagicMessage(messageCreator.buildOutputMessage(message, result, false), executionCount, message);
     });
     commands.put("%cd", (code, message, executionCount) -> {
-      code = code.replace("%%cd", "").isEmpty() ? "pwd" : code.replace("%cd", "cd") + "; pwd";
+      code = code.replace("%cd", "").isEmpty() ? "pwd" : code.replace("%cd", "cd") + "; pwd";
       String result = executeBashCode(code);
       messageCreator.createMagicMessage(messageCreator.buildOutputMessage(message, result, false), executionCount, message);
     });
