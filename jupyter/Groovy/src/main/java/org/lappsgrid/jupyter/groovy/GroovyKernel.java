@@ -30,6 +30,8 @@ import org.lappsgrid.jupyter.groovy.threads.StdinThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;
+import sun.misc.Signal;
+import sun.misc.SignalHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -359,6 +361,12 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     GroovyKernelManager.register(kernel);
     kernel.connectionFile = config;
     kernel.run();
+    SignalHandler handler = new SignalHandler () {
+      public void handle(Signal sig) {
+        logger.info("Ignoring KILL signal, will handle it another way");
+      }
+    };
+    Signal.handle(new Signal("INT"), handler);
   }
 
   public String getId() {
