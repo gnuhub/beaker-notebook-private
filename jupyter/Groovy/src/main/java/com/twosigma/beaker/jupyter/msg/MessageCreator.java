@@ -21,7 +21,6 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.EXECUTE_RESULT;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STREAM;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -114,12 +113,14 @@ public class MessageCreator {
     return reply;
   }
 
-  public synchronized void createMagicMessage(Message reply, int executionCount, Message message) throws NoSuchAlgorithmException, IOException, InterruptedException {
+  public synchronized void createMagicMessage(Message reply, int executionCount, Message message)  {
     List<MessageHolder> ret = new ArrayList<>();
-    //execution_result
-    kernel.publish(reply);
-    //execution_reply
-    kernel.publish(buildReply(message, executionCount, ret));
+    try {
+      kernel.publish(reply);
+      kernel.publish(buildReply(message, executionCount, ret));
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
   }
 
   public synchronized List<MessageHolder> createMessage(SimpleEvaluationObject seo){

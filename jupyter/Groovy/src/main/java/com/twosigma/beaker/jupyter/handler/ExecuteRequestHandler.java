@@ -20,7 +20,6 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.EXECUTE_INPUT;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
 import com.twosigma.beaker.jupyter.commands.MagicCommand;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -80,19 +79,15 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
     publish(reply);
 
     ++executionCount;
-    if (!code.startsWith("%%")) {
+    if (!code.startsWith("%")) {
       evaluatorManager.executeCode(code, message, executionCount);
       // execution response in ExecuteResultHandler
     } else {
       String command = new Scanner(code).next();
-      try {
-        if(magicCommand.commands.containsKey(command)){
-          magicCommand.commands.get(command).process(code, message, executionCount);
-        }else{
-          magicCommand.processUnknownCommand(command, message, executionCount);
-        }
-      } catch (IOException | InterruptedException e) {
-        e.printStackTrace();
+      if (magicCommand.commands.containsKey(command)) {
+        magicCommand.commands.get(command).process(code, message, executionCount);
+      } else {
+        magicCommand.processUnknownCommand(command, message, executionCount);
       }
     }
   }
