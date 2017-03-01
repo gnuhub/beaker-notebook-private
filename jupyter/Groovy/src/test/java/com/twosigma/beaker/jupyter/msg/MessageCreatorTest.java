@@ -39,7 +39,7 @@ public class MessageCreatorTest {
   }
 
   @Test
-  public void shouldReturnNullStringForNull() throws Exception {
+  public void createMessageWithNullResult_shouldReturnNullStringForNull() throws Exception {
     //given
     SimpleEvaluationObject seo = new SimpleEvaluationObject(null);
     seo.setJupyterMessage(new Message());
@@ -52,7 +52,7 @@ public class MessageCreatorTest {
   }
 
   @Test
-  public void shouldReturnResult() throws Exception {
+  public void createMessageWithNotNullResult_shouldReturnResult() throws Exception {
     //given
     SimpleEvaluationObject seo = new SimpleEvaluationObject("1/1");
     seo.setJupyterMessage(new Message());
@@ -62,6 +62,19 @@ public class MessageCreatorTest {
     //then
     Map data = TestWidgetUtils.getData(message.get(0).getMessage());
     assertThat(data.get(MessageCreator.TEXT_PLAIN)).isEqualTo("1");
+  }
+
+  @Test
+  public void createMessageWithNotNullResult_createThreeMessages() throws Exception {
+    //given
+    SimpleEvaluationObject seo = new SimpleEvaluationObject("code");
+    seo.setJupyterMessage(new Message());
+    seo.finished("result");
+    //when
+    List<MessageHolder> messages = messageCreator.createMessage(seo);
+    //then
+    assertThat(messages).isNotEmpty();
+    assertThat(messages.size()).isEqualTo(3);
   }
 
 }
