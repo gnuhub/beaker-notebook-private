@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
-import static com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorResultWatcher.waitForResult;
+import static com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorResultTestWatcher.waitForResult;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GroovyEvaluatorPassingSimpleEvaluationObjectTest {

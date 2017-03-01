@@ -21,12 +21,10 @@ import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.zeromq.ZMQ;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
-import java.util.Set;
 import java.util.Set;
 
 public class GroovyKernelTest implements GroovyKernelFunctionality {
@@ -69,12 +67,10 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
 
   @Override
   public void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {
-
   }
 
   @Override
   public void send(Message message) throws NoSuchAlgorithmException {
-
   }
 
   @Override
@@ -93,33 +89,7 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   }
 
   @Override
-  public void send(Message message) throws NoSuchAlgorithmException {
-
-  }
-
-  @Override
-  public void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {
-
-  }
-
-  @Override
-  public boolean isCommPresent(String string) {
-    return false;
-  }
-
-  @Override
-  public Comm getComm(String string) {
-    return null;
-  }
-
-  @Override
-  public Set<String> getCommHashSet() {
-    return null;
-  }
-
-  @Override
-  public Serializable getId() {
-    return "";
+  public void setShellOptions(String usString, String usString1, String o) {
   }
 
   public List<Message> getMessages() {

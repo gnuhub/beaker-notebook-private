@@ -114,7 +114,6 @@ public class MessageCreator {
 
   public synchronized List<MessageHolder> createMessage(SimpleEvaluationObject seo){
     logger.info("Creating message responce message from: " + seo);
-
     List<MessageHolder> ret = new ArrayList<>();
     Message message = (Message)seo.getJupyterMessage();
     
