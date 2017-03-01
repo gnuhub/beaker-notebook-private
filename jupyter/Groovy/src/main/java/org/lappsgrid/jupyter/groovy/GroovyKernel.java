@@ -59,6 +59,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
   private volatile boolean running = false;
   private static final String DELIM = "<IDS|MSG>";
+  private static String OS = System.getProperty("os.name").toLowerCase();
   /**
    * Used to generate the HMAC signatures for messages
    */
@@ -93,6 +94,22 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     executionResultSender = new ExecutionResultSender(this);
     groovyEvaluatorManager = new GroovyEvaluatorManager(this);
     installHandlers();
+    if(!isWindows()){
+      SignalHandler handler = new SignalHandler () {
+        public void handle(Signal sig) {
+          logger.info("Ignoring KILL signal");
+        }
+      };
+      Signal.handle(new Signal("INT"), handler);
+    }
+  }
+
+  private static boolean isWindows() {
+    return (OS.indexOf("win") >= 0);
+  }
+
+  public void cancelExecution() {
+    groovyEvaluatorManager.killAllThreads();
   }
 
   public void shutdown() {
@@ -120,10 +137,6 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
   public synchronized void setShellOptions(String cp, String in, String od){
     groovyEvaluatorManager.setShellOptions(cp, in, od);
-  }
-
-  public synchronized void cancelExecution(){
-    groovyEvaluatorManager.killAllThreads();
   }
 
   public synchronized boolean isCommPresent(String hash){
@@ -360,13 +373,6 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     GroovyKernel kernel = new GroovyKernel();
     GroovyKernelManager.register(kernel);
     kernel.connectionFile = config;
-
-    SignalHandler handler = new SignalHandler () {
-      public void handle(Signal sig) {
-        logger.info("Ignoring KILL signal, will handle it another way");
-      }
-    };
-    Signal.handle(new Signal("INT"), handler);
     kernel.run();
   }
 
@@ -381,5 +387,6 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   public Message getParentMessage(){
     return NamespaceClient.getBeaker() != null && NamespaceClient.getBeaker().getOutputObj() != null ? (Message)NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
   }
+
 
 }
