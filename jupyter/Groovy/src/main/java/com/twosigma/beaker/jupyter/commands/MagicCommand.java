@@ -60,11 +60,6 @@ public class MagicCommand {
       String result = executeBashCode(code.replace("%%bash", ""));
       messageCreator.createMagicMessage(messageCreator.buildOutputMessage(message, result, false), executionCount, message);
     });
-    commands.put("%cd", (code, message, executionCount) -> {
-      code = code.replace("%cd", "").isEmpty() ? "pwd" : code.replace("%cd", "cd") + "; pwd";
-      String result = executeBashCode(code);
-      messageCreator.createMagicMessage(messageCreator.buildOutputMessage(message, result, false), executionCount, message);
-    });
     commands.put("%lsmagic", (code, message, executionCount) -> {
       String result = "Available magic commands:\n";
       result += commands.entrySet().stream()
