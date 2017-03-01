@@ -141,7 +141,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   }
   
   public synchronized Comm getComm(String hash){
-    return commMap.get(hash);
+      return commMap.get(hash != null ? hash : "");
   }
   
   public synchronized List<Comm> getCommByTargetName(String targetName){
@@ -161,7 +161,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   }
   
   public synchronized void removeComm(String hash){
-    if(isCommPresent(hash)){
+    if(hash != null && isCommPresent(hash)){
       commMap.remove(hash);
     }
   }
@@ -211,7 +211,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   }
 
   public <T> T parse(byte[] bytes, Class<T> theClass) {
-    return Serializer.parse(new String(bytes), theClass);
+    return bytes != null ? Serializer.parse(new String(bytes), theClass) : null;
   }
 
   /**
