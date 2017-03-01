@@ -34,6 +34,7 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   private ExecutionResultSender executionResultSender = new ExecutionResultSender(this);
 
   public GroovyKernelTest() {
+    this("groovyKernelTestId1");
   }
 
   public GroovyKernelTest(String id) {
