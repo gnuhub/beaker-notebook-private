@@ -96,8 +96,8 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
     SignalHandler handler = new SignalHandler () {
       public void handle(Signal sig) {
+        logger.info("Got " + sig.getName() + " signal, canceling cell execution");
         cancelExecution();
-        logger.info("Ignoring "+ sig.getName() +" signal, Interrupting cell executions");
       }
     };
     if(!isWindows()){
