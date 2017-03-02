@@ -13,21 +13,6 @@ import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
-import static com.twosigma.beaker.jupyter.Utils.uuid;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.handler.CompleteHandler;
 import org.lappsgrid.jupyter.groovy.handler.HistoryHandler;
@@ -44,6 +29,21 @@ import org.lappsgrid.jupyter.groovy.threads.StdinThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static com.twosigma.beaker.jupyter.Utils.uuid;
 
 /**
  * The entry point for the Jupyter kernel.
@@ -117,6 +117,11 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
   public synchronized void setShellOptions(String cp, String in, String od){
     groovyEvaluatorManager.setShellOptions(cp, in, od);
+  }
+
+  @Override
+  public synchronized void cancelExecution() {
+    groovyEvaluatorManager.killAllThreads();
   }
 
   public synchronized boolean isCommPresent(String hash){

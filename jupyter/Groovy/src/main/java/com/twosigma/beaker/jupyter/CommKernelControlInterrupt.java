@@ -15,7 +15,7 @@
  */
 package com.twosigma.beaker.jupyter;
 
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
+import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
@@ -43,7 +43,7 @@ public class CommKernelControlInterrupt extends AbstractHandler<Message> {
 
   private static final Logger logger = LoggerFactory.getLogger(CommKernelControlInterrupt.class);
 
-  public CommKernelControlInterrupt(GroovyKernel kernel) {
+  public CommKernelControlInterrupt(GroovyKernelFunctionality kernel) {
     super(kernel);
   }
 
