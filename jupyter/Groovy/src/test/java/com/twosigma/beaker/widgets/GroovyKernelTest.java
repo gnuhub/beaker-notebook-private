@@ -110,4 +110,6 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   public void clearSentMessages(){
     this.sentMessages = new ArrayList<>();
   }
+
+  public void cancelExecution(){}
 }

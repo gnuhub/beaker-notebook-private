@@ -37,7 +37,7 @@ public class GroovyEvaluatorManager {
     groovyEvaluator.startWorker();
   }
 
-  public synchronized void setShellOptions(String cp, String in, String od){
+  public synchronized void setShellOptions(String cp, String in, String od) {
     try {
       groovyEvaluator.setShellOptions(cp, in, od);
     } catch (IOException e) {
@@ -46,11 +46,15 @@ public class GroovyEvaluatorManager {
     groovyEvaluator.startWorker();
   }
 
-  public AutocompleteResult autocomplete(String code, int caretPosition){
+  public AutocompleteResult autocomplete(String code, int caretPosition) {
     return groovyEvaluator.autocomplete(code,caretPosition);
   }
 
-  public synchronized void executeCode(String code, Message message, int executionCount){
+  public synchronized void killAllThreads() {
+    groovyEvaluator.killAllThreads();
+  }
+
+  public synchronized void executeCode(String code, Message message, int executionCount) {
     SimpleEvaluationObject seo = new SimpleEvaluationObject(code);
     seo.setJupyterMessage(message);
     seo.setExecutionCount(executionCount);
