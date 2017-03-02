@@ -15,6 +15,7 @@
  */
 package com.twosigma.beaker.jupyter.msg;
 
+import com.twosigma.beaker.jupyter.SocketEnum;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
 import com.twosigma.beaker.widgets.TestWidgetUtils;
@@ -75,6 +76,48 @@ public class MessageCreatorTest {
     //then
     assertThat(messages).isNotEmpty();
     assertThat(messages.size()).isEqualTo(3);
+  }
+
+  @Test
+  public void createMessageWithNotNullResult_firstIOPubMessageHasTypeIsExecuteResult() throws Exception {
+    //given
+    SimpleEvaluationObject seo = new SimpleEvaluationObject("code");
+    seo.setJupyterMessage(new Message());
+    seo.finished("result");
+    //when
+    List<MessageHolder> messages = messageCreator.createMessage(seo);
+    //then
+    assertThat(messages).isNotEmpty();
+    assertThat(messages.get(0).getSocketType()).isEqualTo(SocketEnum.IOPUB_SOCKET);
+    assertThat(messages.get(0).getMessage().type()).isEqualTo(JupyterMessages.EXECUTE_RESULT);
+  }
+
+  @Test
+  public void createMessageWithNotNullResult_secondIOPubMessageHasTypeIsStatus() throws Exception {
+    //given
+    SimpleEvaluationObject seo = new SimpleEvaluationObject("code");
+    seo.setJupyterMessage(new Message());
+    seo.finished("result");
+    //when
+    List<MessageHolder> messages = messageCreator.createMessage(seo);
+    //then
+    assertThat(messages).isNotEmpty();
+    assertThat(messages.get(1).getSocketType()).isEqualTo(SocketEnum.IOPUB_SOCKET);
+    assertThat(messages.get(1).getMessage().type()).isEqualTo(JupyterMessages.STATUS);
+  }
+
+  @Test
+  public void createMessageWithNotNullResult_thirdShellMessageHasTypeIsExecuteReply() throws Exception {
+    //given
+    SimpleEvaluationObject seo = new SimpleEvaluationObject("code");
+    seo.setJupyterMessage(new Message());
+    seo.finished("result");
+    //when
+    List<MessageHolder> messages = messageCreator.createMessage(seo);
+    //then
+    assertThat(messages).isNotEmpty();
+    assertThat(messages.get(2).getSocketType()).isEqualTo(SocketEnum.SHELL_SOCKET);
+    assertThat(messages.get(2).getMessage().type()).isEqualTo(JupyterMessages.EXECUTE_REPLY);
   }
 
 }
