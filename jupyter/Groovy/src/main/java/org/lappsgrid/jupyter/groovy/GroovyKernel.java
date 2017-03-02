@@ -58,7 +58,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
   private volatile boolean running = false;
   private static final String DELIM = "<IDS|MSG>";
-  private static String OS = System.getProperty("os.name").toLowerCase();
+  public static String OS = System.getProperty("os.name").toLowerCase();
   /**
    * Used to generate the HMAC signatures for messages
    */
@@ -93,17 +93,19 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     executionResultSender = new ExecutionResultSender(this);
     groovyEvaluatorManager = new GroovyEvaluatorManager(this);
     installHandlers();
+
+    SignalHandler handler = new SignalHandler () {
+      public void handle(Signal sig) {
+        cancelExecution();
+        logger.info("Ignoring "+ sig.getName() +" signal, Interrupting cell executions");
+      }
+    };
     if(!isWindows()){
-      SignalHandler handler = new SignalHandler () {
-        public void handle(Signal sig) {
-          logger.info("Ignoring KILL signal");
-        }
-      };
       Signal.handle(new Signal("INT"), handler);
     }
   }
 
-  private static boolean isWindows() {
+  public static boolean isWindows() {
     return (OS.indexOf("win") >= 0);
   }
 

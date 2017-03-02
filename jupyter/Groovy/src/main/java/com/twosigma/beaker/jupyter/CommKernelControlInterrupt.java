@@ -15,6 +15,7 @@
  */
 package com.twosigma.beaker.jupyter;
 
+import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
@@ -49,14 +50,19 @@ public class CommKernelControlInterrupt extends AbstractHandler<Message> {
 
   @Override
   public void handle(Message message) throws NoSuchAlgorithmException {
-    logger.info("Handing comm message content");
+    logger.info("Handing comm message content (Interrupt)");
     if (message != null) {
       Map<String, Serializable> commMap = message.getContent();
       HashMap<String, Boolean> messageData = (HashMap<String, Boolean>) commMap.get(DATA);
       Object okObject = messageData != null ? messageData.get(KERNEL_INTERRUPT) : null;
       if (okObject != null && okObject instanceof Boolean && ((Boolean) okObject).booleanValue()) {
-        kernel.cancelExecution();
-        Message replay = createReplyMessage(message, true);
+        boolean ok = GroovyKernel.isWindows();
+        if(ok){
+          kernel.cancelExecution();
+        }else{
+          logger.info("Cell execution interrupt not performed, done by SIGINT");
+        }
+        Message replay = createReplyMessage(message, ok);
         publish(replay);
       }
     } else {
