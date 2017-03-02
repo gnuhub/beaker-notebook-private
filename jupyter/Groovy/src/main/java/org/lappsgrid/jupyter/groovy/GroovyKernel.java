@@ -1,6 +1,5 @@
 package org.lappsgrid.jupyter.groovy;
 
-import com.twosigma.beaker.groovy.NamespaceClient;
 import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
@@ -14,6 +13,21 @@ import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
+import static com.twosigma.beaker.jupyter.Utils.uuid;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.handler.CompleteHandler;
 import org.lappsgrid.jupyter.groovy.handler.HistoryHandler;
@@ -30,23 +44,6 @@ import org.lappsgrid.jupyter.groovy.threads.StdinThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static com.twosigma.beaker.jupyter.Utils.uuid;
 
 /**
  * The entry point for the Jupyter kernel.
@@ -59,7 +56,6 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
   private volatile boolean running = false;
   private static final String DELIM = "<IDS|MSG>";
-  private static String OS = System.getProperty("os.name").toLowerCase();
   /**
    * Used to generate the HMAC signatures for messages
    */
@@ -81,7 +77,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   private Map<String, Comm> commMap;
   private ExecutionResultSender executionResultSender;
   private GroovyEvaluatorManager groovyEvaluatorManager;
-  
+
   private ZMQ.Socket hearbeatSocket;
   private ZMQ.Socket controlSocket;
   private ZMQ.Socket shellSocket;
@@ -94,22 +90,6 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     executionResultSender = new ExecutionResultSender(this);
     groovyEvaluatorManager = new GroovyEvaluatorManager(this);
     installHandlers();
-    if(!isWindows()){
-      SignalHandler handler = new SignalHandler () {
-        public void handle(Signal sig) {
-          logger.info("Ignoring KILL signal");
-        }
-      };
-      Signal.handle(new Signal("INT"), handler);
-    }
-  }
-
-  private static boolean isWindows() {
-    return (OS.indexOf("win") >= 0);
-  }
-
-  public void cancelExecution() {
-    groovyEvaluatorManager.killAllThreads();
   }
 
   public void shutdown() {
@@ -184,7 +164,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
    * 
    * @throws NoSuchAlgorithmException
    */
-  public void publish(Message message) throws NoSuchAlgorithmException {
+  public synchronized void publish(Message message) throws NoSuchAlgorithmException {
     send(iopubSocket, message);
   }
 
@@ -383,10 +363,5 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   public ExecutionResultSender getExecutionResultSender() {
     return executionResultSender;
   }
-
-  public Message getParentMessage(){
-    return NamespaceClient.getBeaker() != null && NamespaceClient.getBeaker().getOutputObj() != null ? (Message)NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
-  }
-
 
 }
