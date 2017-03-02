@@ -16,7 +16,6 @@
 package com.twosigma.beaker.jupyter;
 
 import com.twosigma.beaker.groovy.GroovyDefaultVariables;
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;

@@ -16,6 +16,7 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
 import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.zeromq.ZMQ;
@@ -30,10 +31,36 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
 
   private List<Message> publishedMessages = new ArrayList<>();
   private List<Message> sentMessages = new ArrayList<>();
+  private String id;
+  private ExecutionResultSender executionResultSender = new ExecutionResultSender(this);
+
+  public GroovyKernelTest() {
+    this("groovyKernelTestId1");
+  }
+
+  public GroovyKernelTest(String id) {
+    this.id = id;
+  }
+
   @Override
   public void publish(Message message) throws NoSuchAlgorithmException {
     this.publishedMessages.add(message);
   }
+
+  @Override
+  public void send(Message message) throws NoSuchAlgorithmException {
+    this.sentMessages.add(message);
+  }
+
+  @Override
+  public String getId() {
+    return this.id;
+  }
+
+  public Observer getExecutionResultSender() {
+    return this.executionResultSender;
+  }
+
 
   @Override
   public void addComm(String commId, Comm comm) {
@@ -46,23 +73,8 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   }
 
   @Override
-  public Message getParentMessage() {
-    return null;
-  }
-
-  @Override
-  public void send(Message message) throws NoSuchAlgorithmException {
-    this.sentMessages.add(message);
-  }
-
-  @Override
   public void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {
 
-  }
-
-  @Override
-  public boolean isCommPresent(String string) {
-    return false;
   }
 
   @Override
@@ -71,21 +83,15 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   }
 
   @Override
+  public boolean isCommPresent(String string) {
+    return false;
+  }
+
+  @Override
   public Set<String> getCommHashSet() {
     return null;
   }
 
-  @Override
-  public String getId() {
-    return "";
-  }
-
-  @Override
-  public Observer getExecutionResultSender() {
-    return null;
-  }
-
-  @Override
   public void setShellOptions(String usString, String usString1, String o) {
 
   }
@@ -101,8 +107,7 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   public void clearPublishedMessages(){
     this.publishedMessages = new ArrayList<>();
   }
-
-  public void cleaSentMessages(){
+  public void clearSentMessages(){
     this.sentMessages = new ArrayList<>();
   }
 }

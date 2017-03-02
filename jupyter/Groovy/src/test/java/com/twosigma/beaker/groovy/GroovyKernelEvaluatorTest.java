@@ -21,7 +21,6 @@ import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.zeromq.ZMQ;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +41,6 @@ public class GroovyKernelEvaluatorTest implements GroovyKernelFunctionality {
 
   @Override
   public void removeComm(String commId) {}
-
-  @Override
-  public Message getParentMessage() {
-    return null;
-  }
 
   @Override
   public void send(Message message) throws NoSuchAlgorithmException {}
@@ -70,6 +64,11 @@ public class GroovyKernelEvaluatorTest implements GroovyKernelFunctionality {
   }
 
   @Override
+  public void setShellOptions(String usString, String usString1, String o) {
+
+  }
+
+  @Override
   public String getId() {
     return null;
   }
@@ -77,11 +76,6 @@ public class GroovyKernelEvaluatorTest implements GroovyKernelFunctionality {
   @Override
   public Observer getExecutionResultSender() {
     return null;
-  }
-
-  @Override
-  public void setShellOptions(String usString, String usString1, String o) {
-
   }
 
   public List<Message> getMessages() {
