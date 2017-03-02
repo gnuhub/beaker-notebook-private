@@ -13,37 +13,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.lappsgrid.jupyter.groovy;
 
-import com.twosigma.beaker.jupyter.Comm;
+package com.twosigma.beaker.jupyter.commands;
+
 import org.lappsgrid.jupyter.groovy.msg.Message;
-import org.zeromq.ZMQ;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Set;
-import java.util.Observer;
 
-public interface GroovyKernelFunctionality {
 
-  void publish(Message message) throws NoSuchAlgorithmException;
-
-  void addComm(String commId, Comm comm);
-
-  void removeComm(String commId);
-
-  void send(Message message) throws NoSuchAlgorithmException;
-
-  void send(final ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException;
-
-  String getId();
-
-  Observer getExecutionResultSender();
-
-  Comm getComm(String string);
-
-  boolean isCommPresent(String string);
-
-  Set<String> getCommHashSet();
-
-  void setShellOptions(String usString, String usString1, String o);
+public interface MagicCommandFunctionality {
+  void process(String code, Message message, int executionCount);
 }
