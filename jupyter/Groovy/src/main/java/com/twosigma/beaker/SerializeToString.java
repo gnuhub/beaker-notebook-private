@@ -18,7 +18,6 @@ package com.twosigma.beaker;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
 
