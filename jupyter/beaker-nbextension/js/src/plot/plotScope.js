@@ -1698,7 +1698,7 @@ define([
     if (focus.xl > focus.xr || focus.yl > focus.yr || focus.yl_r > focus.yr_r) {
       console.error("visible range specified does not match data range, " +
                     "enforcing visible range");
-      _.extend(focus, self.defaultFocus);
+      _.extend(focus, this.defaultFocus);
     }
   };
 
@@ -1712,7 +1712,7 @@ define([
     var W = plotUtils.safeWidth(self.jqsvg),
       H = plotUtils.safeHeight(self.jqsvg);
     if (mx < lMargin && my < H - bMargin) {
-      _.extend(self.focus, _.pick(self.defaultFocus, "yl", "yr", "yspan"));
+      _.extend(self.focus, _.pick(self.defaultFocus, "yl", "yr", "yspan", "yl_r", "yr_r", "yspan_r"));
     } else if (my > H - bMargin && mx > lMargin) {
       _.extend(self.focus, _.pick(self.defaultFocus, "xl", "xr", "xspan"));
     } else {
@@ -2050,10 +2050,12 @@ define([
     self.disableZoomWheel();
     self.calcRange();
 
+
     // init copies focus to defaultFocus, called only once
     if(_.isEmpty(self.focus)){
       _.extend(self.focus, self.defaultFocus);
     }
+    console.log(self.focus);
 
     // init remove pipe
     self.removePipe = [];

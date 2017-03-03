@@ -322,7 +322,7 @@ define([
           }
         }
         var axisR = model.rangeAxes[1];
-        if (axisR && axisR.auto_range === false) { // change for display labels without bound set
+        if (axisR && axisR.auto_range === false) {
           if (axisR.lower_bound != null) {
             newmodel.userFocus.yl_r = axisR.lower_bound;
           }

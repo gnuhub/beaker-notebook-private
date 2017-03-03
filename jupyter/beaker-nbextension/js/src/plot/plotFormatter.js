@@ -261,6 +261,8 @@ define([
           if (focus.xr != null) { vrange.xr = Math.max(focus.xr, vrange.xr); }
           if (focus.yl != null) { vrange.yl = Math.min(focus.yl, vrange.yl); }
           if (focus.yr != null) { vrange.yr = Math.max(focus.yr, vrange.yr); }
+          if (focus.yl_r != null) { vrange.yl_r = Math.min(focus.yl_r, vrange.yl_r); }
+          if (focus.yr_r != null) { vrange.yr_r = Math.max(focus.yr_r, vrange.yr_r); }
 
           var updateRangeSpan = function(r) {
             if (r) {

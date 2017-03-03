@@ -140,11 +140,15 @@ define([
       return n1 instanceof Big ? n1.div(n2) : n1 / n2;
     },
     getDataRange : function(data) { // data range is in [0,1] x [0,1]
+      console.log('data', data);
+
       var datarange = {
         xl : Infinity,
         xr : -Infinity,
         yl : Infinity,
-        yr : -Infinity
+        yr : -Infinity,
+        yl_r : Infinity,
+        yr_r : -Infinity
       };
       var visibleItem = 0, legendableItem = 0;
       for (var i = 0; i < data.length; i++) {
@@ -154,8 +158,10 @@ define([
         if (data[i].showItem === false) { continue; }
         visibleItem++;
         var itemrange = data[i].getRange();
-        this.updateRange(datarange, itemrange);
+        this.updateRange(datarange, itemrange, data[i].yAxisLabel);
       }
+      console.log('daterange', datarange);debugger;
+
       if (datarange.xl === Infinity && datarange.xr !== -Infinity) {
         datarange.xl = datarange.xr - 1;
       } else if (datarange.xr === -Infinity && datarange.xl !== Infinity) {
@@ -181,6 +187,19 @@ define([
         datarange.yl = datarange.yr;
         datarange.yr = temp;
       }
+      if (datarange.yl_r === Infinity && datarange.yr_r !== -Infinity) {
+        datarange.yl_r = datarange.yr_r - 1;
+      } else if (datarange.yr_r === -Infinity && datarange.yl_r !== Infinity) {
+        datarange.yr_r = datarange.yl_r + 1;
+      }
+      if (visibleItem === 0 || datarange.yl_r === Infinity) {
+        datarange.yl_r = 0;
+        datarange.yr_r = 1;
+      } else if (datarange.yl_r > datarange.yr_r) {
+        var temp = datarange.yl_r;
+        datarange.yl_r = datarange.yr_r;
+        datarange.yr_r = temp;
+      }
 
       var self = this;
       var increaseRange = function(value) {
@@ -198,9 +217,14 @@ define([
         datarange.yl = decreaseRange(datarange.yl);
         datarange.yr = increaseRange(datarange.yr);
       }
+      if (datarange.yl_r === datarange.yr_r) {
+        datarange.yl_r = decreaseRange(datarange.yl_r);
+        datarange.yr_r = increaseRange(datarange.yr_r);
+      }
 
       datarange.xspan = this.minus(datarange.xr, datarange.xl);
       datarange.yspan = datarange.yr - datarange.yl;
+      datarange.yspan_r = datarange.yr_r - datarange.yl_r;
       return {
         "datarange" : datarange,
         "visibleItem" : visibleItem,
@@ -236,11 +260,16 @@ define([
     eq: function(n1, n2){
       return n1 instanceof Big ? n1.eq(n2) : n1 === n2;
     },
-    updateRange : function(datarange, itemrange) {
+    updateRange : function(datarange, itemrange, useSecondY) {
       if (itemrange.xl != null) { datarange.xl = this.min(datarange.xl, itemrange.xl); }
       if (itemrange.xr != null) { datarange.xr = this.max(datarange.xr, itemrange.xr); }
-      if (itemrange.yl != null) { datarange.yl = Math.min(datarange.yl, itemrange.yl); }
-      if (itemrange.yr != null) { datarange.yr = Math.max(datarange.yr, itemrange.yr); }
+      if (useSecondY) {
+        if (itemrange.yl != null) { datarange.yl_r = Math.min(datarange.yl_r, itemrange.yl); }
+        if (itemrange.yr != null) { datarange.yr_r = Math.max(datarange.yr_r, itemrange.yr); }
+      } else {
+        if (itemrange.yl != null) { datarange.yl = Math.min(datarange.yl, itemrange.yl); }
+        if (itemrange.yr != null) { datarange.yr = Math.max(datarange.yr, itemrange.yr); }
+      }
     },
     fonts: {
       labelWidth : 6,
@@ -255,6 +284,8 @@ define([
         range.xr = model.xAxis.getPercent(range.xr);
         range.yl = model.yAxis.getPercent(range.yl);
         range.yr = model.yAxis.getPercent(range.yr);
+        range.yl_r = model.yAxis.getPercent(range.yl_r);
+        range.yr_r = model.yAxis.getPercent(range.yr_r);
       }
       var focus = {
         xl : model.userFocus.xl,
@@ -278,6 +309,9 @@ define([
         focus.xr = parseFloat(focus.xr.toString());
       }
 
+      console.log(model.vrange, range);
+      console.log(model.vrangeR);
+
       if (focus.yl == null) {
         if (model.yIncludeZero === true) {
           var yl = model.vrange.yspan * range.yl + model.vrange.yl;
@@ -291,6 +325,21 @@ define([
       if (focus.yr == null) {
         focus.yr = range.yr + range.yspan * margin.top;
       }
+
+      if (focus.yl_r == null) {
+        if (model.yIncludeZero === true) {
+          var yl_r = model.vrange.yspan_r * range.yl_r + model.vrange.yl_r;
+          if(yl_r > 0){
+            range.yl_r = (0 - model.vrange.yl_r) / model.vrange.yspan_r;
+            range.yspan_r = range.yr_r - range.yl_r;
+          }
+        }
+        focus.yl_r = range.yl_r - range.yspan_r * margin.bottom;
+      }
+      if (focus.yr_r == null) {
+        focus.yr_r = range.yr_r + range.yspan_r * margin.top;
+      }
+
       focus.xspan = focus.xr - focus.xl;
       focus.yspan = focus.yr - focus.yl;
       focus.yspan_r = focus.yr_r - focus.yl_r;
