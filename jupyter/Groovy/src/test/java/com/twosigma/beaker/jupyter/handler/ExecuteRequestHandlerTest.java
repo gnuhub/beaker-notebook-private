@@ -19,7 +19,9 @@ package com.twosigma.beaker.jupyter.handler;
 import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import org.assertj.core.api.Assertions;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.lappsgrid.jupyter.groovy.GroovyKernelTest;
 import org.lappsgrid.jupyter.groovy.json.Serializer;
@@ -31,23 +33,35 @@ import java.util.LinkedHashMap;
 
 public class ExecuteRequestHandlerTest {
 
-  private GroovyKernelTest groovyKernel;
+  private static GroovyKernelTest groovyKernel;
   private ExecuteRequestHandler executeRequestHandler;
+  private static GroovyEvaluatorManager evaluatorManager;
   private Message message;
 
-  @Before
-  public void setUp() {
+  @BeforeClass
+  public static void setUpClass(){
     groovyKernel = new GroovyKernelTest(){
       @Override
       public void publish(Message message) throws NoSuchAlgorithmException {
         getPublishedMessages().add(copyMessage(message));
       }
     };
-    GroovyEvaluatorManager evaluatorManager = new GroovyEvaluatorManager(groovyKernel){
-
+    evaluatorManager = new GroovyEvaluatorManager(groovyKernel){
+      @Override
+      public synchronized void executeCode(String code, Message message, int executionCount) {
+      }
     };
+  }
+
+  @Before
+  public void setUp() {
     executeRequestHandler = new ExecuteRequestHandler(groovyKernel, evaluatorManager);
     message = JupyterHandlerTest.initExecuteRequestMessage();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    groovyKernel.clearPublishedMessages();
   }
 
   @Test
@@ -187,7 +201,7 @@ public class ExecuteRequestHandlerTest {
         .isEqualTo(expectedIdentities);
   }
 
-  private Message copyMessage(Message origin) {
+  private static Message copyMessage(Message origin) {
     Message copy = new Message();
     for (byte[] list : origin.getIdentities()) {
       copy.getIdentities().add(list.clone());

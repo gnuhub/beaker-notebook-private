@@ -50,8 +50,6 @@ public class JupyterHandlerTest {
   private CommOpenHandler commOpenHandler;
   private CommCloseHandler commCloseHandler;
   private CommInfoHandler commInfoHandler;
-  private CommMsgHandler commMsgHandler;
-  private ExecuteRequestHandler executeRequestHandler;
 
   public static Message initCloseMessage() {
     Map<String, Serializable> content = new LinkedHashMap<>();
@@ -150,9 +148,6 @@ public class JupyterHandlerTest {
     commOpenHandler = new CommOpenHandler(groovyKernel);
     commCloseHandler = new CommCloseHandler(groovyKernel);
     commInfoHandler = new CommInfoHandler(groovyKernel);
-    commMsgHandler = new CommMsgHandler(groovyKernel, new MessageCreator(groovyKernel));
-    executeRequestHandler =
-        new ExecuteRequestHandler(groovyKernel, new GroovyEvaluatorManager(groovyKernel));
   }
 
   @Test
@@ -222,6 +217,7 @@ public class JupyterHandlerTest {
   @Test
   public void commMsgHandlerHandleEmptyMessage_dontThrowNullPointerException() throws Exception {
     //given
+    CommMsgHandler commMsgHandler = new CommMsgHandler(groovyKernel, new MessageCreator(groovyKernel));
     Message message = new Message();
     MessageTest.initMessage(message);
     //when
@@ -241,6 +237,8 @@ public class JupyterHandlerTest {
   public void executeRequestHandlerHandleEmptyMessage_dontThrowNullPointerException()
       throws Exception {
     //given
+    ExecuteRequestHandler executeRequestHandler =
+        new ExecuteRequestHandler(groovyKernel, new GroovyEvaluatorManager(groovyKernel));
     Message message = new Message();
     MessageTest.initMessage(message);
     //when
