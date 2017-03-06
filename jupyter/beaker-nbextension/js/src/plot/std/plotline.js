@@ -101,7 +101,6 @@ define([
     var l = plotUtils.upper_bound(eles, "x", scope.focus.xl),
       r = plotUtils.upper_bound(eles, "x", scope.focus.xr) + 1;
 
-
     l = Math.max(l, 0);
     r = Math.min(r, eles.length - 1);
 

@@ -1950,7 +1950,6 @@ define([
 
     // first standardize data
     self.standardizeData();
-    // debugger;
     // init flags
     self.initFlags();
 
@@ -2055,7 +2054,6 @@ define([
     if(_.isEmpty(self.focus)){
       _.extend(self.focus, self.defaultFocus);
     }
-    console.log(self.focus);
 
     // init remove pipe
     self.removePipe = [];

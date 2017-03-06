@@ -146,9 +146,7 @@ define([
         xl : Infinity,
         xr : -Infinity,
         yl : Infinity,
-        yr : -Infinity,
-        yl_r : Infinity,
-        yr_r : -Infinity
+        yr : -Infinity
       };
       var visibleItem = 0, legendableItem = 0;
       for (var i = 0; i < data.length; i++) {
@@ -158,9 +156,8 @@ define([
         if (data[i].showItem === false) { continue; }
         visibleItem++;
         var itemrange = data[i].getRange();
-        this.updateRange(datarange, itemrange, data[i].yAxisLabel);
+        this.updateRange(datarange, itemrange);
       }
-      console.log('daterange', datarange);debugger;
 
       if (datarange.xl === Infinity && datarange.xr !== -Infinity) {
         datarange.xl = datarange.xr - 1;
@@ -187,19 +184,6 @@ define([
         datarange.yl = datarange.yr;
         datarange.yr = temp;
       }
-      if (datarange.yl_r === Infinity && datarange.yr_r !== -Infinity) {
-        datarange.yl_r = datarange.yr_r - 1;
-      } else if (datarange.yr_r === -Infinity && datarange.yl_r !== Infinity) {
-        datarange.yr_r = datarange.yl_r + 1;
-      }
-      if (visibleItem === 0 || datarange.yl_r === Infinity) {
-        datarange.yl_r = 0;
-        datarange.yr_r = 1;
-      } else if (datarange.yl_r > datarange.yr_r) {
-        var temp = datarange.yl_r;
-        datarange.yl_r = datarange.yr_r;
-        datarange.yr_r = temp;
-      }
 
       var self = this;
       var increaseRange = function(value) {
@@ -217,14 +201,10 @@ define([
         datarange.yl = decreaseRange(datarange.yl);
         datarange.yr = increaseRange(datarange.yr);
       }
-      if (datarange.yl_r === datarange.yr_r) {
-        datarange.yl_r = decreaseRange(datarange.yl_r);
-        datarange.yr_r = increaseRange(datarange.yr_r);
-      }
 
       datarange.xspan = this.minus(datarange.xr, datarange.xl);
       datarange.yspan = datarange.yr - datarange.yl;
-      datarange.yspan_r = datarange.yr_r - datarange.yl_r;
+
       return {
         "datarange" : datarange,
         "visibleItem" : visibleItem,
@@ -260,16 +240,11 @@ define([
     eq: function(n1, n2){
       return n1 instanceof Big ? n1.eq(n2) : n1 === n2;
     },
-    updateRange : function(datarange, itemrange, useSecondY) {
+    updateRange : function(datarange, itemrange) {
       if (itemrange.xl != null) { datarange.xl = this.min(datarange.xl, itemrange.xl); }
       if (itemrange.xr != null) { datarange.xr = this.max(datarange.xr, itemrange.xr); }
-      if (useSecondY) {
-        if (itemrange.yl != null) { datarange.yl_r = Math.min(datarange.yl_r, itemrange.yl); }
-        if (itemrange.yr != null) { datarange.yr_r = Math.max(datarange.yr_r, itemrange.yr); }
-      } else {
-        if (itemrange.yl != null) { datarange.yl = Math.min(datarange.yl, itemrange.yl); }
-        if (itemrange.yr != null) { datarange.yr = Math.max(datarange.yr, itemrange.yr); }
-      }
+      if (itemrange.yl != null) { datarange.yl = Math.min(datarange.yl, itemrange.yl); }
+      if (itemrange.yr != null) { datarange.yr = Math.max(datarange.yr, itemrange.yr); }
     },
     fonts: {
       labelWidth : 6,
@@ -277,15 +252,29 @@ define([
       tooltipWidth : 10
     },
     getDefaultFocus : function(model) {
-      var ret = this.getDataRange(model.data);
-      var range = ret.datarange, margin = model.margin;
+      var yAxisData = [], yAxisRData = [];
+      for (var i = 0; i < model.data.length; i++) {
+        var item = model.data[i];
+        if(plotUtils.useYAxisR(model, item)){
+          yAxisRData.push(item);
+        }else{
+          yAxisData.push(item);
+        }
+      }
+
+      var ret = this.getDataRange(yAxisData);
+      var retR = this.getDataRange(yAxisRData);
+      var range = ret.datarange;
+      var rangeR = ret.datarange;
+      var margin = model.margin;
+
       if(ret.visibleItem === 0) { // for empty plot, focus needs to be adjusted
         range.xl = model.xAxis.getPercent(range.xl);
         range.xr = model.xAxis.getPercent(range.xr);
         range.yl = model.yAxis.getPercent(range.yl);
         range.yr = model.yAxis.getPercent(range.yr);
-        range.yl_r = model.yAxis.getPercent(range.yl_r);
-        range.yr_r = model.yAxis.getPercent(range.yr_r);
+        rangeR.yl = model.yAxisR.getPercent(rangeR.yl);
+        rangeR.yr = model.yAxisR.getPercent(rangeR.yr);
       }
       var focus = {
         xl : model.userFocus.xl,
@@ -309,9 +298,6 @@ define([
         focus.xr = parseFloat(focus.xr.toString());
       }
 
-      console.log(model.vrange, range);
-      console.log(model.vrangeR);
-
       if (focus.yl == null) {
         if (model.yIncludeZero === true) {
           var yl = model.vrange.yspan * range.yl + model.vrange.yl;
@@ -328,16 +314,16 @@ define([
 
       if (focus.yl_r == null) {
         if (model.yIncludeZero === true) {
-          var yl_r = model.vrange.yspan_r * range.yl_r + model.vrange.yl_r;
+          var yl_r = model.vrangeR.yspan * rangeR.yl + model.vrangeR.yl;
           if(yl_r > 0){
-            range.yl_r = (0 - model.vrange.yl_r) / model.vrange.yspan_r;
-            range.yspan_r = range.yr_r - range.yl_r;
+            rangeR.yl = (0 - model.vrangeR.yl) / model.vrangeR.yspan;
+            rangeR.yspan = rangeR.yr - rangeR.yl;
           }
         }
-        focus.yl_r = range.yl_r - range.yspan_r * margin.bottom;
+        focus.yl_r = rangeR.yl - rangeR.yspan * margin.bottom;
       }
       if (focus.yr_r == null) {
-        focus.yr_r = range.yr_r + range.yspan_r * margin.top;
+        focus.yr_r = rangeR.yr + rangeR.yspan * margin.top;
       }
 
       focus.xspan = focus.xr - focus.xl;
