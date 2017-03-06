@@ -20,12 +20,13 @@ import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommKernelControlGetDefaultShellHandler;
 import com.twosigma.beaker.jupyter.CommKernelControlSetShellHandler;
-import com.twosigma.beaker.jupyter.GroovyKernelJupyterTest;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
+import org.lappsgrid.jupyter.groovy.GroovyKernelTest;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.lappsgrid.jupyter.groovy.msg.MessageTest;
@@ -45,7 +46,7 @@ import static com.twosigma.beaker.jupyter.Comm.TARGET_NAME;
 
 public class JupyterHandlerTest {
 
-  private GroovyKernelJupyterTest groovyKernel;
+  private GroovyKernelTest groovyKernel;
   private CommOpenHandler commOpenHandler;
   private CommCloseHandler commCloseHandler;
   private CommInfoHandler commInfoHandler;
@@ -129,8 +130,7 @@ public class JupyterHandlerTest {
     return header;
   }
 
-  public static String initKernelCommMapWithOneComm(
-      GroovyKernelJupyterTest groovyKernelJupyterTest) {
+  public static String initKernelCommMapWithOneComm(GroovyKernelFunctionality groovyKernel) {
     Message openMessage = initOpenMessage();
     String commId = (String) openMessage.getContent().get(COMM_ID);
     String targetName = (String) openMessage.getContent().get(TARGET_NAME);
@@ -138,16 +138,15 @@ public class JupyterHandlerTest {
         new Comm(commId, targetName) {
           @Override
           public void handleMsg(Message parentMessage) throws NoSuchAlgorithmException {
-            groovyKernelJupyterTest.commHandleMessage();
           }
         };
-    groovyKernelJupyterTest.addComm(commId, comm);
+    groovyKernel.addComm(commId, comm);
     return commId;
   }
 
   @Before
   public void setUp() {
-    groovyKernel = new GroovyKernelJupyterTest();
+    groovyKernel = new GroovyKernelTest();
     commOpenHandler = new CommOpenHandler(groovyKernel);
     commCloseHandler = new CommCloseHandler(groovyKernel);
     commInfoHandler = new CommInfoHandler(groovyKernel);
@@ -197,8 +196,8 @@ public class JupyterHandlerTest {
     //when
     commInfoHandler.handle(initInfoMessage());
     //then
-    Assertions.assertThat(groovyKernel.getSendMessages()).isNotEmpty();
-    Message sendMessage = groovyKernel.getSendMessages().get(0);
+    Assertions.assertThat(groovyKernel.getSentMessages()).isNotEmpty();
+    Message sendMessage = groovyKernel.getSentMessages().get(0);
     Assertions.assertThat((Map) sendMessage.getContent().get(COMMS)).isNotEmpty();
   }
 
