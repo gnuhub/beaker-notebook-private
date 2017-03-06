@@ -16,6 +16,7 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
+import org.lappsgrid.jupyter.groovy.GroovyKernelTest;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.io.Serializable;
