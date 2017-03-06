@@ -500,14 +500,10 @@ public void evaluate(SimpleEvaluationObject seo, String code) {
             e = ((InvocationTargetException)e).getTargetException();
           }
 
-          if (e instanceof InterruptedException || e instanceof InvocationTargetException || e instanceof ThreadDeath) {
-            theOutput.error("... cancelled!");
-          } else {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            StackTraceUtils.sanitize(e).printStackTrace(pw);
-            theOutput.error(sw.toString());
-          }
+          StringWriter sw = new StringWriter();
+          PrintWriter pw = new PrintWriter(sw);
+          StackTraceUtils.sanitize(e).printStackTrace(pw);
+          theOutput.error(sw.toString());
         }
         theOutput.clrOutputHandler();
         Thread.currentThread().setContextClassLoader(oldld);
