@@ -18,11 +18,11 @@ package com.twosigma.beaker.groovy;
 import com.twosigma.beaker.groovy.evaluator.InternalVariable;
 import com.twosigma.beaker.jupyter.GroovyKernelManager;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
 import com.twosigma.beaker.widgets.integers.IntProgress;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.lappsgrid.jupyter.groovy.GroovyKernelTest;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
 import java.util.List;
