@@ -1,6 +1,5 @@
 package org.lappsgrid.jupyter.groovy;
 
-import com.twosigma.beaker.groovy.NamespaceClient;
 import com.twosigma.beaker.groovy.evaluator.GroovyEvaluatorManager;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommNamesEnum;
@@ -30,6 +29,8 @@ import org.lappsgrid.jupyter.groovy.threads.StdinThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;
+import sun.misc.Signal;
+import sun.misc.SignalHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
   private volatile boolean running = false;
   private static final String DELIM = "<IDS|MSG>";
+  public static String OS = System.getProperty("os.name").toLowerCase();
   /**
    * Used to generate the HMAC signatures for messages
    */
@@ -78,7 +80,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
   private Map<String, Comm> commMap;
   private ExecutionResultSender executionResultSender;
   private GroovyEvaluatorManager groovyEvaluatorManager;
-  
+
   private ZMQ.Socket hearbeatSocket;
   private ZMQ.Socket controlSocket;
   private ZMQ.Socket shellSocket;
@@ -91,6 +93,20 @@ public class GroovyKernel implements GroovyKernelFunctionality{
     executionResultSender = new ExecutionResultSender(this);
     groovyEvaluatorManager = new GroovyEvaluatorManager(this);
     installHandlers();
+
+    SignalHandler handler = new SignalHandler () {
+      public void handle(Signal sig) {
+        logger.info("Got " + sig.getName() + " signal, canceling cell execution");
+        cancelExecution();
+      }
+    };
+    if(!isWindows()){
+      Signal.handle(new Signal("INT"), handler);
+    }
+  }
+
+  public static boolean isWindows() {
+    return (OS.indexOf("win") >= 0);
   }
 
   public void shutdown() {
@@ -118,6 +134,11 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
   public synchronized void setShellOptions(String cp, String in, String od){
     groovyEvaluatorManager.setShellOptions(cp, in, od);
+  }
+
+  @Override
+  public synchronized void cancelExecution() {
+    groovyEvaluatorManager.killAllThreads();
   }
 
   public synchronized boolean isCommPresent(String hash){
@@ -165,7 +186,7 @@ public class GroovyKernel implements GroovyKernelFunctionality{
    * 
    * @throws NoSuchAlgorithmException
    */
-  public void publish(Message message) throws NoSuchAlgorithmException {
+  public synchronized void publish(Message message) throws NoSuchAlgorithmException {
     send(iopubSocket, message);
   }
 
@@ -363,10 +384,6 @@ public class GroovyKernel implements GroovyKernelFunctionality{
 
   public ExecutionResultSender getExecutionResultSender() {
     return executionResultSender;
-  }
-
-  public Message getParentMessage(){
-    return NamespaceClient.getBeaker() != null && NamespaceClient.getBeaker().getOutputObj() != null ? (Message)NamespaceClient.getBeaker().getOutputObj().getJupyterMessage() : null;
   }
 
 }

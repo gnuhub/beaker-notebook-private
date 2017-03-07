@@ -16,7 +16,6 @@
 package com.twosigma.beaker.widgets.strings;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 public class Textarea extends StringWidget {
@@ -24,7 +23,7 @@ public class Textarea extends StringWidget {
   public static final String VIEW_NAME_VALUE = "TextareaView";
   public static final String MODEL_NAME_VALUE = "TextareaModel";
 
-  public Textarea() throws NoSuchAlgorithmException {
+  public Textarea() {
     super();
     init();
   }

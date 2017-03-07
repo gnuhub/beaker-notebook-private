@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import com.twosigma.beaker.groovy.evaluator.InternalVariable;
 import org.lappsgrid.jupyter.groovy.GroovyKernel;
 import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.handler.IHandler;
@@ -156,6 +157,7 @@ public class Comm {
       message.setParentHeader(parentMessage.getHeader());
     }
     HashMap<String, Serializable> map = new HashMap<>();
+    map.put(COMM_ID, getCommId());
     map.put(DATA, new HashMap<>());
     message.setContent(map);
     kernel.removeComm(getCommId());
@@ -191,7 +193,7 @@ public class Comm {
   }
 
   protected Message getParentMessage() {
-    return this.kernel.getParentMessage();
+    return InternalVariable.getParentHeader();
   }
 
   public void handleMsg(Message parentMessage) throws NoSuchAlgorithmException{

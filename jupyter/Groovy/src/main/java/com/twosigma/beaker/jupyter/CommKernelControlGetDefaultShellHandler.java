@@ -16,7 +16,7 @@
 package com.twosigma.beaker.jupyter;
 
 import com.twosigma.beaker.groovy.GroovyDefaultVariables;
-import org.lappsgrid.jupyter.groovy.GroovyKernel;
+import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.handler.AbstractHandler;
 import org.lappsgrid.jupyter.groovy.msg.Header;
 import org.lappsgrid.jupyter.groovy.msg.Message;
@@ -39,14 +39,12 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
  */
 public class CommKernelControlGetDefaultShellHandler extends AbstractHandler<Message> {
 
-  public static final String UNDEFINED_REQUEST = "undefined_request";
   public static final String GET_DEFAULT_SHELL = "get_default_shell";
   public static final String KERNEL_CONTROL_RESPONSE = "kernel_control_response";
-  public static final String TRUE = "true";
 
   private static final Logger logger = LoggerFactory.getLogger(CommKernelControlGetDefaultShellHandler.class);
 
-  public CommKernelControlGetDefaultShellHandler(GroovyKernel kernel) {
+  public CommKernelControlGetDefaultShellHandler(GroovyKernelFunctionality kernel) {
     super(kernel);
   }
 
@@ -81,9 +79,6 @@ public class CommKernelControlGetDefaultShellHandler extends AbstractHandler<Mes
         shell.put(CLASSPATH, GroovyDefaultVariables.CLASS_PATH);
         data.put(KERNEL_CONTROL_RESPONSE, shell);
         logger.info("Response OK");
-      } else {
-        data.put(KERNEL_CONTROL_RESPONSE, UNDEFINED_REQUEST);
-        logger.info("Response " + UNDEFINED_REQUEST);
       }
       map.put(DATA, data);
       ret.setContent(map);

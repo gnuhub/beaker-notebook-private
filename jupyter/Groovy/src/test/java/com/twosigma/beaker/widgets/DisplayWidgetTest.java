@@ -22,14 +22,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 
-import java.util.Map;
-
 import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
-import static com.twosigma.beaker.widgets.DisplayWidget.DISPLAY;
-import static com.twosigma.beaker.widgets.DisplayWidget.METHOD;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.getContent;
-import static com.twosigma.beaker.widgets.TestWidgetUtils.getData;
+import static com.twosigma.beaker.widgets.TestWidgetUtils.verifyDisplayMsg;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DisplayWidgetTest {
@@ -51,7 +47,7 @@ public class DisplayWidgetTest {
   public void shouldSendCommOpenWhenCreate() throws Exception {
     //given
     IntSlider widget = new IntSlider();
-    groovyKernel.clearMessages();
+    groovyKernel.clearPublishedMessages();
     //when
     DisplayWidget.display(widget);
     //then
@@ -59,13 +55,10 @@ public class DisplayWidgetTest {
   }
 
   private void verifyCommDisplayMsg(IntSlider widget) {
-    assertThat(groovyKernel.getMessages().size()).isEqualTo(1);
-    Message message = groovyKernel.getMessages().get(0);
+    assertThat(groovyKernel.getPublishedMessages().size()).isEqualTo(1);
+    Message message = groovyKernel.getPublishedMessages().get(0);
     assertThat(message.getHeader().getType()).isEqualTo(COMM_MSG.getName());
-    Map data = getData(message);
-    assertThat(data.get(METHOD)).isEqualTo(DISPLAY);
+    verifyDisplayMsg(message);
     assertThat(getContent(message).get(COMM_ID)).isEqualTo(widget.getComm().getCommId());
   }
-
-
 }

@@ -16,24 +16,51 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
+import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
 import org.lappsgrid.jupyter.groovy.GroovyKernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.zeromq.ZMQ;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 import java.util.Set;
 
 public class GroovyKernelTest implements GroovyKernelFunctionality {
 
-  private List<Message> messages = new ArrayList<>();
+  private List<Message> publishedMessages = new ArrayList<>();
+  private List<Message> sentMessages = new ArrayList<>();
+  private String id;
+  private ExecutionResultSender executionResultSender = new ExecutionResultSender(this);
+
+  public GroovyKernelTest() {
+    this("groovyKernelTestId1");
+  }
+
+  public GroovyKernelTest(String id) {
+    this.id = id;
+  }
 
   @Override
   public void publish(Message message) throws NoSuchAlgorithmException {
-    this.messages.add(message);
+    this.publishedMessages.add(message);
   }
+
+  @Override
+  public void send(Message message) throws NoSuchAlgorithmException {
+    this.sentMessages.add(message);
+  }
+
+  @Override
+  public String getId() {
+    return this.id;
+  }
+
+  public Observer getExecutionResultSender() {
+    return this.executionResultSender;
+  }
+
 
   @Override
   public void addComm(String commId, Comm comm) {
@@ -46,23 +73,8 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   }
 
   @Override
-  public Message getParentMessage() {
-    return null;
-  }
-
-  @Override
-  public void send(Message message) throws NoSuchAlgorithmException {
-
-  }
-
-  @Override
   public void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {
 
-  }
-
-  @Override
-  public boolean isCommPresent(String string) {
-    return false;
   }
 
   @Override
@@ -71,20 +83,33 @@ public class GroovyKernelTest implements GroovyKernelFunctionality {
   }
 
   @Override
+  public boolean isCommPresent(String string) {
+    return false;
+  }
+
+  @Override
   public Set<String> getCommHashSet() {
     return null;
   }
 
-  @Override
-  public Serializable getId() {
-    return "";
+  public void setShellOptions(String usString, String usString1, String o) {
+
   }
 
-  public List<Message> getMessages() {
-    return messages;
+  public List<Message> getPublishedMessages() {
+    return publishedMessages;
   }
 
-  public void clearMessages(){
-    this.messages = new ArrayList<>();
+  public List<Message> getSentMessages() {
+    return sentMessages;
   }
+
+  public void clearPublishedMessages(){
+    this.publishedMessages = new ArrayList<>();
+  }
+  public void clearSentMessages(){
+    this.sentMessages = new ArrayList<>();
+  }
+
+  public void cancelExecution(){}
 }
