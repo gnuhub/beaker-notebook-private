@@ -18,7 +18,9 @@ include 'plugin'
 include 'jupyter'
 include 'jupyter:beaker-nbextension'
 include 'jupyter:beaker-nbextension:js'
-include 'jupyter:Groovy'
+include 'jupyter:kernel',
+        'kernel:base',
+        'kernel:groovy'
 include 'plugin:jvm',
         'plugin:groovy',
         'plugin:javash',
