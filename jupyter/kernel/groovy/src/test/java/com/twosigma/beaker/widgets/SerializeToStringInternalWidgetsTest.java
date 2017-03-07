@@ -13,11 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker;
+package com.twosigma.beaker.widgets;
 
+import com.twosigma.beaker.SerializeToString;
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.beaker.widgets.InternalWidgetsTestRunner;
-import com.twosigma.beaker.widgets.TestWidgetUtils;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 import org.junit.Assert;
 import org.junit.Test;

@@ -15,8 +15,10 @@
  */
 package com.twosigma.beaker.widgets;
 
+import com.twosigma.beaker.groovy.evaluator.Evaluator;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
+import org.lappsgrid.jupyter.groovy.Kernel;
 import org.lappsgrid.jupyter.groovy.KernelFunctionality;
 import org.lappsgrid.jupyter.groovy.msg.Message;
 import org.zeromq.ZMQ;
@@ -79,6 +81,11 @@ public class GroovyKernelTest implements KernelFunctionality {
 
   @Override
   public Comm getComm(String string) {
+    return null;
+  }
+
+  @Override
+  public Evaluator getEvaluator(Kernel kernel) {
     return null;
   }
 

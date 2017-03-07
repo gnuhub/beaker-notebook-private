@@ -16,6 +16,8 @@
 
 package com.twosigma.beaker.jupyter;
 
+import com.twosigma.beaker.groovy.evaluator.Evaluator;
+import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import org.lappsgrid.jupyter.groovy.Kernel;
 import org.lappsgrid.jupyter.groovy.json.Serializer;
@@ -50,6 +52,16 @@ public class GroovyKernelJupyterTest extends Kernel {
   @Override
   public void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {
     this.sendMessages.add(copyMessage(message));
+  }
+
+  @Override
+  public Evaluator getEvaluator(Kernel kernel) {
+    return null;
+  }
+
+  @Override
+  public CommOpenHandler getCommOpenHandler(Kernel kernel) {
+    return null;
   }
 
   public List<Message> getPublishMessages() {
