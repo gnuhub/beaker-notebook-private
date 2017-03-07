@@ -10,4 +10,11 @@ subprojects {
   dependencies {
     testCompile 'junit:junit:4.11'
   }
+
+  compileJava {
+    options.compilerArgs << '-XDignore.symbol.file'
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+  }
+
 }
