@@ -23,6 +23,7 @@ import java.util.Map;
 
 import com.github.lwhite1.tablesaw.api.Table;
 import com.twosigma.beaker.fileloader.CsvPlotReader;
+import com.twosigma.beaker.jvm.object.OutputContainer;
 import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.table.serializer.TableDisplaySerializer;
 import com.fasterxml.jackson.core.Version;
@@ -158,6 +159,10 @@ public class SerializeToString {
   }
 
   public static String doit(Object result) {
+    if (result instanceof OutputContainer) {
+      DisplayWidget.display((OutputContainer)result);
+      return "";
+    }
     if(result instanceof Table){
       showInternalWidget(new TableDisplay(new CsvPlotReader().convert((Table) result)));
       return "";

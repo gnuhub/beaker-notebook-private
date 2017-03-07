@@ -18,6 +18,7 @@ package com.twosigma.beaker.widgets;
 import com.twosigma.beaker.jupyter.Comm;
 import org.lappsgrid.jupyter.msg.Message;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
+import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,6 +41,15 @@ public class TestWidgetUtils {
     assertThat(data.get(Layout.LAYOUT)).isEqualTo(Layout.IPY_MODEL + layout.getContent().get(Comm.COMM_ID));
     assertThat(data.get(Widget.MODEL_MODULE)).isEqualTo(Widget.MODEL_MODULE_VALUE);
     assertThat(data.get(Widget.VIEW_MODULE)).isEqualTo(Widget.VIEW_MODULE_VALUE);
+    assertThat(data.get(Widget.MODEL_NAME)).isEqualTo(modelNameValue);
+    assertThat(data.get(Widget.VIEW_NAME)).isEqualTo(viewNameValue);
+  }
+
+  public static void verifyInternalOpenCommMsg(Message message, String modelNameValue, String viewNameValue) {
+    verifyTypeMsg(message,COMM_OPEN);
+    Map data = getData(message);
+    assertThat(data.get(Widget.MODEL_MODULE)).isEqualTo(InternalWidgetUtils.MODEL_MODULE_VALUE);
+    assertThat(data.get(Widget.VIEW_MODULE)).isEqualTo(InternalWidgetUtils.VIEW_MODULE_VALUE);
     assertThat(data.get(Widget.MODEL_NAME)).isEqualTo(modelNameValue);
     assertThat(data.get(Widget.VIEW_NAME)).isEqualTo(viewNameValue);
   }

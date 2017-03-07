@@ -15,6 +15,11 @@
  */
 package com.twosigma.beaker.widgets;
 
+import com.twosigma.beaker.jvm.object.OutputContainer;
+import com.twosigma.beaker.table.TableDisplay;
+import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.strings.Label;
+
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -35,4 +40,26 @@ public class DisplayWidget {
     }
   }
 
+  public static void display(OutputContainer container) {
+    container.getItems().forEach(item -> DisplayWidget.display(toCommFunctionality(item)));
+  }
+
+  private static CommFunctionality toCommFunctionality(Object item) {
+    CommFunctionality widget;
+    if (item instanceof InternalWidget) {
+      InternalWidget iw = (InternalWidget) item;
+      iw.sendModel();
+      widget = iw;
+    } else if (item instanceof CommFunctionality) {
+      widget = (CommFunctionality) item;
+    } else if(item instanceof HashMap){
+      widget = TableDisplay.createTableDisplayForMap((HashMap) item);
+      ((InternalWidget)widget).sendModel();
+    }else {
+      Label label = new Label();
+      label.setValue(item.toString());
+      widget = label;
+    }
+    return widget;
+  }
 }
