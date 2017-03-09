@@ -18,21 +18,17 @@ package com.twosigma.beaker.evaluator;
 import com.twosigma.beaker.chart.xychart.Plot;
 import com.twosigma.beaker.jupyter.KernelManager;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
-import com.twosigma.beaker.widgets.selectioncontainer.Tab;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.lappsgrid.jupyter.msg.Message;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.twosigma.beaker.evaluator.GroovyEvaluatorResultTestWatcher.waitForResult;
 import static com.twosigma.beaker.jvm.object.SimpleEvaluationObject.EvaluationStatus.FINISHED;
 import static com.twosigma.beaker.widgets.TestWidgetUtils.*;
-import static com.twosigma.beaker.widgets.Widget.VIEW_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -52,31 +48,6 @@ public class GroovyOutputContainerTest {
   @After
   public void tearDown() throws Exception {
     KernelManager.register(null);
-  }
-
-  @Test
-  public void shouldAddMapToOutputContainerTest() throws Exception {
-    //given
-    String code =
-            "import com.twosigma.beaker.evaluator.ResourceLoaderTest;\n" +
-            "import com.twosigma.beaker.jvm.object.OutputContainer;\n" +
-            "List<Map<?, ?>> values = ResourceLoaderTest.readAsList(\"tableRowsTest.csv\");\n" +
-            "new OutputContainer() << values.get(0)";
-
-    //when
-    SimpleEvaluationObject seo = groovyEvaluator.executeCode(code, HEADER_MESSAGE, 1);
-    waitForResult(seo);
-    //then
-    assertTrue(seo.getPayload().toString(),seo.getStatus().equals(FINISHED));
-    verifyMap(groovyKernel.getPublishedMessages());
-  }
-
-  private void verifyMap(List<Message> messages) {
-    Message tableDisplay = messages.get(0);
-    verifyInternalOpenCommMsg(tableDisplay, TableDisplay.MODEL_NAME_VALUE, TableDisplay.VIEW_NAME_VALUE);
-    Message model = messages.get(1);
-    assertThat(getValueForProperty(model, "model", String.class)).isNotEmpty();
-    verifyDisplayMsg(messages.get(2));
   }
 
   @Test
@@ -104,37 +75,6 @@ public class GroovyOutputContainerTest {
     Message model = messages.get(1);
     assertThat(getValueForProperty(model, "model", String.class)).isNotEmpty();
     verifyDisplayMsg(messages.get(2));
-  }
-
-
-  @Test
-  public void shouldDisplayOutputContainerWithTabLayoutTest() throws Exception {
-    //given
-    String code =
-            "import com.twosigma.beaker.evaluator.ResourceLoaderTest;\n" +
-            "import com.twosigma.beaker.jvm.object.OutputContainer;\n" +
-            "import com.twosigma.beaker.jvm.object.TabbedOutputContainerLayoutManager;\n" +
-            "import com.twosigma.beaker.chart.xychart.SimpleTimePlot;\n" +
-            "List<Map<?, ?>> rates = ResourceLoaderTest.readAsList(\"tableRowsTest.csv\");\n" +
-            "plot2 = new SimpleTimePlot(rates, [\"m3\", \"y1\"], showLegend:false, initWidth: 300, initHeight: 400)\n" +
-            "def l = new TabbedOutputContainerLayoutManager()\n"+
-            "def oc = new OutputContainer()\n" +
-            "oc.setLayoutManager(l)\n" +
-            "oc.addItem(plot2, \"Scatter with History\")\n"+
-            "oc";
-
-    //when
-    SimpleEvaluationObject seo = groovyEvaluator.executeCode(code, HEADER_MESSAGE, 1);
-    waitForResult(seo);
-    //then
-    assertTrue(seo.getPayload().toString(),seo.getStatus().equals(FINISHED));
-    verifyTabLayout(groovyKernel.getPublishedMessages());
-  }
-
-  private void verifyTabLayout(List<Message> publishedMessages) {
-    Message tab = publishedMessages.get(3);
-    Map data = getData(tab);
-    assertThat(data.get(VIEW_NAME)).isEqualTo(Tab.VIEW_NAME_VALUE);
   }
 
 }

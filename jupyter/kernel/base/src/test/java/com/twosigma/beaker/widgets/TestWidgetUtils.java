@@ -13,12 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker;
+package com.twosigma.beaker.widgets;
 
+import com.twosigma.beaker.KernelTest;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
-import com.twosigma.beaker.widgets.Layout;
-import com.twosigma.beaker.widgets.Widget;
+import com.twosigma.beaker.widgets.internal.InternalWidgetUtils;
 import org.lappsgrid.jupyter.msg.Message;
 
 import java.io.Serializable;
@@ -26,12 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
+import static com.twosigma.beaker.widgets.DisplayWidget.DISPLAY;
+import static com.twosigma.beaker.widgets.DisplayWidget.METHOD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestWidgetUtils {
 
   public static void verifyOpenCommMsg(List<Message> messages, String modelNameValue, String viewNameValue) {
-
     Message layout = messages.get(0);
     Message widget = messages.get(1);
 
@@ -40,6 +41,15 @@ public class TestWidgetUtils {
     assertThat(data.get(Layout.LAYOUT)).isEqualTo(Layout.IPY_MODEL + layout.getContent().get(Comm.COMM_ID));
     assertThat(data.get(Widget.MODEL_MODULE)).isEqualTo(Widget.MODEL_MODULE_VALUE);
     assertThat(data.get(Widget.VIEW_MODULE)).isEqualTo(Widget.VIEW_MODULE_VALUE);
+    assertThat(data.get(Widget.MODEL_NAME)).isEqualTo(modelNameValue);
+    assertThat(data.get(Widget.VIEW_NAME)).isEqualTo(viewNameValue);
+  }
+
+  public static void verifyInternalOpenCommMsg(Message message, String modelNameValue, String viewNameValue) {
+    verifyTypeMsg(message,COMM_OPEN);
+    Map data = getData(message);
+    assertThat(data.get(Widget.MODEL_MODULE)).isEqualTo(InternalWidgetUtils.MODEL_MODULE_VALUE);
+    assertThat(data.get(Widget.VIEW_MODULE)).isEqualTo(InternalWidgetUtils.VIEW_MODULE_VALUE);
     assertThat(data.get(Widget.MODEL_NAME)).isEqualTo(modelNameValue);
     assertThat(data.get(Widget.VIEW_NAME)).isEqualTo(viewNameValue);
   }
@@ -58,11 +68,29 @@ public class TestWidgetUtils {
     return message.getContent();
   }
 
+
+  public static <T> void verifyMsgForProperty(KernelTest groovyKernel, String propertyName, T expected) {
+    Object actual = getValueForProperty(groovyKernel, propertyName, expected.getClass());
+    assertThat(actual).isEqualTo(expected);
+  }
+
+  public static <T> T getValueForProperty(KernelTest groovyKernel, String propertyName, Class<T> clazz) {
+    assertThat(groovyKernel.getPublishedMessages().size()).isEqualTo(1);
+    Message message = groovyKernel.getPublishedMessages().get(0);
+    return getValueForProperty(message, propertyName, clazz);
+  }
+
   public static <T> T getValueForProperty(Message message, String propertyName, Class<T> clazz) {
     Map data = TestWidgetUtils.getData(message);
     assertThat(data.get(Comm.METHOD)).isEqualTo(Comm.UPDATE);
     Object o = ((Map) data.get(Comm.STATE)).get(propertyName);
     return clazz.cast(o);
   }
+
+  public static void verifyDisplayMsg(Message message) {
+    Map data = getData(message);
+    assertThat(data.get(METHOD)).isEqualTo(DISPLAY);
+  }
+
 
 }

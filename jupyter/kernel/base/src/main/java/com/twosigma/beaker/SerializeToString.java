@@ -76,6 +76,7 @@ import com.twosigma.beaker.chart.xychart.plotitem.Points;
 import com.twosigma.beaker.chart.xychart.plotitem.Stems;
 import com.twosigma.beaker.chart.xychart.plotitem.Text;
 import com.twosigma.beaker.chart.xychart.plotitem.YAxis;
+import com.twosigma.beaker.widgets.DisplayOutputContainer;
 import com.twosigma.beaker.widgets.DisplayWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 
@@ -160,7 +161,7 @@ public class SerializeToString {
 
   public static String doit(Object result) {
     if (result instanceof OutputContainer) {
-      DisplayWidget.display((OutputContainer)result);
+      DisplayOutputContainer.display((OutputContainer)result);
       return "";
     }
     if(result instanceof Table){
