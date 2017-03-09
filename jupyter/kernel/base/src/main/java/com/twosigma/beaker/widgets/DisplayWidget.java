@@ -47,7 +47,7 @@ public class DisplayWidget {
   public static void display(OutputContainer container) {
     if (container.getLayoutManager() instanceof TabbedOutputContainerLayoutManager) {
       List<CommFunctionality> items = container.getItems().stream().map(x -> toCommFunctionality(x)).collect(Collectors.toList());
-      Tab tab = new Tab(items);
+      Tab tab = new Tab(items, container.getLabels());
       DisplayWidget.display(tab);
     } else {
       container.getItems().forEach(item -> DisplayWidget.display(toCommFunctionality(item)));

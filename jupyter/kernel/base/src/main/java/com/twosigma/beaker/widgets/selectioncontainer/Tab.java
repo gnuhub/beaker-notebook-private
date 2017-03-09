@@ -26,9 +26,8 @@ public class Tab extends SelectionContainer {
   public static final String VIEW_NAME_VALUE = "TabView";
   public static final String MODEL_NAME_VALUE = "TabModel";
 
-
-  public Tab(List<CommFunctionality> children) {
-    super(children);
+  public Tab(List<CommFunctionality> children, List<String> labels) {
+    super(children, labels);
     init();
   }
 

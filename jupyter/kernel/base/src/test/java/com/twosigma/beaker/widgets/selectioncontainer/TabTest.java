@@ -24,11 +24,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.lappsgrid.jupyter.msg.Message;
-
 import java.util.List;
 import java.util.Map;
-
 import static com.twosigma.beaker.TestWidgetUtils.getData;
+import static com.twosigma.beaker.TestWidgetUtils.getValueForProperty;
 import static com.twosigma.beaker.TestWidgetUtils.verifyOpenCommMsg;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,10 +53,11 @@ public class TabTest {
     List<CommFunctionality> children = asList(new IntSlider(), new Text());
     kernel.clearPublishedMessages();
     //when
-    new Tab(children);
+    new Tab(children, asList("t1", "t2"));
     //then
     verifyOpenCommMsg(kernel.getPublishedMessages(), Tab.MODEL_NAME_VALUE, Tab.VIEW_NAME_VALUE);
     verifyChildren(children);
+    verifyTitles();
   }
 
   private void verifyChildren(List<CommFunctionality> children) {
@@ -68,5 +68,10 @@ public class TabTest {
     assertThat(objects[1]).isEqualTo(Tab.IPY_MODEL + children.get(1).getComm().getCommId());
   }
 
-
+  private void verifyTitles() {
+    Message titlesMessage = kernel.getPublishedMessages().get(2);
+    Map titles = (Map) getValueForProperty(titlesMessage, Tab.TITLES, Object.class);
+    assertThat(titles.get(0)).isEqualTo("t1");
+    assertThat(titles.get(1)).isEqualTo("t2");
+  }
 }

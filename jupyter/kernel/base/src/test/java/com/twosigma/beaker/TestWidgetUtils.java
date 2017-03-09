@@ -58,4 +58,11 @@ public class TestWidgetUtils {
     return message.getContent();
   }
 
+  public static <T> T getValueForProperty(Message message, String propertyName, Class<T> clazz) {
+    Map data = TestWidgetUtils.getData(message);
+    assertThat(data.get(Comm.METHOD)).isEqualTo(Comm.UPDATE);
+    Object o = ((Map) data.get(Comm.STATE)).get(propertyName);
+    return clazz.cast(o);
+  }
+
 }

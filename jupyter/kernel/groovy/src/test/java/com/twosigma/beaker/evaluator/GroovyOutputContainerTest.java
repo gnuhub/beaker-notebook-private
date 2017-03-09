@@ -21,7 +21,6 @@ import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
 import com.twosigma.beaker.widgets.selectioncontainer.Tab;
-import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
