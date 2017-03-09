@@ -18,6 +18,7 @@ package com.twosigma.beaker.jupyter;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.Test;
 import org.lappsgrid.jupyter.msg.Message;
 
 import java.io.Serializable;
@@ -48,7 +49,7 @@ public class CommKernelControlGetDefaultShellHandlerTest {
     message = new Message();
   }
 
-//  @Test
+  @Test
   public void handleGetDefaultShellMessage_shouldSendShellSocketMessage() throws Exception {
     //given
     initMessageData(message);
@@ -58,7 +59,7 @@ public class CommKernelControlGetDefaultShellHandlerTest {
     Assertions.assertThat(groovyKernel.getPublishMessages()).isNotEmpty();
   }
 
-//  @Test
+  @Test
   public void handleNotGetDefaultShellMessage_notSendShellSocketMessage() throws Exception {
     //given
     Map<String, Serializable> content = new HashMap<>();
@@ -70,7 +71,7 @@ public class CommKernelControlGetDefaultShellHandlerTest {
     Assertions.assertThat(groovyKernel.getPublishMessages()).isEmpty();
   }
 
-//  @Test
+  @Test
   public void handleGetDefaultShellMessage_sentMessageHasCommId() throws Exception {
     //given
     initMessageData(message);
@@ -82,7 +83,7 @@ public class CommKernelControlGetDefaultShellHandlerTest {
     Assertions.assertThat((String) sendMessage.getContent().get(Comm.COMM_ID)).isNotEmpty();
   }
 
-//  @Test
+  @Test
   public void handleGetDefaultShellMessage_sentMessageHasKernelControlResponse() throws Exception {
     //given
     initMessageData(message);
@@ -98,7 +99,7 @@ public class CommKernelControlGetDefaultShellHandlerTest {
         .isNotEmpty();
   }
 
-//  @Test
+  @Test
   public void handleGetDefaultShellMessage_sentMessageHasImportsData() throws Exception {
     //given
     initMessageData(message);
@@ -112,11 +113,10 @@ public class CommKernelControlGetDefaultShellHandlerTest {
             ((Map) sendMessage.getContent().get(Comm.DATA))
                 .get(CommKernelControlGetDefaultShellHandler.KERNEL_CONTROL_RESPONSE);
     Assertions.assertThat(response.containsKey(CommKernelControlSetShellHandler.IMPORTS)).isTrue();
-    Assertions.assertThat((List) response.get(CommKernelControlSetShellHandler.IMPORTS))
-        .isNotEmpty();
+    Assertions.assertThat(response.get(CommKernelControlSetShellHandler.IMPORTS)).isNotNull();
   }
 
-//  @Test
+  @Test
   public void handleGetDefaultShellMessage_sentMessageHasClasspathData() throws Exception {
     //given
     initMessageData(message);

@@ -28,8 +28,10 @@ import org.zeromq.ZMQ;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observer;
 import java.util.Set;
 
@@ -41,6 +43,7 @@ public class GroovyKernelJupyterTest implements KernelFunctionality {
   private Boolean groovyEvaluatorManagerExit;
   private Boolean commHandleMessage;
   private Boolean setShellOptions;
+  private Map<String, Comm> commMap = new HashMap<>();
 
   @Override
   public void publish(Message message) throws NoSuchAlgorithmException {
@@ -48,13 +51,17 @@ public class GroovyKernelJupyterTest implements KernelFunctionality {
   }
 
   @Override
-  public void addComm(String commId, Comm comm) {
-
+  public void addComm(String hash, Comm commObject){
+    if(!isCommPresent(hash)){
+      commMap.put(hash, commObject);
+    }
   }
 
   @Override
-  public void removeComm(String commId) {
-
+  public void removeComm(String hash) {
+    if(hash != null && isCommPresent(hash)){
+      commMap.remove(hash);
+    }
   }
 
   @Override
@@ -78,8 +85,8 @@ public class GroovyKernelJupyterTest implements KernelFunctionality {
   }
 
   @Override
-  public Comm getComm(String string) {
-    return null;
+  public Comm getComm(String hash) {
+    return commMap.get(hash != null ? hash : "");
   }
 
   @Override
@@ -88,13 +95,13 @@ public class GroovyKernelJupyterTest implements KernelFunctionality {
   }
 
   @Override
-  public boolean isCommPresent(String string) {
-    return false;
+  public boolean isCommPresent(String hash) {
+    return commMap.containsKey(hash);
   }
 
   @Override
   public Set<String> getCommHashSet() {
-    return null;
+    return commMap.keySet();
   }
 
   public List<Message> getPublishMessages() {

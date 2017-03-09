@@ -18,6 +18,7 @@ package com.twosigma.beaker.jupyter;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.Test;
 import org.lappsgrid.jupyter.msg.Message;
 
 import java.io.Serializable;
@@ -39,7 +40,7 @@ public class CommKernelControlSetShellHandlerTest {
     message = new Message();
   }
 
-//  @Test
+  @Test
   public void handleMessage_shouldSendShellSocketMessage() throws Exception {
     //given
     initMessageData(message);
@@ -49,7 +50,7 @@ public class CommKernelControlSetShellHandlerTest {
     Assertions.assertThat(groovyKernel.getPublishMessages()).isNotEmpty();
   }
 
-//  @Test
+  @Test
   public void handleMessageWithoutData_notSendShellSocketMessage() throws Exception {
     //given
     Map<String, Serializable> content = new HashMap<>();
@@ -61,7 +62,7 @@ public class CommKernelControlSetShellHandlerTest {
     Assertions.assertThat(groovyKernel.getPublishMessages()).isEmpty();
   }
 
-//  @Test
+  @Test
   public void handleMessage_setShellOptions() throws Exception {
     //given
     initMessageData(message);
