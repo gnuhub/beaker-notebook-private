@@ -15,7 +15,7 @@
  */
 package com.twosigma.beaker.widgets.selectioncontainer;
 
-import com.twosigma.beaker.widgets.DOMWidget;
+import com.twosigma.beaker.widgets.CommFunctionality;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class Tab extends SelectionContainer {
   public static final String MODEL_NAME_VALUE = "TabModel";
 
 
-  public Tab(List<DOMWidget> children) {
+  public Tab(List<CommFunctionality> children) {
     super(children);
     init();
   }

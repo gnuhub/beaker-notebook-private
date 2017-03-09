@@ -17,7 +17,7 @@ package com.twosigma.beaker.widgets.selectioncontainer;
 
 import com.twosigma.beaker.KernelTest;
 import com.twosigma.beaker.jupyter.KernelManager;
-import com.twosigma.beaker.widgets.DOMWidget;
+import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.integers.IntSlider;
 import com.twosigma.beaker.widgets.strings.Text;
 import org.junit.After;
@@ -51,7 +51,7 @@ public class TabTest {
   @Test
   public void shouldSendCommOpenWhenCreateWithChildren() throws Exception {
     //given
-    List<DOMWidget> children = asList(new IntSlider(), new Text());
+    List<CommFunctionality> children = asList(new IntSlider(), new Text());
     kernel.clearPublishedMessages();
     //when
     new Tab(children);
@@ -60,7 +60,7 @@ public class TabTest {
     verifyChildren(children);
   }
 
-  private void verifyChildren(List<DOMWidget> children) {
+  private void verifyChildren(List<CommFunctionality> children) {
     Message message = kernel.getPublishedMessages().get(1);
     Map data = getData(message);
     Object[] objects = (Object[]) data.get(Tab.CHILDREN);

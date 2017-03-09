@@ -15,6 +15,7 @@
  */
 package com.twosigma.beaker.widgets.box;
 
+import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.DOMWidget;
 
 import java.io.Serializable;
@@ -26,9 +27,9 @@ public abstract class Box extends DOMWidget {
 
   public static final String CHILDREN = "children";
   public static final String IPY_MODEL = "IPY_MODEL_";
-  List<DOMWidget> children;
+  List<CommFunctionality> children;
 
-  public Box(List<DOMWidget> children) {
+  public Box(List<CommFunctionality> children) {
     this.children = children;
   }
 

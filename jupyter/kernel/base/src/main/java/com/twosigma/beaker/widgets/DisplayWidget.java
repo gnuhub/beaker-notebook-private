@@ -16,13 +16,17 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jvm.object.OutputContainer;
+import com.twosigma.beaker.jvm.object.TabbedOutputContainerLayoutManager;
 import com.twosigma.beaker.table.TableDisplay;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
+import com.twosigma.beaker.widgets.selectioncontainer.Tab;
 import com.twosigma.beaker.widgets.strings.Label;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DisplayWidget {
 
@@ -41,7 +45,13 @@ public class DisplayWidget {
   }
 
   public static void display(OutputContainer container) {
-    container.getItems().forEach(item -> DisplayWidget.display(toCommFunctionality(item)));
+    if (container.getLayoutManager() instanceof TabbedOutputContainerLayoutManager) {
+      List<CommFunctionality> items = container.getItems().stream().map(x -> toCommFunctionality(x)).collect(Collectors.toList());
+      Tab tab = new Tab(items);
+      DisplayWidget.display(tab);
+    } else {
+      container.getItems().forEach(item -> DisplayWidget.display(toCommFunctionality(item)));
+    }
   }
 
   private static CommFunctionality toCommFunctionality(Object item) {
@@ -52,10 +62,10 @@ public class DisplayWidget {
       widget = iw;
     } else if (item instanceof CommFunctionality) {
       widget = (CommFunctionality) item;
-    } else if(item instanceof HashMap){
+    } else if (item instanceof HashMap) {
       widget = TableDisplay.createTableDisplayForMap((HashMap) item);
-      ((InternalWidget)widget).sendModel();
-    }else {
+      ((InternalWidget) widget).sendModel();
+    } else {
       Label label = new Label();
       label.setValue(item.toString());
       widget = label;

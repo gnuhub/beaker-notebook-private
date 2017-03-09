@@ -15,14 +15,14 @@
  */
 package com.twosigma.beaker.widgets.selectioncontainer;
 
-import com.twosigma.beaker.widgets.DOMWidget;
+import com.twosigma.beaker.widgets.CommFunctionality;
 import com.twosigma.beaker.widgets.box.Box;
 
 import java.util.List;
 
 public abstract class SelectionContainer extends Box {
 
-  public SelectionContainer(List<DOMWidget> children) {
+  public SelectionContainer(List<CommFunctionality> children) {
     super(children);
   }
 
