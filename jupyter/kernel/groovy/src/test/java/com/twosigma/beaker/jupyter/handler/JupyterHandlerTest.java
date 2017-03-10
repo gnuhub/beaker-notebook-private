@@ -32,7 +32,6 @@ import org.lappsgrid.jupyter.msg.Message;
 import org.lappsgrid.jupyter.msg.MessageTest;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -138,7 +137,7 @@ public class JupyterHandlerTest {
     Comm comm =
         new Comm(commId, targetName) {
           @Override
-          public void handleMsg(Message parentMessage) throws NoSuchAlgorithmException {
+          public void handleMsg(Message parentMessage) {
             groovyKernelJupyterTest.commHandleMessage();
           }
         };

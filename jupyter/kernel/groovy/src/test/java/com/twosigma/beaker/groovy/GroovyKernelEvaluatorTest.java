@@ -23,7 +23,6 @@ import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.msg.Message;
 import org.zeromq.ZMQ;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
@@ -34,7 +33,7 @@ public class GroovyKernelEvaluatorTest implements KernelFunctionality {
   private List<Message> messages = new ArrayList<>();
 
   @Override
-  public void publish(Message message) throws NoSuchAlgorithmException {
+  public void publish(Message message) {
     this.messages.add(message);
   }
 
@@ -45,10 +44,10 @@ public class GroovyKernelEvaluatorTest implements KernelFunctionality {
   public void removeComm(String commId) {}
 
   @Override
-  public void send(Message message) throws NoSuchAlgorithmException {}
+  public void send(Message message) {}
 
   @Override
-  public void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {}
+  public void send(ZMQ.Socket socket, Message message) {}
 
   @Override
   public boolean isCommPresent(String string) {

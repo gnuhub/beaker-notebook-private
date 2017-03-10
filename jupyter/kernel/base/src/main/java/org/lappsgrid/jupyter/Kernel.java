@@ -36,9 +36,7 @@ import sun.misc.SignalHandler;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -47,13 +45,15 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.twosigma.beaker.jupyter.Utils.uuid;
+import static java.util.Arrays.asList;
+import static org.lappsgrid.jupyter.json.Serializer.toJson;
 
 /**
  * The entry point for the Jupyter kernel.
  *
  * @author Keith Suderman
  */
-public abstract class Kernel implements KernelFunctionality{
+public abstract class Kernel implements KernelFunctionality {
 
   private static final Logger logger = LoggerFactory.getLogger(Kernel.class);
 
@@ -92,16 +92,16 @@ public abstract class Kernel implements KernelFunctionality{
     id = uuid();
     commMap = new ConcurrentHashMap<>();
     executionResultSender = new ExecutionResultSender(this);
-    groovyEvaluatorManager = new EvaluatorManager(this,getEvaluator(this));
+    groovyEvaluatorManager = new EvaluatorManager(this, getEvaluator(this));
     installHandlers();
 
-    SignalHandler handler = new SignalHandler () {
+    SignalHandler handler = new SignalHandler() {
       public void handle(Signal sig) {
         logger.info("Got " + sig.getName() + " signal, canceling cell execution");
         cancelExecution();
       }
     };
-    if(!isWindows()){
+    if (!isWindows()) {
       Signal.handle(new Signal("INT"), handler);
     }
   }
@@ -112,13 +112,7 @@ public abstract class Kernel implements KernelFunctionality{
 
   public void shutdown() {
     running = false;
-    for (Comm comm : commMap.values()) {
-      try {
-        comm.close();
-      } catch (NoSuchAlgorithmException e) {
-        logger.info("Comm close error, Comm info = " + comm );
-      }
-    }
+    commMap.values().forEach(Comm::close);
   }
 
   private void installHandlers() {
@@ -128,7 +122,7 @@ public abstract class Kernel implements KernelFunctionality{
     handlers.put(JupyterMessages.COMPLETE_REQUEST, new CompleteHandler(this, getEvaluator(this)));
     handlers.put(JupyterMessages.HISTORY_REQUEST, new HistoryHandler(this));
     CommOpenHandler coh = getCommOpenHandler(this);
-    if(coh != null){
+    if (coh != null) {
       handlers.put(JupyterMessages.COMM_OPEN, coh);
     }
     handlers.put(JupyterMessages.COMM_INFO_REQUEST, new CommInfoHandler(this));
@@ -136,7 +130,7 @@ public abstract class Kernel implements KernelFunctionality{
     handlers.put(JupyterMessages.COMM_MSG, new CommMsgHandler(this, new MessageCreator(this)));
   }
 
-  public synchronized void setShellOptions(String cp, String in, String od){
+  public synchronized void setShellOptions(String cp, String in, String od) {
     groovyEvaluatorManager.setShellOptions(cp, in, od);
   }
 
@@ -145,84 +139,73 @@ public abstract class Kernel implements KernelFunctionality{
     groovyEvaluatorManager.killAllThreads();
   }
 
-  public synchronized boolean isCommPresent(String hash){
+  public synchronized boolean isCommPresent(String hash) {
     return commMap.containsKey(hash);
   }
-  
-  public Set<String> getCommHashSet(){
+
+  public Set<String> getCommHashSet() {
     return commMap.keySet();
   }
-  
-  public synchronized void addComm(String hash, Comm commObject){
-    if(!isCommPresent(hash)){
+
+  public synchronized void addComm(String hash, Comm commObject) {
+    if (!isCommPresent(hash)) {
       commMap.put(hash, commObject);
     }
   }
-  
-  public synchronized Comm getComm(String hash){
-      return commMap.get(hash != null ? hash : "");
+
+  public synchronized Comm getComm(String hash) {
+    return commMap.get(hash != null ? hash : "");
   }
-  
-  public synchronized List<Comm> getCommByTargetName(String targetName){
+
+  public synchronized List<Comm> getCommByTargetName(String targetName) {
     List<Comm> ret = new ArrayList<>();
-    if(targetName != null){
+    if (targetName != null) {
       for (Comm comm : commMap.values()) {
-        if(comm.getTargetName().equals(targetName)){
+        if (comm.getTargetName().equals(targetName)) {
           ret.add(comm);
         }
       }
     }
     return ret;
   }
-  
-  public synchronized List<Comm> getCommByTargetName(CommNamesEnum targetName){
-    return targetName != null ? getCommByTargetName(targetName.getTargetName()) : new ArrayList<>() ;
-  }
-  
-  public synchronized void removeComm(String hash){
-    if(hash != null && isCommPresent(hash)){
+
+  public synchronized void removeComm(String hash) {
+    if (hash != null && isCommPresent(hash)) {
       commMap.remove(hash);
     }
   }
-  
+
   /**
    * Sends a Message to the iopub socket.
-   * 
-   * @throws NoSuchAlgorithmException
    */
-  public synchronized void publish(Message message) throws NoSuchAlgorithmException {
+  public synchronized void publish(Message message) {
     send(iopubSocket, message);
   }
 
-  public synchronized void send(Message message) throws NoSuchAlgorithmException {
+  public synchronized void send(Message message) {
     send(shellSocket, message);
   }
 
-  public void send(final ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {
-    logger.trace("Sending message: {}", message.asJson());
-    // Encode the message parts (blobs) and calculate the signature.
-    final List<String> parts = new ArrayList<String>(Arrays.asList(
-        Serializer.toJson(message.getHeader()),
-        Serializer.toJson(message.getParentHeader()),
-        Serializer.toJson(message.getMetadata()),
-        Serializer.toJson(message.getContent())));
-    String signature = hmac.sign(parts);
-    logger.trace("Signature is {}", signature);
-
-    // Now send the message down the wire.
-    for (byte[] list : message.getIdentities()) {
-      socket.sendMore(list);
-    }
-
+  public void send(final ZMQ.Socket socket, Message message) {
+    message.getIdentities().forEach(socket::sendMore);
     socket.sendMore(DELIM);
-    socket.sendMore(signature);
+
+    final List<String> parts = parts(message);
+    socket.sendMore(hmac.sign(parts));
 
     for (int i = 0; i < 3; i++) {
       socket.sendMore(parts.get(i));
     }
-
     socket.send(parts.get(3));
-    logger.trace("Message sent");
+  }
+
+  private List<String> parts(Message message) {
+    // Encode the message parts (blobs) and calculate the signature.
+    return new ArrayList<>(asList(
+            toJson(message.getHeader()),
+            toJson(message.getParentHeader()),
+            toJson(message.getMetadata()),
+            toJson(message.getContent())));
   }
 
   public String read(ZMQ.Socket socket) {
@@ -247,8 +230,7 @@ public abstract class Kernel implements KernelFunctionality{
    * <li>content</li>
    * </ul>
    *
-   * @param socket
-   *          The ZMQ.Socket object to read from.
+   * @param socket The ZMQ.Socket object to read from.
    * @return a newly initialized Message object.
    */
   public Message readMessage(ZMQ.Socket socket) {
@@ -269,7 +251,7 @@ public abstract class Kernel implements KernelFunctionality{
       byte[] content = socket.recv();
 
       // Make sure that the signatures match before proceeding.
-      String actualSig = hmac.signBytes((List<byte[]>) new ArrayList<byte[]>(Arrays.asList(header, parent, metadata, content)));
+      String actualSig = hmac.signBytes((List<byte[]>) new ArrayList<byte[]>(asList(header, parent, metadata, content)));
       if (!expectedSig.equals(actualSig)) {
         logger.error("Message signatures do not match");
         logger.error("Expected: []", expectedSig);
@@ -325,9 +307,9 @@ public abstract class Kernel implements KernelFunctionality{
     // Create all the threads that respond to ZMQ messages.
 
     threads.put(HeartbeatThread.class.getSimpleName(), new HeartbeatThread(hearbeatSocket, this));
-    threads.put(ControlThread.class.getSimpleName(),new ControlThread(controlSocket, this));
-    threads.put(StdinThread.class.getSimpleName(),new StdinThread(stdinSocket, this));
-    threads.put(ShellThread.class.getSimpleName(),new ShellThread(shellSocket, this));
+    threads.put(ControlThread.class.getSimpleName(), new ControlThread(controlSocket, this));
+    threads.put(StdinThread.class.getSimpleName(), new StdinThread(stdinSocket, this));
+    threads.put(ShellThread.class.getSimpleName(), new ShellThread(shellSocket, this));
 
     // Start all the socket handler threads
     for (AbstractMessageReaderThread thread : threads.values()) {
@@ -339,12 +321,12 @@ public abstract class Kernel implements KernelFunctionality{
       // running == false
       Thread.sleep(1000);
     }
-    
+
     for (AbstractHandler<Message> handler : handlers.values()) {
       handler.exit();
     }
-    
-    if(executionResultSender != null){
+
+    if (executionResultSender != null) {
       executionResultSender.exit();
     }
 
@@ -360,7 +342,7 @@ public abstract class Kernel implements KernelFunctionality{
     logger.info("Done");
   }
 
-  protected static File getConfig(final String[] args){
+  protected static File getConfig(final String[] args) {
     if (args.length != 1) {
       System.out.println("Invalid parameters passed to the Kernel.");
       System.out.println("Expected one parameter, found " + String.valueOf(args.length));
@@ -377,8 +359,8 @@ public abstract class Kernel implements KernelFunctionality{
     }
     return config;
   }
-  
-  protected static void runKernel(File config, Kernel kernel) throws InterruptedException, IOException{
+
+  protected static void runKernel(File config, Kernel kernel) throws InterruptedException, IOException {
     KernelManager.register(kernel);
     kernel.connectionFile = config;
     kernel.run();
@@ -393,6 +375,7 @@ public abstract class Kernel implements KernelFunctionality{
   }
 
   public abstract Evaluator getEvaluator(Kernel kernel);
+
   public abstract CommOpenHandler getCommOpenHandler(Kernel kernel);
 
 }

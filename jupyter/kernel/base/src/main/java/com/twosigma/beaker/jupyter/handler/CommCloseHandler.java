@@ -23,7 +23,6 @@ import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +47,7 @@ public class CommCloseHandler extends AbstractHandler<Message> {
   }
 
   @Override
-  public void handle(Message message) throws NoSuchAlgorithmException {
+  public void handle(Message message)  {
 
     logger.info("Processing CommCloseHandler");
     Map<String, Serializable> commMap = message.getContent();

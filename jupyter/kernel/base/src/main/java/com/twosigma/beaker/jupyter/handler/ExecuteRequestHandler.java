@@ -25,7 +25,6 @@ import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -53,12 +52,12 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
   }
 
   @Override
-  public void handle(Message message) throws NoSuchAlgorithmException {
+  public void handle(Message message)  {
     logger.info("Processing execute request");
     handleMessage(message);
   }
 
-  private synchronized void handleMessage(Message message) throws NoSuchAlgorithmException {
+  private synchronized void handleMessage(Message message)  {
     Message reply = new Message();
     Map<String, Serializable> map = new HashMap<>(1);
     map.put("execution_state", "busy");

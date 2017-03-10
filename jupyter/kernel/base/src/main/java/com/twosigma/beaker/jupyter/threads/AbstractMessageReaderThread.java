@@ -15,8 +15,6 @@
  */
 package com.twosigma.beaker.jupyter.threads;
 
-import java.security.NoSuchAlgorithmException;
-
 import org.lappsgrid.jupyter.Kernel;
 import org.lappsgrid.jupyter.msg.Message;
 import org.zeromq.ZMQ;
@@ -38,7 +36,7 @@ public abstract class AbstractMessageReaderThread extends AbstractThread {
     return getKernel().readMessage(socket);
   }
 
-  public void send(Message message) throws NoSuchAlgorithmException {
+  public void send(Message message)  {
     getKernel().send(socket, message);
   }
 

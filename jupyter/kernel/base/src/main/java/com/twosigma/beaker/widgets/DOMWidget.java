@@ -20,7 +20,6 @@ import org.lappsgrid.jupyter.handler.IHandler;
 import org.lappsgrid.jupyter.msg.Message;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public abstract class DOMWidget extends Widget {
   protected void addValueChangeMsgCallback(Comm comm) {
     comm.addMsgCallbackList(new IHandler<Message>() {
       @Override
-      public void handle(Message msg) throws NoSuchAlgorithmException {
+      public void handle(Message msg)  {
         if (msg != null && msg.getContent() != null && msg.getContent().containsKey(DATA)) {
           Map data = (Map) msg.getContent().get(DATA);
           if (data.containsKey(SYNC_DATA)) {

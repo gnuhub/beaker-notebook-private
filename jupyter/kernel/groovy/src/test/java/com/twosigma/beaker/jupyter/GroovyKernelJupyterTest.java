@@ -25,7 +25,6 @@ import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.zeromq.ZMQ;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,17 +39,17 @@ public class GroovyKernelJupyterTest extends Kernel {
   private Boolean setShellOptions;
 
   @Override
-  public void publish(Message message) throws NoSuchAlgorithmException {
+  public void publish(Message message) {
     this.publishMessages.add(copyMessage(message));
   }
 
   @Override
-  public void send(Message message) throws NoSuchAlgorithmException {
+  public void send(Message message) {
     this.sendMessages.add(copyMessage(message));
   }
 
   @Override
-  public void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {
+  public void send(ZMQ.Socket socket, Message message) {
     this.sendMessages.add(copyMessage(message));
   }
 

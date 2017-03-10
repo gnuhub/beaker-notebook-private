@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +51,7 @@ public class CommKernelControlSetShellHandler extends AbstractHandler<Message> {
   }
 
   @Override
-  public void handle(Message message) throws NoSuchAlgorithmException {
+  public void handle(Message message)  {
     logger.info("Handing comm message content");
     if(message != null){
       Map<String, Serializable> commMap = message.getContent();

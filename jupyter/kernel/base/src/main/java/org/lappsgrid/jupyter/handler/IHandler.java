@@ -1,7 +1,5 @@
 package org.lappsgrid.jupyter.handler;
 
-import java.security.NoSuchAlgorithmException;
-
 /**
  * Defines objects that can respond to Jupyter messages. There will be one
  * handler for each ZMQ.Socket.
@@ -10,6 +8,6 @@ import java.security.NoSuchAlgorithmException;
  */
 public interface IHandler <T>{
   
-   void handle(T message) throws NoSuchAlgorithmException;
+   void handle(T message) ;
    
 }

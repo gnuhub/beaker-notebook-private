@@ -19,22 +19,20 @@ import com.twosigma.beaker.evaluator.Evaluator;
 import com.twosigma.beaker.jupyter.Comm;
 import org.lappsgrid.jupyter.msg.Message;
 import org.zeromq.ZMQ;
-
-import java.security.NoSuchAlgorithmException;
 import java.util.Observer;
 import java.util.Set;
 
 public interface KernelFunctionality {
 
-  void publish(Message message) throws NoSuchAlgorithmException;
+  void publish(Message message) ;
 
   void addComm(String commId, Comm comm);
 
   void removeComm(String commId);
 
-  void send(Message message) throws NoSuchAlgorithmException;
+  void send(Message message) ;
 
-  void send(final ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException;
+  void send(final ZMQ.Socket socket, Message message) ;
 
   String getId();
 

@@ -9,7 +9,6 @@ import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +40,7 @@ public class CompleteHandler extends AbstractHandler<Message> {
   }
 
   @Override
-  public void handle(Message message) throws NoSuchAlgorithmException {
+  public void handle(Message message)  {
     String code = ((String) message.getContent().get(CODE)).trim();
     int cursorPos = ((int) message.getContent().get(CURSOR_POS));
 

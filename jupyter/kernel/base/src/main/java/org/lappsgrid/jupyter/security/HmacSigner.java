@@ -32,7 +32,7 @@ public class HmacSigner {
     spec = new SecretKeySpec(key.getBytes(), TYPE);
   }
 
-  public String sign(List<String> msg) throws NoSuchAlgorithmException {
+  public String sign(List<String> msg) {
     try {
       final Mac mac = Mac.getInstance(TYPE);
       mac.init(spec);
@@ -42,11 +42,13 @@ public class HmacSigner {
     } catch (InvalidKeyException e) {
       logger.error("Unable to sign message", e);
       throw new RuntimeException("Invalid hmac exception while converting to HmacSHA256");
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
     }
 
   }
 
-  public String signBytes(List<byte[]> msg) throws NoSuchAlgorithmException {
+  public String signBytes(List<byte[]> msg) {
     try {
       final Mac mac = Mac.getInstance("HmacSHA256");
       mac.init(spec);
@@ -56,6 +58,8 @@ public class HmacSigner {
     } catch (InvalidKeyException e) {
       logger.error("Unable to sign message", e);
       throw new RuntimeException("Invalid hmac exception while converting to HmacSHA256");
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
     }
 
   }

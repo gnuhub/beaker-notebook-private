@@ -1,7 +1,5 @@
 package org.lappsgrid.jupyter.threads;
 
-import java.security.NoSuchAlgorithmException;
-
 import org.lappsgrid.jupyter.Kernel;
 import org.lappsgrid.jupyter.handler.IHandler;
 import org.lappsgrid.jupyter.msg.Message;
@@ -29,12 +27,7 @@ public class ShellThread extends AbstractMessageReaderThread {
       logger.info("Processing message = " + message.type());
       IHandler<Message> handler = getKernel().getHandler(message.type());
       if (handler != null) {
-        try {
-          handler.handle(message);
-        } catch (NoSuchAlgorithmException e) {
-          System.out.println(e);
-          logger.error(e.getMessage());
-        }
+        handler.handle(message);
       } else {
         logger.warn("Unhandled message type: {}", message.type());
       }

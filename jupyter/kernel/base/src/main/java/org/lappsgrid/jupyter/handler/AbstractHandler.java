@@ -1,7 +1,5 @@
 package org.lappsgrid.jupyter.handler;
 
-import java.security.NoSuchAlgorithmException;
-
 import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
@@ -24,28 +22,22 @@ public abstract class AbstractHandler <T> implements IHandler<T> {
 
   /**
    * Sends to the shell socket by default.
-   * 
-   * @throws NoSuchAlgorithmException
    */
-  public void send(Message message) throws NoSuchAlgorithmException {
+  public void send(Message message)  {
     kernel.send(message);
   }
 
   /**
    * Sends a message to the specified socket.
-   * 
-   * @throws NoSuchAlgorithmException
    */
-  public void send(ZMQ.Socket socket, Message message) throws NoSuchAlgorithmException {
+  public void send(ZMQ.Socket socket, Message message)  {
     kernel.send(socket, message);
   }
 
   /**
    * Sends the message to the IOPub socket.
-   * 
-   * @throws NoSuchAlgorithmException
    */
-  public void publish(Message message) throws NoSuchAlgorithmException {
+  public void publish(Message message)  {
     kernel.publish(message);
   }
   

@@ -21,7 +21,6 @@ import static com.twosigma.beaker.jupyter.Comm.TARGET_NAME;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_INFO_REPLY;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import org.lappsgrid.jupyter.KernelFunctionality;
@@ -45,7 +44,7 @@ public class CommInfoHandler extends AbstractHandler<Message> {
   }
 
   @Override
-  public void handle(Message message) throws NoSuchAlgorithmException {
+  public void handle(Message message)  {
     logger.info("Processing CommInfoHandler");
     Message reply = new Message();
     reply.setHeader(new Header(COMM_INFO_REPLY, message.getHeader().getSession()));

@@ -13,7 +13,6 @@ import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.SHUTDOWN_REPLY;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.SHUTDOWN_REQUEST;
 
-import java.security.NoSuchAlgorithmException;
 
 /**
  * @author Keith Suderman
@@ -38,12 +37,7 @@ public class ControlThread extends AbstractMessageReaderThread {
         reply.setHeader(new Header(SHUTDOWN_REPLY, message.getHeader().getSession()));
         reply.setParentHeader(message.getHeader());
         reply.setContent(message.getContent());
-        try {
-          send(reply);
-        } catch (NoSuchAlgorithmException e) {
-          System.out.println(e);
-          logger.error(e.getMessage());
-        }
+        send(reply);
       } else {
         logger.warn("Unhandled control message: {}", type);
       }

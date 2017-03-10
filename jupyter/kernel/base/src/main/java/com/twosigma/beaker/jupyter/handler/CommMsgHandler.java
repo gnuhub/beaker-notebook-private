@@ -23,7 +23,6 @@ import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
@@ -38,7 +37,7 @@ public class CommMsgHandler extends AbstractHandler<Message> {
     logger = LoggerFactory.getLogger(CommMsgHandler.class);
   }
 
-  public void handle(Message message) throws NoSuchAlgorithmException {
+  public void handle(Message message)  {
     publish(this.messageCreator.createBusyMessage(message));
 
     Map<String, Serializable> commMap = message.getContent();

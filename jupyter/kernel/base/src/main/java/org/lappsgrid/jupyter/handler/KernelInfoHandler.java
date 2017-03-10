@@ -3,7 +3,6 @@ package org.lappsgrid.jupyter.handler;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.KERNEL_INFO_REPLY;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +27,7 @@ public class KernelInfoHandler extends AbstractHandler<Message> {
   }
 
   @Override
-  public void handle(Message message) throws NoSuchAlgorithmException {
+  public void handle(Message message)  {
     logger.info("Processing kernel info request");
     Message reply = new Message();
     HashMap<String, Serializable> map = new HashMap<>(6);
