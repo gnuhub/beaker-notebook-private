@@ -9,11 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 
-/**
- * The ZMQ header included with each message.
- *
- * @author Keith Suderman
- */
 @JsonPropertyOrder({ "id", "username", "session", "date", "type", "version" })
 public class Header {
 

@@ -16,8 +16,6 @@
 
 package com.twosigma.beaker.jupyter.handler;
 
-import com.twosigma.beaker.evaluator.EvaluatorManager;
-import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommKernelControlGetDefaultShellHandler;
 import com.twosigma.beaker.jupyter.CommKernelControlSetShellHandler;
@@ -26,8 +24,7 @@ import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
-import org.junit.Test;
-import org.lappsgrid.jupyter.handler.IHandler;
+import org.lappsgrid.jupyter.handler.Handler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.lappsgrid.jupyter.msg.MessageTest;
@@ -151,7 +148,7 @@ public class JupyterHandlerTest {
     groovyKernel = new GroovyKernelJupyterTest();
     commOpenHandler = new CommOpenHandler(groovyKernel) {
       @Override
-      public IHandler<Message>[] getKernelControlChanelHandlers(String targetName) {
+      public Handler<Message>[] getKernelControlChanelHandlers(String targetName) {
         return null;
       }
     };

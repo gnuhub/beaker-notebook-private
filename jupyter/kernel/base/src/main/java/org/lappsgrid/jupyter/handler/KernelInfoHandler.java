@@ -12,15 +12,7 @@ import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Provides Jupyter with information about this kernel.
- * <p>
- * TODO: For some reason Jupyter always complains about timeouts while waiting
- * for the kernel_info_reply message...
- *
- * @author Keith Suderman
- */
-public class KernelInfoHandler extends AbstractHandler<Message> {
+public class KernelInfoHandler extends KernelHandler<Message> {
 
   private final static Logger logger = LoggerFactory.getLogger(KernelInfoHandler.class);
 
@@ -29,7 +21,7 @@ public class KernelInfoHandler extends AbstractHandler<Message> {
   }
 
   @Override
-  public void handle(Message message)  {
+  public void handle(Message message) {
     logger.info("Processing kernel info request");
     Message reply = new Message();
     HashMap<String, Serializable> map = new HashMap<>(6);

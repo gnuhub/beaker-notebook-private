@@ -9,8 +9,6 @@ import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
 
 /**
  * Handling messages on the STDIN thread is not implemented yet.
- *
- * @author Keith Suderman
  */
 public class StdinThread extends AbstractMessageReaderThread {
 

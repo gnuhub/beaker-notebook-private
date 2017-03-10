@@ -16,7 +16,7 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
-import org.lappsgrid.jupyter.handler.IHandler;
+import org.lappsgrid.jupyter.handler.Handler;
 import org.lappsgrid.jupyter.msg.Message;
 
 import java.io.Serializable;
@@ -37,7 +37,7 @@ public abstract class DOMWidget extends Widget {
 
   @Override
   protected void addValueChangeMsgCallback(Comm comm) {
-    comm.addMsgCallbackList(new IHandler<Message>() {
+    comm.addMsgCallbackList(new Handler<Message>() {
       @Override
       public void handle(Message msg)  {
         if (msg != null && msg.getContent() != null && msg.getContent().containsKey(DATA)) {

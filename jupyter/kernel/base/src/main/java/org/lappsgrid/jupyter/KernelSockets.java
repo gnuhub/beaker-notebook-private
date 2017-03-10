@@ -40,12 +40,7 @@ public class KernelSockets {
 
   public static final String DELIM = "<IDS|MSG>";
 
-  private Config configuration;
-  /**
-   * Used to generate the HMAC signatures for messages
-   */
   private HmacSigner hmac;
-
   private Map<String, AbstractMessageReaderThread> threads = new HashMap<>();
   private ZMQ.Socket hearbeatSocket;
   private ZMQ.Socket controlSocket;
@@ -55,7 +50,6 @@ public class KernelSockets {
 
   public KernelSockets(Kernel kernel, Config configuration) {
 
-    this.configuration = configuration;
     this.hmac = new HmacSigner(configuration.getKey());
 
     final String connection = configuration.getTransport() + "://" + configuration.getHost();
@@ -78,11 +72,11 @@ public class KernelSockets {
   }
 
   public synchronized void publish(Message message) {
-    send(this.getIopubSocket(), message);
+    send(this.iopubSocket, message);
   }
 
   public synchronized void send(Message message) {
-    send(this.getShellSocket(), message);
+    send(this.shellSocket, message);
   }
 
   public void send(final ZMQ.Socket socket, Message message) {
@@ -107,15 +101,6 @@ public class KernelSockets {
             toJson(message.getContent())));
   }
 
-  public ZMQ.Socket getShellSocket() {
-    return shellSocket;
-  }
-
-  public ZMQ.Socket getIopubSocket() {
-    return iopubSocket;
-  }
-
-
   // A factory "method" for creating sockets.
   private ZMQ.Socket getNewSocket(int type, int port, String connection, ZMQ.Context context) {
     ZMQ.Socket socket = context.socket(type);
@@ -124,16 +109,11 @@ public class KernelSockets {
   }
 
   public void start() {
-    // Start all the socket handler threads
     threads.values().forEach(AbstractThread::start);
   }
 
   public void haltAndJoin() throws InterruptedException {
-    // Signal all threads that it is time to stop and then wait for
-    // them to finish.
-    for (AbstractMessageReaderThread thread : threads.values()) {
-      thread.halt();
-    }
+    threads.values().forEach(AbstractThread::halt);
     for (AbstractMessageReaderThread thread : threads.values()) {
       thread.join();
     }

@@ -22,10 +22,10 @@ import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.jupyter.handler.ExecuteRequestHandler;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
-import org.lappsgrid.jupyter.handler.AbstractHandler;
+import org.lappsgrid.jupyter.handler.KernelHandler;
 import org.lappsgrid.jupyter.handler.CompleteHandler;
 import org.lappsgrid.jupyter.handler.HistoryHandler;
-import org.lappsgrid.jupyter.handler.IHandler;
+import org.lappsgrid.jupyter.handler.Handler;
 import org.lappsgrid.jupyter.handler.KernelInfoHandler;
 import org.lappsgrid.jupyter.msg.Message;
 
@@ -36,7 +36,7 @@ import java.util.Map;
  */
 public class KernelHandlers {
 
-  private Map<JupyterMessages, AbstractHandler<Message>> handlers;
+  private Map<JupyterMessages, KernelHandler<Message>> handlers;
   private KernelFunctionality kernel;
 
   public KernelHandlers(KernelFunctionality kernel, final CommOpenHandler commOpenHandler) {
@@ -44,8 +44,8 @@ public class KernelHandlers {
     this.handlers = createHandlers(commOpenHandler);
   }
 
-  private Map<JupyterMessages, AbstractHandler<Message>> createHandlers(final CommOpenHandler commOpenHandler) {
-    Map<JupyterMessages, AbstractHandler<Message>> handlers = new HashMap<>();
+  private Map<JupyterMessages, KernelHandler<Message>> createHandlers(final CommOpenHandler commOpenHandler) {
+    Map<JupyterMessages, KernelHandler<Message>> handlers = new HashMap<>();
     handlers.put(JupyterMessages.EXECUTE_REQUEST, new ExecuteRequestHandler(kernel));
     handlers.put(JupyterMessages.KERNEL_INFO_REQUEST, new KernelInfoHandler(kernel));
     handlers.put(JupyterMessages.COMPLETE_REQUEST, new CompleteHandler(kernel));
@@ -59,12 +59,12 @@ public class KernelHandlers {
     return handlers;
   }
 
-  public IHandler<Message> get(JupyterMessages type) {
+  public Handler<Message> get(JupyterMessages type) {
     return handlers.get(type);
   }
 
   public void exit() {
-    for (AbstractHandler<Message> handler : this.handlers.values()) {
+    for (KernelHandler<Message> handler : this.handlers.values()) {
       handler.exit();
     }
   }

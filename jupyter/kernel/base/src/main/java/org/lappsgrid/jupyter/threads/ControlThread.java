@@ -13,10 +13,6 @@ import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.SHUTDOWN_REPLY;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.SHUTDOWN_REQUEST;
 
-
-/**
- * @author Keith Suderman
- */
 public class ControlThread extends AbstractMessageReaderThread {
 
   public static final Logger logger = LoggerFactory.getLogger(ControlThread.class);

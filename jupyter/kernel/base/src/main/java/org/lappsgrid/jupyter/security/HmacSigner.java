@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
  * Generates HMACs (Hashed Message Authentication Codes) for messages exchanged
  * with Jupyter. Jupyter supplies us with the signing key in the connection
  * information file that is passed in as a parameter when a kernel is started.
- *
- * @author Keith Suderman
  */
 public class HmacSigner {
 

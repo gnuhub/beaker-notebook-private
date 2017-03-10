@@ -7,15 +7,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class MessageSerializer {
 
   private static ObjectMapper mapper;
-  private static ObjectMapper prettyPrinter;
 
   static {
     mapper = new ObjectMapper();
     mapper.disable(SerializationFeature.INDENT_OUTPUT);
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    prettyPrinter = new ObjectMapper();
-    prettyPrinter.enable(SerializationFeature.INDENT_OUTPUT);
-    prettyPrinter.setSerializationInclusion(JsonInclude.Include.NON_NULL);
   }
 
   private MessageSerializer() {

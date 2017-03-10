@@ -16,7 +16,7 @@
 package com.twosigma.beaker.jupyter;
 
 import org.lappsgrid.jupyter.KernelFunctionality;
-import org.lappsgrid.jupyter.handler.AbstractHandler;
+import org.lappsgrid.jupyter.handler.KernelHandler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
 /**
  * @author konst
  */
-public abstract class CommKernelControlGetDefaultShellHandler extends AbstractHandler<Message> {
+public abstract class CommKernelControlGetDefaultShellHandler extends KernelHandler<Message> {
 
   public static final String GET_DEFAULT_SHELL = "get_default_shell";
   public static final String KERNEL_CONTROL_RESPONSE = "kernel_control_response";

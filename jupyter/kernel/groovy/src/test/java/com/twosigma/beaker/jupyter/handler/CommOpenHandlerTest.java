@@ -20,7 +20,7 @@ import com.twosigma.beaker.jupyter.GroovyKernelJupyterTest;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
-import org.lappsgrid.jupyter.handler.IHandler;
+import org.lappsgrid.jupyter.handler.Handler;
 import org.lappsgrid.jupyter.msg.Message;
 
 import java.util.Map;
@@ -41,7 +41,7 @@ public class CommOpenHandlerTest {
     groovyKernel = new GroovyKernelJupyterTest();
     commOpenHandler = new CommOpenHandler(groovyKernel) {
       @Override
-      public IHandler<Message>[] getKernelControlChanelHandlers(String targetName) {
+      public Handler<Message>[] getKernelControlChanelHandlers(String targetName) {
         return null;
       }
     };

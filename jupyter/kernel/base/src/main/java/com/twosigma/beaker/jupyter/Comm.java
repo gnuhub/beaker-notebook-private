@@ -18,7 +18,7 @@ package com.twosigma.beaker.jupyter;
 import com.twosigma.beaker.evaluator.InternalVariable;
 import org.lappsgrid.jupyter.Kernel;
 import org.lappsgrid.jupyter.KernelFunctionality;
-import org.lappsgrid.jupyter.handler.IHandler;
+import org.lappsgrid.jupyter.handler.Handler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
@@ -54,8 +54,8 @@ public class Comm {
   private HashMap<?, ?> data;
   private String targetModule;
   private KernelFunctionality kernel;
-  private List<IHandler<Message>> msgCallbackList = new ArrayList<>();
-  private List<IHandler<Message>> closeCallbackList = new ArrayList<>();
+  private List<Handler<Message>> msgCallbackList = new ArrayList<>();
+  private List<Handler<Message>> closeCallbackList = new ArrayList<>();
 
   public Comm(String commId, String targetName) {
     super();
@@ -101,11 +101,11 @@ public class Comm {
     this.targetModule = targetModule;
   }
 
-  public List<IHandler<Message>> getMsgCallbackList() {
+  public List<Handler<Message>> getMsgCallbackList() {
     return msgCallbackList;
   }
 
-  public void addMsgCallbackList(IHandler<Message>... handlers) {
+  public void addMsgCallbackList(Handler<Message>... handlers) {
     this.msgCallbackList.addAll(Arrays.asList(handlers));
   }
 
@@ -113,11 +113,11 @@ public class Comm {
     this.msgCallbackList = new ArrayList<>();
   }
 
-  public List<IHandler<Message>> getCloseCallbackList() {
+  public List<Handler<Message>> getCloseCallbackList() {
     return closeCallbackList;
   }
 
-  public void addCloseCallbackList(IHandler<Message>... handlers) {
+  public void addCloseCallbackList(Handler<Message>... handlers) {
     this.closeCallbackList.addAll(Arrays.asList(handlers));
   }
 
@@ -146,7 +146,7 @@ public class Comm {
     Message parentMessage = getParentMessage();// can be null
 
     if (this.getCloseCallbackList() != null && !this.getMsgCallbackList().isEmpty()) {
-      for (IHandler<Message> handler : getMsgCallbackList()) {
+      for (Handler<Message> handler : getMsgCallbackList()) {
         handler.handle(parentMessage);
       }
     }
@@ -193,7 +193,7 @@ public class Comm {
 
   public void handleMsg(Message parentMessage) {
     if (this.getMsgCallbackList() != null && !this.getMsgCallbackList().isEmpty()) {
-      for (IHandler<Message> handler : getMsgCallbackList()) {
+      for (Handler<Message> handler : getMsgCallbackList()) {
         handler.handle(parentMessage);
       }
     }

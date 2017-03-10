@@ -18,7 +18,7 @@ package com.twosigma.beaker.jupyter.handler;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.lappsgrid.jupyter.KernelFunctionality;
-import org.lappsgrid.jupyter.handler.AbstractHandler;
+import org.lappsgrid.jupyter.handler.KernelHandler;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ import java.util.Map;
 
 import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
 
-public class CommMsgHandler extends AbstractHandler<Message> {
+public class CommMsgHandler extends KernelHandler<Message> {
 
   private final static Logger logger = LoggerFactory.getLogger(CommMsgHandler.class);
 

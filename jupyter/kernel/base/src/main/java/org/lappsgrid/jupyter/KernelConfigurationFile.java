@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class KernelConfigurationFile implements ConfigurationFile {
 
@@ -32,14 +31,6 @@ public class KernelConfigurationFile implements ConfigurationFile {
 
   public KernelConfigurationFile(final String[] args) {
     this.config = getConfig(args);
-  }
-
-  private String getAbsolutePath() {
-    return config.getAbsolutePath();
-  }
-
-  private Path toPath() {
-    return config.toPath();
   }
 
   @Override

@@ -1,7 +1,7 @@
 package org.lappsgrid.jupyter.threads;
 
 import org.lappsgrid.jupyter.Kernel;
-import org.lappsgrid.jupyter.handler.IHandler;
+import org.lappsgrid.jupyter.handler.Handler;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +9,6 @@ import org.zeromq.ZMQ;
 
 import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
 
-/**
- * @author Keith Suderman
- */
 public class ShellThread extends AbstractMessageReaderThread {
 
   public static Logger logger = LoggerFactory.getLogger(ShellThread.class);
@@ -25,7 +22,7 @@ public class ShellThread extends AbstractMessageReaderThread {
     while (getRunning()) {
       Message message = readMessage();
       logger.info("Processing message = " + message.type());
-      IHandler<Message> handler = getKernel().getHandler(message.type());
+      Handler<Message> handler = getKernel().getHandler(message.type());
       if (handler != null) {
         handler.handle(message);
       } else {

@@ -17,8 +17,8 @@
 package com.twosigma.beaker.jupyter.handler;
 
 import com.twosigma.beaker.jupyter.Comm;
-import org.lappsgrid.jupyter.handler.AbstractHandler;
-import org.lappsgrid.jupyter.handler.IHandler;
+import org.lappsgrid.jupyter.handler.KernelHandler;
+import org.lappsgrid.jupyter.handler.Handler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ import org.lappsgrid.jupyter.KernelFunctionality;
  * @author konst
  *
  */
-public abstract class CommOpenHandler extends AbstractHandler<Message> {
+public abstract class CommOpenHandler extends KernelHandler<Message> {
 
   private final static Logger logger = LoggerFactory.getLogger(CommOpenHandler.class);
 
@@ -71,7 +71,7 @@ public abstract class CommOpenHandler extends AbstractHandler<Message> {
 
     if(newComm != null){
       logger.info("Comm opened, target name = " + newComm.getTargetName());
-      for (IHandler<Message> handler : getKernelControlChanelHandlers(newComm.getTargetName())) {
+      for (Handler<Message> handler : getKernelControlChanelHandlers(newComm.getTargetName())) {
         newComm.addMsgCallbackList(handler);
       }
       kernel.addComm(newComm.getCommId(), newComm);
@@ -83,7 +83,7 @@ public abstract class CommOpenHandler extends AbstractHandler<Message> {
     send(reply);
   }
   
-  public abstract IHandler<Message>[] getKernelControlChanelHandlers(String targetName);
+  public abstract Handler<Message>[] getKernelControlChanelHandlers(String targetName);
   
   public static String getString(Map<String, Serializable> map, String name) {
     return (String) map.get(name);

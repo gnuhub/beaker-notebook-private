@@ -19,7 +19,7 @@ package com.twosigma.beaker.jupyter.handler;
 import com.twosigma.beaker.evaluator.EvaluatorManager;
 import com.twosigma.beaker.jupyter.commands.MagicCommand;
 import org.lappsgrid.jupyter.KernelFunctionality;
-import org.lappsgrid.jupyter.handler.AbstractHandler;
+import org.lappsgrid.jupyter.handler.KernelHandler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
  *
  * @author konst
  */
-public class ExecuteRequestHandler extends AbstractHandler<Message> {
+public class ExecuteRequestHandler extends KernelHandler<Message> {
 
   private final static Logger logger = LoggerFactory.getLogger(ExecuteRequestHandler.class);
 

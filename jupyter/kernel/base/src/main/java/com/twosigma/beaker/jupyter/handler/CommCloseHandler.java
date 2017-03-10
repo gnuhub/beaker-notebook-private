@@ -17,7 +17,7 @@
 package com.twosigma.beaker.jupyter.handler;
 
 import org.lappsgrid.jupyter.KernelFunctionality;
-import org.lappsgrid.jupyter.handler.AbstractHandler;
+import org.lappsgrid.jupyter.handler.KernelHandler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ import static com.twosigma.beaker.jupyter.Comm.DATA;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_CLOSE;
 
 /** @author konst */
-public class CommCloseHandler extends AbstractHandler<Message> {
+public class CommCloseHandler extends KernelHandler<Message> {
 
   private final static Logger logger = LoggerFactory.getLogger(CommCloseHandler.class);;
 

@@ -11,12 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 
-/**
- * Defines the wire protocol used for messages exchanged with Jupyter.
- *
- * @author Keith Suderman
- */
-@JsonPropertyOrder({ "identities", "header", "parentHeader", "metadata", "content" })
+@JsonPropertyOrder({"identities", "header", "parentHeader", "metadata", "content"})
 public class Message {
 
   private List<byte[]> identities = new ArrayList<>();
@@ -74,10 +69,10 @@ public class Message {
   public void setContent(Map<String, Serializable> content) {
     this.content = content;
   }
-  
+
   @Override
   public String toString() {
     return "Type = " + header.getType();
   }
-  
+
 }

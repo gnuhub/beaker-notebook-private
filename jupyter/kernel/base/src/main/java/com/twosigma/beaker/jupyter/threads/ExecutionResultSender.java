@@ -17,10 +17,10 @@ public class ExecutionResultSender implements Observer {
 
   public static Logger logger = LoggerFactory.getLogger(ExecutionResultSender.class);
 
-  protected MessageCreator handler = null;
-  protected final ConcurrentLinkedQueue<MessageHolder> messageQueue = new ConcurrentLinkedQueue<>();
-  protected AbstractThread workingThread = null;
-  protected KernelFunctionality kernel;
+  private MessageCreator handler;
+  private final ConcurrentLinkedQueue<MessageHolder> messageQueue = new ConcurrentLinkedQueue<>();
+  private AbstractThread workingThread;
+  private KernelFunctionality kernel;
 
   public ExecutionResultSender(KernelFunctionality kernel) {
     this.kernel = kernel;

@@ -16,7 +16,7 @@
 package com.twosigma.beaker.jupyter;
 
 import org.lappsgrid.jupyter.KernelFunctionality;
-import org.lappsgrid.jupyter.handler.AbstractHandler;
+import org.lappsgrid.jupyter.handler.KernelHandler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_MSG;
 /**
  * @author konst
  */
-public class CommKernelControlSetShellHandler extends AbstractHandler<Message> {
+public class CommKernelControlSetShellHandler extends KernelHandler<Message> {
 
   public static final String IMPORTS = "imports";
   public static final String CLASSPATH = "classpath";

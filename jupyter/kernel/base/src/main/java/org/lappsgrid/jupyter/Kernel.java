@@ -7,7 +7,7 @@ import com.twosigma.beaker.jupyter.KernelManager;
 import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
-import org.lappsgrid.jupyter.handler.IHandler;
+import org.lappsgrid.jupyter.handler.Handler;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +20,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * The entry point for the Jupyter kernel.
- *
- * @author Keith Suderman
- */
 public abstract class Kernel implements KernelFunctionality {
 
-  public static String OS = System.getProperty("os.name").toLowerCase();
   private static final Logger logger = LoggerFactory.getLogger(Kernel.class);
+
+  public static String OS = System.getProperty("os.name").toLowerCase();
 
   private volatile boolean running = false;
   private String sessionId;
@@ -71,8 +67,6 @@ public abstract class Kernel implements KernelFunctionality {
 
   private void waitForShutdown() throws InterruptedException {
     while (running) {
-      // Nothing to do but navel gaze until another thread sets
-      // running == false
       Thread.sleep(1000);
     }
   }
@@ -129,9 +123,6 @@ public abstract class Kernel implements KernelFunctionality {
     }
   }
 
-  /**
-   * Sends a Message to the iopub socket.
-   */
   public synchronized void publish(Message message) {
     this.kernelSockets.publish(message);
   }
@@ -149,7 +140,7 @@ public abstract class Kernel implements KernelFunctionality {
     return this.kernelSockets.readMessage(socket);
   }
 
-  public IHandler<Message> getHandler(JupyterMessages type) {
+  public Handler<Message> getHandler(JupyterMessages type) {
     return handlers.get(type);
   }
 
