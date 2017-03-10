@@ -20,7 +20,7 @@ import com.twosigma.beaker.jupyter.threads.AbstractThread;
 import com.twosigma.jupyter.json.MessageSerializer;
 import com.twosigma.jupyter.msg.Header;
 import com.twosigma.jupyter.msg.Message;
-import com.twosigma.jupyter.security.HmacSigner;
+import com.twosigma.jupyter.security.HashedMessageAuthenticationCode;
 import com.twosigma.jupyter.threads.ControlThread;
 import com.twosigma.jupyter.threads.HeartbeatThread;
 import com.twosigma.jupyter.threads.ShellThread;
@@ -40,7 +40,7 @@ public class KernelSockets {
 
   public static final String DELIM = "<IDS|MSG>";
 
-  private HmacSigner hmac;
+  private HashedMessageAuthenticationCode hmac;
   private Map<String, AbstractMessageReaderThread> threads = new HashMap<>();
   private ZMQ.Socket hearbeatSocket;
   private ZMQ.Socket controlSocket;
@@ -50,7 +50,7 @@ public class KernelSockets {
 
   public KernelSockets(Kernel kernel, Config configuration) {
 
-    this.hmac = new HmacSigner(configuration.getKey());
+    this.hmac = new HashedMessageAuthenticationCode(configuration.getKey());
 
     final String connection = configuration.getTransport() + "://" + configuration.getHost();
     final ZMQ.Context context = ZMQ.context(1);
