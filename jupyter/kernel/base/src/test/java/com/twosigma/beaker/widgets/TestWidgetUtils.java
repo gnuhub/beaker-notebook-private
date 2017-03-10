@@ -92,5 +92,4 @@ public class TestWidgetUtils {
     assertThat(data.get(METHOD)).isEqualTo(DISPLAY);
   }
 
-
 }

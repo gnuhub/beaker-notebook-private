@@ -16,7 +16,7 @@
 package org.lappsgrid.jupyter.handler;
 
 import com.twosigma.beaker.evaluator.GroovyEvaluator;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
+import com.twosigma.beaker.KernelTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.lappsgrid.jupyter.msg.Message;
@@ -30,11 +30,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CompleteHandlerTest {
 
   private CompleteHandler completeHandler;
-  private GroovyKernelTest kernel;
+  private KernelTest kernel;
 
   @Before
   public void setUp() throws Exception {
-    kernel = new GroovyKernelTest();
+    kernel = new KernelTest();
     completeHandler = new CompleteHandler(kernel, new GroovyEvaluator("id", "sid"));
   }
 
