@@ -39,8 +39,6 @@ public interface KernelFunctionality {
   Observer getExecutionResultSender();
 
   Comm getComm(String string);
-
-  Evaluator getEvaluator(Kernel kernel);
   
   boolean isCommPresent(String string);
 

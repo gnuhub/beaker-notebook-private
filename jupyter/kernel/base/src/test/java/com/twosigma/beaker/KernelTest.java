@@ -84,11 +84,6 @@ public class KernelTest implements KernelFunctionality {
   }
 
   @Override
-  public Evaluator getEvaluator(Kernel kernel) {
-    return null;
-  }
-
-  @Override
   public boolean isCommPresent(String string) {
     return false;
   }

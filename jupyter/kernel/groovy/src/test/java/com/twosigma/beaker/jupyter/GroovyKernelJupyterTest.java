@@ -17,6 +17,7 @@
 package com.twosigma.beaker.jupyter;
 
 import com.twosigma.beaker.evaluator.Evaluator;
+import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import org.lappsgrid.jupyter.Kernel;
@@ -38,6 +39,14 @@ public class GroovyKernelJupyterTest extends Kernel {
   private Boolean commHandleMessage;
   private Boolean setShellOptions;
 
+  public GroovyKernelJupyterTest() {
+    this("1", new GroovyEvaluator("1", "1"));
+  }
+
+  public GroovyKernelJupyterTest(String id, Evaluator evaluator) {
+    super(id, evaluator);
+  }
+
   @Override
   public void publish(Message message) {
     this.publishMessages.add(copyMessage(message));
@@ -51,11 +60,6 @@ public class GroovyKernelJupyterTest extends Kernel {
   @Override
   public void send(ZMQ.Socket socket, Message message) {
     this.sendMessages.add(copyMessage(message));
-  }
-
-  @Override
-  public Evaluator getEvaluator(Kernel kernel) {
-    return null;
   }
 
   @Override

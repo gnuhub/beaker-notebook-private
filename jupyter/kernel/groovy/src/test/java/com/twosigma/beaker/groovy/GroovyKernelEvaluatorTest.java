@@ -60,11 +60,6 @@ public class GroovyKernelEvaluatorTest implements KernelFunctionality {
   }
 
   @Override
-  public Evaluator getEvaluator(Kernel kernel) {
-    return null;
-  }
-
-  @Override
   public Set<String> getCommHashSet() {
     return null;
   }
