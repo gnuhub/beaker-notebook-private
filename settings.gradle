@@ -22,6 +22,7 @@ include 'jupyter:kernel'
 include 'jupyter:kernel:base'
 include 'jupyter:kernel:groovy'
 include 'jupyter:kernel:scala'
+include 'jupyter:kernel:cpp'
 include 'plugin:jvm',
         'plugin:groovy',
         'plugin:javash',
