@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.lappsgrid.jupyter.Kernel;
+import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 public class KernelInfoHandler extends AbstractHandler<Message> {
 
-  public KernelInfoHandler(Kernel kernel) {
+  public KernelInfoHandler(KernelFunctionality kernel) {
     super(kernel);
     logger = LoggerFactory.getLogger(KernelInfoHandler.class);
   }

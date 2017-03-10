@@ -18,7 +18,7 @@ package com.twosigma.beaker.jupyter.handler;
 
 import com.twosigma.beaker.evaluator.EvaluatorManager;
 import com.twosigma.beaker.jupyter.commands.MagicCommand;
-import org.lappsgrid.jupyter.Kernel;
+import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.handler.AbstractHandler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
@@ -43,10 +43,10 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
   protected EvaluatorManager evaluatorManager;
   private MagicCommand magicCommand;
 
-  public ExecuteRequestHandler(Kernel kernel, EvaluatorManager evaluatorManager) {
+  public ExecuteRequestHandler(KernelFunctionality kernel) {
     super(kernel);
     logger = LoggerFactory.getLogger(this.getClass());
-    this.evaluatorManager = evaluatorManager;
+    this.evaluatorManager = kernel.getEvaluatorManager();
     magicCommand = new MagicCommand(kernel);
     executionCount = 0;
   }

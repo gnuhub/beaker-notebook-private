@@ -15,10 +15,9 @@
  */
 package com.twosigma.beaker;
 
-import com.twosigma.beaker.evaluator.Evaluator;
+import com.twosigma.beaker.evaluator.EvaluatorManager;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
-import org.lappsgrid.jupyter.Kernel;
 import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.msg.Message;
 import org.zeromq.ZMQ;
@@ -113,4 +112,9 @@ public class KernelTest implements KernelFunctionality {
   }
 
   public void cancelExecution(){}
+
+  @Override
+  public EvaluatorManager getEvaluatorManager() {
+    return null;
+  }
 }

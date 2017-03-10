@@ -15,7 +15,7 @@
  */
 package org.lappsgrid.jupyter;
 
-import com.twosigma.beaker.evaluator.Evaluator;
+import com.twosigma.beaker.evaluator.EvaluatorManager;
 import com.twosigma.beaker.jupyter.Comm;
 import org.lappsgrid.jupyter.msg.Message;
 import org.zeromq.ZMQ;
@@ -47,4 +47,6 @@ public interface KernelFunctionality {
   void setShellOptions(String usString, String usString1, String o);
 
   void cancelExecution();
+
+  EvaluatorManager getEvaluatorManager();
 }

@@ -1,7 +1,6 @@
 package org.lappsgrid.jupyter.handler;
 
 import com.twosigma.beaker.autocomplete.AutocompleteResult;
-import com.twosigma.beaker.evaluator.Evaluator;
 import com.twosigma.beaker.evaluator.EvaluatorManager;
 import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.msg.Header;
@@ -33,10 +32,10 @@ public class CompleteHandler extends AbstractHandler<Message> {
 
   private EvaluatorManager evaluatorManager;
 
-  public CompleteHandler(KernelFunctionality kernel, Evaluator evaluator) {
+  public CompleteHandler(KernelFunctionality kernel) {
     super(kernel);
     logger = LoggerFactory.getLogger(CompleteHandler.class);
-    evaluatorManager = new EvaluatorManager(kernel, evaluator);
+    evaluatorManager = kernel.getEvaluatorManager();
   }
 
   @Override

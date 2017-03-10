@@ -1,6 +1,6 @@
 package org.lappsgrid.jupyter.handler;
 
-import org.lappsgrid.jupyter.Kernel;
+import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.msg.Message;
 
 /**
@@ -9,7 +9,7 @@ import org.lappsgrid.jupyter.msg.Message;
  * @author Keith Suderman
  */
 public class HistoryHandler extends AbstractHandler<Message> {
-    public HistoryHandler(Kernel kernel) {
+    public HistoryHandler(KernelFunctionality kernel) {
         super(kernel);
     }
 

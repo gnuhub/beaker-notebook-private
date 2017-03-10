@@ -15,7 +15,6 @@
  */
 package org.lappsgrid.jupyter.handler;
 
-import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +34,7 @@ public class CompleteHandlerTest {
   @Before
   public void setUp() throws Exception {
     kernel = new GroovyKernelTest();
-    completeHandler = new CompleteHandler(kernel, new GroovyEvaluator("id", "sid"));
+    completeHandler = new CompleteHandler(kernel);
   }
 
   @Test

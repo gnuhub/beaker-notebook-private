@@ -26,6 +26,7 @@ import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.Test;
 import org.lappsgrid.jupyter.handler.IHandler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
@@ -158,7 +159,7 @@ public class JupyterHandlerTest {
     commInfoHandler = new CommInfoHandler(groovyKernel);
     commMsgHandler = new CommMsgHandler(groovyKernel, new MessageCreator(groovyKernel));
     executeRequestHandler =
-        new ExecuteRequestHandler(groovyKernel, new EvaluatorManager(groovyKernel, new GroovyEvaluator("id", "sid")));
+        new ExecuteRequestHandler(groovyKernel);
   }
 
 //  @Test
