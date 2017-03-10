@@ -49,7 +49,7 @@ public class CommKernelControlGetDefaultShellHandlerTest {
   }
 
 //  @Test
-  public void handleGetDefaultShellMessage_shouldSendShellSocketMessage() throws Exception {
+  public void handleGetDefaultShellMessage_shouldPublishShellSocketMessage() throws Exception {
     //given
     initMessageData(message);
     //when
@@ -71,7 +71,7 @@ public class CommKernelControlGetDefaultShellHandlerTest {
   }
 
 //  @Test
-  public void handleGetDefaultShellMessage_sentMessageHasCommId() throws Exception {
+  public void handleGetDefaultShellMessage_publishedMessageHasCommId() throws Exception {
     //given
     initMessageData(message);
     //when
