@@ -27,7 +27,7 @@ import com.twosigma.jupyter.handler.CompleteHandler;
 import com.twosigma.jupyter.handler.HistoryHandler;
 import com.twosigma.jupyter.handler.Handler;
 import com.twosigma.jupyter.handler.KernelInfoHandler;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 import java.util.HashMap;
 import java.util.Map;

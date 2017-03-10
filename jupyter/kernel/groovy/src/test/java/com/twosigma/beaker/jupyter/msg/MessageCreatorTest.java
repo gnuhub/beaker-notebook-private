@@ -21,7 +21,7 @@ import com.twosigma.beaker.widgets.GroovyKernelTest;
 import com.twosigma.beaker.widgets.TestWidgetUtils;
 import org.junit.Before;
 import org.junit.Test;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 import java.util.List;
 import java.util.Map;

@@ -19,8 +19,8 @@ import com.twosigma.beaker.evaluator.InternalVariable;
 import com.twosigma.jupyter.Kernel;
 import com.twosigma.jupyter.KernelFunctionality;
 import com.twosigma.jupyter.handler.Handler;
-import com.twosigma.jupyter.msg.Header;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Header;
+import com.twosigma.jupyter.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

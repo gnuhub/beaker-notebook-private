@@ -16,7 +16,7 @@
 package com.twosigma.jupyter.handler;
 
 import com.twosigma.jupyter.KernelFunctionality;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

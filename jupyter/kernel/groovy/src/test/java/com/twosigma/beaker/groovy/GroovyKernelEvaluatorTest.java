@@ -19,7 +19,7 @@ package com.twosigma.beaker.groovy;
 import com.twosigma.beaker.evaluator.EvaluatorManager;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.jupyter.KernelFunctionality;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 import org.zeromq.ZMQ;
 
 import java.util.ArrayList;

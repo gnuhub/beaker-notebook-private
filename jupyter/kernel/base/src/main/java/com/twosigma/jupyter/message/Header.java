@@ -13,12 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.jupyter.msg;
+package com.twosigma.jupyter.message;
 
 import static com.twosigma.beaker.jupyter.Utils.timestamp;
 import static com.twosigma.beaker.jupyter.Utils.uuid;
-
-import com.twosigma.jupyter.json.MessageSerializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -37,15 +35,6 @@ public class Header {
   private String version;
 
   public Header() {
-  }
-
-  public Header(Header header) {
-    this.id = header.id;
-    this.date = header.date;
-    this.username = header.username;
-    this.session = header.session;
-    this.type = header.type;
-    this.version = header.version;
   }
 
   public Header(JupyterMessages type, String session) {

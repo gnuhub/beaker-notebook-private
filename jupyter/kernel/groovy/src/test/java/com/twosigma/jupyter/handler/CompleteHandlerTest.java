@@ -18,7 +18,7 @@ package com.twosigma.jupyter.handler;
 import com.twosigma.beaker.widgets.GroovyKernelTest;
 import org.junit.Before;
 import org.junit.Test;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 import java.io.Serializable;
 import java.util.HashMap;

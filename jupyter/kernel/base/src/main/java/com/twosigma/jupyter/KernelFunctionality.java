@@ -17,7 +17,7 @@ package com.twosigma.jupyter;
 
 import com.twosigma.beaker.evaluator.EvaluatorManager;
 import com.twosigma.beaker.jupyter.Comm;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 import org.zeromq.ZMQ;
 import java.util.Observer;
 import java.util.Set;

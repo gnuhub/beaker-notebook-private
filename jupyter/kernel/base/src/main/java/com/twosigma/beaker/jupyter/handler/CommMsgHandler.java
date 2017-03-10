@@ -19,7 +19,7 @@ import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import com.twosigma.jupyter.KernelFunctionality;
 import com.twosigma.jupyter.handler.KernelHandler;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

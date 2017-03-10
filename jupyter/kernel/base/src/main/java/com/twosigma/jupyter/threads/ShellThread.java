@@ -17,7 +17,7 @@ package com.twosigma.jupyter.threads;
 
 import com.twosigma.jupyter.Kernel;
 import com.twosigma.jupyter.handler.Handler;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;

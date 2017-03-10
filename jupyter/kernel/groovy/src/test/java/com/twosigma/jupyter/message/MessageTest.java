@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.twosigma.jupyter.msg;
+package com.twosigma.jupyter.message;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;

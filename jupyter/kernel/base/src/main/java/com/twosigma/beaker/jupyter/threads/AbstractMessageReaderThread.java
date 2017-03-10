@@ -16,7 +16,7 @@
 package com.twosigma.beaker.jupyter.threads;
 
 import com.twosigma.jupyter.Kernel;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 import org.zeromq.ZMQ;
 
 /**

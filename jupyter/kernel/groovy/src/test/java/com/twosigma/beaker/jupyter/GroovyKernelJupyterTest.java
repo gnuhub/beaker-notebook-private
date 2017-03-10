@@ -22,16 +22,16 @@ import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import com.twosigma.jupyter.Config;
 import com.twosigma.jupyter.Kernel;
-import com.twosigma.jupyter.msg.Header;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Header;
+import com.twosigma.jupyter.message.Message;
 import org.zeromq.ZMQ;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.twosigma.jupyter.json.MessageSerializer.parse;
-import static com.twosigma.jupyter.json.MessageSerializer.toJson;
+import static com.twosigma.jupyter.message.MessageSerializer.parse;
+import static com.twosigma.jupyter.message.MessageSerializer.toJson;
 
 public class GroovyKernelJupyterTest extends Kernel {
 

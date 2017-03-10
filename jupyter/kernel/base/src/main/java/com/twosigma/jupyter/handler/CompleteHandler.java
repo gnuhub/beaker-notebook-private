@@ -18,8 +18,8 @@ package com.twosigma.jupyter.handler;
 import com.twosigma.beaker.autocomplete.AutocompleteResult;
 import com.twosigma.beaker.evaluator.EvaluatorManager;
 import com.twosigma.jupyter.KernelFunctionality;
-import com.twosigma.jupyter.msg.Header;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Header;
+import com.twosigma.jupyter.message.Message;
 
 import java.io.Serializable;
 import java.util.HashMap;

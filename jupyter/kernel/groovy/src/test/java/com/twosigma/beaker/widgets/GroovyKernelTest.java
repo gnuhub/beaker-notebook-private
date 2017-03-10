@@ -20,7 +20,7 @@ import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
 import com.twosigma.jupyter.KernelFunctionality;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 import org.zeromq.ZMQ;
 
 import java.util.ArrayList;

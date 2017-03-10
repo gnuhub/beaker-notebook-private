@@ -17,9 +17,9 @@ package com.twosigma.jupyter;
 
 import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
 import com.twosigma.beaker.jupyter.threads.AbstractThread;
-import com.twosigma.jupyter.json.MessageSerializer;
-import com.twosigma.jupyter.msg.Header;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.MessageSerializer;
+import com.twosigma.jupyter.message.Header;
+import com.twosigma.jupyter.message.Message;
 import com.twosigma.jupyter.security.HashedMessageAuthenticationCode;
 import com.twosigma.jupyter.threads.ControlThread;
 import com.twosigma.jupyter.threads.HeartbeatThread;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
-import static com.twosigma.jupyter.json.MessageSerializer.toJson;
+import static com.twosigma.jupyter.message.MessageSerializer.toJson;
 
 public class KernelSockets {
 

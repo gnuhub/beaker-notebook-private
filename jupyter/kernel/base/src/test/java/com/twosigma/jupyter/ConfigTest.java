@@ -15,7 +15,7 @@
  */
 package com.twosigma.jupyter;
 
-import com.twosigma.jupyter.json.MessageSerializer;
+import com.twosigma.jupyter.message.MessageSerializer;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 

@@ -23,7 +23,7 @@ import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
 import com.twosigma.jupyter.handler.Handler;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;

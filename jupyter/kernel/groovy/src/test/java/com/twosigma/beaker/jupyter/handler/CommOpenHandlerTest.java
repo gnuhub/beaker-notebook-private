@@ -21,7 +21,7 @@ import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import com.twosigma.jupyter.handler.Handler;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 import java.util.Map;
 

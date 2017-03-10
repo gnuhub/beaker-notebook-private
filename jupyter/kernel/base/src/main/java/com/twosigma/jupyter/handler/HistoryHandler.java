@@ -16,7 +16,7 @@
 package com.twosigma.jupyter.handler;
 
 import com.twosigma.jupyter.KernelFunctionality;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 public class HistoryHandler extends KernelHandler<Message> {
   public HistoryHandler(KernelFunctionality kernel) {
@@ -25,7 +25,6 @@ public class HistoryHandler extends KernelHandler<Message> {
 
   @Override
   public void handle(Message message) {
-    //TODO Handle history messages.
   }
 
 }

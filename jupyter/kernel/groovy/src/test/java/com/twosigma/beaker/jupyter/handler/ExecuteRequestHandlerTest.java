@@ -22,7 +22,7 @@ import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 public class ExecuteRequestHandlerTest {
 

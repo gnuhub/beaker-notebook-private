@@ -18,7 +18,7 @@ package com.twosigma.beaker.jupyter.commands;
 
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import com.twosigma.jupyter.KernelFunctionality;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 import java.io.BufferedReader;
 import java.io.IOException;

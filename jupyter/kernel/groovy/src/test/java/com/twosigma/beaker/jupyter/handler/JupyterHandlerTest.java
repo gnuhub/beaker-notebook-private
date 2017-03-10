@@ -25,9 +25,9 @@ import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import com.twosigma.jupyter.handler.Handler;
-import com.twosigma.jupyter.msg.Header;
-import com.twosigma.jupyter.msg.Message;
-import com.twosigma.jupyter.msg.MessageTest;
+import com.twosigma.jupyter.message.Header;
+import com.twosigma.jupyter.message.Message;
+import com.twosigma.jupyter.message.MessageTest;
 
 import java.io.Serializable;
 import java.util.Arrays;

@@ -19,7 +19,7 @@ package com.twosigma.beaker.jupyter;
 import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 import java.io.Serializable;
 import java.util.HashMap;

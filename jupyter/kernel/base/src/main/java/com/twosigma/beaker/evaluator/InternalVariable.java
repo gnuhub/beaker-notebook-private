@@ -16,7 +16,7 @@
 package com.twosigma.beaker.evaluator;
 
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 public class InternalVariable {
 

@@ -2,7 +2,7 @@ package com.twosigma.beaker.groovy.comm;
 
 import com.twosigma.jupyter.KernelFunctionality;
 import com.twosigma.jupyter.handler.Handler;
-import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.message.Message;
 
 import com.twosigma.beaker.jupyter.CommKernelControlInterrupt;
 import com.twosigma.beaker.jupyter.CommKernelControlSetShellHandler;
