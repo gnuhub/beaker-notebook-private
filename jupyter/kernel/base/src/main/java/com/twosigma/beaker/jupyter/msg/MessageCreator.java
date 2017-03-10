@@ -93,7 +93,7 @@ public class MessageCreator {
     reply = initMessage(EXECUTE_REPLY, message);
     Hashtable<String, Serializable> map6 = new Hashtable<String, Serializable>(3);
     map6.put("dependencies_met", true);
-    map6.put("engine", kernel.getId());
+    map6.put("engine", kernel.getSessionId());
     map6.put("started", timestamp());
     reply.setMetadata(map6);
     Hashtable<String, Serializable> map7 = new Hashtable<String, Serializable>(1);

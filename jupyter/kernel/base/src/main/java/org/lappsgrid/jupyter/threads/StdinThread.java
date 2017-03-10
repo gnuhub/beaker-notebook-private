@@ -26,7 +26,6 @@ public class StdinThread extends AbstractMessageReaderThread {
       byte[] buffer = getSocket().recv();
       logger.info("Stdin: {}", new String(buffer));
     }
-
     logger.info("StdinThread shutdown.");
   }
 }

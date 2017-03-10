@@ -20,6 +20,7 @@ import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.handler.AbstractHandler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
@@ -33,9 +34,10 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_CLOSE;
 /** @author konst */
 public class CommCloseHandler extends AbstractHandler<Message> {
 
+  private final static Logger logger = LoggerFactory.getLogger(CommCloseHandler.class);;
+
   public CommCloseHandler(KernelFunctionality kernel) {
     super(kernel);
-    logger = LoggerFactory.getLogger(CommCloseHandler.class);
   }
 
   public static String getString(Map<String, Serializable> map, String name) {

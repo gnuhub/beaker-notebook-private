@@ -3,7 +3,7 @@ package org.lappsgrid.jupyter.msg;
 import static com.twosigma.beaker.jupyter.Utils.timestamp;
 import static com.twosigma.beaker.jupyter.Utils.uuid;
 
-import org.lappsgrid.jupyter.json.Serializer;
+import org.lappsgrid.jupyter.json.MessageSerializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -48,11 +48,7 @@ public class Header {
   }
 
   public String asJson() {
-    return Serializer.toJson(this);
-  }
-
-  public String prettyPrint() {
-    return Serializer.toPrettyJson(this);
+    return MessageSerializer.toJson(this);
   }
 
   public String getDate() {

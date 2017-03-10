@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -21,9 +22,10 @@ import org.slf4j.LoggerFactory;
  */
 public class KernelInfoHandler extends AbstractHandler<Message> {
 
+  private final static Logger logger = LoggerFactory.getLogger(KernelInfoHandler.class);
+
   public KernelInfoHandler(KernelFunctionality kernel) {
     super(kernel);
-    logger = LoggerFactory.getLogger(KernelInfoHandler.class);
   }
 
   @Override

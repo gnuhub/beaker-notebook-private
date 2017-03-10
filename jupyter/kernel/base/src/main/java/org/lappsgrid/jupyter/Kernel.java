@@ -8,7 +8,6 @@ import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
 import org.lappsgrid.jupyter.handler.IHandler;
-import org.lappsgrid.jupyter.json.Serializer;
 import org.lappsgrid.jupyter.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +15,7 @@ import org.zeromq.ZMQ;
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,51 +31,64 @@ public abstract class Kernel implements KernelFunctionality {
   private static final Logger logger = LoggerFactory.getLogger(Kernel.class);
 
   private volatile boolean running = false;
-
-  /**
-   * The UUID for this session.
-   */
-  private String id;
-
-  /**
-   * Information from the connection file from Jupyter.
-   */
-  protected File connectionFile;
-  protected Config configuration;
-  /**
-   * Message handlers. All sockets listeners will dispatch to these handlers.
-   */
+  private String sessionId;
+  private ConfigurationFile configurationFile;
   private KernelHandlers handlers;
   private Map<String, Comm> commMap;
   private ExecutionResultSender executionResultSender;
   private EvaluatorManager evaluatorManager;
   private KernelSockets kernelSockets;
 
-  public Kernel(final String id, final Evaluator evaluator) {
-    this.id = id;
+  public Kernel(final String sessionId, final Evaluator evaluator, final ConfigurationFile configurationFile) {
+    this.sessionId = sessionId;
+    this.configurationFile = configurationFile;
     this.commMap = new ConcurrentHashMap<>();
     this.executionResultSender = new ExecutionResultSender(this);
     this.evaluatorManager = new EvaluatorManager(this, evaluator);
     this.handlers = new KernelHandlers(this, getCommOpenHandler(this));
-
-    SignalHandler handler = new SignalHandler() {
-      public void handle(Signal sig) {
-        logger.info("Got " + sig.getName() + " signal, canceling cell execution");
-        cancelExecution();
-      }
-    };
-    if (!isWindows()) {
-      Signal.handle(new Signal("INT"), handler);
-    }
+    configureSignalHandler();
   }
 
-  public static boolean isWindows() {
-    return (OS.indexOf("win") >= 0);
+  public abstract CommOpenHandler getCommOpenHandler(Kernel kernel);
+
+  protected static void runKernel(Kernel kernel) throws InterruptedException, IOException {
+    KernelManager.register(kernel);
+    kernel.run();
+  }
+
+  private void run() throws InterruptedException, IOException {
+    logger.info("Groovy Jupyter kernel starting.");
+    running = true;
+    this.kernelSockets = new KernelSockets(this, configurationFile.getConfig());
+    this.kernelSockets.start();
+    waitForShutdown();
+    exit();
   }
 
   public void shutdown() {
     running = false;
+  }
+
+  private void waitForShutdown() throws InterruptedException {
+    while (running) {
+      // Nothing to do but navel gaze until another thread sets
+      // running == false
+      Thread.sleep(1000);
+    }
+  }
+
+  private void exit() throws InterruptedException {
     commMap.values().forEach(Comm::close);
+    this.handlers.exit();
+    if (executionResultSender != null) {
+      executionResultSender.exit();
+    }
+    this.kernelSockets.haltAndJoin();
+    logger.info("Done");
+  }
+
+  public static boolean isWindows() {
+    return (OS.indexOf("win") >= 0);
   }
 
   public synchronized void setShellOptions(String cp, String in, String od) {
@@ -143,60 +153,24 @@ public abstract class Kernel implements KernelFunctionality {
     return handlers.get(type);
   }
 
-  public void run() throws InterruptedException, IOException {
-    logger.info("Groovy Jupyter kernel starting.");
-    running = true;
-    logger.debug("Parsing the connection file.");
-    logger.info("Path to config file : " + connectionFile.getAbsolutePath());
-    configuration = Serializer.parse(new String(Files.readAllBytes(connectionFile.toPath())), Config.class);
-    logger.debug("Creating signing hmac with: {}", configuration.getKey());
-    this.kernelSockets = new KernelSockets(this, configuration);
-    this.kernelSockets.start();
-    while (running) {
-      // Nothing to do but navel gaze until another thread sets
-      // running == false
-      Thread.sleep(1000);
-    }
-    this.handlers.exit();
-    if (executionResultSender != null) {
-      executionResultSender.exit();
-    }
-    this.kernelSockets.haltAndJoin();
-    logger.info("Done");
-  }
-
-  protected static File getConfig(final String[] args) {
-    if (args.length != 1) {
-      System.out.println("Invalid parameters passed to the Kernel.");
-      System.out.println("Expected one parameter, found " + String.valueOf(args.length));
-      for (String string : args) {
-        System.out.println(string);
-      }
-      System.exit(1);
-    }
-
-    File config = new File(args[0]);
-    if (!config.exists()) {
-      System.out.println("Kernel configuration not found.");
-      System.exit(1);
-    }
-    return config;
-  }
-
-  protected static void runKernel(File config, Kernel kernel) throws InterruptedException, IOException {
-    KernelManager.register(kernel);
-    kernel.connectionFile = config;
-    kernel.run();
-  }
-
-  public String getId() {
-    return id;
+  public String getSessionId() {
+    return sessionId;
   }
 
   public ExecutionResultSender getExecutionResultSender() {
     return executionResultSender;
   }
 
-  public abstract CommOpenHandler getCommOpenHandler(Kernel kernel);
+  private void configureSignalHandler() {
+    SignalHandler handler = new SignalHandler() {
+      public void handle(Signal sig) {
+        logger.info("Got " + sig.getName() + " signal, canceling cell execution");
+        cancelExecution();
+      }
+    };
+    if (!isWindows()) {
+      Signal.handle(new Signal("INT"), handler);
+    }
+  }
 
 }

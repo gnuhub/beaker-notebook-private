@@ -68,8 +68,7 @@ public class GroovyKernelEvaluatorTest implements KernelFunctionality {
 
   }
 
-  @Override
-  public String getId() {
+  public String getSessionId() {
     return null;
   }
 

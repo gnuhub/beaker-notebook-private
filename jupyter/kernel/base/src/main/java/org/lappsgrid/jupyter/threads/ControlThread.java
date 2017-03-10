@@ -41,9 +41,7 @@ public class ControlThread extends AbstractMessageReaderThread {
       } else {
         logger.warn("Unhandled control message: {}", type);
       }
-
     }
-
     logger.info("ControlThread shutdown.");
   }
 

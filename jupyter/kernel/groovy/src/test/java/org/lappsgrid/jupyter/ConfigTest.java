@@ -18,7 +18,7 @@ package org.lappsgrid.jupyter;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.lappsgrid.jupyter.json.Serializer;
+import org.lappsgrid.jupyter.json.MessageSerializer;
 
 public class ConfigTest {
 
@@ -39,7 +39,7 @@ public class ConfigTest {
   @Test
   public void serializeConfig_createConfigWithProperties() {
     //when
-    Config configuration = Serializer.parse(srcJson, Config.class);
+    Config configuration = MessageSerializer.parse(srcJson, Config.class);
     //then
     Assertions.assertThat(configuration.getStdin()).isEqualTo(54100);
     Assertions.assertThat(configuration.getHost()).isEqualTo("127.0.0.1");

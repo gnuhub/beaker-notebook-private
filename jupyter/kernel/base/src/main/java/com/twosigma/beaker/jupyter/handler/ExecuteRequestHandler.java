@@ -22,6 +22,7 @@ import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.handler.AbstractHandler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
@@ -39,25 +40,26 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.STATUS;
  */
 public class ExecuteRequestHandler extends AbstractHandler<Message> {
 
+  private final static Logger logger = LoggerFactory.getLogger(ExecuteRequestHandler.class);
+
   protected int executionCount;
   protected EvaluatorManager evaluatorManager;
   private MagicCommand magicCommand;
 
   public ExecuteRequestHandler(KernelFunctionality kernel) {
     super(kernel);
-    logger = LoggerFactory.getLogger(this.getClass());
     this.evaluatorManager = kernel.getEvaluatorManager();
     magicCommand = new MagicCommand(kernel);
     executionCount = 0;
   }
 
   @Override
-  public void handle(Message message)  {
+  public void handle(Message message) {
     logger.info("Processing execute request");
     handleMessage(message);
   }
 
-  private synchronized void handleMessage(Message message)  {
+  private synchronized void handleMessage(Message message) {
     Message reply = new Message();
     Map<String, Serializable> map = new HashMap<>(1);
     map.put("execution_state", "busy");
@@ -69,7 +71,7 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
 
     // Get the code to be executed from the message.
     String code = "";
-    if(message.getContent() != null && message.getContent().containsKey("code")){
+    if (message.getContent() != null && message.getContent().containsKey("code")) {
       code = ((String) message.getContent().get("code")).trim();
     }
 
@@ -99,5 +101,5 @@ public class ExecuteRequestHandler extends AbstractHandler<Message> {
   public void exit() {
     evaluatorManager.exit();
   }
-  
+
 }

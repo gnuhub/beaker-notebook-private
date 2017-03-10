@@ -21,6 +21,7 @@ import org.lappsgrid.jupyter.handler.AbstractHandler;
 import org.lappsgrid.jupyter.handler.IHandler;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
@@ -42,9 +43,10 @@ import org.lappsgrid.jupyter.KernelFunctionality;
  */
 public abstract class CommOpenHandler extends AbstractHandler<Message> {
 
+  private final static Logger logger = LoggerFactory.getLogger(CommOpenHandler.class);
+
   public CommOpenHandler(KernelFunctionality kernel) {
     super(kernel);
-    logger = LoggerFactory.getLogger(CommOpenHandler.class);
   }
 
   @Override

@@ -34,7 +34,7 @@ public interface KernelFunctionality {
 
   void send(final ZMQ.Socket socket, Message message) ;
 
-  String getId();
+  String getSessionId();
 
   Observer getExecutionResultSender();
 

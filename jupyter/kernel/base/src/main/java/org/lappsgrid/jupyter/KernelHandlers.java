@@ -31,7 +31,9 @@ import org.lappsgrid.jupyter.msg.Message;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Message handlers. All sockets listeners will dispatch to these handlers.
+ */
 public class KernelHandlers {
 
   private Map<JupyterMessages, AbstractHandler<Message>> handlers;
@@ -48,12 +50,12 @@ public class KernelHandlers {
     handlers.put(JupyterMessages.KERNEL_INFO_REQUEST, new KernelInfoHandler(kernel));
     handlers.put(JupyterMessages.COMPLETE_REQUEST, new CompleteHandler(kernel));
     handlers.put(JupyterMessages.HISTORY_REQUEST, new HistoryHandler(kernel));
-    if (commOpenHandler != null) {
-      handlers.put(JupyterMessages.COMM_OPEN, commOpenHandler);
-    }
     handlers.put(JupyterMessages.COMM_INFO_REQUEST, new CommInfoHandler(kernel));
     handlers.put(JupyterMessages.COMM_CLOSE, new CommCloseHandler(kernel));
     handlers.put(JupyterMessages.COMM_MSG, new CommMsgHandler(kernel, new MessageCreator(kernel)));
+    if (commOpenHandler != null) {
+      handlers.put(JupyterMessages.COMM_OPEN, commOpenHandler);
+    }
     return handlers;
   }
 

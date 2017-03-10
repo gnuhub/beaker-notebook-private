@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.lappsgrid.jupyter.json.Serializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
@@ -21,7 +19,7 @@ import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 @JsonPropertyOrder({ "identities", "header", "parentHeader", "metadata", "content" })
 public class Message {
 
-  private List<byte[]> identities = new ArrayList<byte[]>();
+  private List<byte[]> identities = new ArrayList<>();
   private Header header;
   @JsonProperty("parent_header")
   private Header parentHeader;
@@ -35,10 +33,6 @@ public class Message {
 
   public JupyterMessages type() {
     return (header != null && header.getTypeEnum() != null) ? header.getTypeEnum() : null;
-  }
-
-  public String asJson() {
-    return Serializer.toJson(this);
   }
 
   public List<byte[]> getIdentities() {

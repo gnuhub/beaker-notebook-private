@@ -5,7 +5,6 @@ import com.twosigma.beaker.evaluator.EvaluatorManager;
 import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
-import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -34,12 +33,11 @@ public class CompleteHandler extends AbstractHandler<Message> {
 
   public CompleteHandler(KernelFunctionality kernel) {
     super(kernel);
-    logger = LoggerFactory.getLogger(CompleteHandler.class);
     evaluatorManager = kernel.getEvaluatorManager();
   }
 
   @Override
-  public void handle(Message message)  {
+  public void handle(Message message) {
     String code = ((String) message.getContent().get(CODE)).trim();
     int cursorPos = ((int) message.getContent().get(CURSOR_POS));
 

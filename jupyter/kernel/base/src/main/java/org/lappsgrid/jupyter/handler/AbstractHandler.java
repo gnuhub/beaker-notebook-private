@@ -2,7 +2,6 @@ package org.lappsgrid.jupyter.handler;
 
 import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.msg.Message;
-import org.slf4j.Logger;
 import org.zeromq.ZMQ;
 
 /**
@@ -13,7 +12,6 @@ import org.zeromq.ZMQ;
  */
 public abstract class AbstractHandler <T> implements IHandler<T> {
 
-  protected Logger logger;
   protected KernelFunctionality kernel;
 
   public AbstractHandler(KernelFunctionality kernel) {

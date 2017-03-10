@@ -20,6 +20,7 @@ import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.handler.AbstractHandler;
 import org.lappsgrid.jupyter.msg.Message;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
@@ -29,21 +30,22 @@ import static com.twosigma.beaker.jupyter.Comm.COMM_ID;
 
 public class CommMsgHandler extends AbstractHandler<Message> {
 
+  private final static Logger logger = LoggerFactory.getLogger(CommMsgHandler.class);
+
   private MessageCreator messageCreator;
 
   public CommMsgHandler(final KernelFunctionality kernel, final MessageCreator messageCreator) {
     super(kernel);
     this.messageCreator = messageCreator;
-    logger = LoggerFactory.getLogger(CommMsgHandler.class);
   }
 
-  public void handle(Message message)  {
+  public void handle(Message message) {
     publish(this.messageCreator.createBusyMessage(message));
 
     Map<String, Serializable> commMap = message.getContent();
     Comm comm = kernel.getComm(getString(commMap, COMM_ID));
     logger.info("Comm message handling, target name: " + (comm != null ? comm.getTargetName() : "undefined"));
-    if(comm != null){
+    if (comm != null) {
       comm.handleMsg(message);
     }
     publish(this.messageCreator.createIdleMessage(message));

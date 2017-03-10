@@ -17,7 +17,7 @@ package org.lappsgrid.jupyter;
 
 import com.twosigma.beaker.jupyter.threads.AbstractMessageReaderThread;
 import com.twosigma.beaker.jupyter.threads.AbstractThread;
-import org.lappsgrid.jupyter.json.Serializer;
+import org.lappsgrid.jupyter.json.MessageSerializer;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
 import org.lappsgrid.jupyter.security.HmacSigner;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
-import static org.lappsgrid.jupyter.json.Serializer.toJson;
+import static org.lappsgrid.jupyter.json.MessageSerializer.toJson;
 
 public class KernelSockets {
 
@@ -174,7 +174,7 @@ public class KernelSockets {
       byte[] content = socket.recv();
 
       // Make sure that the signatures match before proceeding.
-      String actualSig = hmac.signBytes((List<byte[]>) new ArrayList<byte[]>(asList(header, parent, metadata, content)));
+      String actualSig = hmac.signBytes(new ArrayList<>(asList(header, parent, metadata, content)));
       if (!expectedSig.equals(actualSig)) {
         throw new RuntimeException("Signatures do not match.");
       }
@@ -197,7 +197,7 @@ public class KernelSockets {
   }
 
   public <T> T parse(byte[] bytes, Class<T> theClass) {
-    return bytes != null ? Serializer.parse(new String(bytes), theClass) : null;
+    return bytes != null ? MessageSerializer.parse(new String(bytes), theClass) : null;
   }
 
 

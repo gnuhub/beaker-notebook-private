@@ -18,7 +18,7 @@ package org.lappsgrid.jupyter.msg;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.lappsgrid.jupyter.json.Serializer;
+import org.lappsgrid.jupyter.json.MessageSerializer;
 
 public class HeaderTest {
 
@@ -34,7 +34,7 @@ public class HeaderTest {
   @Test
   public void serializeConfig_createConfigWithProperties() {
     //when
-    Header header = Serializer.parse(srcJson, Header.class);
+    Header header = MessageSerializer.parse(srcJson, Header.class);
     //then
     Assertions.assertThat(header.getVersion()).isEqualTo("5.0");
     Assertions.assertThat(header.getType()).isEqualTo("execute_request");

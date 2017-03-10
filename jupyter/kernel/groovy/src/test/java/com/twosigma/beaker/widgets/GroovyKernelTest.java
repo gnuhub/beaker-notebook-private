@@ -53,8 +53,7 @@ public class GroovyKernelTest implements KernelFunctionality {
     this.sentMessages.add(message);
   }
 
-  @Override
-  public String getId() {
+  public String getSessionId() {
     return this.id;
   }
 
