@@ -17,9 +17,9 @@
 package com.twosigma.beaker.jupyter;
 
 import com.twosigma.beaker.evaluator.Evaluator;
-import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import org.lappsgrid.jupyter.Kernel;
+import org.lappsgrid.jupyter.KernelFunctionality;
 import org.lappsgrid.jupyter.json.Serializer;
 import org.lappsgrid.jupyter.msg.Header;
 import org.lappsgrid.jupyter.msg.Message;
@@ -29,8 +29,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Observer;
+import java.util.Set;
 
-public class GroovyKernelJupyterTest extends Kernel {
+public class GroovyKernelJupyterTest implements KernelFunctionality {
 
   private List<Message> publishMessages = new ArrayList<>();
   private List<Message> sendMessages = new ArrayList<>();
@@ -45,6 +47,16 @@ public class GroovyKernelJupyterTest extends Kernel {
   }
 
   @Override
+  public void addComm(String commId, Comm comm) {
+
+  }
+
+  @Override
+  public void removeComm(String commId) {
+
+  }
+
+  @Override
   public void send(Message message) throws NoSuchAlgorithmException {
     this.sendMessages.add(copyMessage(message));
   }
@@ -55,12 +67,32 @@ public class GroovyKernelJupyterTest extends Kernel {
   }
 
   @Override
+  public String getId() {
+    return null;
+  }
+
+  @Override
+  public Observer getExecutionResultSender() {
+    return null;
+  }
+
+  @Override
+  public Comm getComm(String string) {
+    return null;
+  }
+
+  @Override
   public Evaluator getEvaluator(Kernel kernel) {
     return null;
   }
 
   @Override
-  public CommOpenHandler getCommOpenHandler(Kernel kernel) {
+  public boolean isCommPresent(String string) {
+    return false;
+  }
+
+  @Override
+  public Set<String> getCommHashSet() {
     return null;
   }
 
@@ -75,7 +107,11 @@ public class GroovyKernelJupyterTest extends Kernel {
   @Override
   public synchronized void setShellOptions(String cp, String in, String od) {
     setShellOptions = Boolean.TRUE;
-    super.setShellOptions(cp, in, od);
+  }
+
+  @Override
+  public void cancelExecution() {
+
   }
 
   public Boolean isSetShellOptions() {
