@@ -16,24 +16,28 @@
 
 package com.twosigma.beaker.jupyter;
 
+import com.twosigma.beaker.groovy.GroovyKernelTest;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.Test;
 import org.lappsgrid.jupyter.msg.Message;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import static com.twosigma.beaker.jupyter.CommKernelControlGetDefaultShellHandler.KERNEL_CONTROL_RESPONSE;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CommKernelControlGetDefaultShellHandlerTest {
 
   private CommKernelControlGetDefaultShellHandler commHandler;
-  private GroovyKernelJupyterTest groovyKernel;
+  private GroovyKernelTest groovyKernel;
   private Message message;
 
   @Before
   public void setUp() {
-    groovyKernel = new GroovyKernelJupyterTest();
+    groovyKernel = new GroovyKernelTest();
     commHandler = new CommKernelControlGetDefaultShellHandler(groovyKernel) {
       @Override
       public String[] getDefaultImports() {
@@ -48,17 +52,17 @@ public class CommKernelControlGetDefaultShellHandlerTest {
     message = new Message();
   }
 
-//  @Test
+  @Test
   public void handleGetDefaultShellMessage_shouldSendShellSocketMessage() throws Exception {
     //given
     initMessageData(message);
     //when
     commHandler.handle(message);
     //then
-    Assertions.assertThat(groovyKernel.getPublishMessages()).isNotEmpty();
+    assertThat(groovyKernel.getPublishedMessages()).isNotEmpty();
   }
 
-//  @Test
+  @Test
   public void handleNotGetDefaultShellMessage_notSendShellSocketMessage() throws Exception {
     //given
     Map<String, Serializable> content = new HashMap<>();
@@ -67,70 +71,62 @@ public class CommKernelControlGetDefaultShellHandlerTest {
     //when
     commHandler.handle(message);
     //then
-    Assertions.assertThat(groovyKernel.getPublishMessages()).isEmpty();
+    assertThat(groovyKernel.getPublishedMessages()).isEmpty();
   }
 
-//  @Test
-  public void handleGetDefaultShellMessage_sentMessageHasCommId() throws Exception {
+  @Test
+  public void handleGetDefaultShellMessage_publishedMessageHasCommId() throws Exception {
     //given
     initMessageData(message);
     //when
     commHandler.handle(message);
     //then
-    Assertions.assertThat(groovyKernel.getPublishMessages()).isNotEmpty();
-    Message sendMessage = groovyKernel.getPublishMessages().get(0);
-    Assertions.assertThat((String) sendMessage.getContent().get(Comm.COMM_ID)).isNotEmpty();
+    assertThat(groovyKernel.getPublishedMessages()).isNotEmpty();
+    Message sendMessage = groovyKernel.getPublishedMessages().get(0);
+    assertThat((String) sendMessage.getContent().get(Comm.COMM_ID)).isNotEmpty();
   }
 
-//  @Test
-  public void handleGetDefaultShellMessage_sentMessageHasKernelControlResponse() throws Exception {
+  @Test
+  public void handleGetDefaultShellMessage_publishedMessageHasKernelControlResponse() throws Exception {
     //given
     initMessageData(message);
     //when
     commHandler.handle(message);
     //then
-    Assertions.assertThat(groovyKernel.getPublishMessages()).isNotEmpty();
-    Message sendMessage = groovyKernel.getPublishMessages().get(0);
-    Assertions.assertThat((Map) sendMessage.getContent().get(Comm.DATA)).isNotEmpty();
+    assertThat(groovyKernel.getPublishedMessages()).isNotEmpty();
+    Message sendMessage = groovyKernel.getPublishedMessages().get(0);
+    assertThat((Map) sendMessage.getContent().get(Comm.DATA)).isNotEmpty();
     Map<String, Serializable> shell = (Map) sendMessage.getContent().get(Comm.DATA);
-    Assertions.assertThat(
-            (Map) shell.get(CommKernelControlGetDefaultShellHandler.KERNEL_CONTROL_RESPONSE))
-        .isNotEmpty();
+    assertThat((Map) shell.get(KERNEL_CONTROL_RESPONSE)).isNotEmpty();
   }
 
-//  @Test
-  public void handleGetDefaultShellMessage_sentMessageHasImportsData() throws Exception {
+  @Test
+  public void handleGetDefaultShellMessage_publishedMessageHasImportsData() throws Exception {
     //given
     initMessageData(message);
     //when
     commHandler.handle(message);
     //then
-    Assertions.assertThat(groovyKernel.getPublishMessages()).isNotEmpty();
-    Message sendMessage = groovyKernel.getPublishMessages().get(0);
+    Assertions.assertThat(groovyKernel.getPublishedMessages()).isNotEmpty();
+    Message sendMessage = groovyKernel.getPublishedMessages().get(0);
     Map<String, Serializable> response =
-        (Map)
-            ((Map) sendMessage.getContent().get(Comm.DATA))
-                .get(CommKernelControlGetDefaultShellHandler.KERNEL_CONTROL_RESPONSE);
-    Assertions.assertThat(response.containsKey(CommKernelControlSetShellHandler.IMPORTS)).isTrue();
-    Assertions.assertThat((List) response.get(CommKernelControlSetShellHandler.IMPORTS))
-        .isNotEmpty();
+        (Map) ((Map) sendMessage.getContent().get(Comm.DATA)).get(KERNEL_CONTROL_RESPONSE);
+    assertThat(response.containsKey(CommKernelControlSetShellHandler.IMPORTS)).isTrue();
+    assertThat(response.get(CommKernelControlSetShellHandler.IMPORTS)).isNotNull();
   }
 
-//  @Test
-  public void handleGetDefaultShellMessage_sentMessageHasClasspathData() throws Exception {
+  @Test
+  public void handleGetDefaultShellMessage_publishedMessageHasClasspathData() throws Exception {
     //given
     initMessageData(message);
     //when
     commHandler.handle(message);
     //then
-    Assertions.assertThat(groovyKernel.getPublishMessages()).isNotEmpty();
-    Message sendMessage = groovyKernel.getPublishMessages().get(0);
+    assertThat(groovyKernel.getPublishedMessages()).isNotEmpty();
+    Message sendMessage = groovyKernel.getPublishedMessages().get(0);
     Map<String, Serializable> response =
-        (Map)
-            ((Map) sendMessage.getContent().get(Comm.DATA))
-                .get(CommKernelControlGetDefaultShellHandler.KERNEL_CONTROL_RESPONSE);
-    Assertions.assertThat(response.containsKey(CommKernelControlSetShellHandler.CLASSPATH))
-        .isTrue();
+        (Map)((Map) sendMessage.getContent().get(Comm.DATA)).get(KERNEL_CONTROL_RESPONSE);
+    assertThat(response.containsKey(CommKernelControlSetShellHandler.CLASSPATH)).isTrue();
   }
 
   private void initMessageData(Message message) {
