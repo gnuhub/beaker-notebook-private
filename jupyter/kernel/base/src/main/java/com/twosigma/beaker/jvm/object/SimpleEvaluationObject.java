@@ -22,7 +22,7 @@ import java.util.Observable;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

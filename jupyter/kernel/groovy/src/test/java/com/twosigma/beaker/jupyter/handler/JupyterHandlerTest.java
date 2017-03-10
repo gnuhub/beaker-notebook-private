@@ -24,10 +24,10 @@ import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
-import org.lappsgrid.jupyter.handler.Handler;
-import org.lappsgrid.jupyter.msg.Header;
-import org.lappsgrid.jupyter.msg.Message;
-import org.lappsgrid.jupyter.msg.MessageTest;
+import com.twosigma.jupyter.handler.Handler;
+import com.twosigma.jupyter.msg.Header;
+import com.twosigma.jupyter.msg.Message;
+import com.twosigma.jupyter.msg.MessageTest;
 
 import java.io.Serializable;
 import java.util.Arrays;

@@ -20,18 +20,18 @@ import com.twosigma.beaker.evaluator.Evaluator;
 import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import org.lappsgrid.jupyter.Config;
-import org.lappsgrid.jupyter.Kernel;
-import org.lappsgrid.jupyter.msg.Header;
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.Config;
+import com.twosigma.jupyter.Kernel;
+import com.twosigma.jupyter.msg.Header;
+import com.twosigma.jupyter.msg.Message;
 import org.zeromq.ZMQ;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static org.lappsgrid.jupyter.json.MessageSerializer.parse;
-import static org.lappsgrid.jupyter.json.MessageSerializer.toJson;
+import static com.twosigma.jupyter.json.MessageSerializer.parse;
+import static com.twosigma.jupyter.json.MessageSerializer.toJson;
 
 public class GroovyKernelJupyterTest extends Kernel {
 

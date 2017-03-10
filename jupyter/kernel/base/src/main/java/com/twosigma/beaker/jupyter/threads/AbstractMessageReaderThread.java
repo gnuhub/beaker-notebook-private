@@ -15,8 +15,8 @@
  */
 package com.twosigma.beaker.jupyter.threads;
 
-import org.lappsgrid.jupyter.Kernel;
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.Kernel;
+import com.twosigma.jupyter.msg.Message;
 import org.zeromq.ZMQ;
 
 /**

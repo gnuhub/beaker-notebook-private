@@ -17,10 +17,10 @@
 package com.twosigma.beaker.jupyter.handler;
 
 import com.twosigma.beaker.jupyter.Comm;
-import org.lappsgrid.jupyter.handler.KernelHandler;
-import org.lappsgrid.jupyter.handler.Handler;
-import org.lappsgrid.jupyter.msg.Header;
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.handler.KernelHandler;
+import com.twosigma.jupyter.handler.Handler;
+import com.twosigma.jupyter.msg.Header;
+import com.twosigma.jupyter.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +35,7 @@ import static com.twosigma.beaker.jupyter.Comm.TARGET_NAME;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_CLOSE;
 import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
 
-import org.lappsgrid.jupyter.KernelFunctionality;
+import com.twosigma.jupyter.KernelFunctionality;
 /**
  * 
  * @author konst

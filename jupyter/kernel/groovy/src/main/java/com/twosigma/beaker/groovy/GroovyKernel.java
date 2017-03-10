@@ -4,9 +4,9 @@ import com.twosigma.beaker.evaluator.Evaluator;
 import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.groovy.comm.GroovyCommOpenHandler;
 import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
-import org.lappsgrid.jupyter.ConfigurationFile;
-import org.lappsgrid.jupyter.KernelConfigurationFile;
-import org.lappsgrid.jupyter.Kernel;
+import com.twosigma.jupyter.ConfigurationFile;
+import com.twosigma.jupyter.KernelConfigurationFile;
+import com.twosigma.jupyter.Kernel;
 import java.io.IOException;
 import static com.twosigma.beaker.jupyter.Utils.uuid;
 

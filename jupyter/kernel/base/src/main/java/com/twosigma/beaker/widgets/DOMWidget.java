@@ -16,8 +16,8 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.jupyter.Comm;
-import org.lappsgrid.jupyter.handler.Handler;
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.handler.Handler;
+import com.twosigma.jupyter.msg.Message;
 
 import java.io.Serializable;
 import java.util.HashMap;

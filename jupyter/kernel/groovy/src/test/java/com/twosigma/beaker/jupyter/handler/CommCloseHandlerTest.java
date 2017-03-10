@@ -20,7 +20,7 @@ import com.twosigma.beaker.jupyter.GroovyKernelJupyterTest;
 import com.twosigma.beaker.jupyter.msg.JupyterMessages;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.msg.Message;
 
 public class CommCloseHandlerTest {
 

@@ -22,7 +22,7 @@ import com.twosigma.beaker.widgets.GroovyKernelTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.msg.Message;
 
 import java.util.List;
 

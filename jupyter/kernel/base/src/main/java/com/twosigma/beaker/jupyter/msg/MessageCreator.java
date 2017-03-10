@@ -30,9 +30,9 @@ import java.util.Map;
 
 import com.twosigma.beaker.jvm.object.ConsoleOutput;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import org.lappsgrid.jupyter.KernelFunctionality;
-import org.lappsgrid.jupyter.msg.Header;
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.KernelFunctionality;
+import com.twosigma.jupyter.msg.Header;
+import com.twosigma.jupyter.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

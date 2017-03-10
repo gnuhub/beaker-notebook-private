@@ -17,9 +17,9 @@ package com.twosigma.beaker.jupyter.handler;
 
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
-import org.lappsgrid.jupyter.KernelFunctionality;
-import org.lappsgrid.jupyter.handler.KernelHandler;
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.KernelFunctionality;
+import com.twosigma.jupyter.handler.KernelHandler;
+import com.twosigma.jupyter.msg.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

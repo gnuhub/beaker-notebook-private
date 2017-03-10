@@ -5,7 +5,7 @@ import java.util.Observer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import org.lappsgrid.jupyter.KernelFunctionality;
+import com.twosigma.jupyter.KernelFunctionality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

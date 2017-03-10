@@ -19,8 +19,8 @@ import com.twosigma.beaker.evaluator.EvaluatorManager;
 import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
-import org.lappsgrid.jupyter.KernelFunctionality;
-import org.lappsgrid.jupyter.msg.Message;
+import com.twosigma.jupyter.KernelFunctionality;
+import com.twosigma.jupyter.msg.Message;
 import org.zeromq.ZMQ;
 
 import java.util.ArrayList;

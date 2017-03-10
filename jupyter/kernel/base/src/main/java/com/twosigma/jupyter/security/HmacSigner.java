@@ -1,0 +1,84 @@
+/*
+ *  Copyright 2017 TWO SIGMA OPEN SOURCE, LLC
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+package com.twosigma.jupyter.security;
+
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.binary.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Generates HMACs (Hashed Message Authentication Codes) for messages exchanged
+ * with Jupyter. Jupyter supplies us with the signing key in the connection
+ * information file that is passed in as a parameter when a kernel is started.
+ */
+public class HmacSigner {
+
+  private static Logger logger = LoggerFactory.getLogger(HmacSigner.class);
+  private static final String TYPE = "HmacSHA256";
+  private SecretKeySpec spec;
+
+  public HmacSigner(String key) {
+    if (key == null) {
+      throw new NullPointerException("No hmac specified.");
+    }
+    logger.info("Using signing hmac: {}", key);
+    spec = new SecretKeySpec(key.getBytes(), TYPE);
+  }
+
+  public String sign(List<String> msg) {
+    try {
+      final Mac mac = Mac.getInstance(TYPE);
+      mac.init(spec);
+      msg.forEach(it -> mac.update(it.getBytes()));
+      byte[] digest = mac.doFinal();
+      return asHex(digest);
+    } catch (InvalidKeyException e) {
+      logger.error("Unable to sign message", e);
+      throw new RuntimeException("Invalid hmac exception while converting to HmacSHA256");
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
+  public String signBytes(List<byte[]> msg) {
+    try {
+      final Mac mac = Mac.getInstance("HmacSHA256");
+      mac.init(spec);
+      msg.forEach(it -> mac.update(it));
+      byte[] digest = mac.doFinal();
+      return asHex(digest);
+    } catch (InvalidKeyException e) {
+      logger.error("Unable to sign message", e);
+      throw new RuntimeException("Invalid hmac exception while converting to HmacSHA256");
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
+  public String asHex(byte[] buffer) {
+    return Hex.encodeHexString(buffer);
+  }
+
+}
