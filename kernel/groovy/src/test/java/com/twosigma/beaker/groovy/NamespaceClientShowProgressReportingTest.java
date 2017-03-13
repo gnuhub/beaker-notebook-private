@@ -18,7 +18,7 @@ package com.twosigma.beaker.groovy;
 import com.twosigma.beaker.evaluator.InternalVariable;
 import com.twosigma.beaker.jupyter.KernelManager;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import com.twosigma.beaker.widgets.GroovyKernelTest;
+import com.twosigma.beaker.KernelTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,12 +29,12 @@ public class NamespaceClientShowProgressReportingTest {
 
   private static String SESSION_ID = "sessionId";
   private NamespaceClient namespaceClient;
-  private GroovyKernelTest groovyKernel;
+  private KernelTest groovyKernel;
 
   @Before
   public void setUp() {
     namespaceClient = NamespaceClient.getBeaker(SESSION_ID);
-    groovyKernel = new GroovyKernelTest();
+    groovyKernel = new KernelTest();
     KernelManager.register(groovyKernel);
   }
 

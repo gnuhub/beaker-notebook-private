@@ -35,7 +35,7 @@ public class KernelTest implements KernelFunctionality {
   private ExecutionResultSender executionResultSender = new ExecutionResultSender(this);
 
   public KernelTest() {
-    this("groovyKernelTestId1");
+    this("KernelTestId1");
   }
 
   public KernelTest(String id) {
