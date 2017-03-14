@@ -36,6 +36,7 @@ public class KernelTest implements KernelFunctionality {
   private String id;
   private Map<String, Comm> commMap = new HashMap<>();
   private ExecutionResultSender executionResultSender = new ExecutionResultSender(this);
+  private Boolean setShellOptions;
 
   public KernelTest() {
     this("KernelTestId1");
@@ -99,7 +100,11 @@ public class KernelTest implements KernelFunctionality {
   }
 
   public void setShellOptions(String usString, String usString1, String o) {
+    this.setShellOptions = Boolean.TRUE;
+  }
 
+  public Boolean isSetShellOptions() {
+    return setShellOptions;
   }
 
   public List<Message> getPublishedMessages() {

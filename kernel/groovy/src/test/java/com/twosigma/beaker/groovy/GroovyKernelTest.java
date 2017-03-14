@@ -19,22 +19,10 @@ package com.twosigma.beaker.groovy;
 import com.twosigma.beaker.KernelTest;
 import com.twosigma.beaker.evaluator.Evaluator;
 import com.twosigma.beaker.evaluator.EvaluatorManager;
-import com.twosigma.beaker.evaluator.GroovyEvaluator;
-import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
-import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import com.twosigma.jupyter.Config;
-import com.twosigma.jupyter.message.Message;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GroovyKernelTest extends KernelTest {
 
   private String id;
-  private SimpleEvaluationObject simpleEvaluationObject;
-  private Boolean groovyEvaluatorManagerExit;
-  private Boolean commHandleMessage;
-  private Boolean setShellOptions;
   private EvaluatorManager evaluatorManager;
 
   public GroovyKernelTest() {
