@@ -14,10 +14,11 @@
  *  limitations under the License.
  */
 
-package com.twosigma.beaker.evaluator;
+package com.twosigma.beaker.groovy.evaluator;
 
 import com.twosigma.beaker.groovy.GroovyKernelEvaluatorTest;
-import com.twosigma.beaker.groovy.NamespaceClient;
+import com.twosigma.beaker.NamespaceClient;
+import com.twosigma.beaker.groovy.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.jupyter.KernelManager;
 import com.twosigma.beaker.jupyter.Utils;
 import groovy.lang.Binding;

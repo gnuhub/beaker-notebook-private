@@ -13,16 +13,17 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.twosigma.beaker.evaluator;
+package com.twosigma.beaker.groovy.evaluator;
 
 import com.twosigma.beaker.autocomplete.AutocompleteResult;
-import com.twosigma.beaker.groovy.NamespaceClient;
+import com.twosigma.beaker.evaluator.Evaluator;
+import com.twosigma.beaker.evaluator.InternalVariable;
+import com.twosigma.beaker.NamespaceClient;
 import com.twosigma.beaker.groovy.autocomplete.GroovyAutocomplete;
 import com.twosigma.beaker.groovy.autocomplete.GroovyClasspathScanner;
 import com.twosigma.beaker.jvm.classloader.DynamicClassLoaderSimple;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import com.twosigma.beaker.jvm.threads.BeakerCellExecutor;
-import com.twosigma.beaker.jvm.threads.BeakerStdOutErrHandler;
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.Script;
@@ -388,16 +389,7 @@ public void evaluate(SimpleEvaluationObject seo, String code) {
               nc.setOutputObj(j.outputObject);
           }
 
-          Boolean useOutputPanel = false;
-          if (useOutputPanel) {
-            j.outputObject.clrOutputHandler();
-            BeakerStdOutErrHandler.fini();
-          } else {
-            if(!LOCAL_DEV) BeakerStdOutErrHandler.init();
-          }
           j.outputObject.started();
-
-          
           String code = j.codeToBeExecuted;
           
           if (!executor.executeTask(new MyRunnable(code, j.outputObject, loader))) {

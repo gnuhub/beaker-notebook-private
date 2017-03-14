@@ -16,7 +16,7 @@
 package com.twosigma.beaker.widgets;
 
 import com.twosigma.beaker.evaluator.EvaluatorManager;
-import com.twosigma.beaker.evaluator.GroovyEvaluator;
+import com.twosigma.beaker.groovy.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.threads.ExecutionResultSender;
 import com.twosigma.jupyter.KernelFunctionality;

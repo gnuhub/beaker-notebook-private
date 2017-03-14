@@ -17,6 +17,7 @@ package com.twosigma.beaker.evaluator;
 
 import com.twosigma.beaker.autocomplete.AutocompleteResult;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
+import com.twosigma.beaker.jvm.threads.BeakerStdOutErrHandler;
 import com.twosigma.jupyter.KernelFunctionality;
 import com.twosigma.jupyter.message.Message;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ public class EvaluatorManager {
   public EvaluatorManager(KernelFunctionality kernel, Evaluator evaluator) {
     this.kernel = kernel;
     this.evaluator = evaluator;
+    BeakerStdOutErrHandler.init();
     evaluator.startWorker();
   }
 
@@ -64,6 +66,7 @@ public class EvaluatorManager {
   }
   
   public void exit() {
+    BeakerStdOutErrHandler.fini();
     evaluator.exit();
   }
   
