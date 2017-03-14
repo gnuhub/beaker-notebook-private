@@ -39,9 +39,9 @@ public class EvaluatorManager {
     evaluator.startWorker();
   }
 
-  public synchronized void setShellOptions(String cp, String in, String od) {
+  public synchronized void setShellOptions(String cp, String in) {
     try {
-      evaluator.setShellOptions(cp, in, od);
+      evaluator.setShellOptions(cp, in);
     } catch (IOException e) {
       logger.error("Error while setting Shell Options", e);
     }

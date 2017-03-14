@@ -41,7 +41,7 @@ public class GroovyEvaluatorTest {
   @BeforeClass
   public static void initClassStubData() throws IOException {
     GroovyEvaluator groovyEvaluator = new GroovyEvaluator("123", "345");
-    groovyEvaluator.setShellOptions(Utils.getUsString(CLASS_PATH), Utils.getUsString(IMPORTS), null);
+    groovyEvaluator.setShellOptions(Utils.getUsString(CLASS_PATH), Utils.getUsString(IMPORTS));
     groovyClassLoader = groovyEvaluator.newEvaluator();
     scriptBinding = new Binding();
     scriptBinding.setVariable("beaker", NamespaceClient.getBeaker("345"));

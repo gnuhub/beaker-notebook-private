@@ -175,29 +175,22 @@ public class GroovyEvaluator implements Evaluator{
     return ret.toAbsolutePath();
   }
 
-  public void setShellOptions(String cp, String in, String od) throws IOException {
-    if (od == null || od.isEmpty()) {
-      od = new String(outDirDefault);
-    }
-    logger.info("Dynamic folder is = " + od);
+  @Override
+  public void setShellOptions(String cp, String in) throws IOException {
     // check if we are not changing anything
-    if (StringUtils.equals(currentClassPath, cp) && StringUtils.equals(currentImports, in) && StringUtils.equals(outDirInput, od))
+    if (StringUtils.equals(currentClassPath, cp) && StringUtils.equals(currentImports, in))
       return;
-  
+ 
     currentClassPath = cp;
     currentImports = in;
     Map<String, String> env = System.getenv();
-    outDirInput = od;
-    outDir = envVariablesFilter(od, env);
     
     if(cp == null || cp.isEmpty())
       classPath = new ArrayList<>();
     else {
       List<String> cpList = new ArrayList<>();
       for(String p : Arrays.asList(cp.split("[\\s"+File.pathSeparatorChar+"]+"))) {
-
         p = envVariablesFilter(p, env);
-
         cpList.add(p);
       }
       classPath = cpList;

@@ -86,9 +86,9 @@ public class GroovyKernelJupyterTest extends Kernel {
   }
 
   @Override
-  public synchronized void setShellOptions(String cp, String in, String od) {
+  public synchronized void setShellOptions(String cp, String in) {
     setShellOptions = Boolean.TRUE;
-    super.setShellOptions(cp, in, od);
+    super.setShellOptions(cp, in);
   }
 
   public Boolean isSetShellOptions() {
