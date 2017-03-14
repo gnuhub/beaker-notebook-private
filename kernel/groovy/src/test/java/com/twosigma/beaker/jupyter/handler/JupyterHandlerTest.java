@@ -16,8 +16,8 @@
 
 package com.twosigma.beaker.jupyter.handler;
 
-import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.groovy.GroovyKernelTest;
+import com.twosigma.beaker.groovy.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.jupyter.Comm;
 import com.twosigma.beaker.jupyter.CommKernelControlGetDefaultShellHandler;
 import com.twosigma.beaker.jupyter.CommKernelControlSetShellHandler;

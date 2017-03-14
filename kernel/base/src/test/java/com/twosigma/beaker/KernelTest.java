@@ -99,7 +99,8 @@ public class KernelTest implements KernelFunctionality {
     return commMap.keySet();
   }
 
-  public void setShellOptions(String usString, String usString1, String o) {
+  @Override
+  public void setShellOptions(String usString, String usString1) {
     this.setShellOptions = Boolean.TRUE;
   }
 

@@ -15,8 +15,8 @@
  */
 package com.twosigma.jupyter.handler;
 
-import com.twosigma.beaker.evaluator.GroovyEvaluator;
 import com.twosigma.beaker.groovy.GroovyKernelTest;
+import com.twosigma.beaker.groovy.evaluator.GroovyEvaluator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
