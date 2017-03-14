@@ -35,6 +35,7 @@ dependencies {
   compile group: 'org.antlr', name: 'antlr4-runtime', version: '4.5'
   antlr group: 'org.antlr', name: 'antlr4', version: '4.5'
 
+  testCompile project(':kernel:base').sourceSets.test.output
   testCompile group: 'junit', name: 'junit', version: '4.11'
   testCompile group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
   testCompile group: 'org.reflections', name: 'reflections', version: '0.9.10'
@@ -72,7 +73,7 @@ jar {
 task prepareJson(dependsOn: 'build') {
   doLast {
     println "Prepare JSON for Jupyter notebook"
-    println "Copy kernel.json to build/libs/json/ and replasing PATH with groovy.jar parh"
+    println "Copy kernel.json to build/libs/json/ and replacing PATH with groovy.jar path"
 
     def jarLocation = new File('build/libs/groovy.jar').getAbsolutePath()
     jarLocation = jarLocation.replace("\\", "/");
@@ -99,7 +100,7 @@ task kernelInstall(dependsOn: 'prepareJson') {
       commandLine "jupyter",
               "kernelspec",
               "install",
-              "--user",
+              "--sys-prefix",
               "--replace",
               "--name",
               kernelIdName,
