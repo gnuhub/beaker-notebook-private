@@ -15,6 +15,10 @@
  */
 package com.twosigma.beaker.scala;
 
+import static com.twosigma.beaker.jupyter.Utils.uuid;
+
+import java.io.IOException;
+
 import com.twosigma.beaker.evaluator.Evaluator;
 import com.twosigma.beaker.jupyter.handler.CommOpenHandler;
 import com.twosigma.beaker.scala.comm.ScalaCommOpenHandler;
@@ -25,12 +29,6 @@ import com.twosigma.jupyter.Kernel;
 import com.twosigma.jupyter.KernelConfigurationFile;
 import com.twosigma.jupyter.handler.KernelHandler;
 import com.twosigma.jupyter.message.Message;
-
-import static com.twosigma.beaker.jupyter.Utils.uuid;
-
-import java.io.File;
-import java.io.IOException;
-
 
 
 public class ScalaKernel extends Kernel {
