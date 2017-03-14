@@ -50,7 +50,7 @@ public class ScalaKernelInfoHandler extends KernelHandler<Message> {
     map1.put("mimetype", "");
     map1.put("file_extension", ".scala");
     map1.put("pygments_lexer", "");
-    map1.put("codemirror_mode", "scala");
+    map1.put("codemirror_mode", "text/x-scala");
     map1.put("nbconverter_exporter", "");
     map.put("language_info", map1);
     map.put("banner", "BeakerX kernel for Apache Groovy");
