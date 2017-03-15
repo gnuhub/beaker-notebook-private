@@ -1,26 +1,28 @@
 package com.twosigma.beaker.mimetype;
 
-import java.util.Hashtable;
+import java.util.Collections;
 import java.util.Map;
 
 public class MimeTypeManager {
-  private static Map<String, String> mimeToData;
+  public static final String TEXT_PLAIN = "text/plain";
+  public static final String TEXT_HTML = "text/html";
+  public static final String TEXT_LATEX = "text/latex";
 
   public static Map<String, String> html(String code) {
-    mimeToData = new Hashtable<>();
-    mimeToData.put("text/html", code);
-    return mimeToData;
+    return assignMimeToCode(TEXT_HTML, code);
   }
 
   public static Map<String, String> latex(String code) {
-    mimeToData = new Hashtable<>();
-    mimeToData.put("text/latex", code);
-    return mimeToData;
+    return assignMimeToCode(TEXT_LATEX, code);
   }
 
   public static Map<String, String> text(String code) {
-    mimeToData = new Hashtable<>();
-    mimeToData.put("text/plain", code);
+    return assignMimeToCode(TEXT_PLAIN, code);
+  }
+
+  private static Map<String, String> assignMimeToCode(String mime, String code) {
+    Map<String, String> mimeToData = Collections.emptyMap();
+    mimeToData.put(mime, code);
     return mimeToData;
   }
 
