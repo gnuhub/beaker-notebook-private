@@ -1,6 +1,6 @@
 package com.twosigma.beaker.mimetype;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MimeTypeManager {
@@ -21,7 +21,7 @@ public class MimeTypeManager {
   }
 
   private static Map<String, String> assignMimeToCode(String mime, String code) {
-    Map<String, String> mimeToData = Collections.emptyMap();
+    Map<String, String> mimeToData = new HashMap<>();
     mimeToData.put(mime, code);
     return mimeToData;
   }
