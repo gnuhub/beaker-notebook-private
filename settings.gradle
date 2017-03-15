@@ -20,3 +20,5 @@ include 'kernel'
 include 'kernel:base'
 include 'kernel:groovy'
 include 'kernel:scala'
+include 'kernel:cpp'
+
