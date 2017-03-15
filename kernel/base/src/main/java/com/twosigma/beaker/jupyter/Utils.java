@@ -17,6 +17,7 @@ package com.twosigma.beaker.jupyter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -53,7 +54,7 @@ public class Utils {
     return ret.toString();
   }
 
-  public static String getUsString(List<String> input){
+  public static String getUsString(Collection<String> input){
     return getUsString(input.toArray(new String[input.size()]));
   }
 
