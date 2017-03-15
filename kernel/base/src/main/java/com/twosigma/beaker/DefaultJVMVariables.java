@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.twosigma.beaker.jupyter.Utils.getUsString;
+import static com.twosigma.beaker.jupyter.Utils.getAsString;
 /**
  * 
  * @author konst
@@ -98,7 +98,7 @@ public class DefaultJVMVariables {
   }
   
   public String getImportsAsString(){
-    return getUsString(IMPORTS);
+    return getAsString(IMPORTS);
   }
   
   public Collection<String> getImports(){
@@ -110,7 +110,7 @@ public class DefaultJVMVariables {
   }
   
   public String getClassPathAsString(){
-    return getUsString(CLASS_PATH);
+    return getAsString(CLASS_PATH);
   }
   
   public Collection<String> getClassPath(){

@@ -19,7 +19,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -54,7 +53,7 @@ public class Utils {
     return ret.toString();
   }
 
-  public static String getUsString(Collection<String> input){
+  public static String getAsString(Collection<String> input){
     return getUsString(input.toArray(new String[input.size()]));
   }
 
