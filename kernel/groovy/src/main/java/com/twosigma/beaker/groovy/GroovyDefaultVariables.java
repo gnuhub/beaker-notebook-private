@@ -22,9 +22,9 @@ import com.twosigma.beaker.DefaultJVMVariables;
  * @author konst
  *
  */
-public class GroovyDefaultVariables extends DefaultJVMVariables{
+public class GroovyDefaultVariables extends DefaultJVMVariables {
   
-  public GroovyDefaultVariables(){
+  public GroovyDefaultVariables() {
     addImports(
       "static java.lang.Math.*",
       //"graxxia.*",

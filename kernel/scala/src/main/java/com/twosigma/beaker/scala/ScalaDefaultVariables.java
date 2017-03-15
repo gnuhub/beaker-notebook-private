@@ -22,6 +22,6 @@ import com.twosigma.beaker.DefaultJVMVariables;
  * @author konst
  *
  */
-public class ScalaDefaultVariables extends DefaultJVMVariables{
+public class ScalaDefaultVariables extends DefaultJVMVariables {
   
 }
