@@ -24,18 +24,18 @@ public class MimeTypeManager {
   public static final String TEXT_LATEX = "text/latex";
 
   public static Map<String, String> HTML(String code) {
-    return assignMimeToCode(TEXT_HTML, code);
+    return addMimeType(TEXT_HTML, code);
   }
 
   public static Map<String, String> LATEX(String code) {
-    return assignMimeToCode(TEXT_LATEX, code);
+    return addMimeType(TEXT_LATEX, code);
   }
 
   public static Map<String, String> TEXT(String code) {
-    return assignMimeToCode(TEXT_PLAIN, code);
+    return addMimeType(TEXT_PLAIN, code);
   }
 
-  private static Map<String, String> assignMimeToCode(String mime, String code) {
+  public static Map<String, String> addMimeType(String mime, String code) {
     Map<String, String> mimeToData = new HashMap<>();
     mimeToData.put(mime, code);
     return mimeToData;
