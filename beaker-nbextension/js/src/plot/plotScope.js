@@ -115,17 +115,11 @@ define([
     $(window).resize(this.resizeFunction);
 
     var noop = function (x) { return x; };
-    var caja = IPython.security.caja;
-
-    // Apply  advanced custom styles set directly by user
-    if(model.customStyles) {
-      var customStyleString = model.customStyles.map(function(s) {
-        return '#' + wrapperId + ' #' + scopeId + ' ' + s;
-      }).join('\n');
-      // this string needs to be sanitized
-      customStyleString = caja.sanitizeStylesheet(
+    var caja = IPython.security.caja;    
+    var sanitize = function(styleString){
+        return caja.sanitizeStylesheet(
             window.location.pathname,
-            customStyleString,
+            styleString,
             {
                 containerClass: null,
                 idSuffix: '',
@@ -133,7 +127,15 @@ define([
             },
             noop
       );
-      $("<style>"+ customStyleString + "\n</style>").prependTo(this.element.find('.plot-plotcontainer'));
+    }
+    
+    // Apply  advanced custom styles set directly by user
+    if(model.customStyles) {
+      var customStyleString = model.customStyles.map(function(s) {
+        return '#' + wrapperId + ' #' + scopeId + ' ' + s;
+      }).join('\n');
+      // this string needs to be sanitized
+      $("<style>"+ sanitize(customStyleString) + "\n</style>").prependTo(this.element.find('.plot-plotcontainer'));
     }
 
     // set title
@@ -146,36 +148,15 @@ define([
       for(var style in model['elementStyles']) {
         styles.push('#' + wrapperId + ' #' + scopeId + ' ' + style + ' { ' + model['elementStyles'][style] + '}');
       }
-      var styleString = styles.join('\n');
-      styleString = caja.sanitizeStylesheet(
-            window.location.pathname,
-            styleString,
-            {
-                containerClass: null,
-                idSuffix: '',
-                virtualizeAttrName: noop
-            },
-            noop
-      );      
-      $("<style>\n" + styleString + "\n</style>").prependTo(this.element.find('.plot-plotcontainer'));
+      $("<style>\n" + sanitize(styles.join('\n')) + "\n</style>").prependTo(this.element.find('.plot-plotcontainer'));
       
       // Title style has to be handlded separately because it sits in a separate
       // div outside the hierachy the rest of the plot is in
       if(model['elementStyles']['.plot-title']) {
         var styleString = '.plot-title-' + scopeId + ' { ' +
           model['elementStyles']['.plot-title'] +
-          '}';
-        styleString = caja.sanitizeStylesheet(
-              window.location.pathname,
-              styleString,
-              {
-                  containerClass: null,
-                  idSuffix: '',
-                  virtualizeAttrName: noop
-              },
-              noop
-        );  
-        $("<style>\n" + styleString + "\n</style>").prependTo(this.element.find('.plot-title-' + scopeId));
+          '}'; 
+        $("<style>\n" + sanitize(styleString) + "\n</style>").prependTo(this.element.find('.plot-title-' + scopeId));
       }
     }
 
