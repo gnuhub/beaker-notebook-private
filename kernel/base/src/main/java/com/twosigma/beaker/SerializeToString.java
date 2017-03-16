@@ -81,7 +81,7 @@ import com.twosigma.beaker.widgets.DisplayWidget;
 import com.twosigma.beaker.widgets.internal.InternalWidget;
 
 import static com.twosigma.beaker.mimetype.MimeTypeManager.HTML;
-import static com.twosigma.beaker.mimetype.MimeTypeManager.TEXT;
+import static com.twosigma.beaker.mimetype.MimeTypeManager.Text;
 
 
 public class SerializeToString {
@@ -165,15 +165,15 @@ public class SerializeToString {
   public static Map<String,String> doit(Object result) {
     if (result instanceof OutputContainer) {
       DisplayOutputContainer.display((OutputContainer)result);
-      return TEXT("");
+      return Text("");
     }
     if(result instanceof Table){
       showInternalWidget(new TableDisplay(new CsvPlotReader().convert((Table) result)));
-      return TEXT("");
+      return Text("");
     }
     if (isInternalWidget(result)) {
       showInternalWidget(result);
-      return TEXT("");
+      return Text("");
     }
     if (mapper != null && isBeakerChart(result)) {
       try {
@@ -185,13 +185,13 @@ public class SerializeToString {
                 "');</script></html>";
         return HTML(s);
       } catch (Exception e) {
-        return TEXT(exceptionToString(e));
+        return Text(exceptionToString(e));
       }
     }
     if(result instanceof Map) {
       return (Map) result;
     }
-    return result != null ? TEXT(result.toString()) : TEXT("null");
+    return result != null ? Text(result.toString()) : Text("null");
   }
 
   public static void showInternalWidget(Object result) {

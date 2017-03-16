@@ -27,11 +27,11 @@ public class MimeTypeManager {
     return addMimeType(TEXT_HTML, code);
   }
 
-  public static Map<String, String> LATEX(String code) {
+  public static Map<String, String> Latex(String code) {
     return addMimeType(TEXT_LATEX, code);
   }
 
-  public static Map<String, String> TEXT(String code) {
+  public static Map<String, String> Text(String code) {
     return addMimeType(TEXT_PLAIN, code);
   }
 
