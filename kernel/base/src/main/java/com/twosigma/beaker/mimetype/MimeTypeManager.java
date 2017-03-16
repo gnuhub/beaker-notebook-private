@@ -23,15 +23,15 @@ public class MimeTypeManager {
   public static final String TEXT_HTML = "text/html";
   public static final String TEXT_LATEX = "text/latex";
 
-  public static Map<String, String> html(String code) {
+  public static Map<String, String> HTML(String code) {
     return assignMimeToCode(TEXT_HTML, code);
   }
 
-  public static Map<String, String> latex(String code) {
+  public static Map<String, String> LATEX(String code) {
     return assignMimeToCode(TEXT_LATEX, code);
   }
 
-  public static Map<String, String> text(String code) {
+  public static Map<String, String> TEXT(String code) {
     return assignMimeToCode(TEXT_PLAIN, code);
   }
 

@@ -38,8 +38,8 @@ public class GroovyDefaultVariables extends DefaultJVMVariables {
       "com.github.lwhite1.tablesaw.api.ml.regression.*",
       "static com.github.lwhite1.tablesaw.api.QueryHelper.*",
       "com.github.lwhite1.tablesaw.filtering.*",
-      "static com.twosigma.beaker.mimetype.MimeTypeManager.html",
-      "static com.twosigma.beaker.mimetype.MimeTypeManager.latex"
+      "static com.twosigma.beaker.mimetype.MimeTypeManager.HTML",
+      "static com.twosigma.beaker.mimetype.MimeTypeManager.LATEX"
       //"com.twosigma.beaker.table.*",
       //"com.twosigma.beaker.table.format.*",
       //"com.twosigma.beaker.table.renderer.*",

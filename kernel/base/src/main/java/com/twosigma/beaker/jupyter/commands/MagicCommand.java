@@ -17,7 +17,6 @@
 package com.twosigma.beaker.jupyter.commands;
 
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
-import com.twosigma.beaker.mimetype.MimeTypeManager;
 import com.twosigma.jupyter.KernelFunctionality;
 import com.twosigma.jupyter.message.Message;
 
@@ -27,6 +26,8 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.twosigma.beaker.mimetype.MimeTypeManager.HTML;
 
 /**
  * executes magic commands and sends message
@@ -51,11 +52,11 @@ public class MagicCommand {
   private void buildCommands() {
     commands.put("%%javascript", (code, message, executionCount) -> {
       code = "<html><script>" + code.replace("%%javascript", "") + "</script></html>";
-      publishResults(MimeTypeManager.html(code),message, executionCount);
+      publishResults(HTML(code),message, executionCount);
     });
     commands.put("%%html", (code, message, executionCount) -> {
       code = "<html>" + code.replace("%%html", "") + "</html>";
-      publishResults(MimeTypeManager.html(code),message, executionCount);
+      publishResults(HTML(code),message, executionCount);
     });
     commands.put("%%bash", (code, message, executionCount) -> {
       String result = executeBashCode(code.replace("%%bash", ""));
