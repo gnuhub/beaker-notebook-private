@@ -114,22 +114,23 @@ define([
 
     $(window).resize(this.resizeFunction);
 
-    var noop = function (x) { return x; };
+    var noop = function (x) {
+      return x;
+    };
     var caja = IPython.security.caja;    
     var sanitize = function(styleString){
-        return caja.sanitizeStylesheet(
-            window.location.pathname,
-            styleString,
-            {
-                containerClass: null,
-                idSuffix: '',
-                virtualizeAttrName: noop
-            },
-            noop
+      return caja.sanitizeStylesheet(
+        window.location.pathname,
+        styleString,
+        {
+          containerClass: null,
+          idSuffix: '',
+          virtualizeAttrName: noop
+        },
+        noop
       );
     }
-    
-    // Apply  advanced custom styles set directly by user
+    // Apply advanced custom styles set directly by user
     if(model.customStyles) {
       var customStyleString = model.customStyles.map(function(s) {
         return '#' + wrapperId + ' #' + scopeId + ' ' + s;
