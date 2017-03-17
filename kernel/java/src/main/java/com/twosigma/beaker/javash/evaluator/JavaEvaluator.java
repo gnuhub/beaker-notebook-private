@@ -158,8 +158,6 @@ public class JavaEvaluator implements Evaluator{
     else
       imports = Arrays.asList(in.split("\\s+"));
 
-    try { (new File(outDir)).mkdirs(); } catch (Exception e) { }
-
     resetEnvironment();
   }
 
