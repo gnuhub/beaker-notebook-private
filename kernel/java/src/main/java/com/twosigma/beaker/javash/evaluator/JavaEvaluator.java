@@ -423,6 +423,7 @@ public class JavaEvaluator implements Evaluator{
         ClassLoader oldld = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(loader);
         theOutput.setOutputHandler();
+        InternalVariable.setValue(theOutput);
         try {
           InternalVariable.setValue(theOutput);
           Object o = theMth.invoke(null, (Object[])null);
