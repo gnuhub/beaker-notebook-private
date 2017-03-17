@@ -47,11 +47,5 @@ public interface Evaluator {
     }
     return ret.toAbsolutePath();
   }
-  
-  public static String getLinkToTollsJar(){
-    Map<String, String> env = System.getenv();
-    String java = env.get("JAVA_HOME");
-    return java + File.separator  +"lib" + File.separator  + "tools.jar";
-  }
 	
 }
