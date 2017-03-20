@@ -18,6 +18,7 @@ package com.twosigma.beaker.widgets.selections;
 import com.twosigma.beaker.widgets.DOMWidget;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 
 public abstract class SelectionWidget extends DOMWidget {
@@ -25,7 +26,7 @@ public abstract class SelectionWidget extends DOMWidget {
   public static final String OPTIONS_LABELS = "_options_labels";
 
   private String value = "";
-  private String[] options = new String[0];
+  private Object[] options = new Object[0];
 
   public SelectionWidget() {
   }
@@ -52,12 +53,17 @@ public abstract class SelectionWidget extends DOMWidget {
     sendUpdate(VALUE, value);
   }
 
-  public String[] getOptions() {
+  public Object[] getOptions() {
     return options;
   }
 
-  public void setOptions(String[] options) {
+  public void setOptions(Object[] options) {
     this.options = options;
+    sendUpdate(OPTIONS_LABELS, options);
+  }
+  
+  public void setOptions(Collection<Object> options) {
+    this.options = options.toArray(new Object[options.size()]);
     sendUpdate(OPTIONS_LABELS, options);
   }
 }
