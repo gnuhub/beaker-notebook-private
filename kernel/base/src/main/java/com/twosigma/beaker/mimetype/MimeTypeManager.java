@@ -15,43 +15,42 @@
  */
 package com.twosigma.beaker.mimetype;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class MimeTypeManager {
 
   private static final String TEXT_PLAIN = "text/plain";
   private static final String TEXT_HTML = "text/html";
   private static final String TEXT_LATEX = "text/latex";
 
-  private static List<String> supportedMimeTypes = new ArrayList<String>() {{
-    add(TEXT_PLAIN);
-    add(TEXT_HTML);
-    add(TEXT_LATEX);
-  }};
+  private String mime;
+  private String code;
 
-  public static Map<String, String> HTML(Object code) {
+  public MimeTypeManager(String mime, String code) {
+    this.mime = mime;
+    this.code = code;
+  }
+
+  public String getMime() {
+    return mime;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public static MimeTypeManager HTML(Object code) {
     return addMimeType(TEXT_HTML, code);
   }
 
-  public static Map<String, String> Latex(Object code) {
+  public static MimeTypeManager Latex(Object code) {
     return addMimeType(TEXT_LATEX, code);
   }
 
-  public static Map<String, String> Text(Object code) {
-    return addMimeType(TEXT_PLAIN, code);
+  public static MimeTypeManager Text(Object code) {
+     return addMimeType(TEXT_PLAIN, code);
   }
 
-  public static Map<String, String> addMimeType(String mime, Object code) {
-    Map<String, String> mimeToData = new HashMap<>();
-    mimeToData.put(mime, code.toString());
-    return mimeToData;
-  }
-
-  public static boolean isMimetypeSupported(String mime) {
-    return supportedMimeTypes.contains(mime);
+  public static MimeTypeManager addMimeType(String mime, Object code) {
+    return new MimeTypeManager(mime,code.toString());
   }
 
 }

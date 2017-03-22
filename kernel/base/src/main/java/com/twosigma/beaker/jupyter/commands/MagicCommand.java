@@ -17,6 +17,7 @@
 package com.twosigma.beaker.jupyter.commands;
 
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
+import com.twosigma.beaker.mimetype.MimeTypeManager;
 import com.twosigma.jupyter.KernelFunctionality;
 import com.twosigma.jupyter.message.Message;
 
@@ -72,10 +73,8 @@ public class MagicCommand {
     });
   }
 
-  private void publishResults(Map<String, String> result, Message message, int executionCount) {
-    String mime = result.entrySet().iterator().next().getKey();
-    String code = result.entrySet().iterator().next().getValue();
-    messageCreator.createMagicMessage(messageCreator.buildMessage(message, mime,code, executionCount), executionCount, message);
+  private void publishResults(MimeTypeManager result, Message message, int executionCount) {
+    messageCreator.createMagicMessage(messageCreator.buildMessage(message, result.getMime(),result.getCode(), executionCount), executionCount, message);
   }
   private String executeBashCode(String code) {
     String[] cmd = {"/bin/bash", "-c", code};
