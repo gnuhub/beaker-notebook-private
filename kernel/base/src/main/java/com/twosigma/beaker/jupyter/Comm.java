@@ -37,7 +37,7 @@ import static com.twosigma.beaker.jupyter.msg.JupyterMessages.COMM_OPEN;
 
 public class Comm {
 
-  private static final Logger logger = LoggerFactory.getLogger(Kernel.class);
+  private static final Logger logger = LoggerFactory.getLogger(Comm.class);
 
   public static final String METHOD = "method";
   public static final String UPDATE = "update";

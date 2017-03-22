@@ -20,21 +20,95 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.twosigma.beaker.widgets.bools.Checkbox;
 import com.twosigma.beaker.widgets.floats.FloatSlider;
 import com.twosigma.beaker.widgets.integers.IntSlider;
 import com.twosigma.beaker.widgets.selections.Dropdown;
 import com.twosigma.beaker.widgets.strings.Text;
 
-public class Interactive {
+public class InteractiveBase {
 
+  private static final Logger logger = LoggerFactory.getLogger(InteractiveBase.class);
   
-  public static void interact(){
-    
+  /**
+   * Build a ValueWidget instance given an abbreviation or Widget.
+   * Similar but not equivalent of {@code ipywidgets/widgets/interaction.py#widget_from_abbrev}
+   * 
+   * @param input
+   * @return
+   */
+  protected static DOMWidget getWidget(Object ...input){
+    DOMWidget ret = null;
+    if(input != null && input.length > 0){
+      ret = widgetFromTuple(input);
+      if(ret == null){
+        ret = widgetFromSingleValue(input[0]);
+      }
+      if(ret == null){
+        ret = widgetFromIterable(input[0]);
+      }
+    }
+    return ret;
+  }
+  
+  /**
+   * Make widgets from a tuple abbreviation.
+   * Equivalent of {@code ipywidgets/widgets/interaction.py#widget_from_tuple}
+   * 
+   * @param input
+   * @return
+   */
+  protected static DOMWidget widgetFromTuple(Object ...input){
+    DOMWidget ret = null;
+    if(input != null && input.length > 0){
+      boolean isFloat = isFloat(input[0]);
+      boolean isInt = isInt(input[0]);
+      if(input.length > 2){
+        if(isFloat){
+          Double[] minMaxValue = getMinMaxValue((Double)input[0], (Double)input[1], null);
+          FloatSlider witget = new FloatSlider();
+          witget.setMin(minMaxValue[0]);
+          witget.setMax(minMaxValue[1]);
+          witget.setValue(minMaxValue[2]);
+          ret = witget;
+        }else if(isInt){
+          Integer[] minMaxValue = getMinMaxValue((Integer)input[0], (Integer)input[1], null);
+          IntSlider witget = new IntSlider();
+          witget.setMin(minMaxValue[0]);
+          witget.setMax(minMaxValue[1]);
+          witget.setValue(minMaxValue[2]);
+          ret = witget;
+        }
+      }else if(input.length > 3){
+        if(isFloat){
+          Double[] minMaxValue = getMinMaxValue((Double)input[0], (Double)input[1], null);
+          FloatSlider witget = new FloatSlider();
+          witget.setMin(minMaxValue[0]);
+          witget.setMax(minMaxValue[1]);
+          witget.setValue(minMaxValue[2]);
+          witget.setStep((Double)input[2]);
+          ret = witget;
+        }else if(isInt){
+          Integer[] minMaxValue = getMinMaxValue((Integer)input[0], (Integer)input[1], null);
+          IntSlider witget = new IntSlider();
+          witget.setMin(minMaxValue[0]);
+          witget.setMax(minMaxValue[1]);
+          witget.setValue(minMaxValue[2]);
+          witget.setStep((Integer)input[2]);
+          ret = witget;
+        }
+      }
+    }
+    return ret;
   }
   
   /**
    * Make widgets from single values, which can be used as parameter defaults.
+   * Equivalent of {@code ipywidgets/widgets/interaction.py#widget_from_tuple}
+   * 
    * @param o
    * @return
    */
@@ -48,7 +122,7 @@ public class Interactive {
       Checkbox witget = new Checkbox();
       witget.setValue((Boolean)o);
       ret = witget;
-    }else if (o instanceof Integer || o instanceof Short || o instanceof Byte){
+    }else if (isInt(o)){
       Integer value = (Integer)o;
       Integer[] result = getMinMaxValue(null, null, value);
       IntSlider witget = new IntSlider();
@@ -56,7 +130,7 @@ public class Interactive {
       witget.setMax(result[1]);
       witget.setValue((Integer)o);
       ret = witget;
-    }else if (o instanceof Double || o instanceof Float){
+    }else if (isFloat(o)){
       Double value = (Double)o;
       Double[] result = getMinMaxValue(null, null, value);
       FloatSlider witget = new FloatSlider();
@@ -70,6 +144,8 @@ public class Interactive {
   
   /**
    * Make widgets from an iterable. This should not be done for a string or tuple.
+   * Equivalent of {@code ipywidgets/widgets/interaction.py#widget_from_iterable}
+   * 
    * @param o
    * @return
    */
@@ -99,6 +175,7 @@ public class Interactive {
   
   /**
    * Return min, max, value given input values with possible None.
+   * Equivalent of {@code ipywidgets/widgets/interaction.py#get_min_max_value}
    * 
    * @param min
    * @param max
@@ -116,6 +193,7 @@ public class Interactive {
   
   /**
    * Return min, max, value given input values with possible None.
+   * Equivalent of {@code ipywidgets/widgets/interaction.py#get_min_max_value}
    * 
    * @param min
    * @param max
@@ -129,6 +207,26 @@ public class Interactive {
     ret[1] = 100d;
     ret[2] = value != null ? value :50d;
     return ret;
+  }
+  
+  /**
+   * No equivalent in python. Help method.
+   * 
+   * @param o
+   * @return {@code (o instanceof Integer || o instanceof Short || o instanceof Byte)}
+   */
+  protected static boolean isInt(Object o){
+    return (o instanceof Integer || o instanceof Short || o instanceof Byte);
+  }
+  
+  /**
+   * No equivalent in python. Help method.
+   * 
+   * @param o
+   * @return {@code (o instanceof Double || o instanceof Float)}
+   */
+  protected static boolean isFloat(Object o){
+    return (o instanceof Double || o instanceof Float);
   }
   
 }
