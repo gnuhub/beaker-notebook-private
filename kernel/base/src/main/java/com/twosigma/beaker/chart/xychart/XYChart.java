@@ -19,6 +19,7 @@ package com.twosigma.beaker.chart.xychart;
 import com.twosigma.beaker.chart.AbstractChart;
 import com.twosigma.beaker.chart.xychart.plotitem.ConstantBand;
 import com.twosigma.beaker.chart.xychart.plotitem.ConstantLine;
+import com.twosigma.beaker.chart.xychart.plotitem.Pimage;
 import com.twosigma.beaker.chart.xychart.plotitem.Text;
 import com.twosigma.beaker.chart.xychart.plotitem.XYGraphics;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ abstract public class XYChart extends AbstractChart{
   private final List<XYGraphics> xyGraphics = new ArrayList<>();
   private final List<ConstantLine> constantLines = new ArrayList<>();
   private final List<ConstantBand> constantBands = new ArrayList<>();
+  private final List<Pimage> pImages = new ArrayList<>();
   private final List<Text> texts = new ArrayList<>();
   private boolean xAutoRange = true;
   private double xLowerBound;
@@ -91,6 +93,19 @@ abstract public class XYChart extends AbstractChart{
 
   public List<Text> getTexts() {
     return this.texts;
+  }
+
+  public XYChart add(Pimage image) {
+    this.pImages.add(image);
+    return this;
+  }
+
+  public XYChart leftShift(Pimage image) {
+    return add(image);
+  }
+
+  public List<Pimage> getImages() {
+    return this.pImages;
   }
 
   public XYChart add(List items) {
