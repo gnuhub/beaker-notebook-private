@@ -1,3 +1,19 @@
+/*
+ *  Copyright 2017 TWO SIGMA OPEN SOURCE, LLC
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 define([
   './../../bower_components/big.js/big.min',
   './../shared/bkHelper',
@@ -140,8 +156,6 @@ define([
       return n1 instanceof Big ? n1.div(n2) : n1 / n2;
     },
     getDataRange : function(data) { // data range is in [0,1] x [0,1]
-      console.log('data', data);
-
       var datarange = {
         xl : Infinity,
         xr : -Infinity,
@@ -273,8 +287,10 @@ define([
         range.xr = model.xAxis.getPercent(range.xr);
         range.yl = model.yAxis.getPercent(range.yl);
         range.yr = model.yAxis.getPercent(range.yr);
-        rangeR.yl = model.yAxisR.getPercent(rangeR.yl);
-        rangeR.yr = model.yAxisR.getPercent(rangeR.yr);
+        if (model.yAxisR) {
+          rangeR.yl = model.yAxisR.getPercent(rangeR.yl);
+          rangeR.yr = model.yAxisR.getPercent(rangeR.yr);
+        }
       }
       var focus = {
         xl : model.userFocus.xl,
