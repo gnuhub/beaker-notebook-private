@@ -49,7 +49,7 @@ public class MIMEContainer {
      return addMimeType(TEXT_PLAIN, code);
   }
 
-  public static MIMEContainer addMimeType(String mime, Object code) {
+  private static MIMEContainer addMimeType(String mime, Object code) {
     return new MIMEContainer(mime,code.toString());
   }
 

@@ -40,7 +40,7 @@ public class GroovyDefaultVariables extends DefaultJVMVariables {
       "com.github.lwhite1.tablesaw.filtering.*",
       "static com.twosigma.beaker.mimetype.MIMEContainer.HTML",
       "static com.twosigma.beaker.mimetype.MIMEContainer.Latex",
-      "static com.twosigma.beaker.mimetype.MIMEContainer.addMimeType"
+      "com.twosigma.beaker.mimetype.MIMEContainer"
       //"com.twosigma.beaker.table.*",
       //"com.twosigma.beaker.table.format.*",
       //"com.twosigma.beaker.table.renderer.*",
