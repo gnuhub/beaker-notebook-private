@@ -29,7 +29,7 @@ define([
     "Area" : "area",
     "Text" : "text",
     "Points" : "point",
-    "Pimage" : "pimage",
+    "Raster" : "image",
     "CategoryLine" : "line",
     "CategoryStems" : "stem",
     "CategoryBars" : "bar",
@@ -711,26 +711,27 @@ define([
           newmodel.data.push(item);
         }
       }
-      if (model.images != null) {
-        for (var i = 0; i < model.images.length; i++) {
-          var mimage = model.images[i];
+      console.log("Tiezheng test", model);
+      if (model.rasters != null) {
+        for (var i = 0; i < model.rasters.length; i++) {
+          var mraster = model.rasters[i];
           var item = {
-            "type" : "image",
+            "type" : "raster",
             "elements" : []
           };
-          var x = mimage.x;
+          var x = mraster.x;
           if (model.type === 'NanoPlot') {
             if (_.isEmpty(x)) { continue; }
             var bigv = new Big(x);
-            mimage.x = bigv;
+            mraster.x = bigv;
           }
           var ele = {
-            "x" : mimage.x,
-            "y" : mimage.y,
-            "width": mimage.width != null ? mimage.width : 320,
-            "height": mimage.height != null ? mimage.height : 240,
-            "format": mimage.format,
-            "value": mimage.value
+            "x" : mraster.x,
+            "y" : mraster.y,
+            "width": mraster.width != null ? mraster.width : 320,
+            "height": mraster.height != null ? mraster.height : 240,
+            "opacity": mraster.opacity,
+            "value": mraster.value
           };
           item.elements.push(ele);
           newmodel.data.push(item);

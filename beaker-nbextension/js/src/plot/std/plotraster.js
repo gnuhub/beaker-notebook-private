@@ -20,23 +20,23 @@ define([
   plotUtils
 ) {
 
-  var PlotImage = function(data){
+  var PlotRaster = function(data){
     _.extend(this, data); // copy properties to itself
     this.format();
   };
 
-  PlotImage.prototype.plotClass = "plot-image";
+  PlotRaster.prototype.plotClass = "plot-raster";
 
-  PlotImage.prototype.format = function(){
+  PlotRaster.prototype.format = function(){
     this.itemProps = {
       "id" : this.id,
       "st" : this.color,
-      "st_op": this.color_opacity,
-      "st_w" : this.width,
+      "st_op": this.opacity,
+      //"st_w" : this.width,
       // not sure how this works for now
-      "st_h" : this.height,
-      "st_f" : this.format,
-      "st_v" : this.value
+      //"st_h" : this.height,
+      //"st_f" : this.format,
+      //"st_v" : this.value
     };
 
     this.elementProps = [];
@@ -44,23 +44,21 @@ define([
     this.rmlabelpipe = [];
   };
 
-  PlotImage.prototype.render = function(scope){
+  PlotRaster.prototype.render = function(scope){
     if (this.showItem === false) {
       this.clear(scope);
       return;
     }
     this.filter(scope);
-    console.log("TZ prepare pics");
     this.prepare(scope);
     if (this.vlength === 0) {
       this.clear(scope);
     } else {
-      console.log("TZ draw pics");
       this.draw(scope);
     }
   };
 
-  PlotImage.prototype.getRange = function() {
+  PlotRaster.prototype.getRange = function() {
     var eles = this.elements;
     var range = {
       xl : Infinity,
@@ -70,31 +68,25 @@ define([
     };
     for (var i = 0; i < eles.length; i++) {
       var ele = eles[i];
-      if (ele.type === "x") {
-        range.xl = Math.min(range.xl, ele.x);
-        range.xr = Math.max(range.xr, ele.x);
-      } else if (ele.type === "y") {
-        range.yl = Math.min(range.yl, ele.y);
-        range.yr = Math.max(range.yr, ele.y);
-      }
+      // range.xl = Math.min(range.xl, ele.x);
+      // range.xr = Math.max(range.xr, ele.x + ele.width);
+      // range.yl = Math.min(range.yl, ele.y);
+      // range.yr = Math.max(range.yr, ele.y + ele.height);
     }
     return range;
   };
 
-  PlotImage.prototype.applyAxis = function(xAxis, yAxis) {
+  PlotRaster.prototype.applyAxis = function(xAxis, yAxis) {
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     for (var i = 0; i < this.elements.length; i++) {
       var ele = this.elements[i];
-      if (ele.type === "x") {
-        ele.x = xAxis.getPercent(ele.x);
-      } else if (ele.type === "y") {
-        ele.y = yAxis.getPercent(ele.y);
-      }
+      ele.x = xAxis.getPercent(ele.x);
+      ele.y = yAxis.getPercent(ele.y);
     }
   };
 
-  PlotImage.prototype.filter = function(scope) {
+  PlotRaster.prototype.filter = function(scope) {
     // do nothing and show everything
     var l = 0, r = this.elements.length - 1;
     this.vindexL = l;
@@ -102,17 +94,17 @@ define([
     this.vlength = r - l + 1;
   };
 
-  PlotImage.prototype.useSecondYAxis = function(scope) {
+  PlotRaster.prototype.useSecondYAxis = function(scope) {
     var axisLabelExist = this.yAxisLabel !== undefined && this.yAxisLabel !== null;
     return axisLabelExist && scope.data2scrYi_r;
   };
 
-  PlotImage.prototype.getYMapper = function(scope) {
+  PlotRaster.prototype.getYMapper = function(scope) {
     return this.useSecondYAxis(scope) ? scope.data2scrYi_r : scope.data2scrYi;
   };
 
 
-  PlotImage.prototype.prepare = function(scope) {
+  PlotRaster.prototype.prepare = function(scope) {
     var focus = scope.focus;
     var eles = this.elements,
       eleprops = this.elementProps;
@@ -131,14 +123,12 @@ define([
       var prop = {
         "id" : this.id + "_" + i,
         "lbid" : this.id + "_" + i + "l",
-        "x": ele.x,
-        "y": ele.y,
+        "x": mapX(ele.x),
+        "y": mapY(ele.y),
         "st" : ele.color,
-        "st_op" : ele.color_opacity,
+        "st_op" : ele.opacity,
         "st_w" : ele.width,
-        "bg_clr" : ele.color == null ? this.color : ele.color,
         "st_h" : ele.height,
-        "st_f" : ele.format,
         "st_v" : ele.value
       };
       eleprops.push(prop);
@@ -146,12 +136,11 @@ define([
   };
 
 
-  PlotImage.prototype.draw = function(scope) {
+  PlotRaster.prototype.draw = function(scope) {
     var svg = scope.maing;
     var props = this.itemProps,
       eleprops = this.elementProps;
-    
-    console.log("props", props);
+
     console.log("eleprops", eleprops);
 
     if (svg.select("#" + this.id).empty()) {
@@ -171,24 +160,22 @@ define([
       .attr("id", function(d) { return d.id; })
       .attr("x", function(d) { return d.x; })
       .attr("y", function(d) { return d.y; })
-      .attr("width", function(d) { return d.st_w; })
-      .attr("height", function(d) { return d.st_h; })
-      .attr("xlink:href", function(d) { 
-        console.log("data", d.st_v);
-        return d.st_v; 
-      });
+      .attr("width", function(d) { return d.st_w.toString() + "%"; })
+      .attr("height", function(d) { return d.st_h.toString() + "%"; })
+      .attr("opacity", function(d) { return d.st_op; })
+      .attr("preserveAspectRatio", "none")
+      .attr("xlink:href", function(d) { return d.st_v; });
       //.attr("class", this.respClass) // does not need resp
-
   };
 
-  PlotImage.prototype.clear = function(scope) {
+  PlotRaster.prototype.clear = function(scope) {
     scope.maing.select("#" + this.id).selectAll("*").remove();
   };
 
-  PlotImage.prototype.hideTips = function(scope, hidden) {
+  PlotRaster.prototype.hideTips = function(scope, hidden) {
     // do nothing, no tip for this type
   };
 
-  return PlotImage;
+  return PlotRaster;
 
 });

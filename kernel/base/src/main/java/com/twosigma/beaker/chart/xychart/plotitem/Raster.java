@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 TWO SIGMA OPEN SOURCE, LLC
+ *  Copyright 2017 TWO SIGMA OPEN SOURCE, LLC
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,14 +21,15 @@ import com.twosigma.beaker.chart.Graphics;
 
 import java.util.Date;
 
-public class Pimage extends Graphics {
+public class Raster extends Graphics {
   private Number x = 0;
   private Number y = 0;
-  private Number width = 320;
-  private Number height = 240;
-  // test this format only
-  private String format = "png";
-  private byte[] value;
+  private Number width = 30;
+  private Number height = 30;
+  private Number opacity = 1.0;
+  private String filePath = "";
+  private String fileUrl = "";
+  private byte[] dataString;
   private Color  baseColor;
   
 
@@ -56,6 +57,14 @@ public class Pimage extends Graphics {
     this.y = y;
   }
 
+  public Number getOpacity() {
+    return opacity;
+  }
+
+  public void setOpacity(Number opacity) {
+    this.opacity = opacity;
+  }
+
   public Number getWidth() {
     return width;
   }
@@ -72,14 +81,28 @@ public class Pimage extends Graphics {
     this.height = height;
   }
 
-  public byte[] getValue() {
-    return value;
+  public String getFilePath() {
+    return filePath;
   }
 
-  public void setValue(byte[] value) {
-    this.value = value;
-    // do not know how to use this
-    //sendUpdate("_b64value", value);
+  public void setFilePath(String filePath) {
+    this.filePath = filePath;
+  }
+
+  public String getFileUrl() {
+    return fileUrl;
+  }
+
+  public void setFileUrl(String fileUrl) {
+    this.fileUrl = fileUrl;
+  }
+
+  public byte[] getDataString() {
+    return dataString;
+  }
+
+  public void setDataString(byte[] dataString) {
+    this.dataString = dataString;
   }
 
   public void setColor(Object color) {

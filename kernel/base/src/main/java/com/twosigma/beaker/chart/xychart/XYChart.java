@@ -19,7 +19,7 @@ package com.twosigma.beaker.chart.xychart;
 import com.twosigma.beaker.chart.AbstractChart;
 import com.twosigma.beaker.chart.xychart.plotitem.ConstantBand;
 import com.twosigma.beaker.chart.xychart.plotitem.ConstantLine;
-import com.twosigma.beaker.chart.xychart.plotitem.Pimage;
+import com.twosigma.beaker.chart.xychart.plotitem.Raster;
 import com.twosigma.beaker.chart.xychart.plotitem.Text;
 import com.twosigma.beaker.chart.xychart.plotitem.XYGraphics;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ abstract public class XYChart extends AbstractChart{
   private final List<XYGraphics> xyGraphics = new ArrayList<>();
   private final List<ConstantLine> constantLines = new ArrayList<>();
   private final List<ConstantBand> constantBands = new ArrayList<>();
-  private final List<Pimage> pImages = new ArrayList<>();
+  private final List<Raster> rasters = new ArrayList<>();
   private final List<Text> texts = new ArrayList<>();
   private boolean xAutoRange = true;
   private double xLowerBound;
@@ -95,17 +95,17 @@ abstract public class XYChart extends AbstractChart{
     return this.texts;
   }
 
-  public XYChart add(Pimage image) {
-    this.pImages.add(image);
+  public XYChart add(Raster raster) {
+    this.rasters.add(raster);
     return this;
   }
 
-  public XYChart leftShift(Pimage image) {
-    return add(image);
+  public XYChart leftShift(Raster raster) {
+    return add(raster);
   }
 
-  public List<Pimage> getImages() {
-    return this.pImages;
+  public List<Raster> getRasters() {
+    return this.rasters;
   }
 
   public XYChart add(List items) {
@@ -118,6 +118,8 @@ abstract public class XYChart extends AbstractChart{
         add((ConstantBand) o);
       } else if (o instanceof Text) {
         add((Text) o);
+      } else if (o instanceof Raster) {
+        add((Raster) o);
       } else {
         super.add(items);
       }
