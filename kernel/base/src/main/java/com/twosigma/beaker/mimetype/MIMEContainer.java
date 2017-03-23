@@ -15,7 +15,7 @@
  */
 package com.twosigma.beaker.mimetype;
 
-public class MimeTypeManager {
+public class MIMEContainer {
 
   private static final String TEXT_PLAIN = "text/plain";
   private static final String TEXT_HTML = "text/html";
@@ -24,7 +24,7 @@ public class MimeTypeManager {
   private String mime;
   private String code;
 
-  public MimeTypeManager(String mime, String code) {
+  public MIMEContainer(String mime, String code) {
     this.mime = mime;
     this.code = code;
   }
@@ -37,20 +37,20 @@ public class MimeTypeManager {
     return code;
   }
 
-  public static MimeTypeManager HTML(Object code) {
+  public static MIMEContainer HTML(Object code) {
     return addMimeType(TEXT_HTML, code);
   }
 
-  public static MimeTypeManager Latex(Object code) {
+  public static MIMEContainer Latex(Object code) {
     return addMimeType(TEXT_LATEX, code);
   }
 
-  public static MimeTypeManager Text(Object code) {
+  public static MIMEContainer Text(Object code) {
      return addMimeType(TEXT_PLAIN, code);
   }
 
-  public static MimeTypeManager addMimeType(String mime, Object code) {
-    return new MimeTypeManager(mime,code.toString());
+  public static MIMEContainer addMimeType(String mime, Object code) {
+    return new MIMEContainer(mime,code.toString());
   }
 
 }

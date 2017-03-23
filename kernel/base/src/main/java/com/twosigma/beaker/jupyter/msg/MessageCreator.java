@@ -30,7 +30,7 @@ import java.util.Map;
 
 import com.twosigma.beaker.jvm.object.ConsoleOutput;
 import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
-import com.twosigma.beaker.mimetype.MimeTypeManager;
+import com.twosigma.beaker.mimetype.MIMEContainer;
 import com.twosigma.jupyter.KernelFunctionality;
 import com.twosigma.jupyter.message.Header;
 import com.twosigma.jupyter.message.Message;
@@ -129,7 +129,7 @@ public class MessageCreator {
       switch (seo.getStatus()) {
         case FINISHED: {
           // Publish the result of the execution.
-          MimeTypeManager resultString = SerializeToString.doit(seo.getPayload());
+          MIMEContainer resultString = SerializeToString.doit(seo.getPayload());
           ret.add(new MessageHolder(SocketEnum.IOPUB_SOCKET, buildMessage(message, resultString.getMime(), resultString.getCode(), seo.getExecutionCount())));
         }
         break;
