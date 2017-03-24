@@ -51,11 +51,8 @@ define([
     }
     this.filter(scope);
     this.prepare(scope);
-    if (this.vlength === 0) {
-      this.clear(scope);
-    } else {
-      this.draw(scope);
-    }
+    this.clear(scope);
+    this.draw(scope);
   };
 
   PlotRaster.prototype.getRange = function() {
@@ -68,10 +65,11 @@ define([
     };
     for (var i = 0; i < eles.length; i++) {
       var ele = eles[i];
-      // range.xl = Math.min(range.xl, ele.x);
-      // range.xr = Math.max(range.xr, ele.x + ele.width);
-      // range.yl = Math.min(range.yl, ele.y);
-      // range.yr = Math.max(range.yr, ele.y + ele.height);
+      //TODO: calculate range
+      /*range.xl = Math.min(range.xl, ele.x);
+      range.xr = Math.max(range.xr, ele.width);
+      range.yl = Math.min(range.yl, ele.height);
+      range.yr = Math.max(range.yr, ele.y);*/
     }
     return range;
   };
@@ -81,8 +79,14 @@ define([
     this.yAxis = yAxis;
     for (var i = 0; i < this.elements.length; i++) {
       var ele = this.elements[i];
-      ele.x = xAxis.getPercent(ele.x);
-      ele.y = yAxis.getPercent(ele.y);
+      var newx = xAxis.getPercent(ele.x);
+      var newy = yAxis.getPercent(ele.y);
+      var newWidth = xAxis.getPercent(ele.x + ele.width);
+      var newHeight = xAxis.getPercent(ele.y - ele.height);
+      ele.x = newx;
+      ele.y = newy;
+      ele.width = newWidth;
+      ele.height = newHeight;
     }
   };
 
@@ -116,10 +120,8 @@ define([
     eleprops.length = 0;
     this.labelpipe.length = 0;
     this.rmlabelpipe.length = 0;
-
     for (var i = this.vindexL; i <= this.vindexR; i++) {
       var ele = eles[i];
-
       var prop = {
         "id" : this.id + "_" + i,
         "lbid" : this.id + "_" + i + "l",
@@ -127,8 +129,8 @@ define([
         "y": mapY(ele.y),
         "st" : ele.color,
         "st_op" : ele.opacity,
-        "st_w" : ele.width,
-        "st_h" : ele.height,
+        "st_w" : mapX(ele.width) - mapX(ele.x),
+        "st_h" : mapY(ele.height) - mapY(ele.y),
         "st_v" : ele.value
       };
       eleprops.push(prop);
@@ -140,9 +142,6 @@ define([
     var svg = scope.maing;
     var props = this.itemProps,
       eleprops = this.elementProps;
-
-    console.log("eleprops", eleprops);
-
     if (svg.select("#" + this.id).empty()) {
       svg.selectAll("g")
         .data([props], function(d){ return d.id; }).enter().append("g")
@@ -160,8 +159,8 @@ define([
       .attr("id", function(d) { return d.id; })
       .attr("x", function(d) { return d.x; })
       .attr("y", function(d) { return d.y; })
-      .attr("width", function(d) { return d.st_w.toString() + "%"; })
-      .attr("height", function(d) { return d.st_h.toString() + "%"; })
+      .attr("width", function(d) { return d.st_w; })
+      .attr("height", function(d) { return d.st_h; })
       .attr("opacity", function(d) { return d.st_op; })
       .attr("preserveAspectRatio", "none")
       .attr("xlink:href", function(d) { return d.st_v; });

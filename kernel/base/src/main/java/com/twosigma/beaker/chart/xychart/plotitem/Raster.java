@@ -31,7 +31,7 @@ public class Raster extends Graphics {
   private String fileUrl = "";
   private byte[] dataString;
   private Color  baseColor;
-  
+  private String position = "zoomable";
 
   // getter and setters
 
@@ -95,6 +95,14 @@ public class Raster extends Graphics {
 
   public void setFileUrl(String fileUrl) {
     this.fileUrl = fileUrl;
+  }
+
+  public String getPosition() {
+    return position;
+  }
+
+  public void setPosition(String position) {
+    this.position = position;
   }
 
   public byte[] getDataString() {

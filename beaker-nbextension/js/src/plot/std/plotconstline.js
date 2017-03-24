@@ -125,7 +125,6 @@ define([
 
     for (var i = this.vindexL; i <= this.vindexR; i++) {
       var ele = eles[i];
-      console.log("Tz tesing ele", ele);
       var prop = {
         "id" : this.id + "_" + i,
         "lbid" : this.id + "_" + i + "l",
@@ -185,7 +184,6 @@ define([
           });
         }
       }
-      console.log("TZ testing prop", prop);
     }
   };
 

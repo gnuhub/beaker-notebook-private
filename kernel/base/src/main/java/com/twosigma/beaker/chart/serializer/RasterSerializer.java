@@ -42,6 +42,7 @@ public class RasterSerializer extends JsonSerializer<Raster> {
     jgen.writeObjectField("opacity", raster.getOpacity());
     jgen.writeObjectField("visible", raster.getVisible());
     jgen.writeObjectField("yAxis", raster.getYAxis());
+    jgen.writeObjectField("position", raster.getPosition());
     if (raster.getWidth() != null) {
       jgen.writeObjectField("width", raster.getWidth());
     }

@@ -711,7 +711,6 @@ define([
           newmodel.data.push(item);
         }
       }
-      console.log("Tiezheng test", model);
       if (model.rasters != null) {
         for (var i = 0; i < model.rasters.length; i++) {
           var mraster = model.rasters[i];
@@ -731,6 +730,7 @@ define([
             "width": mraster.width != null ? mraster.width : 320,
             "height": mraster.height != null ? mraster.height : 240,
             "opacity": mraster.opacity,
+            "position": mraster.position,
             "value": mraster.value
           };
           item.elements.push(ele);
