@@ -1,27 +1,13 @@
-/*
- *  Copyright 2017 TWO SIGMA OPEN SOURCE, LLC
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-package com.twosigma.jupyter.handler;
+package com.twosigma.beaker.groovy.autocomplete;
 
 import com.twosigma.beaker.groovy.GroovyKernelTest;
 import com.twosigma.beaker.groovy.evaluator.GroovyEvaluator;
+import com.twosigma.jupyter.handler.CompleteHandler;
+import com.twosigma.jupyter.message.Message;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.twosigma.jupyter.message.Message;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -29,7 +15,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CompleteHandlerTest {
+public class GroovyCompleteHandlerTest {
 
   private CompleteHandler completeHandler;
   private static GroovyKernelTest groovyKernel;
@@ -58,7 +44,7 @@ public class CompleteHandlerTest {
   public void shouldSendCompleteReplyMsgForPrintln() throws Exception {
     //given
     Message message = autocompleteMsgFor(
-            "//parentheses are optional\n" +
+        "//parentheses are optional\n" +
             "System.out.printl \"hey!\"\n" +
             "println \"no System.out either!\"",44);
     //when
@@ -74,7 +60,7 @@ public class CompleteHandlerTest {
     String comment = "//parentheses are optional\n";
     Message message = autocompleteMsgFor(comment + "de", comment.length()+2);
     //when
-     completeHandler.handle(message);
+    completeHandler.handle(message);
     //then
     assertThat(groovyKernel.getSentMessages().size()).isEqualTo(1);
     verifyAutocompleteMsg(groovyKernel.getSentMessages().get(0),27,comment.length()+2);
@@ -98,4 +84,5 @@ public class CompleteHandlerTest {
     message.setContent(content);
     return message;
   }
+
 }
