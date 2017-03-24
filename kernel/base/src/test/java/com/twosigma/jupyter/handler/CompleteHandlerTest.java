@@ -63,7 +63,7 @@ public class CompleteHandlerTest {
   }
 
   @Test
-  public void handle_sentMessageHasHeaderTypeIsKernelInfoReply() throws Exception {
+  public void handle_sentMessageHasHeaderTypeIsCompleteReply() throws Exception {
     //when
     completeHandler.handle(message);
     //then
