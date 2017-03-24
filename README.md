@@ -22,33 +22,22 @@
 * npm, bower, webpack
 * conda
 
+## Build and run
 ```
 conda create -y -n beakerx python=3.5 jupyter pandas
 source activate beakerx
 (cd kernel/groovy; gradle --no-daemon kernelInstall)
+(cd kernel/scala; gradle --no-daemon kernelInstall)
+(cd kernel/java; gradle --no-daemon kernelInstall)
 gradle --no-daemon environmentVariables # set PYTHONPATH as directed
 jupyter notebook
 ```
 
-make sure both Beaker extensions are enabled in the nbextensions tab (Beaker and beaker-nbextension/extension).
-if `gradle environmentVariables` fails, then try `(cd beaker-nbextension; pip install -e .)`
-
-## Build and install groovy kernel
-This installs the kernel for groovy into the current conda environment.
-* `gradle kernelInstall`
-
-## Update groovy kernel
+## Update after java change
+Ther kernels are installed to run out of the repo, so just a build should update the java code.
 * `gradle build`
 
-
-
-
-## install notebook extension
-
-* `gradle environmentVariables`
-* Then set environment variable PYTHONPATH, see message after `gradle environmentVariables`
-
-## update notebook extension
+## update after JS change
 
 * `cd beaker-nbextension/js; webpack`
 
@@ -65,3 +54,7 @@ Then run `rm -rf bower_components && bower install`.
 ## Autotranslation from Python to JavaScript:
 <img width="631" alt="screen shot 2016-12-10 at 10 43 22 pm" src="https://cloud.githubusercontent.com/assets/963093/21077947/261def64-bf2a-11e6-8518-4845caf75690.png">
 
+## Attribution
+
+The kernel is originally derived from https://github.com/lappsgrid-incubator/jupyter-groovy-kernel, but has been rewritten in Java and refactored.
+The Java support uses Adrian Witas org.abstractmeta.toolbox.
