@@ -1,7 +1,5 @@
 package com.twosigma.beaker.widgets;
 
-import static com.twosigma.beaker.widgets.Widget.VALUE;
-
 public abstract class ValueWidget<T> extends DOMWidget {
 
   protected T value;

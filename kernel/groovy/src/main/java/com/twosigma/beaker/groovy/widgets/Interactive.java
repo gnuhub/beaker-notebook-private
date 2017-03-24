@@ -17,19 +17,20 @@ public class Interactive extends InteractiveBase{
   private static final Logger logger = LoggerFactory.getLogger(Interactive.class);
   
   public static void interact(MethodClosure function, Object... parameters) {
-    //logger.info(function.getClass().getName() + " " + parameters[0].getClass().getName());
+    final MessageCreator mc = new MessageCreator(KernelManager.get());
+
     for (ValueWidget<?> widget : widgetsFromAbbreviations(parameters)) {
       widget.getComm().addMsgCallbackList(widget.new ValueChangeMsgCallbackHandler() {
         
         @Override
         public void updateValue(Object value, Message message) {
           Object result = function.call(widget.getValue());
-          MessageCreator mc = new MessageCreator(KernelManager.get());
           KernelManager.get().publish(mc.buildClearOutput(message, true));
           KernelManager.get().publish(mc.buildDisplayData(message, result.toString()));
           
         }
       });
+      logger.info("interact Widget: " + widget.getClass().getName());
       display(widget);
     }
   }
