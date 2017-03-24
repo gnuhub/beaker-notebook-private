@@ -33,6 +33,32 @@ public class InteractiveBase {
 
   private static final Logger logger = LoggerFactory.getLogger(InteractiveBase.class);
   
+  
+  /**
+   * Build a ValueWidget instance given an abbreviation or Widget.
+   * Similar but not equivalent of {@code ipywidgets/widgets/interaction.py#widgets_from_abbreviations}
+   * 
+   * @param input
+   * @return
+   */
+  protected static List<ValueWidget> widgetsFromAbbreviations(Object ...input){
+    List<ValueWidget> ret = new ArrayList<>();
+    ValueWidget widget = getWidgetFromAbbrev(input);
+    if(widget == null){
+      String text = "";
+      if(input!= null && input[0] != null){
+        text = input.getClass().getSimpleName();
+      }else{
+        text = "null";
+      }
+      throw new RuntimeException(text + " cannot be transformed to a widget");
+    }else if(!(widget instanceof ValueWidget)){
+      throw new RuntimeException(input.getClass().getSimpleName() + " is not a ValueWidget");
+    }
+    ret.add(widget);
+    return ret;
+  }
+  
   /**
    * Build a ValueWidget instance given an abbreviation or Widget.
    * Similar but not equivalent of {@code ipywidgets/widgets/interaction.py#widget_from_abbrev}
@@ -40,8 +66,8 @@ public class InteractiveBase {
    * @param input
    * @return
    */
-  protected static DOMWidget getWidget(Object ...input){
-    DOMWidget ret = null;
+  protected static ValueWidget getWidgetFromAbbrev(Object ...input){
+    ValueWidget ret = null;
     if(input != null && input.length > 0){
       ret = widgetFromTuple(input);
       if(ret == null){
@@ -61,8 +87,8 @@ public class InteractiveBase {
    * @param input
    * @return
    */
-  protected static DOMWidget widgetFromTuple(Object ...input){
-    DOMWidget ret = null;
+  protected static ValueWidget widgetFromTuple(Object ...input){
+    ValueWidget ret = null;
     if(input != null && input.length > 0){
       boolean isFloat = isFloat(input[0]);
       boolean isInt = isInt(input[0]);
@@ -84,20 +110,28 @@ public class InteractiveBase {
         }
       }else if(input.length > 3){
         if(isFloat){
+          Double step = (Double)input[2];
+          if((Double)input[2] <= 0){
+            throw new RuntimeException("step must be >= 0, not " +  step);
+          }
           Double[] minMaxValue = getMinMaxValue((Double)input[0], (Double)input[1], null);
           FloatSlider witget = new FloatSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
           witget.setValue(minMaxValue[2]);
-          witget.setStep((Double)input[2]);
+          witget.setStep(step);
           ret = witget;
         }else if(isInt){
+          Integer step = (Integer)input[2];
+          if((Integer)input[2] <= 0){
+            throw new RuntimeException("step must be >= 0, not " +  step);
+          }
           Integer[] minMaxValue = getMinMaxValue((Integer)input[0], (Integer)input[1], null);
           IntSlider witget = new IntSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
           witget.setValue(minMaxValue[2]);
-          witget.setStep((Integer)input[2]);
+          witget.setStep(step);
           ret = witget;
         }
       }
@@ -112,8 +146,8 @@ public class InteractiveBase {
    * @param o
    * @return
    */
-  protected static DOMWidget widgetFromSingleValue(Object o){
-    DOMWidget ret = null;
+  protected static ValueWidget widgetFromSingleValue(Object o){
+    ValueWidget ret = null;
     if (o instanceof String){
       Text witget = new Text();
       witget.setValue((String)o);

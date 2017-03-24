@@ -16,6 +16,7 @@
 package com.twosigma.beaker.jupyter;
 
 import com.twosigma.beaker.evaluator.InternalVariable;
+import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import com.twosigma.jupyter.Kernel;
 import com.twosigma.jupyter.KernelFunctionality;
 import com.twosigma.jupyter.handler.Handler;
@@ -54,6 +55,7 @@ public class Comm {
   private HashMap<?, ?> data;
   private String targetModule;
   private KernelFunctionality kernel;
+  private SimpleEvaluationObject seo;
   private List<Handler<Message>> msgCallbackList = new ArrayList<>();
   private List<Handler<Message>> closeCallbackList = new ArrayList<>();
 
@@ -188,9 +190,17 @@ public class Comm {
   }
 
   protected Message getParentMessage() {
-    return InternalVariable.getParentHeader();
+    SimpleEvaluationObject seo = InternalVariable.getSimpleEvaluationObject();
+    if(seo != null){
+      this.seo = seo;
+    }
+    return seo.getJupyterMessage();
   }
 
+  public SimpleEvaluationObject getLastUsedSimpleEvaluationObject() {
+    return seo;
+  }
+  
   public void handleMsg(Message parentMessage) {
     if (this.getMsgCallbackList() != null && !this.getMsgCallbackList().isEmpty()) {
       for (Handler<Message> handler : getMsgCallbackList()) {
