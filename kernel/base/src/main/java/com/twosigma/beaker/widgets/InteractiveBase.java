@@ -41,9 +41,9 @@ public class InteractiveBase {
    * @param input
    * @return
    */
-  protected static List<ValueWidget> widgetsFromAbbreviations(Object ...input){
-    List<ValueWidget> ret = new ArrayList<>();
-    ValueWidget widget = getWidgetFromAbbrev(input);
+  protected static List<ValueWidget<?>> widgetsFromAbbreviations(Object ...input){
+    List<ValueWidget<?>> ret = new ArrayList<>();
+    ValueWidget<?> widget = getWidgetFromAbbrev(input);
     if(widget == null){
       String text = "";
       if(input!= null && input[0] != null){
@@ -56,6 +56,7 @@ public class InteractiveBase {
       throw new RuntimeException(input.getClass().getSimpleName() + " is not a ValueWidget");
     }
     ret.add(widget);
+    logger.info(ret.size() + " is created");
     return ret;
   }
   
@@ -66,8 +67,8 @@ public class InteractiveBase {
    * @param input
    * @return
    */
-  protected static ValueWidget getWidgetFromAbbrev(Object ...input){
-    ValueWidget ret = null;
+  protected static ValueWidget<?> getWidgetFromAbbrev(Object ...input){
+    ValueWidget<?> ret = null;
     if(input != null && input.length > 0){
       ret = widgetFromTuple(input);
       if(ret == null){
@@ -87,21 +88,21 @@ public class InteractiveBase {
    * @param input
    * @return
    */
-  protected static ValueWidget widgetFromTuple(Object ...input){
-    ValueWidget ret = null;
+  protected static ValueWidget<?> widgetFromTuple(Object ...input){
+    ValueWidget<?> ret = null;
     if(input != null && input.length > 0){
       boolean isFloat = isFloat(input[0]);
       boolean isInt = isInt(input[0]);
       if(input.length > 2){
         if(isFloat){
-          Double[] minMaxValue = getMinMaxValue((Double)input[0], (Double)input[1], null);
+          Double[] minMaxValue = (Double[])getMinMaxValue((Double)input[0], (Double)input[1], null);
           FloatSlider witget = new FloatSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
           witget.setValue(minMaxValue[2]);
           ret = witget;
         }else if(isInt){
-          Integer[] minMaxValue = getMinMaxValue((Integer)input[0], (Integer)input[1], null);
+          Integer[] minMaxValue = (Integer[])getMinMaxValue((Integer)input[0], (Integer)input[1], null);
           IntSlider witget = new IntSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
@@ -114,7 +115,7 @@ public class InteractiveBase {
           if((Double)input[2] <= 0){
             throw new RuntimeException("step must be >= 0, not " +  step);
           }
-          Double[] minMaxValue = getMinMaxValue((Double)input[0], (Double)input[1], null);
+          Double[] minMaxValue = (Double[])getMinMaxValue((Double)input[0], (Double)input[1], null);
           FloatSlider witget = new FloatSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
@@ -126,7 +127,7 @@ public class InteractiveBase {
           if((Integer)input[2] <= 0){
             throw new RuntimeException("step must be >= 0, not " +  step);
           }
-          Integer[] minMaxValue = getMinMaxValue((Integer)input[0], (Integer)input[1], null);
+          Integer[] minMaxValue = (Integer[])getMinMaxValue((Integer)input[0], (Integer)input[1], null);
           IntSlider witget = new IntSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
@@ -146,8 +147,8 @@ public class InteractiveBase {
    * @param o
    * @return
    */
-  protected static ValueWidget widgetFromSingleValue(Object o){
-    ValueWidget ret = null;
+  protected static ValueWidget<?> widgetFromSingleValue(Object o){
+    ValueWidget<?> ret = null;
     if (o instanceof String){
       Text witget = new Text();
       witget.setValue((String)o);
@@ -158,7 +159,7 @@ public class InteractiveBase {
       ret = witget;
     }else if (isInt(o)){
       Integer value = (Integer)o;
-      Integer[] result = getMinMaxValue(null, null, value);
+      Integer[] result = (Integer[])getMinMaxValue(null, null, value);
       IntSlider witget = new IntSlider();
       witget.setMin(result[0]);
       witget.setMax(result[1]);
@@ -166,7 +167,7 @@ public class InteractiveBase {
       ret = witget;
     }else if (isFloat(o)){
       Double value = (Double)o;
-      Double[] result = getMinMaxValue(null, null, value);
+      Double[] result = (Double[])getMinMaxValue(null, null, value);
       FloatSlider witget = new FloatSlider();
       witget.setMin(result[0]);
       witget.setMax(result[1]);
@@ -183,6 +184,7 @@ public class InteractiveBase {
    * @param o
    * @return
    */
+  @SuppressWarnings("unchecked")
   protected static Dropdown widgetFromIterable(Object o){
     Dropdown ret = null;
     if (o instanceof Collection<?>){
@@ -214,32 +216,65 @@ public class InteractiveBase {
    * @param min
    * @param max
    * @param value
-   * @return min max value
+   * @return array: min max value
    */
-  //TODO
-  protected static Integer[] getMinMaxValue(Integer min, Integer max, Integer value){
-    Integer[] ret = new Integer[3];
-    ret[0] = 0;
-    ret[1] = 100;
-    ret[2] = value != null ? value :50;
+  protected static Number[] getMinMaxValue(Number min, Number max, Number value){
+    Number[] ret = new Number[3];
+    if(value == null){
+      if( min == null || max == null){
+        throw new RuntimeException("unable to infer range, value from: (" + min + ", " + max + ", " + value + ")");
+      }
+      if(isAllInt(min,max)){
+        int diff = (int)max - (int)min;
+        ret[2] = (Integer) (int)min + (diff / 2);
+      }else{
+        double diff = (double)max - (double)min;
+        ret[2] = (Double) (double)min + (diff / 2);
+      }
+      ret[0] = min;
+      ret[1] = max;
+
+    }else{
+      Number[] vrange  = new Number[2];
+      double dValue = (value instanceof Integer) ? ((Integer) value).doubleValue() : (double) value;
+      boolean isInt = isAllInt(min, max);
+      // This gives (0, 1) of the correct type
+      if(dValue == 0){
+        vrange[0] = isInt ? (int)dValue : dValue;
+        vrange[1] = isInt ? (int)dValue + 1 : dValue +1;
+      }else if(dValue > 0){
+        vrange[0] = isInt ? (int)dValue*-1 : dValue*-1;
+        vrange[1] = isInt ? (int)dValue*3 : dValue*3;
+      }else {
+        vrange[0] = isInt ? (int)dValue*3 : dValue*3;
+        vrange[1] = isInt ? (int)dValue*-1 : dValue*-1;
+      }
+
+      if(min == null){
+        ret[0] = vrange[0];
+      }
+      if(max == null){
+        ret[1] = vrange[1];
+      }
+      ret[2] = value;
+    }
     return ret;
   }
   
   /**
-   * Return min, max, value given input values with possible None.
-   * Equivalent of {@code ipywidgets/widgets/interaction.py#get_min_max_value}
+   * No equivalent in python. Help method.
    * 
-   * @param min
-   * @param max
-   * @param value
-   * @return min max value
+   * @param o
+   * @return
    */
-  //TODO
-  protected static Double[] getMinMaxValue(Double min, Double max, Double value){
-    Double[] ret = new Double[3];
-    ret[0] = 0d;
-    ret[1] = 100d;
-    ret[2] = value != null ? value :50d;
+  protected static boolean isAllInt(Number ... o){
+    boolean ret = true;
+    for (Number number : o) {
+      ret = number != null && number instanceof Integer;
+      if(!ret){
+        break;
+      }
+    }
     return ret;
   }
   
