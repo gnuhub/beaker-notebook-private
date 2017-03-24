@@ -16,6 +16,7 @@
 package com.twosigma.beaker.widgets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -95,14 +96,16 @@ public class InteractiveBase {
       boolean isInt = isInt(input[0]);
       if(input.length > 2){
         if(isFloat){
-          Double[] minMaxValue = (Double[])getMinMaxValue((Double)input[0], (Double)input[1], null);
+          Number[] minMaxValueN = getMinMaxValue((Double)input[0], (Double)input[1], null);
+          Double[] minMaxValue = Arrays.copyOf(minMaxValueN, minMaxValueN.length, Double[].class);
           FloatSlider witget = new FloatSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
           witget.setValue(minMaxValue[2]);
           ret = witget;
         }else if(isInt){
-          Integer[] minMaxValue = (Integer[])getMinMaxValue((Integer)input[0], (Integer)input[1], null);
+          Number[] minMaxValueN = getMinMaxValue((Integer)input[0], (Integer)input[1], null);
+          Integer[] minMaxValue = Arrays.copyOf(minMaxValueN, minMaxValueN.length, Integer[].class);
           IntSlider witget = new IntSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
@@ -115,7 +118,8 @@ public class InteractiveBase {
           if((Double)input[2] <= 0){
             throw new RuntimeException("step must be >= 0, not " +  step);
           }
-          Double[] minMaxValue = (Double[])getMinMaxValue((Double)input[0], (Double)input[1], null);
+          Number[] minMaxValueN = getMinMaxValue((Double)input[0], (Double)input[1], null);
+          Double[] minMaxValue = Arrays.copyOf(minMaxValueN, minMaxValueN.length, Double[].class);
           FloatSlider witget = new FloatSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
@@ -127,7 +131,8 @@ public class InteractiveBase {
           if((Integer)input[2] <= 0){
             throw new RuntimeException("step must be >= 0, not " +  step);
           }
-          Integer[] minMaxValue = (Integer[])getMinMaxValue((Integer)input[0], (Integer)input[1], null);
+          Number[] minMaxValueN = getMinMaxValue((Integer)input[0], (Integer)input[1], null);
+          Integer[] minMaxValue = Arrays.copyOf(minMaxValueN, minMaxValueN.length, Integer[].class);
           IntSlider witget = new IntSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
@@ -159,19 +164,21 @@ public class InteractiveBase {
       ret = witget;
     }else if (isInt(o)){
       Integer value = (Integer)o;
-      Integer[] result = (Integer[])getMinMaxValue(null, null, value);
+      Number[] resultN = getMinMaxValue(null, null, value);
+      Integer[] result = Arrays.copyOf(resultN, resultN.length, Integer[].class);
       IntSlider witget = new IntSlider();
       witget.setMin(result[0]);
       witget.setMax(result[1]);
-      witget.setValue((Integer)o);
+      witget.setValue(value);
       ret = witget;
     }else if (isFloat(o)){
       Double value = (Double)o;
-      Double[] result = (Double[])getMinMaxValue(null, null, value);
+      Number[] resultN = getMinMaxValue(null, null, value);
+      Double[] result = Arrays.copyOf(resultN, resultN.length, Double[].class);
       FloatSlider witget = new FloatSlider();
       witget.setMin(result[0]);
       witget.setMax(result[1]);
-      witget.setValue((Double)o);
+      witget.setValue(value);
       ret = witget;
     }
     return ret;
@@ -237,17 +244,32 @@ public class InteractiveBase {
     }else{
       Number[] vrange  = new Number[2];
       double dValue = (value instanceof Integer) ? ((Integer) value).doubleValue() : (double) value;
-      boolean isInt = isAllInt(min, max);
+      boolean isInt = isAllInt(min, max, value);
       // This gives (0, 1) of the correct type
       if(dValue == 0){
-        vrange[0] = isInt ? (int)dValue : dValue;
-        vrange[1] = isInt ? (int)dValue + 1 : dValue +1;
+        if(isInt){
+          vrange[0] = (int)dValue;
+          vrange[1] = (int)dValue + 1;
+        }else{
+          vrange[0] = dValue;
+          vrange[1] = dValue +1;
+        }
       }else if(dValue > 0){
-        vrange[0] = isInt ? (int)dValue*-1 : dValue*-1;
-        vrange[1] = isInt ? (int)dValue*3 : dValue*3;
+        if(isInt){
+          vrange[0] = (int)dValue*-1;
+          vrange[1] = (int)dValue*3;
+        }else{
+          vrange[0] = dValue*-1;
+          vrange[1] = dValue*3;
+        }
       }else {
-        vrange[0] = isInt ? (int)dValue*3 : dValue*3;
-        vrange[1] = isInt ? (int)dValue*-1 : dValue*-1;
+        if(isInt){
+          vrange[0] = (int)(dValue*3);
+          vrange[1] = (int)(dValue*-1);
+        }else{
+          vrange[0] = dValue*3;
+          vrange[1] = dValue*-1;
+        }
       }
 
       if(min == null){
@@ -270,9 +292,11 @@ public class InteractiveBase {
   protected static boolean isAllInt(Number ... o){
     boolean ret = true;
     for (Number number : o) {
-      ret = number != null && number instanceof Integer;
-      if(!ret){
-        break;
+      if(number != null){
+        ret = isInt(number);
+        if(!ret){
+          break;
+        }
       }
     }
     return ret;
