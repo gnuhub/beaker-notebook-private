@@ -15,14 +15,31 @@
  */
 package com.twosigma.beaker.mimetype;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.URL;
+
 public class MIMEContainer {
 
-  private static final String TEXT_PLAIN = "text/plain";
+  protected static final String TEXT_PLAIN = "text/plain";
   private static final String TEXT_HTML = "text/html";
   private static final String TEXT_LATEX = "text/latex";
+  private static final String TEXT_MARKDOWN = "text/markdown";
+  private static final String APPLICATION_JAVASCRIPT = "application/javascript";
+  private static final String IMAGE_PNG = "image/png";
+  private static final String IMAGE_JPEG = "image/jpeg";
+  protected static final String IMAGE_SVG = "image/svg+xml";
+
 
   private String mime;
   private String code;
+
+  public MIMEContainer() {
+
+  }
 
   public MIMEContainer(String mime, String code) {
     this.mime = mime;
@@ -46,11 +63,46 @@ public class MIMEContainer {
   }
 
   public static MIMEContainer Text(Object code) {
-     return addMimeType(TEXT_PLAIN, code);
+    return addMimeType(TEXT_PLAIN, code);
   }
 
-  private static MIMEContainer addMimeType(String mime, Object code) {
-    return new MIMEContainer(mime,code.toString());
+  public static MIMEContainer Markdown(Object code) {
+    return addMimeType(TEXT_MARKDOWN, code);
+  }
+
+  public static MIMEContainer Math(String code) {
+    code = StringUtils.strip(code, "$");
+    return addMimeType(TEXT_LATEX, "$$" + code + "$$");
+  }
+  
+  protected static MIMEContainer addMimeType(String mime, Object code) {
+    return new MIMEContainer(mime, code.toString());
+  }
+
+  protected static String exceptionToString(Exception e) {
+    StringWriter w = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(w);
+    e.printStackTrace(printWriter);
+    printWriter.flush();
+    return w.toString();
+  }
+
+  protected static boolean exists(String data) {
+    File f = new File(data);
+    return (f.exists() && !f.isDirectory());
+  }
+
+  protected static boolean isValidURL(String urlString)
+  {
+    try
+    {
+      URL url = new URL(urlString);
+      url.toURI();
+      return true;
+    } catch (Exception exception)
+    {
+      return false;
+    }
   }
 
 }
