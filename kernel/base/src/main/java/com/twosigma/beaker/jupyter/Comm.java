@@ -147,8 +147,8 @@ public class Comm {
   public void close() {
     Message parentMessage = getParentMessage();// can be null
 
-    if (this.getCloseCallbackList() != null && !this.getMsgCallbackList().isEmpty()) {
-      for (Handler<Message> handler : getMsgCallbackList()) {
+    if (this.getCloseCallbackList() != null && !this.getCloseCallbackList().isEmpty()) {
+      for (Handler<Message> handler : getCloseCallbackList()) {
         handler.handle(parentMessage);
       }
     }
@@ -190,11 +190,7 @@ public class Comm {
   }
 
   protected Message getParentMessage() {
-    SimpleEvaluationObject seo = InternalVariable.getSimpleEvaluationObject();
-    if(seo != null){
-      this.seo = seo;
-    }
-    return seo.getJupyterMessage();
+    return InternalVariable.getParentHeader();
   }
 
   public SimpleEvaluationObject getLastUsedSimpleEvaluationObject() {

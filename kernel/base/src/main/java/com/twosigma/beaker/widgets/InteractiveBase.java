@@ -96,16 +96,14 @@ public class InteractiveBase {
       boolean isInt = isInt(input[0]);
       if(input.length > 2){
         if(isFloat){
-          Number[] minMaxValueN = getMinMaxValue((Double)input[0], (Double)input[1], null);
-          Double[] minMaxValue = Arrays.copyOf(minMaxValueN, minMaxValueN.length, Double[].class);
+          Double[] minMaxValue = getDoubleArray(getMinMaxValue((Double)input[0], (Double)input[1], null));
           FloatSlider witget = new FloatSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
           witget.setValue(minMaxValue[2]);
           ret = witget;
         }else if(isInt){
-          Number[] minMaxValueN = getMinMaxValue((Integer)input[0], (Integer)input[1], null);
-          Integer[] minMaxValue = Arrays.copyOf(minMaxValueN, minMaxValueN.length, Integer[].class);
+          Integer[] minMaxValue = getIntArray(getMinMaxValue((Integer)input[0], (Integer)input[1], null));
           IntSlider witget = new IntSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
@@ -118,8 +116,7 @@ public class InteractiveBase {
           if((Double)input[2] <= 0){
             throw new RuntimeException("step must be >= 0, not " +  step);
           }
-          Number[] minMaxValueN = getMinMaxValue((Double)input[0], (Double)input[1], null);
-          Double[] minMaxValue = Arrays.copyOf(minMaxValueN, minMaxValueN.length, Double[].class);
+          Double[] minMaxValue = getDoubleArray(getMinMaxValue((Double)input[0], (Double)input[1], null));
           FloatSlider witget = new FloatSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
@@ -131,8 +128,7 @@ public class InteractiveBase {
           if((Integer)input[2] <= 0){
             throw new RuntimeException("step must be >= 0, not " +  step);
           }
-          Number[] minMaxValueN = getMinMaxValue((Integer)input[0], (Integer)input[1], null);
-          Integer[] minMaxValue = Arrays.copyOf(minMaxValueN, minMaxValueN.length, Integer[].class);
+          Integer[] minMaxValue = getIntArray(getMinMaxValue((Integer)input[0], (Integer)input[1], null));
           IntSlider witget = new IntSlider();
           witget.setMin(minMaxValue[0]);
           witget.setMax(minMaxValue[1]);
@@ -164,8 +160,7 @@ public class InteractiveBase {
       ret = witget;
     }else if (isInt(o)){
       Integer value = (Integer)o;
-      Number[] resultN = getMinMaxValue(null, null, value);
-      Integer[] result = Arrays.copyOf(resultN, resultN.length, Integer[].class);
+      Integer[] result = getIntArray(getMinMaxValue(null, null, value));
       IntSlider witget = new IntSlider();
       witget.setMin(result[0]);
       witget.setMax(result[1]);
@@ -173,8 +168,7 @@ public class InteractiveBase {
       ret = witget;
     }else if (isFloat(o)){
       Double value = (Double)o;
-      Number[] resultN = getMinMaxValue(null, null, value);
-      Double[] result = Arrays.copyOf(resultN, resultN.length, Double[].class);
+      Double[] result = getDoubleArray(getMinMaxValue(null, null, value));
       FloatSlider witget = new FloatSlider();
       witget.setMin(result[0]);
       witget.setMax(result[1]);
@@ -281,6 +275,26 @@ public class InteractiveBase {
       ret[2] = value;
     }
     return ret;
+  }
+  
+  /**
+   * No equivalent in python. Help method.
+   * 
+   * @param input
+   * @return
+   */
+  protected static Integer[] getIntArray(Number[] input){
+    return Arrays.copyOf(input, input.length, Integer[].class);
+  }
+  
+  /**
+   * No equivalent in python. Help method.
+   * 
+   * @param input
+   * @return
+   */
+  protected static Double[] getDoubleArray(Number[] input){
+    return Arrays.copyOf(input, input.length, Double[].class);
   }
   
   /**
