@@ -32,9 +32,9 @@ define([
       "id" : this.id,
       "st" : this.color,
       "st_op": this.opacity,
-      //"st_w" : this.width,
+      "st_w" : this.width,
       // not sure how this works for now
-      //"st_h" : this.height,
+      "st_h" : this.height,
       //"st_f" : this.format,
       //"st_v" : this.value
     };
@@ -66,19 +66,13 @@ define([
     for (var i = 0; i < eles.length; i++) {
       var ele = eles[i];
       //TODO: calculate range
-      range.xl = Math.min(range.xl, ele.x);
-      range.xr = Math.max(range.xr, ele.x + ele.width);
-      range.yl = Math.min(range.yl, ele.y - ele.height);
-      range.yr = Math.max(range.yr, ele.y);
+      for (var j = 0; j < ele.x.length; j++){
+        range.xl = Math.min(range.xl, ele.x[j]);
+        range.xr = Math.max(range.xr, ele.x[j] + ele.width[j]);
+        range.yl = Math.min(range.yl, ele.y[j] - ele.height[j]);
+        range.yr = Math.max(range.yr, ele.y[j]);  
+      }
     }
-/*
-    var rangeW = range.xr - range.xl;
-    var rangeH = range.yr - range.yl;
-    if (rangeH > rangeW)
-      range.xr = range.xl + rangeH;
-    else
-      range.yl = range.yr - rangeW;
-    console.log("range:", range); */
     return range;
   };
 
@@ -88,14 +82,16 @@ define([
     for (var i = 0; i < this.elements.length; i++) {
       var ele = this.elements[i];
       console.log("before applying:", ele);
-      var newx = xAxis.getPercent(ele.x);
-      var newy = yAxis.getPercent(ele.y);
-      var newWidth = xAxis.getPercent(ele.x + ele.width);
-      var newHeight = yAxis.getPercent(ele.y - ele.height);
-      ele.x = newx;
-      ele.y = newy;
-      ele.width = newWidth - newx;
-      ele.height = newy - newHeight;
+      for (var j = 0; j < ele.x.length; j++){
+        var newx = xAxis.getPercent(ele.x[j]);
+        var newy = yAxis.getPercent(ele.y[j]);
+        var newWidth = xAxis.getPercent(ele.x[j] + ele.width[j]);
+        var newHeight = yAxis.getPercent(ele.y[j] - ele.height[j]);
+        ele.x[j] = newx;
+        ele.y[j] = newy;
+        ele.width[j] = newWidth - newx;
+        ele.height[j] = newy - newHeight;  
+      }
       console.log("after applyed", ele);
     }
     console.log("called applyAxis", ele);
@@ -131,20 +127,24 @@ define([
     eleprops.length = 0;
     this.labelpipe.length = 0;
     this.rmlabelpipe.length = 0;
+    console.log("prepareing:", eles);
     for (var i = this.vindexL; i <= this.vindexR; i++) {
       var ele = eles[i];
-      var prop = {
-        "id" : this.id + "_" + i,
-        "lbid" : this.id + "_" + i + "l",
-        "x": mapX(ele.x),
-        "y": mapY(ele.y),
-        "st" : ele.color,
-        "st_op" : ele.opacity,
-        "st_w" : mapX(ele.width + ele.x) - mapX(ele.x),
-        "st_h" : mapY(ele.y - ele.height) - mapY(ele.y),
-        "st_v" : ele.value
-      };
-      eleprops.push(prop);
+      for (var j = 0; j < ele.x.length; j++){
+        var prop = {
+          "id" : this.id + "_" + i,
+          "lbid" : this.id + "_" + i + "l",
+          "x": mapX(ele.x[j]),
+          "y": mapY(ele.y[j]),
+          "st" : ele.color,
+          "st_op" : ele.opacity[j],
+          "st_w" : mapX(ele.x[j] + ele.width[j]) - mapX(ele.x[j]),
+          "st_h" : mapY(ele.y[j] - ele.height[j]) - mapY(ele.y[j]),
+          "st_v" : ele.value
+        };
+        eleprops.push(prop);
+      }
+      
     }
     console.log("called prepare", eleprops);
   };
