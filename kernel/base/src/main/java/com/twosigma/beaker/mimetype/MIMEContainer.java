@@ -74,7 +74,11 @@ public class MIMEContainer {
     code = StringUtils.strip(code, "$");
     return addMimeType(TEXT_LATEX, "$$" + code + "$$");
   }
-  
+
+  public static MIMEContainer Javascript(Object code) {
+    return addMimeType(APPLICATION_JAVASCRIPT, code);
+  }
+
   protected static MIMEContainer addMimeType(String mime, Object code) {
     return new MIMEContainer(mime, code.toString());
   }
