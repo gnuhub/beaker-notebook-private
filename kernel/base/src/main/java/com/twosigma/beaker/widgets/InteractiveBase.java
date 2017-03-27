@@ -44,20 +44,22 @@ public class InteractiveBase {
    */
   protected static List<ValueWidget<?>> widgetsFromAbbreviations(Object ...input){
     List<ValueWidget<?>> ret = new ArrayList<>();
-    ValueWidget<?> widget = getWidgetFromAbbrev(input);
-    if(widget == null){
-      String text = "";
-      if(input!= null && input[0] != null){
-        text = input.getClass().getSimpleName();
-      }else{
-        text = "null";
+    for (Object param : input) {
+      ValueWidget<?> widget = getWidgetFromAbbrev(param);
+      if(widget == null){
+        String text = "";
+        if(input!= null && input[0] != null){
+          text = input.getClass().getSimpleName();
+        }else{
+          text = "null";
+        }
+        throw new RuntimeException(text + " cannot be transformed to a widget");
+      }else if(!(widget instanceof ValueWidget)){
+        throw new RuntimeException(input.getClass().getSimpleName() + " is not a ValueWidget");
       }
-      throw new RuntimeException(text + " cannot be transformed to a widget");
-    }else if(!(widget instanceof ValueWidget)){
-      throw new RuntimeException(input.getClass().getSimpleName() + " is not a ValueWidget");
+      ret.add(widget);
     }
-    ret.add(widget);
-    logger.info(ret.size() + " is created");
+    logger.info("total " + ret.size() + " widgets was created");
     return ret;
   }
   
