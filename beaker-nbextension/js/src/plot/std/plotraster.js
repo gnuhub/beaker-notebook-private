@@ -66,11 +66,19 @@ define([
     for (var i = 0; i < eles.length; i++) {
       var ele = eles[i];
       //TODO: calculate range
-      /*range.xl = Math.min(range.xl, ele.x);
-      range.xr = Math.max(range.xr, ele.width);
-      range.yl = Math.min(range.yl, ele.height);
-      range.yr = Math.max(range.yr, ele.y);*/
+      range.xl = Math.min(range.xl, ele.x);
+      range.xr = Math.max(range.xr, ele.x + ele.width);
+      range.yl = Math.min(range.yl, ele.y - ele.height);
+      range.yr = Math.max(range.yr, ele.y);
     }
+/*
+    var rangeW = range.xr - range.xl;
+    var rangeH = range.yr - range.yl;
+    if (rangeH > rangeW)
+      range.xr = range.xl + rangeH;
+    else
+      range.yl = range.yr - rangeW;
+    console.log("range:", range); */
     return range;
   };
 
@@ -79,15 +87,18 @@ define([
     this.yAxis = yAxis;
     for (var i = 0; i < this.elements.length; i++) {
       var ele = this.elements[i];
+      console.log("before applying:", ele);
       var newx = xAxis.getPercent(ele.x);
       var newy = yAxis.getPercent(ele.y);
       var newWidth = xAxis.getPercent(ele.x + ele.width);
-      var newHeight = xAxis.getPercent(ele.y - ele.height);
+      var newHeight = yAxis.getPercent(ele.y - ele.height);
       ele.x = newx;
       ele.y = newy;
-      ele.width = newWidth;
-      ele.height = newHeight;
+      ele.width = newWidth - newx;
+      ele.height = newy - newHeight;
+      console.log("after applyed", ele);
     }
+    console.log("called applyAxis", ele);
   };
 
   PlotRaster.prototype.filter = function(scope) {
@@ -129,12 +140,13 @@ define([
         "y": mapY(ele.y),
         "st" : ele.color,
         "st_op" : ele.opacity,
-        "st_w" : mapX(ele.width) - mapX(ele.x),
-        "st_h" : mapY(ele.height) - mapY(ele.y),
+        "st_w" : mapX(ele.width + ele.x) - mapX(ele.x),
+        "st_h" : mapY(ele.y - ele.height) - mapY(ele.y),
         "st_v" : ele.value
       };
       eleprops.push(prop);
     }
+    console.log("called prepare", eleprops);
   };
 
 
