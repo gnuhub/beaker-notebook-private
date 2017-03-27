@@ -81,7 +81,6 @@ define([
     this.yAxis = yAxis;
     for (var i = 0; i < this.elements.length; i++) {
       var ele = this.elements[i];
-      console.log("before applying:", ele);
       for (var j = 0; j < ele.x.length; j++){
         var newx = xAxis.getPercent(ele.x[j]);
         var newy = yAxis.getPercent(ele.y[j]);
@@ -92,9 +91,7 @@ define([
         ele.width[j] = newWidth - newx;
         ele.height[j] = newy - newHeight;  
       }
-      console.log("after applyed", ele);
     }
-    console.log("called applyAxis", ele);
   };
 
   PlotRaster.prototype.filter = function(scope) {
@@ -127,7 +124,6 @@ define([
     eleprops.length = 0;
     this.labelpipe.length = 0;
     this.rmlabelpipe.length = 0;
-    console.log("prepareing:", eles);
     for (var i = this.vindexL; i <= this.vindexR; i++) {
       var ele = eles[i];
       for (var j = 0; j < ele.x.length; j++){
@@ -144,9 +140,7 @@ define([
         };
         eleprops.push(prop);
       }
-      
     }
-    console.log("called prepare", eleprops);
   };
 
 

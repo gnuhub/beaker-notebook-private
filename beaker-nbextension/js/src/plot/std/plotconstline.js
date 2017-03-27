@@ -73,9 +73,7 @@ define([
         range.yl = Math.min(range.yl, ele.y);
         range.yr = Math.max(range.yr, ele.y);
       }
-      console.log("in range:", ele);
     }
-    console.log("range:", range);
     return range;
   };
 
@@ -84,13 +82,11 @@ define([
     this.yAxis = yAxis;
     for (var i = 0; i < this.elements.length; i++) {
       var ele = this.elements[i];
-      console.log("before applying", ele);
       if (ele.type === "x") {
         ele.x = xAxis.getPercent(ele.x);
       } else if (ele.type === "y") {
         ele.y = yAxis.getPercent(ele.y);
       }
-      console.log("afer applyed", ele);
     }
   };
 
