@@ -16,25 +16,23 @@
 package com.twosigma.beaker.mimetype;
 
 
-import com.google.common.io.ByteStreams;
-import com.google.common.io.Files;
-
-
 import java.io.IOException;
-import java.io.File;
-import java.net.URL;
 import java.util.Base64;
 
 public class ImageContainer extends MIMEContainer {
 
   public static MIMEContainer Image(Object data) {
-    byte[] image = new byte[0];
+    byte[] image;
     if (data instanceof String) {
-      image = getBytes(data, image);
+      try {
+        image = getBytes(data);
+      } catch (IOException e) {
+        return addMimeType(TEXT_PLAIN, exceptionToString(e));
+      }
     } else {
       image = (byte[]) data;
     }
-    return isJPEG(image) ? addMimeType(IMAGE_JPEG, Base64.getEncoder().encodeToString(image)) : addMimeType(IMAGE_PNG, Base64.getEncoder().encodeToString(image));
+    return addMimeType(isJPEG(image) ? IMAGE_JPEG : IMAGE_PNG, Base64.getEncoder().encodeToString(image));
   }
 
   private static boolean isJPEG(byte[] image) {
@@ -48,23 +46,5 @@ public class ImageContainer extends MIMEContainer {
       return false;
     }
     return false;
-  }
-
-  private static byte[] getBytes(Object data, byte[] image) {
-    if (isValidURL(data.toString())) {
-      try {
-        image = ByteStreams.toByteArray((new URL(data.toString()).openStream()));
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    } else if (exists(data.toString())) {
-      try {
-        File imgFile = new File(data.toString());
-        image = Files.toByteArray(imgFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    return image;
   }
 }

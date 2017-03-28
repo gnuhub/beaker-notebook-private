@@ -33,7 +33,7 @@ import java.io.StringWriter;
 import java.net.URL;
 
 
-public class SVG extends MIMEContainer {
+public class SVGContainer extends MIMEContainer {
 
   public static MIMEContainer SVG(String data) {
     String code = "";

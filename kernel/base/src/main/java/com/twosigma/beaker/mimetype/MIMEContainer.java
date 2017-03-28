@@ -15,17 +15,22 @@
  */
 package com.twosigma.beaker.mimetype;
 
+import com.google.common.io.ByteStreams;
+import com.google.common.io.Files;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class MIMEContainer {
 
   protected static final String TEXT_PLAIN = "text/plain";
-  private static final String TEXT_HTML = "text/html";
+  protected static final String TEXT_HTML = "text/html";
   private static final String TEXT_LATEX = "text/latex";
   private static final String TEXT_MARKDOWN = "text/markdown";
   private static final String APPLICATION_JAVASCRIPT = "application/javascript";
@@ -79,6 +84,22 @@ public class MIMEContainer {
     return addMimeType(APPLICATION_JAVASCRIPT, code);
   }
 
+  public static MIMEContainer IFrame(String src, int width, int height) {
+    String code = String.format("<iframe width = '%1$d' height= '%2$d' src = '%3$s' frameborder='0' allowfullscreen> </iframe>",
+        width, height, src);
+    return addMimeType(TEXT_HTML, code);
+  }
+
+  public static MIMEContainer VimeoVideo(String id, int width, int height) {
+    String src = String.format("https://player.vimeo.com/video/%1$s", id);
+    return IFrame(src, width, height);
+  }
+
+  public static MIMEContainer ScribdDocument(String id, int width, int height) {
+    String src = String.format("https://www.scribd.com/embeds/%1$s/content", id);
+    return IFrame(src, width, height);
+  }
+
   protected static MIMEContainer addMimeType(String mime, Object code) {
     return new MIMEContainer(mime, code.toString());
   }
@@ -96,17 +117,29 @@ public class MIMEContainer {
     return (f.exists() && !f.isDirectory());
   }
 
-  protected static boolean isValidURL(String urlString)
-  {
-    try
-    {
+  protected static boolean isValidURL(String urlString) {
+    try {
       URL url = new URL(urlString);
       url.toURI();
       return true;
-    } catch (Exception exception)
-    {
+    } catch (Exception exception) {
       return false;
     }
+  }
+
+  protected static byte[] getBytes(Object data) throws IOException {
+    byte[] bytes = new byte[0];
+    if (isValidURL(data.toString())) {
+      bytes = ByteStreams.toByteArray((new URL(data.toString()).openStream()));
+    } else if (exists(data.toString())) {
+      File imgFile = new File(data.toString());
+      bytes = Files.toByteArray(imgFile);
+    }
+    return bytes;
+  }
+
+  protected static String guessMimeType(byte[] data) throws IOException {
+    return URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(data));
   }
 
 }
