@@ -9,8 +9,10 @@ import org.codehaus.groovy.runtime.MethodClosure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.twosigma.beaker.SerializeToString;
 import com.twosigma.beaker.jupyter.KernelManager;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
+import com.twosigma.beaker.mimetype.MIMEContainer;
 import com.twosigma.beaker.widgets.InteractiveBase;
 import com.twosigma.beaker.widgets.ValueWidget;
 import com.twosigma.jupyter.message.Message;
@@ -29,9 +31,9 @@ public class Interactive extends InteractiveBase{
         @Override
         public void updateValue(Object value, Message message) {
           Object result = function.call(getWidgetValues());
+          MIMEContainer resultString = SerializeToString.doit(result);
           KernelManager.get().publish(mc.buildClearOutput(message, true));
-          KernelManager.get().publish(mc.buildDisplayData(message, result.toString()));
-          
+          KernelManager.get().publish(mc.buildDisplayData(message, resultString));
         }
         
         private Object[] getWidgetValues(){

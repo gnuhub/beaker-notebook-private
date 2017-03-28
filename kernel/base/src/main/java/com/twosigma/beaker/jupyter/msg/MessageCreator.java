@@ -91,12 +91,12 @@ public class MessageCreator {
     return reply;
   }
   
-  public Message buildDisplayData(Message message, String value) {
+  public Message buildDisplayData(Message message, MIMEContainer value) {
     Message reply = initMessage(DISPLAY_DATA, message);
     reply.setContent(new HashMap<String, Serializable>());
     reply.getContent().put("metadata", new HashMap<>());
     HashMap<String, Serializable> map3 = new HashMap<>();
-    map3.put("text/plain", value);
+    map3.put(value.getMime(), value.getCode());
     reply.getContent().put("data", map3);
     return reply;
   }
