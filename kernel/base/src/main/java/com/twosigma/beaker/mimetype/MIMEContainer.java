@@ -29,8 +29,8 @@ public class MIMEContainer {
   private static final String TEXT_LATEX = "text/latex";
   private static final String TEXT_MARKDOWN = "text/markdown";
   private static final String APPLICATION_JAVASCRIPT = "application/javascript";
-  private static final String IMAGE_PNG = "image/png";
-  private static final String IMAGE_JPEG = "image/jpeg";
+  protected static final String IMAGE_PNG = "image/png";
+  protected static final String IMAGE_JPEG = "image/jpeg";
   protected static final String IMAGE_SVG = "image/svg+xml";
 
 
