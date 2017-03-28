@@ -32,6 +32,7 @@ public class Interactive extends InteractiveBase{
         public void updateValue(Object value, Message message) {
           Object result = function.call(getWidgetValues());
           MIMEContainer resultString = SerializeToString.doit(result);
+          logger.info("interact result is = " + resultString.getMime());
           KernelManager.get().publish(mc.buildClearOutput(message, true));
           KernelManager.get().publish(mc.buildDisplayData(message, resultString));
         }

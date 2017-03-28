@@ -53,4 +53,9 @@ public class MIMEContainer {
     return new MIMEContainer(mime,code.toString());
   }
 
+  @Override
+  public String toString() {
+    return this.getMime() + " CODE = " + this.getCode();
+  }
+
 }
