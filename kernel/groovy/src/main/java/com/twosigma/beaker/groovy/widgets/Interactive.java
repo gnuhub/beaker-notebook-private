@@ -10,8 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.twosigma.beaker.SerializeToString;
+import com.twosigma.beaker.chart.xychart.Plot;
+import com.twosigma.beaker.evaluator.InternalVariable;
 import com.twosigma.beaker.jupyter.KernelManager;
 import com.twosigma.beaker.jupyter.msg.MessageCreator;
+import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import com.twosigma.beaker.mimetype.MIMEContainer;
 import com.twosigma.beaker.widgets.InteractiveBase;
 import com.twosigma.beaker.widgets.ValueWidget;
@@ -30,6 +33,9 @@ public class Interactive extends InteractiveBase{
         
         @Override
         public void updateValue(Object value, Message message) {
+          SimpleEvaluationObject seo = new SimpleEvaluationObject("");
+          seo.setJupyterMessage(message);
+          InternalVariable.setValue(seo);
           Object result = function.call(getWidgetValues());
           MIMEContainer resultString = SerializeToString.doit(result);
           logger.info("interact result is = " + resultString.getMime());
