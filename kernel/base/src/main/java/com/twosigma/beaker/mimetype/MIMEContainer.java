@@ -100,6 +100,11 @@ public class MIMEContainer {
     return IFrame(src, width, height);
   }
 
+  public static MIMEContainer YoutubeVideo(String id) {
+    String src = String.format("https://www.youtube.com/embed/%1$s", id);
+    return IFrame(src,400,300);
+  }
+
   protected static MIMEContainer addMimeType(String mime, Object code) {
     return new MIMEContainer(mime, code.toString());
   }
