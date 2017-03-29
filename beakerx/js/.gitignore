@@ -122,5 +122,5 @@ bower_components/jquery-ui/README.md
 
 bower_components/jquery/dist/
 bower_components/jquery/external/sizzle/dist/
-dist/
+/dist
 node_modules/
