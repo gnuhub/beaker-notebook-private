@@ -15,6 +15,10 @@
  */
 package com.twosigma.beaker.mimetype;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 public class MIMEContainer {
 
   private static final String TEXT_PLAIN = "text/plain";
@@ -46,11 +50,25 @@ public class MIMEContainer {
   }
 
   public static MIMEContainer Text(Object code) {
-     return addMimeType(TEXT_PLAIN, code);
+    return addMimeType(TEXT_PLAIN, code);
   }
 
   private static MIMEContainer addMimeType(String mime, Object code) {
-    return new MIMEContainer(mime,code.toString());
+    return new MIMEContainer(mime, code.toString());
   }
 
+  @Override
+  public boolean equals(Object o) {
+    return reflectionEquals(this, o);
+  }
+
+  @Override
+  public int hashCode() {
+    return reflectionHashCode(this);
+  }
+
+  @Override
+  public String toString() {
+    return reflectionToString(this);
+  }
 }

@@ -23,6 +23,7 @@ import java.util.Map;
 
 import com.github.lwhite1.tablesaw.api.Table;
 import com.twosigma.beaker.fileloader.CsvPlotReader;
+import com.twosigma.beaker.jvm.object.OutputCell;
 import com.twosigma.beaker.jvm.object.OutputContainer;
 import com.twosigma.beaker.mimetype.MIMEContainer;
 import com.twosigma.beaker.table.TableDisplay;
@@ -140,12 +141,12 @@ public class SerializeToString {
     mapper.registerModule(module);
   }
 
-  protected static boolean isInternalWidget(Object result){
+  protected static boolean isInternalWidget(Object result) {
     boolean ret = false;
-    if(result != null && result instanceof InternalWidget ){
+    if (result != null && result instanceof InternalWidget) {
       for (Class<?> clazz : internalWidgetMap.keySet()) {
         ret = clazz.isAssignableFrom(result.getClass());
-        if(ret){
+        if (ret) {
           break;
         }
       }
@@ -153,12 +154,12 @@ public class SerializeToString {
     return ret;
   }
 
-  protected static boolean isBeakerChart(Object result){
+  protected static boolean isBeakerChart(Object result) {
     boolean ret = false;
-    if(result != null){
+    if (result != null) {
       for (Class<?> clazz : serializerMap.keySet()) {
         ret = clazz.isAssignableFrom(result.getClass());
-        if(ret){
+        if (ret) {
           break;
         }
       }
@@ -167,11 +168,14 @@ public class SerializeToString {
   }
 
   public static MIMEContainer doit(Object result) {
-    if (result instanceof OutputContainer) {
-      DisplayOutputContainer.display((OutputContainer)result);
+    if (OutputCell.HIDDEN.equals(result)) {
       return Text("");
     }
-    if(result instanceof Table){
+    if (result instanceof OutputContainer) {
+      DisplayOutputContainer.display((OutputContainer) result);
+      return Text("");
+    }
+    if (result instanceof Table) {
       showInternalWidget(new TableDisplay(new CsvPlotReader().convert((Table) result)));
       return Text("");
     }
@@ -192,7 +196,7 @@ public class SerializeToString {
         return Text(exceptionToString(e));
       }
     }
-    if(result instanceof MIMEContainer) {
+    if (result instanceof MIMEContainer) {
       return (MIMEContainer) result;
     }
     return result != null ? Text(result) : Text("null");
