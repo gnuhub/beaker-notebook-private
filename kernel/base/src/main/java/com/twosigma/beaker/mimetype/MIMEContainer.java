@@ -82,13 +82,13 @@ public class MIMEContainer {
     return addMimeType(APPLICATION_JAVASCRIPT, code);
   }
 
-  public static MIMEContainer IFrame(String src, int width, int height) {
-    String code = String.format("<iframe width = '%1$d' height= '%2$d' src = '%3$s' frameborder='0' allowfullscreen> </iframe>",
-        width, height, src);
+  public static MIMEContainer IFrame(String src, Object width, int height) {
+    String code = String.format("<iframe width = '%1$s' height= '%2$d' src = '%3$s' frameborder='0' allowfullscreen> </iframe>",
+        width.toString(), height, src);
     return addMimeType(TEXT_HTML, code);
   }
 
-  public static MIMEContainer VimeoVideo(String id, int width, int height) {
+  public static MIMEContainer VimeoVideo(String id, Object width, int height) {
     String src = String.format("https://player.vimeo.com/video/%1$s", id);
     return IFrame(src, width, height);
   }
