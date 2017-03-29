@@ -109,8 +109,8 @@ bower_components/jquery-ui/themes/ui-darkness
 bower_components/jquery-ui/themes/ui-lightness
 bower_components/jquery-ui/themes/vader
 bower_components/jquery-ui/ui
-bower_components/jquery-ui/.bower.json
-bower_components/jquery-ui/bower.json
+#bower_components/jquery-ui/.bower.json
+#bower_components/jquery-ui/bower.json
 bower_components/jquery-ui/.gitignore
 bower_components/jquery-ui/component.json
 bower_components/jquery-ui/composer.json
