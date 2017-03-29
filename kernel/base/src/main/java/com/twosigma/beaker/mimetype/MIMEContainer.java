@@ -23,9 +23,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.IOException;
-import java.io.ByteArrayInputStream;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class MIMEContainer {
 
@@ -102,7 +100,12 @@ public class MIMEContainer {
 
   public static MIMEContainer YoutubeVideo(String id) {
     String src = String.format("https://www.youtube.com/embed/%1$s", id);
-    return IFrame(src,400,300);
+    return IFrame(src, 400, 300);
+  }
+
+  public static MIMEContainer Video(String src) {
+    String output = String.format("<video src='%1$s' controls> Your browser does not support the <code>video</code> element. </video>", src);
+    return addMimeType(TEXT_HTML, output);
   }
 
   protected static MIMEContainer addMimeType(String mime, Object code) {
@@ -142,9 +145,4 @@ public class MIMEContainer {
     }
     return bytes;
   }
-
-  protected static String guessMimeType(byte[] data) throws IOException {
-    return URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(data));
-  }
-
 }
