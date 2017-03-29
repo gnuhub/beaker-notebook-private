@@ -34,7 +34,7 @@ public class VideoContainer extends MIMEContainer {
     } catch (IOException e) {
       return addMimeType(TEXT_PLAIN, exceptionToString(e));
     }
-    String output = String.format("<video controls> <source src='data:%1$s;base64,%2$s' type='{0}'> Your browser does not support the video tag. </video>",
+    String output = String.format("<video controls> <source src='data:%1$s;base64,%2$s' type='1$s'> Your browser does not support the video tag. </video>",
         mimeType, Base64.getEncoder().encodeToString(video));
 
     return addMimeType(TEXT_HTML, output);
