@@ -93,7 +93,7 @@ public class MIMEContainer {
     return IFrame(src, width, height);
   }
 
-  public static MIMEContainer ScribdDocument(String id, int width, int height) {
+  public static MIMEContainer ScribdDocument(String id, Object width, int height) {
     String src = String.format("https://www.scribd.com/embeds/%1$s/content", id);
     return IFrame(src, width, height);
   }
