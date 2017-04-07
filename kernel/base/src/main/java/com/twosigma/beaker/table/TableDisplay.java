@@ -116,7 +116,7 @@ public class TableDisplay extends ObservableTableDisplay implements InternalWidg
     values = new ArrayList<List<?>>();
     columns = new ArrayList<String>();
     classes = new ArrayList<String>();
-    subtype = DICTIONARY_SUBTYPE;
+    subtype = LIST_OF_MAPS_SUBTYPE;
 
     // create columns
     for(Map<?,?> m : v) {
