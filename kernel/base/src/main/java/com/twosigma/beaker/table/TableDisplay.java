@@ -78,7 +78,8 @@ public class TableDisplay extends ObservableTableDisplay implements InternalWidg
   private List<List<Color>> fontColor = new ArrayList<>();
   private List<List<?>> filteredValues;
   private boolean headersVertical;
-
+  private String hasIndex;
+  private String timeZone;
   private Comm comm;
 
 
@@ -103,6 +104,7 @@ public class TableDisplay extends ObservableTableDisplay implements InternalWidg
     columns = co;
     classes = cl;
     subtype = TABLE_DISPLAY_SUBTYPE;
+    open();
   }
 
   public TableDisplay(Collection<Map<?,?>> v) {
@@ -114,7 +116,7 @@ public class TableDisplay extends ObservableTableDisplay implements InternalWidg
     values = new ArrayList<List<?>>();
     columns = new ArrayList<String>();
     classes = new ArrayList<String>();
-    subtype = LIST_OF_MAPS_SUBTYPE;
+    subtype = DICTIONARY_SUBTYPE;
 
     // create columns
     for(Map<?,?> m : v) {
@@ -391,6 +393,22 @@ public class TableDisplay extends ObservableTableDisplay implements InternalWidg
 
   public Boolean getHeadersVertical() {
     return headersVertical;
+  }
+
+  public void setHasIndex(String hasIndex) {
+    this.hasIndex = hasIndex;
+  }
+
+  public String getHasIndex() {
+    return hasIndex;
+  }
+
+  public void setTimeZone(String timeZone) {
+    this.timeZone = timeZone;
+  }
+
+  public String getTimeZone() {
+    return timeZone;
   }
 
   public List<List<?>> getFilteredValues() {
